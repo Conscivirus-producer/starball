@@ -1,0 +1,22 @@
+.yu-slider-content { 
+	background-color:rgba(0,0,0,0)；
+    padding: 10px 6px;
+    margin-bottom: 10px;
+   }
+.yu-slider-desc {
+    position: absolute;
+    left: 39px;
+    bottom: 50px;
+    ight: 50px;
+    color: #fff;
+}
+.yu-slider-title{font-size: 1.89em;}
+.yu-slider-subtitle{ margin-top: -1.5rem;margin-bottom:5rem;font-size:1.16em;}
+.yu-slider-more {
+    color: #eee;
+    font-size: 1.3rem;
+    /* background-color: #0e90d2; */
+    padding: 12px 54px;
+    border-style: solid;
+    border-width: thin;
+}
