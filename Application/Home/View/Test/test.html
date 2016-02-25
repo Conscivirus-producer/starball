@@ -37,48 +37,79 @@
 </head>
 <body>
 <header class="am-topbar">
-  <h1 class="am-topbar-brand">
-	<a href="#">StarBall</a>
-  </h1>
-  <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
-  <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
-    <ul class="am-nav am-nav-pills am-topbar-nav">
-      <li class="am-active"><a href="#">首页</a></li>
-      <li><a href="#">项目</a></li>
-      <li class="am-dropdown" data-am-dropdown>
-        <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-          下拉 <span class="am-icon-caret-down"></span>
-        </a>
-        <ul class="am-dropdown-content">
-          <li class="am-dropdown-header">标题</li>
-          <li><a href="#">1. 去月球</a></li>
-          <li class="am-active"><a href="#">2. 去火星</a></li>
-          <li><a href="#">3. 还是回地球</a></li>
-          <li class="am-disabled"><a href="#">4. 下地狱</a></li>
-          <li class="am-divider"></li>
-          <li><a href="#">5. 桥头一回首</a></li>
-        </ul>
-      </li>
-    </ul>
-    <form class="am-topbar-form am-topbar-left am-form-inline am-show-sm-up" role="search">
-      <div class="am-form-group">
-        <input type="text" class="am-form-field" placeholder="搜索">
-      </div>
-    </form>
-    <div class="am-topbar-right">
-      <div class="am-dropdown" data-am-dropdown="{boundary: '.am-topbar'}">
-        <button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm am-dropdown-toggle" data-am-dropdown-toggle>其他 <span class="am-icon-caret-down"></span></button>
-        <ul class="am-dropdown-content">
-          <li><a href="#">注册</a></li>
-          <li><a href="#">随便看看</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="am-topbar-right">
-      <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm">登录</button>
-    </div>
-  </div>
+	<div class="am-g">
+		<div class="am-u-md-3 am-show-md-up am-u-md-push-1">
+			<ol class="am-breadcrumb">
+				<li>
+					简体中文
+				</li>
+				<li>
+					CNY
+				</li>
+				<li>
+					中国
+				</li>
+			</ol>
+		</div>
+		<div class="am-u-md-4 am-show-dm-up am-u-md-pull-1">
+			<ol class="am-breadcrumb">
+				<li>
+					我的账户
+				</li>
+				<li>
+					愿望清单
+				</li>
+				<li>
+					我的心愿单
+				</li>
+				<li>
+					我的购物袋
+				</li>
+			</ol>
+		</div>
+	</div>
+	
+	<div class="am-g">
+		<div class="am-u-md-3 am-show-md-up am-u-md-push-1">
+			<h2>StarBall</h2>
+		</div>
+		<div class="am-u-md-4 am-show-dm-up am-u-md-pull-1">
+			<input type="text" class="am-form-field" placeholder="搜索">
+		</div>
+	</div>
+	<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+	<div class="am-g">
+		<div class="am-u-sm-10 am-u-sm-offset-1">
+			<div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
+				<ul class="am-nav am-nav-pills am-topbar-nav am-nav-justify">
+					<li>
+						新系列
+					</li>
+					<li>
+						品牌
+					</li>
+					<li>
+						婴儿
+					</li>
+					<li>
+						女孩
+					</li>
+					<li>
+						男孩
+					</li>
+					<li>
+						精选
+					</li>
+					<li>
+						Magazine
+					</li>
+					<li>
+						特卖场
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
 </header>
 <form class="am-topbar-form am-topbar-left am-form-inline am-show-sm-only" role="search">
     <div class="am-form-group">
