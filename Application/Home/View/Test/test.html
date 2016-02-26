@@ -451,6 +451,7 @@
 
 <!--在这里编写你的代码-->
 
+
 <!--[if (gte IE 9)|!(IE)]><!-->
 <script src="__PUBLIC__/AmazeUI-2.5.2/assets/js/jquery.min.js"></script>
 <!--<![endif]-->
@@ -460,5 +461,13 @@
 <script src="assets/js/amazeui.ie8polyfill.min.js"></script>
 <![endif]-->
 <script src="__PUBLIC__/AmazeUI-2.5.2/assets/js/amazeui.min.js"></script>
+<script>
+	$(function() {
+	  $('.am-slider').flexslider({
+	    // options
+	    smoothHeight: false
+	  });
+	});
+</script>
 </body>
 </html>

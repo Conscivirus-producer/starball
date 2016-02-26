@@ -47,7 +47,8 @@ img.yu-slides-mdup{width: auto;
     display: block;}
 img.yu-slides-sm{width: auto;
     height: 360px;
-    display: block;}
+    display: block;
+    object-fit:cover;}
 li.yu-margin-top{margin-top:2%;}
 li.yu-text-alicen{text-align: center;}
 p.yu-thumbnail-subtitle{font-size:1.8vw;margin-top:-2%}
