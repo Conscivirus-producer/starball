@@ -63,3 +63,6 @@ a.am-dropdown-toggle{
 ol.am-breadcrumb li{
 	margin-left: -5px;
 }
+body{
+	overflow:scroll;overflow-x:hidden;
+}
