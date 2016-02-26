@@ -38,7 +38,7 @@
 <body>
 <header class="am-topbar">
 	<div class="am-g">
-		<div class="am-u-md-3 am-show-md-up am-u-md-push-1">
+		<div class="am-u-md-3 am-show-lg-only am-u-md-push-1">
 			<ol class="am-breadcrumb">
 				<li>
 					简体中文
@@ -51,7 +51,7 @@
 				</li>
 			</ol>
 		</div>
-		<div class="am-u-md-4 am-show-dm-up am-u-md-pull-1">
+		<div class="am-u-md-4 am-show-lg-only am-u-md-pull-1">
 			<ol class="am-breadcrumb">
 				<li>
 					我的账户
@@ -68,45 +68,106 @@
 			</ol>
 		</div>
 	</div>
-	
-	<div class="am-g">
-		<div class="am-u-md-3 am-show-md-up am-u-md-push-1">
+	<div class="am-g am-show-sm-only">
+		<div class="am-u-md-3 am-u-md-push-1">
 			<h2>StarBall</h2>
 		</div>
-		<div class="am-u-md-4 am-show-dm-up am-u-md-pull-1">
+		<button style="position: absolute; top: 0px; right: 0px" class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+	</div>
+	<div class="am-g am-show-md-up">
+		<div class="am-u-md-3 am-u-md-push-1">
+			<h2>StarBall</h2>
+		</div>
+		<div class="am-u-md-4 am-u-md-pull-1">
 			<input type="text" class="am-form-field" placeholder="搜索">
 		</div>
 	</div>
-	<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
 	<div class="am-g">
 		<div class="am-u-sm-10 am-u-sm-offset-1">
 			<div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
-				<ul class="am-nav am-nav-pills am-topbar-nav am-nav-justify">
-					<li>
-						新系列
-					</li>
-					<li>
-						品牌
-					</li>
-					<li>
-						婴儿
-					</li>
-					<li>
-						女孩
-					</li>
-					<li>
-						男孩
-					</li>
-					<li>
-						精选
-					</li>
-					<li>
-						Magazine
-					</li>
-					<li>
-						特卖场
-					</li>
-				</ul>
+			<ul class="am-nav am-nav-pills am-topbar-nav">
+				<li class="am-dropdown am-show-sm-only" data-am-dropdown>
+					<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+			            我 <span class="am-icon-caret-down"></span>
+			        </a>
+			        <ul class="am-dropdown-content">
+			             <li><a href="#">我的账户</a></li>
+			             <li><a href="#">愿望清单</a></li>
+			             <li><a href="#">我的心愿单</a></li>
+			             <li><a href="#">1. 一行代码，简单快捷</a></li>
+			        </ul>
+				</li>
+				<li class="am-dropdown" data-am-dropdown>
+					<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+			            新系列 <span class="am-icon-caret-down"></span>
+			        </a>
+			        <ul class="am-dropdown-content">
+			            <li class="am-dropdown-header">Header</li>
+			            <li><a href="#">1. 一行代码，简单快捷</a></li>
+			            <li class="am-active"><a href="#">2. 网址不变且唯一</a></li>
+			            <li><a href="#">3. 内容实时同步更新</a></li>
+			            <li class="am-disabled"><a href="#">4. 云端跨平台适配</a></li>
+			            <li class="am-divider"></li>
+			            <li><a href="#">5. 专属的一键拨叫</a></li>
+			         </ul>
+				</li>
+				<li class="am-dropdown" data-am-dropdown>
+					<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+			            品牌 <span class="am-icon-caret-down"></span>
+			        </a>
+			        <ul class="am-dropdown-content">
+			            <li class="am-dropdown-header">Header</li>
+			         </ul>
+				</li>
+				<li class="am-dropdown" data-am-dropdown>
+					<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+			            婴儿 <span class="am-icon-caret-down"></span>
+			        </a>
+			        <ul class="am-dropdown-content">
+			            <li class="am-dropdown-header">Header</li>
+			         </ul>
+				</li>
+				<li class="am-dropdown" data-am-dropdown>
+					<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+			            女孩 <span class="am-icon-caret-down"></span>
+			        </a>
+			        <ul class="am-dropdown-content">
+			            <li class="am-dropdown-header">Header</li>
+			         </ul>
+				</li>
+				<li class="am-dropdown" data-am-dropdown>
+					<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+			            男孩 <span class="am-icon-caret-down"></span>
+			        </a>
+			        <ul class="am-dropdown-content">
+			            <li class="am-dropdown-header">Header</li>
+			         </ul>
+				</li>
+				<li class="am-dropdown" data-am-dropdown>
+					<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+			            精选 <span class="am-icon-caret-down"></span>
+			        </a>
+			        <ul class="am-dropdown-content">
+			            <li class="am-dropdown-header">Header</li>
+			         </ul>
+				</li>
+				<li class="am-dropdown" data-am-dropdown>
+					<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+			            Magazine <span class="am-icon-caret-down"></span>
+			        </a>
+			        <ul class="am-dropdown-content">
+			            <li class="am-dropdown-header">Header</li>
+			         </ul>
+				</li>
+				<li class="am-dropdown" data-am-dropdown>
+					<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+			            特卖场 <span class="am-icon-caret-down"></span>
+			        </a>
+			        <ul class="am-dropdown-content">
+			            <li class="am-dropdown-header">Header</li>
+			        </ul>
+				</li>
+			</ul>
 			</div>
 		</div>
 	</div>
