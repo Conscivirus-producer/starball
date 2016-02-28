@@ -51,9 +51,9 @@ img.yu-slides-sm{width: auto;
     object-fit:cover;}
 li.yu-margin-top{margin-top:2%;}
 li.yu-text-alicen{text-align: center;}
-p.yu-thumbnail-subtitle{font-size:1.8vw;margin-top:-2%}
-p.yu-thumbnail-title{font-size:1.3vw;}
-div.yu-margin-right{margin-right:-8%}
+p.yu-thumbnail-subtitle{font-size:1.9vw;margin-top:0;line-height:1.0;}
+p.yu-thumbnail-title{font-size:1.3vw;margin-bottom:0;}
+div.yu-margin-right{}
 header{
 	margin-bottom: 0.5rem !important;
 }
