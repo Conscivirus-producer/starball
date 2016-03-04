@@ -67,3 +67,17 @@ ol.am-breadcrumb li{
 body{
 	overflow:scroll;overflow-x:hidden;
 }
+nav.yu-nav{
+	padding: 0;
+}
+a.yu-menu{
+	margin-bottom: 0px;
+}
+div.yu-sub-menu{
+	display: none;
+	position: relative;
+	box-sizing: border-box;
+	z-index: 999;
+	margin-bottom: -100%;
+	background-color: white;
+}
