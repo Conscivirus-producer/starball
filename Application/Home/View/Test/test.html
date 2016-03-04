@@ -72,7 +72,6 @@
 		<div class="am-u-md-3 am-u-md-push-1">
 			<img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/starballlogo.jpg" />
 		</div>
-		<button style="position: absolute; top: 0px; right: 0px" class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-default am-show-sm-only" data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
 	</div>
 	<div class="am-g am-show-md-up yu-header">
 		<div class="am-u-md-3 am-u-md-push-1" style="height: 100px;">
@@ -525,29 +524,32 @@
 <![endif]-->
 <script src="__PUBLIC__/AmazeUI-2.5.2/assets/js/amazeui.min.js"></script>
 <script>
+    var timeOut;
 	$(function() {
 	  $('.am-slider').flexslider({
 	    // options
 	    smoothHeight: false
 	  });
 	});
-	$("a.yu-menu").mouseover(function(e){
-		e.stopPropagation();
+	$("a.yu-menu").mouseenter(function(){
+		$("div.yu-sub-menu").not("#"+$(this).attr("id")).fadeOut();
 		$(this).css("border-bottom", "4px solid black");
 		$("div.yu-sub-menu"+"."+$(this).attr("id")).fadeIn();
 		$("div.yu-sub-menu").css("height", $("div.am-viewport").css('height'));
 	});
-	$("a.yu-menu").mouseout(function(){
+	$("a.yu-menu").mouseleave(function(){
+		var element = $(this).attr("id");
 		$(this).css("border-bottom", "");
+		timeOut = setTimeout(function(){
+			$("div.yu-sub-menu"+"."+element).fadeOut("");
+		}, 150);
 	});
-	$("div.am-g.am-show-md-up.yu-header").mouseenter(function(){
-		$("div.yu-sub-menu").fadeOut();
+	$("div.yu-sub-menu.am-u-md-12").mouseenter(function(){
+		clearTimeout(timeOut);
 	});
-	$("div.am-g.yu-menu-list").mouseenter(function(e){
-		e.stopPropagation();
-		$("div.yu-sub-menu").fadeOut();
+	$("div.yu-sub-menu.am-u-md-12").mouseleave(function(){
+		$(this).fadeOut();
 	});
-	
 </script>
 </body>
 </html>
