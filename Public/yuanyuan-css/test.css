@@ -81,3 +81,10 @@ div.yu-sub-menu{
 	margin-bottom: -100%;
 	background-color: white;
 }
+button.yu-offcanvas{
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	z-index: 999;
+	background-color: white;
+}
