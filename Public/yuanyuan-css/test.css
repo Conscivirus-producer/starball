@@ -88,3 +88,14 @@ button.yu-offcanvas{
 	z-index: 999;
 	background-color: white;
 }
+div.yu-sub-menu-list{
+	margin-left: 6% !important;
+}
+div.yu-sub-menu-img-title{
+	position: absolute;
+	top: 50%;
+	width: 10%;
+	margin-left: 40%;
+	background-color: #f9f9f9;
+	background:rgba(255, 255, 255, 0.6)!important;
+}
