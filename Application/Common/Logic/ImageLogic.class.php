@@ -4,7 +4,7 @@
 	class ImageLogic extends ImageModel{
 		public function getImageById($itemId){
 			$map['itemId'] = $itemId;
-			$data = $this->where($map)->select();
+			$data = $this->where($map)->order('sequence')->select();
 			return $data;
 		}
 	}
