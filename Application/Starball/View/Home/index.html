@@ -8,7 +8,7 @@
 		<meta name="keywords" content="">
 		<meta name="viewport"
 		content="width=device-width, initial-scale=1">
-		<title>Home</title>
+		<title>{$Think.lang.home}</title>
 
 		<!-- Set render engine for 360 browser -->
 		<meta name="renderer" content="webkit">
@@ -43,13 +43,13 @@
 					<div class="am-offcanvas-content am-kai" style="font-size:15px;color:#ffffff">
 						<span>
 							<ul style="margin-top:3.9%;padding:0;">
-								<i class="am-icon-shopping-bag am-icon-defeault"></i>&nbsp;    我的购物袋
+								<i class="am-icon-shopping-bag am-icon-defeault"></i>&nbsp;    {$Think.lang.myshoppinglist}
 							</ul>
 							<ul style="padding:0;">
-								<i class="am-icon-user am-icon-defeault"></i>&nbsp;&nbsp;  我的账户
+								<i class="am-icon-user am-icon-defeault"></i>&nbsp;&nbsp;  {$Think.lang.myaccount}
 							</ul>
 							<ul style="padding:0;">
-								<i class="am-icon-heart am-icon-defeault"></i>&nbsp;  我的收藏
+								<i class="am-icon-heart am-icon-defeault"></i>&nbsp;  {$Think.lang.myfavorite}
 							</ul> </span>
 						<hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-layout">
 
@@ -60,26 +60,26 @@
 				<div class="am-u-md-4 am-show-md-up am-u-lg-push-1"style="padding-left:8px;">
 					<ol class="am-breadcrumb am-kai"style="margin-bottom:0px;color:rgba(0,0,0,0.9);font-size:10px;padding-left: 0">
 						<li>
-							简体中文
+							<a href="?l=zh-cn">简体中文</a>
 						</li>
 						<li>
-							CNY
+							{$Think.lang.currency}
 						</li>
 						<li>
-							中国
+							{$Think.lang.country}
 						</li>
 					</ol>
 				</div>
 				<div class="am-u-md-5 am-show-md-up am-u-lg-pull-1"style="padding-right:6px;">
 					<ol class="am-breadcrumb am-kai"style="margin-bottom:0px;color:rgba(0,0,0,0.9);font-size:10px;text-align:right;padding-right:0 ">
 						<li>
-							我的账户
+							{$Think.lang.myaccount}
 						</li>
 						<li>
-							我的收藏
+							{$Think.lang.myfavorite}
 						</li>
 						<li>
-							我的购物袋
+							{$Think.lang.myshoppinglist}
 						</li>
 					</ol>
 				</div>
@@ -108,25 +108,25 @@
 				<nav class="yu-nav  am-u-lg-12 am-u-md-12 am-show-md-up am-kai">
 					<ul class="am-avg-md-7 am-show-md-up"style="padding-left:8.6%;padding-bottom:3px;color:rgba(0,0,0,0.9);font-size:15px;">
 						<li>
-							<a class="yu-menu" id="new">新系列</a>
+							<a class="yu-menu" id="new">{$Think.lang.newseries}</a>
 						</li>
 						<li>
-							<a class="yu-menu" id="brand">品牌</a>
+							<a class="yu-menu" id="brand">{$Think.lang.brand}</a>
 						</li>
 						<li>
-							<a class="yu-menu" id="baby">婴儿</a>
+							<a class="yu-menu" id="baby">{$Think.lang.baby}</a>
 						</li>
 						<li>
-							<a class="yu-menu" id="girl">女孩</a>
+							<a class="yu-menu" id="girl">{$Think.lang.girl}</a>
 						</li>
 						<li>
-							<a class="yu-menu" id="boy">男孩</a>
+							<a class="yu-menu" id="boy">{$Think.lang.boy}</a>
 						</li>
 						<li>
-							<a class="yu-menu" id="selected">精选</a>
+							<a class="yu-menu" id="selected">{$Think.lang.featured}</a>
 						</li>
 						<li>
-							<a class="yu-menu" id="special">穿衣搭配</a>
+							<a class="yu-menu" id="special">{$Think.lang.clothingmatch}</a>
 						</li>
 					</ul>
 				</nav>
@@ -134,7 +134,7 @@
 		</header>
 		<form class="am-topbar-form am-topbar-left am-form-inline am-show-sm-only" role="search">
 			<div class="am-form-group">
-				<input type="text" class="am-form-field am-input-sm" placeholder="搜索">
+				<input type="text" class="am-form-field am-input-sm" placeholder="{$Think.lang.search}">
 			</div>
 		</form>
 
@@ -146,7 +146,17 @@
 			<div class="am-g">
 				<div data-am-widget="slider" class="am-slider am-slider-d2" data-am-slider='{"directionNav":false}' >
 					<div  class="yu-sub-menu am-u-md-12 new">
-						test1
+						<div class="am-u-md-4 yu-sub-menu-list">
+							<div class="am-u-md-12 am-margin-0 am-padding-0">{$Think.lang.bytime}</div>
+							<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
+							<div class="am-u-md-12 am-icon-angle-right am-margin-0 am-padding-0">{$Think.lang.lastsevenday}</div>
+							<div class="am-u-md-12 am-icon-angle-right am-margin-0 am-padding-0">{$Think.lang.lastfourweek}</div>
+							<div class="am-u-md-12 am-icon-angle-right am-margin-0 am-padding-0">{$Think.lang.commingsoon}</div>
+						</div>
+						<div class="am-u-md-7">
+							<img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/sub-menu-img.jpg" />
+							<div class="yu-sub-menu-img-title am-text-center">test</div>
+						</div>
 					</div>
 					<div  class="yu-sub-menu am-u-md-12 brand">
 						test2
