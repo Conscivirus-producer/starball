@@ -11,9 +11,9 @@ class ListController extends Controller {
 							 ->where('DateDiff(now(),lastUpdatedDate)<='.$range)
 							 ->join('t_image img ON img.itemId = t_item.itemId')
 							 ->order('brandId desc,categoryId desc')
-							 ->page($page.',10')
+							 ->page($page.',12')
 							 ->select();
-		logInfo(json_encode($itemList));
+		logInfo(count($itemList));
 		$this->assign('itemList',$itemList);
 		$this->display('index');
 	}
