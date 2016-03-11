@@ -226,82 +226,27 @@
 						</section>
 					</div>
 					<div class="am-sm-8 am-u-md-9 am-u-lg-9">
-						<div class="am-u-sm-12 am-u-md-6 am-u-lg-4">
-							<div class="am-thumbnail">
-								<img src="http://s.amazeui.org/media/i/demos/bing-4.jpg" alt=""/>
-								<div class="am-thumbnail-caption">
-									<h3>图片标题</h3>
-									<p>
-										...
-									</p>
-									<p>
-										<button class="am-btn am-btn-primary">
-											按钮
-										</button>
-										<button class="am-btn am-btn-default">
-											按钮
-										</button>
-									</p>
+						<volist name="itemList" id="vo">
+							<div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-end">
+								<div class="am-thumbnail">
+									<img src="{$vo.imageMiddle}" alt=""/>
+									<div class="am-thumbnail-caption">
+										<h3>图片标题</h3>
+										<p>
+											...
+										</p>
+										<p>
+											<button class="am-btn am-btn-primary">
+												按钮
+											</button>
+											<button class="am-btn am-btn-default">
+												按钮
+											</button>
+										</p>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="am-u-sm-12 am-u-md-6 am-u-lg-4">
-							<div class="am-thumbnail">
-								<img src="http://s.amazeui.org/media/i/demos/bing-4.jpg" alt=""/>
-								<div class="am-thumbnail-caption">
-									<h3>图片标题</h3>
-									<p>
-										...
-									</p>
-									<p>
-										<button class="am-btn am-btn-primary">
-											按钮
-										</button>
-										<button class="am-btn am-btn-default">
-											按钮
-										</button>
-									</p>
-								</div>
-							</div>
-						</div>
-						<div class="am-u-sm-12 am-u-md-6 am-u-lg-4">
-							<div class="am-thumbnail">
-								<img src="http://s.amazeui.org/media/i/demos/bing-4.jpg" alt=""/>
-								<div class="am-thumbnail-caption">
-									<h3>图片标题</h3>
-									<p>
-										...
-									</p>
-									<p>
-										<button class="am-btn am-btn-primary">
-											按钮
-										</button>
-										<button class="am-btn am-btn-default">
-											按钮
-										</button>
-									</p>
-								</div>
-							</div>
-						</div>
-						<div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-end">
-							<div class="am-thumbnail">
-								<img src="http://s.amazeui.org/media/i/demos/bing-4.jpg" alt=""/>
-								<div class="am-thumbnail-caption">
-									<h3>图片标题</h3>
-									<p>
-										...
-									</p>
-									<p>
-										<button class="am-btn am-btn-primary">
-											按钮
-										</button>
-										<button class="am-btn am-btn-default">
-											按钮
-										</button>
-									</p>
-								</div>
-							</div>
-						</div>
+						</volist>
 					</div>
 				</div>
 
