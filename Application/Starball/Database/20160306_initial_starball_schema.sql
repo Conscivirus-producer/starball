@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2016 年 03 月 12 日 11:30
+-- 生成日期: 2016 年 03 月 21 日 02:24
 -- 服务器版本: 5.5.20
 -- PHP 版本: 5.3.10
 
@@ -56,41 +56,63 @@ CREATE TABLE IF NOT EXISTS `t_category` (
   `categoryId` int(32) NOT NULL AUTO_INCREMENT,
   `parentCategoryId` int(32) NOT NULL,
   `categoryName` varchar(50) NOT NULL,
-  `targetCustomerType` varchar(50) NOT NULL,
+  `type` varchar(10) NOT NULL COMMENT '1-普通商品; 2-鞋子; 3-配饰',
   PRIMARY KEY (`categoryId`),
-  KEY `parentCategoryId` (`parentCategoryId`),
-  KEY `targetCustomerType` (`targetCustomerType`)
+  KEY `parentCategoryId` (`parentCategoryId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- 转存表中的数据 `t_category`
 --
 
-INSERT INTO `t_category` (`categoryId`, `parentCategoryId`, `categoryName`, `targetCustomerType`) VALUES
-(-24, -3, '系带鞋', '4'),
-(-23, -3, '运动鞋', '4'),
-(-22, 0, '开襟衫', '4'),
-(-21, 0, '上衣和T恤', '4'),
-(-20, -2, '系带鞋', '3'),
-(-19, -2, '芭蕾舞鞋', '3'),
-(-18, 0, '开襟衫', '3'),
-(-17, 0, '上衣和T恤', '3'),
-(-16, 0, '开襟衫', '2'),
-(-15, 0, '上衣和T恤', '2'),
-(-14, 0, '上衣和T恤', '1'),
-(-13, 0, '连衣裙', '1'),
-(-12, 0, '浴用品', '0'),
-(-11, 0, '婴儿房', '0'),
-(-10, 0, '婴儿床', '0'),
-(-9, 0, '睡衣', '0'),
-(-8, 0, '泳装', '0'),
-(-7, 0, '套装', '0'),
-(-6, 0, '上衣和T恤', '0'),
-(-5, -1, '系带鞋', '0'),
-(-4, -1, '芭蕾舞鞋', '0'),
-(-3, 0, '童鞋', '4'),
-(-2, 0, '童鞋', '3'),
-(-1, 0, '鞋', '0');
+INSERT INTO `t_category` (`categoryId`, `parentCategoryId`, `categoryName`, `type`) VALUES
+(-14, -2, '运动鞋', '1'),
+(-13, 0, '开襟衫', '1'),
+(-12, 0, '连衣裙', '1'),
+(-11, 0, '浴用品', '1'),
+(-10, 0, '婴儿房', '1'),
+(-9, 0, '婴儿床', '1'),
+(-8, 0, '睡衣', '1'),
+(-7, 0, '泳装', '1'),
+(-6, 0, '套装', '1'),
+(-5, 0, '上衣和T恤', '1'),
+(-4, -1, '系带鞋', '1'),
+(-3, -1, '芭蕾舞鞋', '1'),
+(-2, 0, '童鞋', '1'),
+(-1, 0, '鞋', '1');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `t_coupon`
+--
+
+CREATE TABLE IF NOT EXISTS `t_coupon` (
+  `couponId` int(32) NOT NULL AUTO_INCREMENT,
+  `itemId` int(32) NOT NULL,
+  `userId` int(32) NOT NULL,
+  `code` varchar(50) NOT NULL,
+  `discountRate` int(3) NOT NULL,
+  `expirationDate` datetime NOT NULL,
+  PRIMARY KEY (`couponId`),
+  KEY `itemId` (`itemId`,`code`),
+  KEY `userId` (`userId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='优惠券' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `t_favoriteitem`
+--
+
+CREATE TABLE IF NOT EXISTS `t_favoriteitem` (
+  `id` int(32) NOT NULL AUTO_INCREMENT,
+  `itemId` int(32) NOT NULL,
+  `userId` int(32) NOT NULL,
+  `updatedDate` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `itemId` (`itemId`,`userId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='我的收藏' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -144,7 +166,7 @@ INSERT INTO `t_hotitem` (`hotId`, `type`, `image`, `title`, `subtitle`, `targetI
 CREATE TABLE IF NOT EXISTS `t_image` (
   `imageId` int(32) NOT NULL AUTO_INCREMENT,
   `itemId` int(32) NOT NULL,
-  `imageBig` varchar(200) NOT NULL,
+  `image` varchar(200) NOT NULL,
   `sequence` int(2) NOT NULL COMMENT '如为小图，有多张，图片的展示顺序',
   PRIMARY KEY (`imageId`),
   KEY `itemId` (`itemId`)
@@ -154,7 +176,7 @@ CREATE TABLE IF NOT EXISTS `t_image` (
 -- 转存表中的数据 `t_image`
 --
 
-INSERT INTO `t_image` (`imageId`, `itemId`, `imageBig`, `sequence`) VALUES
+INSERT INTO `t_image` (`imageId`, `itemId`, `image`, `sequence`) VALUES
 (-150, -51, 'http://7xr7p7.com2.z0.glb.qiniucdn.com/armani-junior--t-1446690839-p_z_151859_C.jpg', 150),
 (-149, -51, 'http://7xr7p7.com2.z0.glb.qiniucdn.com/armani-junior--t-1446690839-p_z_151859_B.jpg', 149),
 (-148, -51, 'http://7xr7p7.com2.z0.glb.qiniucdn.com/armani-junior--t-1446690839-p_z_151859_A.jpg', 148),
@@ -335,69 +357,134 @@ CREATE TABLE IF NOT EXISTS `t_item` (
   `component` varchar(1000) NOT NULL,
   `brandId` int(32) NOT NULL,
   `categoryId` int(32) NOT NULL,
+  `grade` varchar(50) NOT NULL COMMENT '1-Bady; 2-Child',
+  `gender` varchar(2) NOT NULL COMMENT 'M-male;F-female',
   `lastUpdatedDate` datetime NOT NULL,
-  `lowestPrice` float NOT NULL,
+  `lowestPrice` varchar(100) NOT NULL,
   `isAvailable` varchar(2) NOT NULL,
   `link` varchar(200) NOT NULL,
   `season` varchar(50) NOT NULL,
+  `discount` int(3) NOT NULL,
+  `appendWords` varchar(500) NOT NULL,
   PRIMARY KEY (`itemId`),
   KEY `brandId` (`brandId`,`categoryId`),
-  KEY `season` (`season`)
+  KEY `season` (`season`),
+  KEY `targetCustomerType` (`grade`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- 转存表中的数据 `t_item`
 --
 
-INSERT INTO `t_item` (`itemId`, `name`, `color`, `detailDescription`, `component`, `brandId`, `categoryId`, `lastUpdatedDate`, `lowestPrice`, `isAvailable`, `link`, `season`) VALUES
-(-48, 'Graphic slubbed jersey T-shirt-48', '红色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 6, 4, '2016-03-10 11:59:31', 147, '', '', ''),
-(-47, 'Graphic slubbed jersey T-shirt-47', '红色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 6, 4, '2016-03-10 11:59:31', 146, '', '', ''),
-(-46, 'Graphic slubbed jersey T-shirt-46', '红色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 6, 4, '2016-03-10 11:59:31', 145, '', '', ''),
-(-45, 'Graphic slubbed jersey T-shirt-45', '红色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 6, 4, '2016-03-10 11:59:31', 144, '', '', ''),
-(-44, 'Graphic slubbed jersey T-shirt-44', '红色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 6, 4, '2016-03-10 11:59:31', 143, '', '', ''),
-(-43, 'Graphic slubbed jersey T-shirt-43', '红色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 6, 4, '2016-03-10 11:59:31', 142, '', '', ''),
-(-42, 'Graphic slubbed jersey T-shirt-42', '紫色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 6, 4, '2016-03-10 11:59:31', 141, '', '', ''),
-(-41, 'Graphic slubbed jersey T-shirt-41', '紫色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 6, 11, '2016-03-10 11:59:31', 140, '', '', ''),
-(-40, 'Graphic slubbed jersey T-shirt-40', '紫色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 6, 11, '2016-03-10 11:59:31', 139, '', '', ''),
-(-39, 'Graphic slubbed jersey T-shirt-39', '紫色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 6, 11, '2016-03-10 11:59:31', 138, '', '', ''),
-(-38, 'Graphic slubbed jersey T-shirt-38', '紫色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 6, 11, '2016-03-10 11:59:31', 137, '', '', ''),
-(-37, 'Graphic slubbed jersey T-shirt-37', '紫色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 6, 11, '2016-03-10 11:59:31', 136, '', '', ''),
-(-36, 'Graphic slubbed jersey T-shirt-36', '紫色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 6, 11, '2016-03-10 11:59:31', 135, '', '', ''),
-(-35, 'Graphic slubbed jersey T-shirt-35', '紫色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 6, 11, '2016-03-10 11:59:31', 134, '', '', ''),
-(-34, 'Graphic slubbed jersey T-shirt-34', '紫色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 6, 11, '2016-03-10 11:59:31', 133, '', '', ''),
-(-33, 'Graphic slubbed jersey T-shirt-33', '紫色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 6, 14, '2016-03-10 11:59:31', 132, '', '', ''),
-(-32, 'Graphic slubbed jersey T-shirt-32', '紫色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 6, 14, '2016-03-10 11:59:31', 131, '', '', ''),
-(-31, 'Graphic slubbed jersey T-shirt-31', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 6, 14, '2016-03-10 11:59:31', 130, '', '', ''),
-(-30, 'Graphic slubbed jersey T-shirt-30', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 14, '2016-03-10 11:59:31', 129, '', '', ''),
-(-29, 'Graphic slubbed jersey T-shirt-29', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 14, '2016-03-10 11:59:31', 128, '', '', ''),
-(-28, 'Graphic slubbed jersey T-shirt-28', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 14, '2016-03-10 11:59:31', 127, '', '', ''),
-(-27, 'Graphic slubbed jersey T-shirt-27', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 14, '2016-03-10 11:59:31', 126, '', '', ''),
-(-26, 'Graphic slubbed jersey T-shirt-26', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 14, '2016-03-10 11:59:31', 125, '', '', ''),
-(-25, 'Graphic slubbed jersey T-shirt-25', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 14, '2016-03-10 11:59:31', 124, '', '', ''),
-(-24, 'Graphic slubbed jersey T-shirt-24', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 14, '2016-03-10 11:59:31', 123, '', '', ''),
-(-23, 'Graphic slubbed jersey T-shirt-23', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 16, '2016-03-10 11:59:31', 122, '', '', ''),
-(-22, 'Graphic slubbed jersey T-shirt-22', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 16, '2016-03-10 11:59:31', 121, '', '', ''),
-(-21, 'Graphic slubbed jersey T-shirt-21', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 16, '2016-03-10 11:59:31', 120, '', '', ''),
-(-20, 'Graphic slubbed jersey T-shirt-20', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 16, '2016-03-10 11:59:31', 119, '', '', ''),
-(-19, 'Graphic slubbed jersey T-shirt-19', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 16, '2016-03-10 11:59:31', 118, '', '', ''),
-(-18, 'Graphic slubbed jersey T-shirt-18', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 16, '2016-03-10 11:59:31', 117, '', '', ''),
-(-17, 'Graphic slubbed jersey T-shirt-17', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 16, '2016-03-10 11:59:31', 116, '', '', ''),
-(-16, 'Graphic slubbed jersey T-shirt-16', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 16, '2016-03-10 11:59:31', 115, '', '', ''),
-(-15, 'Graphic slubbed jersey T-shirt-15', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 16, '2016-03-10 11:59:30', 114, '', '', ''),
-(-14, 'Graphic slubbed jersey T-shirt-14', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 16, '2016-03-10 11:59:30', 113, '', '', ''),
-(-13, 'Graphic slubbed jersey T-shirt-13', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 16, '2016-03-10 11:59:30', 112, '', '', ''),
-(-12, 'Graphic slubbed jersey T-shirt-12', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 16, '2016-03-10 11:59:30', 111, '', '', ''),
-(-11, 'Graphic slubbed jersey T-shirt-11', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 17, '2016-03-10 11:59:30', 110, '', '', ''),
-(-10, 'Graphic slubbed jersey T-shirt-10', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 17, '2016-03-10 11:59:30', 109, '', '', ''),
-(-9, 'Graphic slubbed jersey T-shirt-9', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 17, '2016-03-10 11:59:30', 108, '', '', ''),
-(-8, 'Graphic slubbed jersey T-shirt-8', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 17, '2016-03-10 11:59:30', 107, '', '', ''),
-(-7, 'Graphic slubbed jersey T-shirt-7', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 17, '2016-03-10 11:59:30', 106, '', '', ''),
-(-6, 'Graphic slubbed jersey T-shirt-6', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 21, '2016-03-10 11:59:30', 105, '', '', ''),
-(-5, 'Graphic slubbed jersey T-shirt-5', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 21, '2016-03-10 11:59:30', 104, '', '', ''),
-(-4, 'Graphic slubbed jersey T-shirt-4', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 21, '2016-03-10 11:59:30', 103, '', '', ''),
-(-3, 'Graphic slubbed jersey T-shirt-3', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 24, '2016-03-10 11:59:30', 102, '', '', ''),
-(-2, 'Graphic slubbed jersey T-shirt-2', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', 8, 24, '2016-03-10 11:59:30', 101, '', '', ''),
-(-1, 'Graphic slubbed jersey T-shirt-1', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -24, '2016-03-10 11:59:30', 100, '', '', '');
+INSERT INTO `t_item` (`itemId`, `name`, `color`, `detailDescription`, `component`, `brandId`, `categoryId`, `grade`, `gender`, `lastUpdatedDate`, `lowestPrice`, `isAvailable`, `link`, `season`, `discount`, `appendWords`) VALUES
+(-48, 'Graphic slubbed jersey T-shirt-48', '红色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -6, -8, '2', 'F', '2016-03-17 22:05:19', '147', '', '', '', 100, ''),
+(-47, 'Graphic slubbed jersey T-shirt-47', '红色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -6, -8, '2', 'F', '2016-03-17 22:05:19', '146', '', '', '', 100, ''),
+(-46, 'Graphic slubbed jersey T-shirt-46', '红色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -6, -8, '2', 'F', '2016-03-17 22:05:19', '145', '', '', '', 100, ''),
+(-45, 'Graphic slubbed jersey T-shirt-45', '红色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -6, -8, '2', 'F', '2016-03-17 22:05:19', '144', '', '', '', 100, ''),
+(-44, 'Graphic slubbed jersey T-shirt-44', '红色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -6, -8, '2', 'F', '2016-03-17 22:05:19', '143', '', '', '', 100, ''),
+(-43, 'Graphic slubbed jersey T-shirt-43', '红色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -6, -8, '2', 'F', '2016-03-17 22:05:19', '142', '', '', '', 100, ''),
+(-42, 'Graphic slubbed jersey T-shirt-42', '紫色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -6, -8, '2', 'F', '2016-03-17 22:05:19', '141', '', '', '', 100, ''),
+(-41, 'Graphic slubbed jersey T-shirt-41', '紫色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -6, -9, '2', 'F', '2016-03-17 22:05:19', '140', '', '', '', 100, ''),
+(-40, 'Graphic slubbed jersey T-shirt-40', '紫色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -6, -9, '2', 'F', '2016-03-17 22:05:19', '139', '', '', '', 100, ''),
+(-39, 'Graphic slubbed jersey T-shirt-39', '紫色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -6, -9, '2', 'M', '2016-03-17 22:05:19', '138', '', '', '', 100, ''),
+(-38, 'Graphic slubbed jersey T-shirt-38', '紫色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -6, -9, '2', 'M', '2016-03-17 22:05:19', '137', '', '', '', 100, ''),
+(-37, 'Graphic slubbed jersey T-shirt-37', '紫色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -6, -9, '2', 'M', '2016-03-17 22:05:19', '136', '', '', '', 100, ''),
+(-36, 'Graphic slubbed jersey T-shirt-36', '紫色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -6, -9, '2', 'M', '2016-03-17 22:05:18', '135', '', '', '', 100, ''),
+(-35, 'Graphic slubbed jersey T-shirt-35', '紫色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -6, -9, '2', 'M', '2016-03-17 22:05:18', '134', '', '', '', 100, ''),
+(-34, 'Graphic slubbed jersey T-shirt-34', '紫色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -6, -9, '2', 'M', '2016-03-17 22:05:18', '133', '', '', '', 100, ''),
+(-33, 'Graphic slubbed jersey T-shirt-33', '紫色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -6, -10, '2', 'M', '2016-03-17 22:05:18', '132', '', '', '', 100, ''),
+(-32, 'Graphic slubbed jersey T-shirt-32', '紫色', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -6, -10, '2', 'M', '2016-03-17 22:05:18', '131', '', '', '', 100, ''),
+(-31, 'Graphic slubbed jersey T-shirt-31', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -6, -10, '2', 'M', '2016-03-17 22:05:18', '130', '', '', '', 100, ''),
+(-30, 'Graphic slubbed jersey T-shirt-30', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -10, '2', 'M', '2016-03-17 22:05:18', '129', '', '', '', 100, ''),
+(-29, 'Graphic slubbed jersey T-shirt-29', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -10, '1', 'M', '2016-03-17 22:05:18', '128', '', '', '', 100, ''),
+(-28, 'Graphic slubbed jersey T-shirt-28', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -10, '1', 'M', '2016-03-17 22:05:18', '127', '', '', '', 100, ''),
+(-27, 'Graphic slubbed jersey T-shirt-27', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -10, '1', 'M', '2016-03-17 22:05:18', '126', '', '', '', 100, ''),
+(-26, 'Graphic slubbed jersey T-shirt-26', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -10, '1', 'M', '2016-03-17 22:05:18', '125', '', '', '', 100, ''),
+(-25, 'Graphic slubbed jersey T-shirt-25', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -10, '1', 'M', '2016-03-17 22:05:18', '124', '', '', '', 100, ''),
+(-24, 'Graphic slubbed jersey T-shirt-24', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -10, '1', 'M', '2016-03-17 22:05:18', '123', '', '', '', 100, ''),
+(-23, 'Graphic slubbed jersey T-shirt-23', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -11, '1', 'M', '2016-03-17 22:05:18', '122', '', '', '', 100, ''),
+(-22, 'Graphic slubbed jersey T-shirt-22', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -11, '1', 'M', '2016-03-17 22:05:18', '121', '', '', '', 100, ''),
+(-21, 'Graphic slubbed jersey T-shirt-21', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -11, '1', 'M', '2016-03-17 22:05:18', '120', '', '', '', 100, ''),
+(-20, 'Graphic slubbed jersey T-shirt-20', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -11, '1', 'M', '2016-03-17 22:05:18', '119', '', '', '', 100, ''),
+(-19, 'Graphic slubbed jersey T-shirt-19', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -11, '1', 'M', '2016-03-17 22:05:18', '118', '', '', '', 100, ''),
+(-18, 'Graphic slubbed jersey T-shirt-18', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -11, '1', 'M', '2016-03-17 22:05:18', '117', '', '', '', 100, ''),
+(-17, 'Graphic slubbed jersey T-shirt-17', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -11, '1', 'M', '2016-03-17 22:05:18', '116', '', '', '', 100, ''),
+(-16, 'Graphic slubbed jersey T-shirt-16', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -11, '1', 'M', '2016-03-17 22:05:18', '115', '', '', '', 100, ''),
+(-15, 'Graphic slubbed jersey T-shirt-15', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -11, '1', 'M', '2016-03-17 22:05:18', '114', '', '', '', 100, ''),
+(-14, 'Graphic slubbed jersey T-shirt-14', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -11, '1', 'M', '2016-03-17 22:05:18', '113', '', '', '', 100, ''),
+(-13, 'Graphic slubbed jersey T-shirt-13', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -11, '1', 'M', '2016-03-17 22:05:18', '112', '', '', '', 100, ''),
+(-12, 'Graphic slubbed jersey T-shirt-12', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -11, '1', 'M', '2016-03-17 22:05:18', '111', '', '', '', 100, ''),
+(-11, 'Graphic slubbed jersey T-shirt-11', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -12, '1', 'M', '2016-03-17 22:05:18', '110', '', '', '', 100, ''),
+(-10, 'Graphic slubbed jersey T-shirt-10', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -12, '1', 'F', '2016-03-17 22:05:18', '109', '', '', '', 100, ''),
+(-9, 'Graphic slubbed jersey T-shirt-9', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -12, '1', 'F', '2016-03-17 22:05:18', '108', '', '', '', 100, ''),
+(-8, 'Graphic slubbed jersey T-shirt-8', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -12, '1', 'F', '2016-03-17 22:05:18', '107', '', '', '', 100, ''),
+(-7, 'Graphic slubbed jersey T-shirt-7', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -12, '1', 'F', '2016-03-17 22:05:18', '106', '', '', '', 100, ''),
+(-6, 'Graphic slubbed jersey T-shirt-6', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -13, '1', 'F', '2016-03-17 22:05:18', '105', '', '', '', 100, ''),
+(-5, 'Graphic slubbed jersey T-shirt-5', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -13, '1', 'F', '2016-03-17 22:05:18', '104', '', '', '', 100, ''),
+(-4, 'Graphic slubbed jersey T-shirt-4', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -13, '1', 'F', '2016-03-17 22:05:18', '103', '', '', '', 100, ''),
+(-3, 'Graphic slubbed jersey T-shirt-3', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -14, '1', 'F', '2016-03-17 22:05:18', '102', '', '', '', 100, ''),
+(-2, 'Graphic slubbed jersey T-shirt-2', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -14, '1', 'F', '2016-03-17 22:05:18', '101', '', '', '', 100, ''),
+(-1, 'Graphic slubbed jersey T-shirt-1', '电光蓝', '棉质竹节针织布\n触感舒适\n圆领\n弹力侧边\n短袖\n丝印标识\n背部品牌标签\n参考 CXH16-KA-63', '100% 棉。\nMachine washable at 30°C', -8, -14, '1', 'F', '2016-03-17 22:05:18', '100', '', '', '', 100, '');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `t_order`
+--
+
+CREATE TABLE IF NOT EXISTS `t_order` (
+  `orderId` int(32) NOT NULL AUTO_INCREMENT,
+  `orderNumber` varchar(100) NOT NULL,
+  `totalItemCount` int(3) NOT NULL,
+  `totalAmount` varchar(50) NOT NULL,
+  `shippingAddress` varchar(500) NOT NULL,
+  `contactName` varchar(50) NOT NULL,
+  `contactPhone` varchar(50) NOT NULL,
+  `userAvailabeTime` varchar(100) NOT NULL,
+  `userId` int(32) NOT NULL,
+  `updatedDate` datetime NOT NULL,
+  `status` varchar(20) NOT NULL,
+  PRIMARY KEY (`orderId`),
+  UNIQUE KEY `orderNumber` (`orderNumber`),
+  KEY `userId` (`userId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单主表' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `t_orderitem`
+--
+
+CREATE TABLE IF NOT EXISTS `t_orderitem` (
+  `id` int(32) NOT NULL AUTO_INCREMENT,
+  `orderNumber` varchar(100) NOT NULL,
+  `itemId` int(32) NOT NULL,
+  `itemName` varchar(100) NOT NULL,
+  `itemSize` varchar(100) NOT NULL,
+  `price` varchar(100) NOT NULL,
+  `quantity` int(10) NOT NULL COMMENT '货品数量',
+  `unshippedQuantity` int(10) NOT NULL COMMENT '尚未发货的货品数量',
+  `status` varchar(20) NOT NULL COMMENT '状态',
+  PRIMARY KEY (`id`),
+  KEY `orderNumber` (`orderNumber`,`itemId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `t_shippingaddress`
+--
+
+CREATE TABLE IF NOT EXISTS `t_shippingaddress` (
+  `addressId` int(32) NOT NULL AUTO_INCREMENT,
+  `userId` int(32) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `phone` varchar(50) NOT NULL,
+  `address` varchar(500) NOT NULL,
+  `default` tinyint(1) NOT NULL,
+  PRIMARY KEY (`addressId`),
+  KEY `userId` (`userId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='发货地址' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -409,8 +496,8 @@ CREATE TABLE IF NOT EXISTS `t_size` (
   `sizeId` int(32) NOT NULL AUTO_INCREMENT,
   `age` varchar(10) NOT NULL,
   `gender` varchar(10) NOT NULL,
-  `targetCustomerType` varchar(50) NOT NULL,
   `height` varchar(50) NOT NULL,
+  `description` varchar(100) NOT NULL COMMENT '综合性说明，比如:10岁(134 - 140 cm)',
   PRIMARY KEY (`sizeId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
