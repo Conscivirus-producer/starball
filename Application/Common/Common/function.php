@@ -7,3 +7,7 @@ function logInfo($msg){
 function logWarn($msg){
 	LOG::write($msg, 'WARN');
 } 
+
+function get_client_time(){
+   return date("Y-m-d H:i:s");
+}
