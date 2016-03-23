@@ -18,7 +18,7 @@ class ListController extends Controller {
 			$gendersChecked = explode(",", $genders);
 			$map["gender"] = array('IN',$genders );
 		}
-		logInfo(json_encode($categoriesChecked));
+		logInfo(json_encode($categoriesChecked ));
 		if($by == "time"){
 			$map["DateDiff(now(),lastUpdatedDate)"] = array('ELT', $byValue); 
 		}elseif($by == "brand"){
