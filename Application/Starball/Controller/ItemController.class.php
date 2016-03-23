@@ -1,8 +1,8 @@
 <?php
 namespace Starball\Controller;
 use Think\Controller;
-class ItemController extends Controller {
-    public function index(){
+class ItemController extends BaseController {
+    protected function pageDisplay(){
     	$itemId = I('itemId');
 		if($itemId == ''){
 			$itemId = -1;
@@ -15,6 +15,5 @@ class ItemController extends Controller {
 		//logInfo('dataresult: '.count($imageData));
 		$this->assign('data', $data);
 		$this->assign('images', $imageData);
-    	$this->display();
     }
 }
