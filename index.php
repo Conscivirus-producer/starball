@@ -21,7 +21,7 @@ define('APP_DEBUG',True);
 //define('BIND_MODULE','Starball');
 define('APP_PATH','./Application/');
 
-define('APP_STATUS','dev');
+define('APP_STATUS','prod');
 // 引入ThinkPHP入口文件
 require './ThinkPHP/ThinkPHP.php';
 
