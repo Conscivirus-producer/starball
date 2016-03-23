@@ -102,11 +102,11 @@
 								<form class="am-form am-form-horizontal" role="form" method="post">
 									<input type="hidden" name="method" value="login">
 									<div class="am-form-group " style="margin:0 6px 12px 6px;">
-										<input name="userName" style="font-size:12px;" class="am-form-field am-input-sm" placeholder="用户名/电子邮件">
+										<input name="userName" style="font-size:12px;" class="am-form-field yu-input-sm" placeholder="用户名/电子邮件">
 									</div>
 
 									<div class="am-form-group" style="margin:0 6px 12px 6px;">
-										<input type="password" name="password" class="am-form-field am-input-sm" placeholder="密码">
+										<input type="password" name="password" class="am-form-field yu-input-sm" placeholder="密码">
 									</div>
 
 									<a class="am-btn am-btn-link" style="float:left;font-size:12px;margin-bottom:5.1px;padding-top:3px;">忘记密码？</a>
@@ -130,19 +130,19 @@
 								<form class="am-form am-form-horizontal" role="form" method="post" >
 									<input type="hidden" name="method" value="register">
 									<div class="am-form-group " style="margin:0 6px 12px 6px;">
-										<input type="username" name="userName" style="font-size:12px;" class="am-form-field am-input-sm" placeholder="用户名*" minlength="3"/>
+										<input type="username" name="userName" style="font-size:12px;" class="am-form-field yu-input-sm" placeholder="用户名*" minlength="3"/>
 									</div>
 								  <div class="am-form-group " style="margin:0 6px 12px 6px;">
-								    <input type="email" name="email" style="font-size:12px;" class="am-form-field am-input-sm" placeholder="电子邮件*">
+								    <input type="email" name="email" style="font-size:12px;" class="am-form-field yu-input-sm" placeholder="电子邮件*">
 								  </div>
 									<div class="am-form-group" style="margin:0 6px 12px 6px;">
-										<input type="password" name="password" class="am-form-field am-input-sm" placeholder="密码*">
+										<input type="password" name="password" class="am-form-field yu-input-sm" placeholder="密码*">
 									</div>
 									<div class="am-form-group" style="margin:0 6px 12px 6px;">
-										<input type="password" class="am-form-field am-input-sm" placeholder="确认您的密码*">
+										<input type="password" class="am-form-field yu-input-sm" placeholder="确认您的密码*">
 									</div>
 									<div class="am-form-group" style="margin:0 6px 12px 6px;">
-										<input type="phonenumber" name="mobile" class="am-form-field am-input-sm" placeholder="联络号码">
+										<input type="phonenumber" name="mobile" class="am-form-field yu-input-sm" placeholder="联络号码">
 									</div>
 									<div class="am-checkbox" style="padding-top:0px;float:left;margin-left:8px;">
 										<label style="font-size:12px;">
@@ -155,16 +155,84 @@
 									</button>
 								</form>
 							</ul>
+							<li class="am-dropdown" data-am-dropdown>
+							<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:"style="padding-left:6px">{$Think.lang.myfavorite}</a>
+							
+							     <ul class="am-dropdown-content" style="padding-bottom:1px;padding-top:0;width: 350px;">
+            
+          
+            <li><a href="#" style="height:120px;width:100%!important;padding-left:10px;padding-right:0;padding-top:10px;padding-bottom:10px;"><img alt="Mini Me Choupette猫咪印图T恤" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/karl-lagerfeld-kids-t-1446712438-p_l_157397_A.jpg" style="height:100px;width:100px;display:block;float:left;"><span style="display: block;
+    float: left;
+    width: 220px;
+    margin-left: 15px;
+    position: relative;">
+<span class="" style="display:block;text-transform:uppercase;">Karl Lagerfeld Kids</span>
+        <span class="" style="display:block;overflow: hidden;
+ text-overflow: ellipsis;    white-space: nowrap;
+    padding-right: 100px;
+    margin-top: 4px;">Mini Me Choupette猫咪印图T恤
+</span>
+  </span>
+</a></li>
+            <li class="am-divider"></li>
+            <button type="button" class="am-btn am-btn-default" style="font-size:12px;margin:6px 7px 6px 7px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;查看我的收藏&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;</button>
+          </ul>
 						</li>
-						<li>
-							<a href="##">
-							{$Think.lang.myfavorite}
-							</a>
+						<li class="am-dropdown" data-am-dropdown>
+							<a class="am-dropdown-toggle am-icon-shopping-bag" data-am-dropdown-toggle href="javascript:"style="padding-left:6px">{$Think.lang.myshoppinglist}</a>
+							<ul class="am-dropdown-content" style="padding-bottom:1px;padding-top:0;width: 350px;">
+            
+          
+            <li><a href="#" style="height:120px;width:100%!important;padding-left:10px;padding-right:0;padding-top:10px;padding-bottom:10px;"><img alt="Mini Me Choupette猫咪印图T恤" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/karl-lagerfeld-kids-t-1446712438-p_l_157397_A.jpg" style="height:100px;width:100px;display:block;float:left;"><span style="display: block;
+    float: left;
+    width: 220px;
+    margin-left: 15px;
+    position: relative;">
+<span class="" style="display:block;text-transform:uppercase;">Karl Lagerfeld Kids</span>
+        <span class="" style="display:block;overflow: hidden;
+ text-overflow: ellipsis;    white-space: nowrap;
+    padding-right: 100px;
+    margin-top: 4px;">Mini Me Choupette猫咪印图T恤
+
+</span>
+
+
+
+  <span style="display:block;border-top: 1px solid #ececec;
+    border-bottom: 1px solid #ececec;
+    margin: 5px 0;
+    padding: 2px 10px 2px 0;font-size:11px">
+<span class="" style="
+    text-transform: none;
+}">
+尺码： <span style="font-weight:bold;">4岁 (99 - 104 cm)</span>
+            </span>
+            <span class="" style="float:right">
+数量： <span class="">1</span>
+
+            </span>
+  <span class="" style="font-size:12px;font-weight:bold;display: block;float:left;margin-top:6px;">
+           
+<span>    Ұ&nbsp;358    </span>
+
+       </span>
+  </span></span>
+</a></li>
+            <li class="am-divider"></li>
+          
+            <li><div id="" style="    background: #ececec;
+    padding: 4px 10px;
+    text-align: center;
+    margin-top: 0;
+    ">
+    <span class="">总金额： </span>
+    <span class="">Ұ&nbsp; 358</span>
+</div></li>
+            <li class="am-divider"></li>
+            <button type="button" class="am-btn am-btn-default" style="font-size:12px;margin:6px 7px 6px 7px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;查看我的购物袋&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;</button>
+          </ul>
 						</li>
-						<li>
-							<a href="##" class="am-icon-shopping-bag">
-							{$Think.lang.myshoppinglist}</a>
-						</li>
+				
 					</ol>
 				</div>
 			</div>
