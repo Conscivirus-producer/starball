@@ -1,12 +1,10 @@
 <?php
 namespace Starball\Controller;
 use Think\Controller;
-class ListController extends Controller {
-    public function index(){
-    	$this->display();
-    }
+class ListController extends BaseController {
 	
 	public function showList($by,$byValue, $p=1){
+		$this->commonProcess();
 		$filters = Array();
 		$categories = I('get.categories');
 		$genders = I('get.genders');

@@ -3,6 +3,12 @@ namespace Starball\Controller;
 use Think\Controller;
 class BaseController extends Controller {
     public function index(){
+    	$this->commonProcess();
+		$this->pageDisplay();
+    	$this->display();
+    }
+	
+	protected function commonProcess(){
 		if(IS_POST){
 			if(I('method') == 'register'){
 				$this->register();
@@ -12,9 +18,7 @@ class BaseController extends Controller {
 				$this->logout();
 			}
 		}
-		$this->pageDisplay();
-    	$this->display();
-    }
+	}
 	
 	//abstract protected function pageDisplay();	
 	
