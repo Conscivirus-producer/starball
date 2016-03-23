@@ -7,7 +7,7 @@ return array(
 	
 	//数据库配置信息
 	'DB_TYPE'=>'mysql',// 数据库类型
-	'DB_HOST'=>'192.168.0.100',// 服务器地址
+	'DB_HOST'=>'192.168.1.100',// 服务器地址
 	//'DB_HOST'=>'www.sven.com',// 服务器地址
 	'DB_NAME'=>'starball_schema',// 数据库名
 	'DB_USER'=>'root',// 用户名
