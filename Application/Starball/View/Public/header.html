@@ -60,10 +60,7 @@
 							<a href="?l=zh-cn">简体中文</a>
 						</li>
 						<li>
-							{$Think.lang.currency}
-						</li>
-						<li>
-							{$Think.lang.country}
+							<a href="#">{$Think.lang.currency}</a>
 						</li>
 					</ol>
 				</div>
@@ -225,3 +222,41 @@
 		<div data-am-widget="gotop" class="am-gotop am-gotop-fixed" >
 			<a href="#top" title="回到顶部"> <span class="am-gotop-title">回到顶部</span> <i class="am-gotop-icon am-icon-chevron-up"></i> </a>
 		</div>
+		
+		<li class="am-show-md-up">
+			<div class="am-g">
+				<div data-am-widget="slider" class="am-slider am-slider-d2" data-am-slider='{"directionNav":false}' >
+					<div  class="yu-sub-menu am-u-md-12 new">
+						<div class="am-u-md-4 yu-sub-menu-list">
+							<div class="am-u-md-12 am-margin-0 am-padding-0">{$Think.lang.bytime}</div>
+							<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
+							<div class="am-u-md-12 am-icon-angle-right am-margin-0 am-padding-0"><a href="{:U('Starball/List/showList','by=time&byValue=7')}">{$Think.lang.lastsevenday}</a></div>
+							<div class="am-u-md-12 am-icon-angle-right am-margin-0 am-padding-0">{$Think.lang.lastfourweek}</div>
+							<div class="am-u-md-12 am-icon-angle-right am-margin-0 am-padding-0">{$Think.lang.commingsoon}</div>
+						</div>
+						<div class="am-u-md-7">
+							<img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/sub-menu-img.jpg" />
+							<div class="yu-sub-menu-img-title am-text-center">test</div>
+						</div>
+					</div>
+					<div  class="yu-sub-menu am-u-md-12 brand">
+						test2
+					</div>
+					<div  class="yu-sub-menu am-u-md-12 baby">
+						test3
+					</div>
+					<div  class="yu-sub-menu am-u-md-12 girl">
+						test4
+					</div>
+					<div  class="yu-sub-menu am-u-md-12 boy">
+						test5
+					</div>
+					<div  class="yu-sub-menu am-u-md-12 selected">
+						test6
+					</div>
+					<div  class="yu-sub-menu am-u-md-12 special">
+						test7
+					</div>
+				</div>
+			</div>
+		</li>
