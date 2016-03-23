@@ -1,9 +1,9 @@
 <?php
 namespace Starball\Controller;
 use Think\Controller;
-class HomeController extends Controller {
-	
-    public function index(){
+class HomeController extends BaseController {
+
+	protected function pageDisplay(){
     	$hotitemLogic = D("Hotitem", "Logic");
     	$headArea = $hotitemLogic->getHomePageItems("H");
 		$middleLeftHead = $hotitemLogic->getHomePageItems("MLH");
@@ -15,6 +15,5 @@ class HomeController extends Controller {
 		$this->assign('middleLeftFoot', $middleLeftFoot[0]);
 		$this->assign('middleRight', $middleRight);
 		$this->assign('footArea', $footArea);
-    	$this->display();
-    }	
+	}	
 }
