@@ -5,5 +5,4 @@ return array(
 	'LANG_AUTO_DETECT' => true, // 自动侦测语言 开启多语言功能后有效
 	'LANG_LIST'        => 'zh-cn', // 允许切换的语言列表 用逗号分隔
 	'VAR_LANGUAGE'     => 'l', // 默认语言切换变量
-	'LOAD_EXT_CONFIG' => 'itemsize',
 );
