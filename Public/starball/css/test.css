@@ -99,3 +99,12 @@ div.yu-sub-menu-img-title{
 	background-color: #f9f9f9;
 	background:rgba(255, 255, 255, 0.6)!important;
 }
+input.yu-input-sm{font-size:12px !important;}
+.login-img{
+	display: block;
+	width: 150px;
+	background: url('http://7xr7p7.com2.z0.glb.qiniucdn.com/starballlogo2.jpeg');
+	background-size: 150px;
+	height: 60px;
+	max-width: 100%;
+}
