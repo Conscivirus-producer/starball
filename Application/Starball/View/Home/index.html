@@ -1,7 +1,8 @@
 <extend name="Public/base" />
 <block name="title"><title>{$Think.lang.home}</title></block>
 <<block name="head">
-<header class="am-topbar">
+<header class="am-topbar yu-home-header">
+  <div class="yu-header-container">
 			<button class="am-show-sm-only am-icon-shopping-bag am-btn am-btn-default" style="float:right;background-color:#ffffff;margin:10px;"></button>
 			<button class="yu-offcanvas am-show-sm-only am-icon-bars am-btn am-btn-default" data-am-offcanvas="{target: '#offcanvas', effect: 'push'}"></button>
 			<div id="offcanvas" class="am-offcanvas">
@@ -9,44 +10,44 @@
 					<div class="am-offcanvas-content am-kai" style="font-size:15px;color:#ffffff">
 						<span>
 							<ul style="margin-top:3.9%;padding:0;">
-								<i class="am-icon-shopping-bag am-icon-defeault"></i>&nbsp;  <a href="##">  {$Think.lang.myshoppinglist} </a>
+								<i class="am-icon-shopping-bag am-icon-defeault"></i>&nbsp;  <a href="##">  我的购物袋 </a>
 							</ul>
 							<ul style="padding:0;">
-								<i class="am-icon-user am-icon-defeault"></i>&nbsp;&nbsp; <a href="##"> {$Think.lang.myaccount} </a>
+								<i class="am-icon-user am-icon-defeault"></i>&nbsp;&nbsp; <a href="##"> 我的账户 </a>
 							</ul>
 							<ul style="padding:0;">
-								<i class="am-icon-heart am-icon-defeault"></i>&nbsp;  <a href="##"> {$Think.lang.myfavorite} </a>
+								<i class="am-icon-heart am-icon-defeault"></i>&nbsp;  <a href="##"> 我的收藏 </a>
 							</ul> </span>
 						<hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-layout">
 <span>
 							<ul style="margin-top:3.9%;padding:0;">
-								&nbsp;  <a href="##">  {$Think.lang.home} </a>
+								&nbsp;  <a href="##">  首页 </a>
 							</ul>
 							<ul style="padding:0;">
-								&nbsp; <a href="##"> {$Think.lang.newseries} </a>
+								&nbsp; <a href="##"> 新系列 </a>
 							</ul>
 							<ul style="padding:0;">
-								&nbsp;  <a href="##"> {$Think.lang.brand} </a>
+								&nbsp;  <a href="##"> 品牌 </a>
 							</ul> 
 							<ul style="padding:0;">
-								&nbsp;  <a href="##"> {$Think.lang.baby} </a>
+								&nbsp;  <a href="##"> 婴儿 </a>
 							</ul> 
 							<ul style="padding:0;">
-								&nbsp;  <a href="##"> {$Think.lang.girl} </a>
+								&nbsp;  <a href="##"> 女孩 </a>
 							</ul> 
 							<ul style="padding:0;">
-								&nbsp;  <a href="##"> {$Think.lang.boy} </a>
+								&nbsp;  <a href="##"> 男孩 </a>
 							</ul> 
 							<ul style="padding:0;">
-								&nbsp;  <a href="##"> {$Think.lang.sales} </a>
+								&nbsp;  <a href="##"> 特卖场 </a>
 							</ul> 
 							<ul style="padding:0;">
-								&nbsp;  <a href="##"> {$Think.lang.featured} </a>
+								&nbsp;  <a href="##"> 精选 </a>
 							</ul> 
 							<ul style="padding:0;">
-								&nbsp;  <a href="##"> {$Think.lang.clothingmatch} </a>
+								&nbsp;  <a href="##"> 穿衣搭配 </a>
 							</ul> 
-							<hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-l ayout">
+							<hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-layout">
 						</span>
 					</div>
 				</div>
@@ -58,27 +59,23 @@
 				</div>
 			</div>
 			   <div class="am-u-md-4 am-show-md-up am-u-lg-push-1" style="padding-left:1.2%;">
-					<ol class="am-breadcrumb am-kai"style="margin-bottom:0px;color:rgba(0,0,0,0.9);font-size:10px;padding-left: 0">
+					<ol class="am-breadcrumb am-kai" style="margin-bottom:0px;color:rgba(0,0,0,0.9);font-size:10px;padding-left: 0">
 						<li>
 							<a href="?l=zh-cn">简体中文</a>
 						</li>
 						<li>
-							<a href="#">{$Think.lang.currency}</a>
+							<a href="#">CNY</a>
 						</li>
 					</ol>
 				</div>
-				<div class="am-u-md-5 am-show-md-up am-u-lg-pull-1"style="padding-right:6px;">
-					<ol class="am-breadcrumb am-kai"style="margin-bottom:0px;color:rgba(0,0,0,0.9);font-size:10px;text-align:right;padding-right:0 ">
+				<div class="am-u-md-5 am-show-md-up am-u-lg-pull-1" style="padding-right:6px;">
+					<ol class="am-breadcrumb am-kai" style="margin-bottom:0px;color:rgba(0,0,0,0.9);font-size:10px;text-align:right;padding-right:0 ">
 						<li class="am-dropdown" data-am-dropdown="">
-        			<a class="am-dropdown-toggle" id="myAccountLnk" data-am-dropdown-toggle="" href="javascript:;"><if condition="session('userName') != ''"><?php echo session('userName');?><else />{$Think.lang.myaccount}</if><span class=""></span></a>
-						<ul id="myAccountWindow" class="am-dropdown-content">
-							<if condition="session('userName') != ''">
-							<else />
-				            <button type="button" id="loginBtn" class="am-btn am-btn-default" style="font-size:12px;margin:6px 7px 3px 7px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;登录&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+        			<a class="am-dropdown-toggle" id="myAccountLnk" data-am-dropdown-toggle="" href="javascript:;">我的账户<span class=""></span></a>
+						<ul id="myAccountWindow" class="am-dropdown-content" style="">
+											            <button type="button" id="loginBtn" class="am-btn am-btn-default" style="font-size:12px;margin:6px 7px 3px 7px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;登录&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
 				            <a class="am-btn am-btn-link" style="text-decoration:underline;margin-left:24%;margin-bottom:3%;font-size:11px;" id="registerLnk" href="#">新客户创建一个账户</a>
-				          <li class="am-divider"></li>
-				         </if>
-				            <li><a href="#">{$Think.lang.myaccount}</a></li>
+				          <li class="am-divider"></li>				            <li><a href="#">我的账户</a></li>
 				            <li class="am-divider"></li>
 				            <li><a href="#">我的订单</a></li>
 				            <li class="am-divider"></li>
@@ -89,15 +86,7 @@
 				            <li><a href="#">我的礼品卡</a></li>
 				            <li class="am-divider"></li>
 				            <li><a href="#">我的收藏</a></li>
-				            <if condition="session('userName') != ''">
-			            	<form class="am-form am-form-horizontal" role="form" method="post">
-			            	<input type="hidden" name="method" value="logout">
-							<button type="submit" class="am-btn am-btn-default" style="font-size:12px;margin:3px 7px 3px 7px;">
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;退出&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							</button>
-							</form>
-							</if>
-				          </ul>
+				            				          </ul>
 							<ul class="am-dropdown-content" id="loginWindow" style="display: none">
 								<p style="text-align:center;font-size:15px;margin:6px 3px 12px 3px;">
 									登录
@@ -130,10 +119,10 @@
 								<p style="text-align:center;font-size:15px;margin:6px 3px 12px 3px;">
 									创建一个账户
 								</p>
-								<form class="am-form am-form-horizontal" role="form" method="post" >
+								<form class="am-form am-form-horizontal" role="form" method="post">
 									<input type="hidden" name="method" value="register">
 									<div class="am-form-group " style="margin:0 6px 12px 6px;">
-										<input type="username" name="userName" style="font-size:12px;" class="am-form-field yu-input-sm" placeholder="用户名*" minlength="3"/>
+										<input type="username" name="userName" style="font-size:12px;" class="am-form-field yu-input-sm" placeholder="用户名*" minlength="3">
 									</div>
 								  <div class="am-form-group " style="margin:0 6px 12px 6px;">
 								    <input type="email" name="email" style="font-size:12px;" class="am-form-field yu-input-sm" placeholder="电子邮件*">
@@ -158,8 +147,8 @@
 									</button>
 								</form>
 							</ul>
-							<li class="am-dropdown" data-am-dropdown>
-							<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:"style="padding-left:6px">{$Think.lang.myfavorite}</a>
+							</li><li class="am-dropdown" data-am-dropdown="">
+							<a class="am-dropdown-toggle" data-am-dropdown-toggle="" href="javascript:" style="padding-left:6px">我的收藏</a>
 							
 							     <ul class="am-dropdown-content" style="padding-bottom:1px;padding-top:0;width: 350px;">
             
@@ -181,8 +170,8 @@
             <button type="button" class="am-btn am-btn-default" style="font-size:12px;margin:6px 7px 6px 7px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;查看我的收藏&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;</button>
           </ul>
 						</li>
-						<li class="am-dropdown" data-am-dropdown>
-							<a class="am-dropdown-toggle am-icon-shopping-bag" data-am-dropdown-toggle href="javascript:"style="padding-left:6px">{$Think.lang.myshoppinglist}</a>
+						<li class="am-dropdown" data-am-dropdown="">
+							<a class="am-dropdown-toggle am-icon-shopping-bag" data-am-dropdown-toggle="" href="javascript:" style="padding-left:6px">我的购物袋</a>
 							<ul class="am-dropdown-content" style="padding-bottom:1px;padding-top:0;width: 350px;">
             
           
@@ -241,9 +230,9 @@
 			</div>
 			<div class="am-g am-show-md-up yu-header">
 				<div class="am-u-md-3 am-u-lg-3 am-u-lg-push-1" style="height: 100px;margin-bottom:-1%;float:left;padding-left:0.7%;">
-					<a href="{:U('Home/index')}" class="login-img"></a>
+					<a href="/index.php/Starball/Home/index.html" class="login-img"></a>
 				</div>
-				<div class="am-u-md-4 am-u-lg-pull-1" style="margin-top:20px;padding-right: 6px;">
+				<div class="am-u-md-3 am-u-lg-pull-1 am-kai" style="margin-top:20px;padding-right: 6px;">
 					<div class="am-input-group am-input-group-sm">
 						<input type="text" class="am-form-field" placeholder="搜索">
 						<span class="am-input-group-btn">
@@ -253,36 +242,35 @@
 					</div>
 				</div>
 			</div>
-			</div>
-			<div class="am-g yu-menu-list" style="border-bottom: 3px solid black">
-				<nav class="yu-nav  am-u-lg-11 am-u-lg-push-1 am-u-md-12 am-show-md-up am-kai">
-					<ul class="am-avg-md-7 am-show-md-up" style="padding-left:1.0%;padding-bottom:3px;color:rgba(0,0,0,0.9);font-size:15px;">
+			
+			<div class="am-g yu-menu-list">
+				<nav class="yu-nav  am-u-lg-11 am-u-lg-push-1 am-u-md-11 am-u-md-push-1 am-show-md-up am-kai" style="padding:0 10px;">
+					<ul class="am-avg-md-7 am-show-md-up" style="padding-left:0%;padding-bottom:3px;color:rgba(0,0,0,0.9);font-size:15px;">
 						<li>
-							<a class="yu-menu" id="new">{$Think.lang.newseries}</a>
+							<a class="yu-menu" id="new">新系列</a>
 						</li>
 						<li>
-							<a class="yu-menu" id="brand">{$Think.lang.brand}</a>
+							<a class="yu-menu" id="brand">品牌</a>
 						</li>
 						<li>
-							<a class="yu-menu" id="baby">{$Think.lang.baby}</a>
+							<a class="yu-menu" id="baby">婴儿</a>
 						</li>
 						<li>
-							<a class="yu-menu" id="girl">{$Think.lang.girl}</a>
+							<a class="yu-menu" id="girl">女孩</a>
 						</li>
 						<li>
-							<a class="yu-menu" id="boy">{$Think.lang.boy}</a>
+							<a class="yu-menu" id="boy">男孩</a>
 						</li>
 						<li>
-							<a class="yu-menu" id="selected">{$Think.lang.featured}</a>
+							<a class="yu-menu" id="selected">精选</a>
 						</li>
 						<li>
-							<a class="yu-menu" id="special">{$Think.lang.clothingmatch}</a>
+							<a class="yu-menu" id="special">穿衣搭配</a>
 						</li>
 					</ul>
 				</nav>
 			</div>
-		</header>
-		
+		</div></header>
 		<form class="am-topbar-form am-topbar-left am-form-inline am-show-sm-only" role="search">
 			<div class="am-form-field am-form-icon" style="padding:0;margin-top: -7px;">
 				<i class="am-icon-search"></i>
@@ -344,7 +332,6 @@
 	
 </block>
 <block name="main">
-
 		<li class="am-show-md-up">
 			<div class="am-g">
 				<div data-am-widget="slider" class="am-slider am-slider-d2" data-am-slider='{"directionNav":false}' >
@@ -389,79 +376,212 @@
 				</div>
 			</div>
 		</li>
+	<div class="yu-layout-container">
 		<li class="am-show-lg-only yu-margin-top am-kai yu-text-alicen">
 			<div class="am-g">
-				<div class="am-u-lg-8">
-					<volist name="middleLeftHead" id="vo">
-						<div class="am-u-lg-6">
-							<div class="am-thumbnail">
-								<img src="{$vo.image}" alt=""/>
-								<div class="am-thumbnail-caption am-kai">
-									<h3 >{$vo.title}</h3>
-									<p>
-										{$vo.subtitle}
-									</p>
-									<p>
-										<button class="am-btn am-btn-default">
+				<div class="am-u-lg-8" style="
+    padding-left: 0;
+    /* height: 405px; */
+    /* position: absolute; */
+    /* margin-bottom: 26px; */
+">
+					<div class="am-u-lg-6" style="
+    /* padding: 0; */
+    padding-left: 0;
+    padding-right: 25px;
+    /* height: 405px; */
+    margin-bottom: 26px;
+">
+							<div class="am-thumbnail" style="
+    padding: 0;
+    /* height: 405px; */
+    /* overflow: hidden; */
+    /* object-fit: cover; */
+    ">
+								<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/bar-jeans-405-spring-summer-2016-2.jpg" alt="" style="
+    width: 100%;
+    object-fit: cover;
+    object-position: top;
+    height: 315px;
+    ">
+								<div class="am-thumbnail-caption am-kai" style="
+    /* padding-bottom: 0; */
+    /* padding-top: 0; */
+">
+									<p style="
+    font-size: 24px;
+    margin-bottom: 5px;
+">牛仔系列</p>
+									<p style="
+    font-size: 16px;
+    margin: 0;
+">
+										单宁世界									</p>
+									<p style="
+    margin: 0;
+">
+										<a href="##" style="
+    font-size: 12px;
+    color: black;
+">
 											〉立即购买
-										</button>
+										</a>
+									</p>
+								</div>
+							</div>
+						</div><div class="am-u-lg-6" style="
+    padding-left: 25px;
+    padding-right: 0;
+">
+							<div class="am-thumbnail" style="
+    padding: 0;
+">
+								<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/gucci-405-spring-summer-2016.jpg" alt="" style="
+    width: 100%;
+    object-fit: cover;
+    object-position: top;
+    height: 315px;
+">
+								<div class="am-thumbnail-caption am-kai">
+									<p style="
+    font-size: 24px;
+    margin-bottom: 5px;
+">GUCCI</p>
+									<p style="
+    margin: 0;
+    font-size: 16px;
+">
+										单宁世界									</p>
+									<p style="
+    margin: 0;
+">
+			<a href="##" style="
+    font-size: 12px;
+    color: black;
+">
+											〉立即购买
+										</a>							
 									</p>
 								</div>
 							</div>
 						</div>
-					</volist>
-
-					<div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
-						<div class="am-thumbnail">
-							<img src="{$middleLeftFoot.image}" alt=""/>
+					<div class="am-u-sm-12 am-u-md-12 am-u-lg-12" style="
+    padding-left: 0;
+    padding-right: 0;
+    float: left;
+    /* width: 100%; */
+">
+						<div class="am-thumbnail" style="
+    padding: 0;
+">
+							<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/archimede-998-spring-summer-2016.jpg" alt="" style="
+    width: 100%;
+    object-fit: cover;
+    object-position: top;
+    height: 315px;
+">
 							<div class="am-thumbnail-caption am-kai yu-text-alicen">
-								<h3>{$middleLeftFoot.title}</h3>
-								<p>
-									{$middleLeftFoot.subtitle}
-								</p>
-								<p>
-									<button class="am-btn am-btn-default">
-										〉查看全部
-									</button>
-								</p>
+									<p style="
+    font-size: 24px;
+    margin-bottom: 5px;
+">ARCHIMEDE</p>
+									<p style="
+    margin: 0;
+    font-size: 16px;
+">
+										单宁世界									</p>
+									<p style="
+    margin: 0;
+">
+			<a href="##" style="
+    font-size: 12px;
+    color: black;
+">
+											〉立即购买
+										</a>							
+									</p>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="am-u-lg-4">
+				<div class="am-u-lg-4" style="
+    padding-right: 0;
+    padding-left: 62px;
+">
 					<div class="am-g">
-						<volist name="middleRight" id="vo">
-							<div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
-								<div class="am-thumbnail yu-margin-right">
-									<img src="{$vo.image}" alt=""/>
+						<div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
+								<div class="am-thumbnail yu-margin-right" style="
+    padding: 0;
+">
+									<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/marguerite-style-spring-summer-2016.jpg" alt="" style="
+    width: 100%;
+">
 									<div class="am-thumbnail-caption">
 										<p class="yu-thumbnail-title">
-											{$vo.title}
-										</p>
+											LE MEGAZINE										</p>
 										<p class="yu-thumbnail-subtitle">
-											{$vo.subtitle}
-										</p>
+											THE HISTORY OF DAISIES										</p>
 
 									</div>
 								</div>
-							</div>
-						</volist>
-					</div>
+							</div><div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
+								<div class="am-thumbnail yu-margin-right" style="
+    padding: 0;
+">
+									<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/botanique-cabinet-curiosites-spring-summer-2016.jpg" alt="" style="
+    width: 100%;
+">
+									<div class="am-thumbnail-caption">
+										<p class="yu-thumbnail-title">
+											LE MEGAZINE										</p>
+										<p class="yu-thumbnail-subtitle">
+											THE CABINET OF CURIOSITIES										</p>
+
+									</div>
+								</div>
+							</div><div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
+								<div class="am-thumbnail yu-margin-right" style="
+    padding: 0;
+">
+									<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/barrio-latino-style-spring-summer-2016.jpg" alt="" style="
+    width: 100%;
+">
+									<div class="am-thumbnail-caption">
+										<p class="yu-thumbnail-title">
+											LE MEGAZINE										</p>
+										<p class="yu-thumbnail-subtitle">
+											BARRIO LATINO										</p>
+
+									</div>
+								</div>
+							</div>					</div>
 				</div>
 			</div>
 		</li>
 		<li class="am-show-md-down yu-margin-top am-kai yu-text-alicen">
 			<div class="am-g">
 
-				<volist name="middleLeftHead" id="vo">
-					<div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
+				<div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
 						<div class="am-thumbnail">
-							<img src="{$vo.image}" alt=""/>
+							<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/bar-jeans-405-spring-summer-2016-2.jpg" alt="">
 							<div class="am-thumbnail-caption am-kai">
-								<h3 >{$vo.title}</h3>
+								<h3>牛仔系列</h3>
 								<p>
-									{$vo.subtitle}
+									单宁世界								</p>
+								<p>
+									<button class="am-btn am-btn-default">
+										〉立即购买
+									</button>
 								</p>
+							</div>
+						</div>
+					</div><div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
+						<div class="am-thumbnail">
+							<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/gucci-405-spring-summer-2016.jpg" alt="">
+							<div class="am-thumbnail-caption am-kai">
+								<h3>GUCCI</h3>
+								<p>
+									单宁世界								</p>
 								<p>
 									<button class="am-btn am-btn-default">
 										〉立即购买
@@ -470,16 +590,13 @@
 							</div>
 						</div>
 					</div>
-				</volist>
-
 				<div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
 					<div class="am-thumbnail">
-						<img src="{$middleLeftFoot.image}" alt=""/>
+						<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/archimede-998-spring-summer-2016.jpg" alt="">
 						<div class="am-thumbnail-caption">
-							<h3>{$middleLeftFoot.title}</h3>
+							<h3>ARCHIMEDE</h3>
 							<p>
-								{$middleLeftFoot.subtitle}
-							</p>
+								单宁世界							</p>
 							<p>
 								<button class="am-btn am-btn-default">
 									〉查看全部
@@ -489,49 +606,104 @@
 					</div>
 				</div>
 
-				<volist name="middleRight" id="vo">
-					<div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
+				<div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
 						<div class="am-thumbnail yu-margin-right">
-							<img src="{$vo.image}" alt=""/>
+							<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/marguerite-style-spring-summer-2016.jpg" alt="">
 							<div class="am-thumbnail-caption">
 								<p class="yu-thumbnail-title">
-									{$vo.title}
-								</p>
+									LE MEGAZINE								</p>
 								<p class="yu-thumbnail-subtitle">
-									{$vo.subtitle}
-								</p>
+									THE HISTORY OF DAISIES								</p>
+
+							</div>
+						</div>
+					</div><div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
+						<div class="am-thumbnail yu-margin-right">
+							<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/botanique-cabinet-curiosites-spring-summer-2016.jpg" alt="">
+							<div class="am-thumbnail-caption">
+								<p class="yu-thumbnail-title">
+									LE MEGAZINE								</p>
+								<p class="yu-thumbnail-subtitle">
+									THE CABINET OF CURIOSITIES								</p>
+
+							</div>
+						</div>
+					</div><div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
+						<div class="am-thumbnail yu-margin-right">
+							<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/barrio-latino-style-spring-summer-2016.jpg" alt="">
+							<div class="am-thumbnail-caption">
+								<p class="yu-thumbnail-title">
+									LE MEGAZINE								</p>
+								<p class="yu-thumbnail-subtitle">
+									BARRIO LATINO								</p>
 
 							</div>
 						</div>
 					</div>
-				</volist>
-
 			</div>
 		</li>
-		<ul data-am-widget="gallery" class="am-gallery am-avg-sm-1
-		am-avg-md-5 am-avg-lg-5 am-gallery-overlay" data-am-gallery="{ pureview: true }" >
-			<volist name="footArea" id="vo">
-				<li>
+		<ul data-am-widget="gallery" class="am-gallery am-avg-sm-1   am-avg-md-5 am-avg-lg-5 am-gallery-overlay am-no-layout" data-am-gallery="{ pureview: true }" style="
+    border: 1px solid #cecece;
+    padding: 0;
+">
+			<li>
 					<div class="am-gallery-item">
-						<a href="{$vo.targetItemLink}" class=""> <img src="{$vo.image}"  alt=""/>
+						<a href="http://s.amazeui.org/media/i/demos/bing-1.jpg" class=""> <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/coup-de-coeur-botany1.jpg" alt="" data-am-pureviewed="1">
 						<div class="am-gallery-desc">
 							2375-09-26
 						</div> </a>
 					</div>
-				</li>
-			</volist>
-			<div class="am-kai" style="text-align:center">
-				<h3>{$footArea[0].title}</h3>
-				<p>
-					{$footArea[0].subtitle}
-				</p>
-				<p>
-					<button class="am-btn am-btn-default">
-						〉立即购买
-					</button>
-				</p>
+				</li><li>
+					<div class="am-gallery-item">
+						<a href="http://s.amazeui.org/media/i/demos/bing-2.jpg" class=""> <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/coup-de-coeur-botany2.jpg" alt="" data-am-pureviewed="1">
+						<div class="am-gallery-desc">
+							2375-09-26
+						</div> </a>
+					</div>
+				</li><li>
+					<div class="am-gallery-item">
+						<a href="http://s.amazeui.org/media/i/demos/bing-3.jpg" class=""> <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/coup-de-coeur-botany3.jpg" alt="" data-am-pureviewed="1">
+						<div class="am-gallery-desc">
+							2375-09-26
+						</div> </a>
+					</div>
+				</li><li>
+					<div class="am-gallery-item">
+						<a href="http://s.amazeui.org/media/i/demos/bing-4.jpg" class=""> <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/coup-de-coeur-botany4.jpg" alt="" data-am-pureviewed="1">
+						<div class="am-gallery-desc">
+							2375-09-26
+						</div> </a>
+					</div>
+				</li><li>
+					<div class="am-gallery-item">
+						<a href="http://s.amazeui.org/media/i/demos/bing-4.jpg" class=""> <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/coup-de-coeur-botany5.jpg" alt="" data-am-pureviewed="1">
+						<div class="am-gallery-desc">
+							2375-09-26
+						</div> </a>
+					</div>
+				</li>			<div class="am-kai" style="text-align:center;padding-bottom: 20px;">
+					<p style="
+    font-size: 24px;
+    margin-bottom: 5px;
+">一见钟情</p>
+									<p style="
+    margin: 0;
+    font-size: 16px;
+">
+										BOTANY									</p>
+									<p style="
+    margin: 0;
+">
+			<a href="##" style="
+    font-size: 12px;
+    color: black;
+">
+											〉立即购买
+										</a>							
+									</p>
 			</div>
 		</ul>
+		</div>
 </block>
 <block name="customizedJavascript">
 </block>

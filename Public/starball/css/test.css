@@ -108,3 +108,20 @@ input.yu-input-sm{font-size:12px !important;}
 	height: 60px;
 	max-width: 100%;
 }
+header.yu-home-header{border-bottom: 2px solid black;}
+header.yu-no-border{border:none;}
+
+div.yu-header-container{width:1200px;
+ max-width:100%;
+ margin:0 auto;
+ padding:0 10px;}
+ 
+ div.yu-layout-container{
+    width: calc(100% - 80px);
+    padding: 0 0 8px !important;
+    margin: auto;
+    max-width: 1440px;
+}
+div.yu-footer-container{font-size:12px;
+                        width:1200px;}
+                       
