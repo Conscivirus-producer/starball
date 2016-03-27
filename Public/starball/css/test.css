@@ -131,4 +131,7 @@ div.yu-footer-container{font-size:12px;
 	float:left;
 	font-size:14px;
 }
+.sub-menu-div{
+	border-bottom: 3px solid black;
+}
 

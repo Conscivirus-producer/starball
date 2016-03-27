@@ -5,7 +5,7 @@ return array(
     'currency'=>'CNY',
     'country'=>'中国',
     'myshoppinglist'=>'我的购物袋',
-    'myaccount'=>'我的账户',
+    'myaccount'=>'我的账户1',
     'myfavorite'=>'我的收藏',
     'newseries'=>'新系列',
     'brand'=>'品牌',
