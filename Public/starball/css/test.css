@@ -108,6 +108,7 @@ input.yu-input-sm{font-size:12px !important;}
 	height: 60px;
 	max-width: 100%;
 }
+<<<<<<< HEAD
 header.yu-home-header{border-bottom: 2px solid black;}
 header.yu-no-border{border:none;}
 
@@ -125,3 +126,9 @@ div.yu-header-container{width:1200px;
 div.yu-footer-container{font-size:12px;
                         width:1200px;}
                        
+
+.menu-sub-block{
+	float:left;
+	font-size:14px;
+}
+

@@ -31,4 +31,10 @@ return array(
 		'27' => array('18岁', '', ''),
 		'28' => array('均码', '', ''),
     ),
+    'USERTYPE' => array(
+    	//usertype => array(grade, gender)
+    	'baby' => array('1', ''),
+    	'boy' => array('2', 'M'),
+    	'girl' => array('2', 'F'),
+	)
 );
