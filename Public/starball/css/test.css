@@ -124,7 +124,8 @@ div.yu-header-container{width:1200px;
     max-width: 1440px;
 }
 div.yu-footer-container{font-size:12px;
-                        width:1200px;}
+                        width:1200px;
+                        padding：0 10px；}
                        
 
 .menu-sub-block{
