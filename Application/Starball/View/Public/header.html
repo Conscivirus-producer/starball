@@ -43,7 +43,7 @@
 							<ul style="padding:0;">
 								&nbsp;  <a href="##"> {$Think.lang.clothingmatch} </a>
 							</ul> 
-							<hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-layout">
+							<hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-l ayout">
 						</span>
 					</div>
 				</div>
@@ -308,16 +308,90 @@
 						</div>
 					</div>
 					<div  class="yu-sub-menu am-u-md-12 brand">
-						test2
+						<div class="am-u-md-4 yu-sub-menu-list">
+							<div class="am-u-md-12 am-margin-0 am-padding-0">{$Think.lang.brand}</div>
+							<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
+					              <ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
+					              	<volist name="brandList" id="vo">
+					                  <li class="">
+					                    <a href="{:U('Starball/List/showList',array('by'=>'brand', 'byValue'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
+					                  </li>
+									</volist>
+					              </ul>
+						</div>
 					</div>
-					<div  class="yu-sub-menu am-u-md-12 baby">
-						test3
+					<div class="yu-sub-menu am-u-md-12 baby">
+						<div class="am-u-md-2 yu-sub-menu-list menu-sub-block">
+							<div class="am-u-md-12 am-margin-0 am-padding-0">{$Think.lang.brand}</div>
+							<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
+					              <ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
+					              	<volist name="babyMenuBrand" id="vo">
+					                  <li class="">
+					                    <a href="{:U('Starball/List/showList',array('by'=>'baby', 'byValue'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
+					                  </li>
+									</volist>
+					              </ul>
+						</div>
+						<div class="am-u-md-2 yu-sub-menu-list menu-sub-block" style="float: left">
+							<div class="am-u-md-12 am-margin-0 am-padding-0">{$Think.lang.category}</div>
+							<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
+					              <ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
+					              	<volist name="babyMenuCategory" id="vo">
+					                  <li class="">
+					                    <a href="{:U('Starball/List/showList',array('by'=>'baby', 'byValue'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
+					                  </li>
+									</volist>
+					              </ul>
+						</div>
+						</div>
 					</div>
 					<div  class="yu-sub-menu am-u-md-12 girl">
-						test4
+						<div class="am-u-md-2 yu-sub-menu-list menu-sub-block">
+							<div class="am-u-md-12 am-margin-0 am-padding-0">{$Think.lang.brand}</div>
+							<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
+					              <ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
+					              	<volist name="girlMenuBrand" id="vo">
+					                  <li class="">
+					                    <a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
+					                  </li>
+									</volist>
+					              </ul>
+						</div>
+						<div class="am-u-md-2 yu-sub-menu-list menu-sub-block" style="float: left">
+							<div class="am-u-md-12 am-margin-0 am-padding-0">{$Think.lang.category}</div>
+							<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
+					              <ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
+					              	<volist name="girlMenuCategory" id="vo">
+					                  <li class="">
+					                    <a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
+					                  </li>
+									</volist>
+					              </ul>
+						</div>
 					</div>
 					<div  class="yu-sub-menu am-u-md-12 boy">
-						test5
+						<div class="am-u-md-2 yu-sub-menu-list menu-sub-block">
+							<div class="am-u-md-12 am-margin-0 am-padding-0">{$Think.lang.brand}</div>
+							<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
+					              <ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
+					              	<volist name="boyMenuBrand" id="vo">
+					                  <li class="">
+					                    <a href="{:U('Starball/List/showList',array('by'=>'boy', 'byValue'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
+					                  </li>
+									</volist>
+					              </ul>
+						</div>
+						<div class="am-u-md-2 yu-sub-menu-list menu-sub-block" style="float: left">
+							<div class="am-u-md-12 am-margin-0 am-padding-0">{$Think.lang.category}</div>
+							<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
+					              <ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
+					              	<volist name="boyMenuCategory" id="vo">
+					                  <li class="">
+					                    <a href="{:U('Starball/List/showList',array('by'=>'boy', 'byValue'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
+					                  </li>
+									</volist>
+					              </ul>
+						</div>
 					</div>
 					<div  class="yu-sub-menu am-u-md-12 selected">
 						test6

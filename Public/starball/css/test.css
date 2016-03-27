@@ -108,3 +108,7 @@ input.yu-input-sm{font-size:12px !important;}
 	height: 60px;
 	max-width: 100%;
 }
+.menu-sub-block{
+	float:left;
+	font-size:14px;
+}

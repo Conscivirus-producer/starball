@@ -3,7 +3,21 @@ namespace Starball\Controller;
 use Think\Controller;
 class BaseController extends Controller {
 	
+	protected function prepareBrandList(){
+		$this->assign('brandList', D('Brand')->select());
+	}
+	
+	protected function prepareUserMenu(){
+		$itemLogic = D("Item", "Logic");
+		foreach (C('USERTYPE') as $key => $value){
+			$this->assign($key.'MenuBrand', $itemLogic->getBrandNameListByGrade($value[0], $value[1]));				
+			$this->assign($key.'MenuCategory', $itemLogic->getCategoryNameByGrade($value[0], $value[1]));
+		}
+	}
+	
 	protected function commonProcess(){
+		$this->prepareBrandList();
+		$this->prepareUserMenu();
 		if(IS_POST){
 			if(I('method') == 'register'){
 				$this->register();
