@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>StarBall Admin Page</title>
-  <meta name="description" content="这是一个 help 页面">
+  <meta name="description" content="商品管理页面">
   <meta name="keywords" content="help">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="renderer" content="webkit">
@@ -70,7 +70,31 @@
 
   <!-- content start -->
   <div class="admin-content">
-	TBC...
+    <div class="am-g">
+      <div class="am-u-sm-12">
+        <form class="am-form" id="csv-file-upload" action="./uploadCsv" method="post" enctype="multipart/form-data">
+          <div class="am-form-group am-form-file">
+            <button type="button" class="am-btn am-btn-danger am-btn-sm">
+              <i class="am-icon-cloud-upload"></i> 选择要上传的商品CSV文件
+            </button>
+            <input id="doc-form-file" type="file" name="file">
+          </div>
+          <div id="file-list"></div>
+          <p><button type="button" id="upload-csv-file" class="am-btn am-btn-default">上传</button></p>
+        </form>
+      </div>
+      <div class="am-modal am-modal-alert" tabindex="-1" id="my-alert">
+        <div class="am-modal-dialog">
+          <div class="am-modal-hd">上传文件类型错误</div>
+          <div class="am-modal-bd">
+            请上传CSV类型的文件
+          </div>
+          <div class="am-modal-footer">
+            <span class="am-modal-btn">确定</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <!-- content end -->
 
@@ -94,5 +118,44 @@
 <!--<![endif]-->
 <script src="__PUBLIC__/AmazeUI-2.5.2/assets/js/amazeui.min.js"></script>
 <script src="__PUBLIC__/AmazeUI-2.5.2/assets/js/app.js"></script>
+<script src="__PUBLIC__/starball/js/jquery.ajaxfileupload.js"></script>
+<script src="__PUBLIC__/starball/js/jquery.form.js"></script>
+<!-- 自己的JS代码-->
+<script>
+  // respond to the event
+  $(function() {
+    $('#doc-form-file').on('change', function() {
+      var fileName = this.files[0].name;
+      // check whether it is a csv file
+      // if it is not a csv file
+      if (fileName.indexOf(".csv") == -1 && fileName.indexOf(".CSV") == -1) {
+        $('#my-alert').modal('open');
+      }
+      // if it is a csv file
+      else {
+        $('#file-list').html('<span class="am-badge">' + fileName + '</span> ');
+      }
+    });
+  });
+  $("#upload-csv-file").click(function(){
+    // upload the csv file
+    var $form = $("#csv-file-upload");
+    var options = {
+      type : 'post',
+      url : "./uploadCsv",
+      dataType: 'text',
+      contentType: "application/json; charset=utf-8",
+      success:function(data) {
+        alert(data);
+      },
+      error:function(XmlHttpRequest, textStatus, errorThrown){
+        alert(textStatus);
+        alert(errorThrown);
+      }
+    };
+    $form.ajaxSubmit(options);
+
+  });
+</script>
 </body>
 </html>
