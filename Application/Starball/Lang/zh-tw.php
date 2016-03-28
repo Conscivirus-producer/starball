@@ -2,7 +2,6 @@
 return array(
     //home page
     'home'=>'主頁',
-    'currency'=>'CNY',
     'country'=>'中国',
     'myshoppinglist'=>'我的购物袋',
     'myaccount'=>'我的帳戶',
