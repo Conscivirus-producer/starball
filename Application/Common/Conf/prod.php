@@ -14,6 +14,9 @@ return array(
 	'DB_PORT'=>3306,// 端口
 	'DB_PREFIX'=>'',// 数据库表前缀
 	'DB_CHARSET'=>'utf8',// 数据库字符集
-	'DB_PARAMS' => array(\PDO::ATTR_CASE => \PDO::CASE_NATURAL)
-	
+	'DB_PARAMS' => array(\PDO::ATTR_CASE => \PDO::CASE_NATURAL),
+	'URL_MODEL' => '2',
+	'DEFAULT_MODULE'        =>  'Starball',  // 默认模块
+    'DEFAULT_CONTROLLER'    =>  'Home', // 默认控制器名称
+    'DEFAULT_ACTION'        =>  'index', // 默认操作名称
 );
