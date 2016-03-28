@@ -3,6 +3,17 @@ namespace Starball\Controller;
 use Think\Controller;
 class BaseController extends Controller {
 	
+	protected function prepareUserSetting(){
+		if(cookie('think_language') == 'zh-cn' && session('preferred_currency') == ''){
+			session('preferred_currency', 'CNY');
+		}
+		if(I('currency') == 'CNY'){
+			session('preferred_currency', 'CNY');
+		}else if(I('currency') == 'HKD'){
+			session('preferred_currency', 'HKD');
+		}
+	}
+	
 	protected function prepareBrandList(){
 		$this->assign('brandList', D('Brand')->select());
 	}
@@ -16,6 +27,7 @@ class BaseController extends Controller {
 	}
 	
 	protected function commonProcess(){
+		$this->prepareUserSetting();
 		$this->prepareBrandList();
 		$this->prepareUserMenu();
 		if(IS_POST){

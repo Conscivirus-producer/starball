@@ -58,7 +58,7 @@
 			<div class="am-u-md-4 am-show-md-up" style="padding:0">
 					<ol class="am-breadcrumb am-kai" style="margin-bottom:0px;color:rgba(0,0,0,0.9);font-size:10px;padding-left:3px;">
 						<li class="am-dropdown" data-am-dropdown="">
-							<a class="am-dropdown-toggle" id="myAccountLnk" data-am-dropdown-toggle="" href="javascript:;"style="padding-left:15px;" >
+							<a class="am-dropdown-toggle" data-am-dropdown-toggle="" href="javascript:;"style="padding-left:15px;" >
 							<if condition="cookie('think_language') == 'zh-tw'">
 								繁体中文
 							<else/>简体中文</if></a>
@@ -71,8 +71,19 @@
 								</li>
 							</ul>
 						</li>
-						<li>
-							<a href="#">{$Think.lang.currency}</a>
+						<li class="am-dropdown" data-am-dropdown="">
+							<a class="am-dropdown-toggle" data-am-dropdown-toggle="" href="javascript:;"style="padding-left:15px;" >
+							<if condition="session('preferred_currency') == 'CNY'">
+								CNY
+							<else/>HKD</if></a>
+							<ul class="am-dropdown-content">
+								<li>
+									<a href="?currency=CNY">CNY</a>
+								</li>
+								<li>
+									<a href="?currency=HKD">HKD</a>
+								</li>
+							</ul>
 						</li>
 					</ol>
 			</div>
@@ -334,7 +345,7 @@
 					<ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
 						<volist name="brandList" id="vo">
 							<li class="">
-								<a href="{:U('Starball/List/showList',array('by'=>'brand', 'byValue'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
+								<a href="{:U('Starball/List/showList',array('by'=>'brand','byValue'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
 							</li>
 						</volist>
 					</ul>
@@ -349,7 +360,7 @@
 					<ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
 						<volist name="babyMenuBrand" id="vo">
 							<li class="">
-								<a href="{:U('Starball/List/showList',array('by'=>'baby', 'byValue'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
+								<a href="{:U('Starball/List/showList',array('by'=>'baby', 'byValue'=>'brand', 'brandId'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
 							</li>
 						</volist>
 					</ul>
@@ -362,7 +373,7 @@
 					<ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
 						<volist name="babyMenuCategory" id="vo">
 							<li class="">
-								<a href="{:U('Starball/List/showList',array('by'=>'baby', 'byValue'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
+								<a href="{:U('Starball/List/showList',array('by'=>'baby', 'byValue'=>'category', 'categoryId'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
 							</li>
 						</volist>
 					</ul>
@@ -378,7 +389,7 @@
 				<ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
 					<volist name="girlMenuBrand" id="vo">
 						<li class="">
-							<a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
+							<a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>'brand', 'brandId'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
 						</li>
 					</volist>
 				</ul>
@@ -391,7 +402,7 @@
 				<ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
 					<volist name="girlMenuCategory" id="vo">
 						<li class="">
-							<a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
+							<a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>'category', 'categoryId'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
 						</li>
 					</volist>
 				</ul>
@@ -406,7 +417,7 @@
 				<ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
 					<volist name="boyMenuBrand" id="vo">
 						<li class="">
-							<a href="{:U('Starball/List/showList',array('by'=>'boy', 'byValue'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
+							<a href="{:U('Starball/List/showList',array('by'=>'boy', 'byValue'=>'brand', 'brandId'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
 						</li>
 					</volist>
 				</ul>
@@ -419,7 +430,7 @@
 				<ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
 					<volist name="boyMenuCategory" id="vo">
 						<li class="">
-							<a href="{:U('Starball/List/showList',array('by'=>'boy', 'byValue'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
+							<a href="{:U('Starball/List/showList',array('by'=>'boy', 'byValue'=>'category', 'categoryId'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
 						</li>
 					</volist>
 				</ul>
