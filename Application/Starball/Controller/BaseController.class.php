@@ -9,7 +9,7 @@ class BaseController extends Controller {
 		}
 		if(I('currency') == 'CNY'){
 			session('preferred_currency', 'CNY');
-		}else if(I('currency' == 'HKD')){
+		}else if(I('currency') == 'HKD'){
 			session('preferred_currency', 'HKD');
 		}
 	}
