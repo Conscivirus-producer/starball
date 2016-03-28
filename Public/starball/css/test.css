@@ -90,6 +90,10 @@ button.yu-offcanvas{
 }
 div.yu-sub-menu-list{
 	margin-left: 6% !important;
+	border-bottom: 3px solid black;
+	max-width: 970px;
+	font-size: 13px;
+	text-align: left;
 }
 div.yu-sub-menu-img-title{
 	position: absolute;
@@ -113,6 +117,7 @@ header.yu-home-header{border-bottom: 2px solid black;}
 header.yu-no-border{border:none;}
 
 div.yu-header-container{width:1200px;
+ width:970px;
  max-width:100%;
  margin:0 auto;
  padding:0 10px;}
@@ -124,8 +129,10 @@ div.yu-header-container{width:1200px;
     max-width: 1440px;
 }
 div.yu-footer-container{font-size:12px;
-                        width:1200px;
-                        padding：0 10px；}
+                        max-width:970px;
+                        padding-left: 10px;
+                        padding-right:10px;
+                        }
                        
 
 .menu-sub-block{
@@ -135,4 +142,48 @@ div.yu-footer-container{font-size:12px;
 .sub-menu-div{
 	border-bottom: 3px solid black;
 }
-
+ul.yu-menu-content{
+	padding-left: 0;
+    padding-bottom:3px;
+    color:rgba(0,0,0,0.9);
+    font-size:15px;
+    margin: auto;
+    text-align: left;
+   }
+div.yu-total-price-panier{
+								background-color: #ececec;
+								padding: 4px 10px;
+								text-align: center;
+								margin-top: 0;
+								max-width:100%;
+						}
+li.margin-adjustor{margin:0;}
+span.value-total-price{font-size:12px;font-weight:bold;}
+button.yu-button-333{font-size:12px;margin:6px 7px 6px 7px;}
+span.yu-item-price{font-size:12px;font-weight:bold;display: block;float:left;margin-top:6px;}
+span.yu-size-container{
+	                   display:block;
+                       border-top: 1px solid #ececec;
+					   border-bottom: 1px solid #ececec;
+					   margin: 5px 0;
+					   padding: 2px 10px 2px 0;font-size:11px}
+span.subtitle-item-panier{display:block;
+                          overflow: hidden;
+						  text-overflow: ellipsis;    
+						  white-space: nowrap;
+						  padding-right: 100px;
+						  margin-top: 4px;}
+span.title-item-panier{display:block;text-transform:uppercase;}
+a.item-panier{
+height:120px;
+width:100%!important;
+padding-left:10px!important;
+padding-right:0!important;
+padding-top:10px!important;
+padding-bottom:10px!important;}
+img.item-photo-adjustor{height:100px;width:100px;display:block;float:left;}
+span.content-item-panier{display: block;
+						 float: left;
+						 width: 220px;
+						 margin-left: 15px;
+						 position: relative;}
