@@ -25,7 +25,7 @@ $("div.yu-sub-menu.am-u-md-12").mouseleave(function(){
 $(this).fadeOut();
 });
 $(function() {
-  $dropdown.on('open.dropdown.amui', function (e) {
-    console.log('open event triggered');
-  });
+  // $dropdown.on('open.dropdown.amui', function (e) {
+    // console.log('open event triggered');
+  // });
 });
