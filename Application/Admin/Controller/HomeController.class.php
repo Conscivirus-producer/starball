@@ -23,7 +23,7 @@ class HomeController extends Controller {
         $handle = fopen($filename, 'r');
         $contents = stream_get_contents($handle);
         fclose($handle);
-        echo split("\n", $contents)[0];
+        echo current(split("\n", $contents));
     }
 
     public function getCategoryInfo() {

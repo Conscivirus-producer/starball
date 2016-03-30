@@ -12,6 +12,7 @@ class BaseController extends Controller {
 		}else if(I('currency') == 'HKD'){
 			cookie('preferred_currency','HKD',3600);
 		}
+		$this->assign('preferred_currency', cookie('preferred_currency'));		
 	}
 	
 	protected function prepareBrandList(){

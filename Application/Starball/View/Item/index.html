@@ -31,10 +31,13 @@
 						<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
 					</div>
 					<div class="am-g">
-						<div class="am-u-sm-3">Ұ100</div>
+						<input type="hidden" id="currentPrice" value="{$currenctPrice}"/>
+						<div class="am-u-sm-3">{$priceSymbol}  {$currenctPrice}</div>
 						<div class="am-u-sm-3" style="padding-right:0px">
-							<select multiple data-am-selected="{btnWidth: '100%', btnSize: 'sm'}">
-							  <option value="cny" selected>CNY</option>
+							<select data-am-selected="{btnWidth: '100%', btnSize: 'sm'}" onchange="window.location.href='?currency='+$(this).val();">
+								<volist name="prices" id="vo">
+							  		<option value="{$vo.currency}" <eq name="vo.currency" value="$preferred_currency">selected="selected"</eq>>{$vo.currency}</option>
+							  	</volist>
 							</select>
 						</div>
 					</div>
@@ -114,8 +117,6 @@
 	<div id="result"></div>
 </block>
 <block name="customizedJavascript">
-	<script src="__PUBLIC__/Js/Jquery/jquery.js"></script>
-	<script src="__PUBLIC__/Js/Jquery/jquery.form.js"></script>
 	<script type="text/javascript">
 		function addToShoppingList(){
 			if($("#itemSize").val() == 'none'){

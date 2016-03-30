@@ -10,6 +10,7 @@ class ItemController extends BaseController {
 		}
 		$itemData = D("Item", "Logic")->getItemById($itemId);
 		$imageData = D("Image", "Logic")->getImageById($itemId);
+		$priceData = D("ItemPrice", "Logic")->getPriceByItemId($itemId);
 		$data = $itemData[0];
 		$inventoryResult = D("Inventory", "Logic")->getInventoryByItemId($itemId);
 		$inventoryData = array();
@@ -20,6 +21,14 @@ class ItemController extends BaseController {
 		$this->assign('data', $data);
 		$this->assign('images', $imageData);
 		$this->assign('inventory', $inventoryData);
+		$this->assign('prices', $priceData);
+		foreach($priceData as $price){
+			if(cookie('preferred_currency') == $price['currency']){
+				$currencyArray = C('CURRENCY');
+				$this->assign('priceSymbol', $currencyArray[$price['currency']]);
+				$this->assign('currenctPrice', $price['price']);
+			}
+		}
 		$this->display();
 	}
 	

@@ -36,5 +36,9 @@ return array(
     	'baby' => array('1', ''),
     	'boy' => array('2', 'M'),
     	'girl' => array('2', 'F'),
+	),
+	'CURRENCY' => array(
+		'HKD' => '$HK',
+		'CNY' => 'Ұ',
 	)
 );
