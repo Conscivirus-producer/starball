@@ -41,7 +41,7 @@
 			if($gender != ''){
 				$map['gender'] = $gender;
 			}
-			$data = $this->distinct(true)->field('t_item.categoryId, t_category.categoryName')->where($map)->join('t_category on t_item.categoryId = t_brand.categoryId')->select();
+			$data = $this->distinct(true)->field('t_item.categoryId, t_category.categoryName')->where($map)->join('t_category on t_item.categoryId = t_category.categoryId')->select();
 			return $data;
 		}
 	}
