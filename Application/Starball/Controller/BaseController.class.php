@@ -28,11 +28,13 @@ class BaseController extends Controller {
 	}
 	
 	protected function prepareShoppingAndFavoriteList(){
+		$shoppingList = session('shoppingList');
+		$favoriteList = session('favoriteList');
 		if(session('userName') == ''){
-			$shoppingList = session('shoppingList');
-			$favoriteList = session('favoriteList');
 			//$this->assign('shoppingList',$shoppingList);
 			//$this->assign('favoriteList',$favoriteList);
+		}else{
+			$userId = session('userId');
 		}
 		//log testing
 		/*foreach(session('shoppingList') as $itemId=>$subarray){
@@ -144,5 +146,9 @@ class BaseController extends Controller {
 			$endAge = end(explode(',', $age));
 			return $sizeArray[$startAge][0].'-'.$sizeArray[$endAge][0].'  ('.$sizeArray[$startAge][1].' - '.$sizeArray[$endAge][2].'cm)';
 		}
+	}
+	
+	protected function isLogin(){
+		return session("userName") != '';
 	}
 }
