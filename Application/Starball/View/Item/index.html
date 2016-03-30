@@ -22,6 +22,7 @@
 					</div>
 				</div>
 				<div class="am-u-md-5 am-u-sm-12">
+					<input type="hidden" id="itemId" value="{$data.itemId}"/>
 					<div class="am-g"><h2 style="margin-bottom: 0px">ARMANI JUNIOR 阿玛尼少年</h2></div>
 					<div class="am-g">{$data.name}</div>
 					<div class="am-g">
@@ -30,7 +31,7 @@
 						<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
 					</div>
 					<div class="am-g">
-						<div class="am-u-sm-3">Ұ{$data.lowestPrice}</div>
+						<div class="am-u-sm-3">Ұ100</div>
 						<div class="am-u-sm-3" style="padding-right:0px">
 							<select multiple data-am-selected="{btnWidth: '100%', btnSize: 'sm'}">
 							  <option value="cny" selected>CNY</option>
@@ -38,14 +39,17 @@
 						</div>
 					</div>
 					<div class="am-g" style="margin-top: 10px">
-						<select multiple data-am-selected="{btnWidth: '100%', btnSize: 'sm'}">
-						  <option value="cny" selected>大小</option>
+						<select data-am-selected="{btnWidth: '100%', btnSize: 'sm'}" id="itemSize">
+						  <option value="none" selected>{$Think.lang.size}</option>
+						  <volist name="inventory" id="vo">
+							  	<option value="{$vo.inventoryId}">{$vo.description}</option>
+						  </volist>
 						</select>
 					</div>
 					<div class="am-g" style="font-size: 10px; margin-top: 10px">尺寸：</div>
 					<div class="am-g">
-						<button type="button" class="am-btn am-btn-primary am-btn-block" style="background-color: black;">添加到购物袋</button>
-						<button type="button" class="am-btn am-btn-default am-btn-block">添加到我的愿望清单</button>
+						<button type="button" class="am-btn am-btn-primary am-btn-block" style="background-color: black;" onclick="addToShoppingList()">{$Think.lang.addToShoppingList}</button>
+						<button type="button" class="am-btn am-btn-default am-btn-block" onclick="addToFavoriteList()">{$Think.lang.addToFavoriteList}</button>
 					</div>
 					<div class="am-g">
 						<hr data-am-widget="divider" style="margin-bottom: 5px" class="am-divider am-divider-default" />
@@ -107,4 +111,30 @@
 			</div>
 		</div>
 	</div>
+	<div id="result"></div>
+</block>
+<block name="customizedJavascript">
+	<script src="__PUBLIC__/Js/Jquery/jquery.js"></script>
+	<script src="__PUBLIC__/Js/Jquery/jquery.form.js"></script>
+	<script type="text/javascript">
+		function addToShoppingList(){
+			if($("#itemSize").val() == 'none'){
+				alert("请选择尺码");
+				return;
+			}
+		    $.post('__URL__/addToShoppingList',{'itemId':$('#itemId').val(), 'itemSize':$('#itemSize').val()},function(data){
+		    	if(data.status == 1){
+		    		alert("添加成功");
+		    	}
+		    },'json');
+		}
+		
+		function addToFavoriteList(){
+		    $.post('__URL__/addToFavoriteList',{'itemId':$('#itemId').val(), 'itemSize':$('#itemSize').val()},function(data){
+		    	if(data.status == 1){
+		    		alert("添加成功");
+		    	}
+		    },'json');
+		}
+	</script>
 </block>

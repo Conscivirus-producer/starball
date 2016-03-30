@@ -20,22 +20,84 @@
 		<div class="am-g">
 			<div class="am-show-md-up am-u-md-3 am-u-lg-3 am-kai" style="font-size:15px; ">
 				<section data-am-widget="accordion" class="am-accordion am-accordion-default " data-am-accordion='{ "multiple": true }'>
-					<dl id="gender" class="am-accordion-item">
+					<if condition="$by neq 'brand'">
+						<dl class="am-accordion-item brand">
+							<dt class="am-accordion-title">
+								品牌
+							</dt>
+							<dd class="am-accordion-bd am-collapse ">
+								<div class="am-accordion-content">
+									<volist name="brand" id="data">
+										<label class="am-radio am-secondary">
+											<input class="brand {$data.brandId}" type="checkbox" value="{$data.brandId}" data-am-ucheck />
+											{$data.brandName}
+										</label>
+									</volist>
+								</div>
+							</dd>
+						</dl>
+					</if>
+					<dl class="am-accordion-item gender">
 						<dt class="am-accordion-title">
 							性别
 						</dt>
 						<dd class="am-accordion-bd am-collapse ">
 							<div class="am-accordion-content">
-								<label class="am-radio am-secondary">
-									<input id="M" class="gender" type="checkbox"  value="M" data-am-ucheck>
-									男 </label>
-								<label class="am-radio am-secondary">
-									<input id="F" class="gender" type="checkbox"  value="F" data-am-ucheck>
-									女 </label>
+								<volist name="gender" id="gdata">
+									<label class="am-radio am-secondary">
+										<input class="gender {$gdata.gender}" type="checkbox"  value="{$gdata.gender}" data-am-ucheck>
+										<if condition="$gdata.gender eq 'M'">男<else />女</if>
+									</label>
+								</volist>
 							</div>
 						</dd>
 					</dl>
-					<dl id="category" class="am-accordion-item">
+					<dl class="am-accordion-item age">
+						<dt class="am-accordion-title">
+							年龄
+						</dt>
+						<dd class="am-accordion-bd am-collapse ">
+							<div class="am-accordion-content">
+								<!-- <volist name="brand" id="data">
+									<label class="am-radio am-secondary">
+										<input id="{$data.brandName}" class="brand" type="checkbox" value="{$data.brandId}" data-am-ucheck />
+										{$data.brandName}
+									</label>
+								</volist> -->
+							</div>
+						</dd>
+					</dl>
+					<dl class="am-accordion-item color">
+						<dt class="am-accordion-title">
+							颜色
+						</dt>
+						<dd class="am-accordion-bd am-collapse ">
+							<div class="am-accordion-content">
+								<volist name="color" id="cdata">
+									<label class="am-radio am-secondary">
+										<input class="color {$cdata.color}" type="checkbox" value="{$cdata.color}" data-am-ucheck />
+										{$cdata.color}
+									</label>
+								</volist>
+							</div>
+						</dd>
+					</dl>
+					<dl class="am-accordion-item season">
+						<dt class="am-accordion-title">
+							季节						
+						</dt>
+						<dd class="am-accordion-bd am-collapse ">
+							<div class="am-accordion-content">
+								<!-- <volist name="brand" id="data">
+									<label class="am-radio am-secondary">
+										<input id="{$data.brandName}" class="brand" type="checkbox" value="{$data.brandId}" data-am-ucheck />
+										{$data.brandName}
+									</label>
+								</volist> -->
+							</div>
+						</dd>
+					</dl>
+					<dl class="am-accordion-item category">
 						<dt class="am-accordion-title">
 							类别
 						</dt>
@@ -43,8 +105,8 @@
 							<div class="am-accordion-content">
 								<volist name="category" id="data">
 									<label class="am-radio am-secondary">
-										<input id="{$data.categoryId}" class="category" type="checkbox" value="{$data.categoryId}" data-am-ucheck />
-										{$data.categoryName}
+										<input class="category {$data.categoryId}" type="checkbox" value="{$data.categoryId}" data-am-ucheck />
+										{$data.categoryName}({$data.count})
 										<!-- <if condition="count($data['subCategories'])!=0">
 											<ul>
 												<volist name="data['subCategories']" id="subs">
@@ -96,24 +158,64 @@
 <block name="customizedJavascript">
 <script>
 $(document).ready(function(){
-	var checkeds = new Array();
+	if({:$brandsChecked} != null){
+		applychecks("brand",{:$brandsChecked});
+	}
 	if({:$categoriesChecked} != null){
-		$("#category").addClass("am-active");
-		$("#category dd").addClass("am-in");
+		applychecks("category",{:$categoriesChecked});
 	}
 	if({:$gendersChecked} != null){
-		$("#gender").addClass("am-active");
-		$("#gender dd").addClass("am-in");
+		applychecks("gender",{:$gendersChecked});
 	}
-	checkeds = checkeds.concat({:$categoriesChecked}).concat({:$gendersChecked});
-	for(var i=0;i < checkeds.length;i++){
-		$("#"+checkeds[i]).uCheck('check');
+	if({:$colorsChecked} != null){
+		applychecks("color",{:$colorsChecked});
 	}
 });
+function applychecks(type, checkedArray){
+		var checkeds = new Array();
+		$(".am-accordion-item."+type).addClass("am-active");
+		$(".am-accordion-item."+type+" dd").addClass("am-in");
+		checkeds = checkedArray;
+		for(var i = 0; i < checkeds.length; i++){
+			$("."+type+"."+checkeds[i]).uCheck('check');
+		}
+}
 $("input").click(function(){
-	var url = "/Starball/List/showList"+"/by/"+"{$by}"+"/byValue/"+"{$byValue}";
+	var params = "";
+	var brands = new Array();
 	var categories = new Array();
 	var genders = new Array();
+	var colors = new Array();
+	
+	//for brand, single
+	if($(this).hasClass('brand')&&$(this).is('checked')){
+		brands.push($(this).attr("value"));
+	}else{
+		$("input.brand").each(function(){
+			if($(this).is(':checked')){
+				brands.push($(this).attr("value"));
+			}
+		});
+	}
+	if(brands.length != 0){
+		params = params+"/brands/"+brands.toString();
+	}
+	$("input.gender").each(function(){
+		if($(this).is(':checked')){
+			genders.push($(this).attr("value"));
+		}
+	});
+	if(genders.length != 0){
+		params = params+"/genders/"+genders.toString();
+	}
+	$("input.color").each(function(){
+		if($(this).is(':checked')){
+			colors.push($(this).attr("value"));
+		}
+	});
+	if(colors.length != 0){
+		params = params+"/colors/"+colors.toString();
+	}
 	$("input.category").each(function(){
 		if($(this).is(':checked')){
 			categories.push($(this).attr("value"));
@@ -122,15 +224,11 @@ $("input").click(function(){
 	if(categories.length != 0){
 		url = url+"/categories/"+categories.toString();
 	}
-	$("input.gender").each(function(){
-		if($(this).is(':checked')){
-			genders.push($(this).attr("value"));
-		}
-	});
-	if(genders.length != 0){
-		url = url+"/genders/"+genders.toString();
-	}
-	window.location=(url);
+	var url = "{:U('Starball/List/showList/by/$by/byValue/$byValue$params')}";
+	url = url.replace("$by","{$by}");
+	url = url.replace("$byValue","{$byValue}");
+	url = url.replace("$params",params);
+	window.location.href=url;
 });
 </script>
 </block>
