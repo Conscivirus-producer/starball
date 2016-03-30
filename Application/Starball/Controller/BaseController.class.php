@@ -26,10 +26,29 @@ class BaseController extends Controller {
 		}
 	}
 	
+	protected function prepareShoppingAndFavoriteList(){
+		if(session('userName') == ''){
+			$shoppingList = session('shoppingList');
+			$favoriteList = session('favoriteList');
+			//$this->assign('shoppingList',$shoppingList);
+			//$this->assign('favoriteList',$favoriteList);
+		}
+		//log testing
+		/*foreach(session('shoppingList') as $itemId=>$subarray){
+			foreach($subarray as $itemSize=>$quantity){
+				logInfo("shoppingItemList: itemId:".$itemId.",itemSize:".$itemSize.",quantity:".$quantity);
+			}
+	 		foreach(session('favoriteList') as $value){
+				logInfo('favoriteItemList:'.$value);
+			}
+		}*/
+	}
+	
 	protected function commonProcess(){
 		$this->prepareUserSetting();
 		$this->prepareBrandList();
 		$this->prepareUserMenu();
+		$this->prepareShoppingAndFavoriteList();
 		if(IS_POST){
 			if(I('method') == 'register'){
 				$this->register();
@@ -84,6 +103,43 @@ class BaseController extends Controller {
 			//$this->assign('userName', $result['userName']);
 		} else{
 			$this->error("用户名密码不正确");
+		}
+	}
+
+	public function addToFavoriteList(){
+		if(session('userName') == ''){
+			$this->addFavoriteListToSession();
+		}
+		$data = array(
+		    'data'=>'吃饼饼',
+		    'message'=>'处理成功',
+		);
+		$vo = $data;
+		$vo['status'] = 1;
+		$this->ajaxReturn($vo, "json");
+	}
+
+	private function addFavoriteListToSession(){
+		$itemId = I('itemId');
+		if(session('favoriteList') == ''){
+			session('favoriteList',array($itemId));
+		}else{
+			$itemList = session('favoriteList');
+			if(!in_array($itemId, $itemList)){
+				array_push($itemList, $itemId);
+				session('favoriteList',$itemList);
+			}
+		}
+	}
+	
+	protected function getSizeDescriptionByAge($age){
+		$sizeArray = C('ITEMSIZE');
+		if(strpos($age, ',') <= 0){
+			return $sizeArray[$age][0].'  ('.$sizeArray[$age][1].' - '.$sizeArray[$age][2].'cm)';
+		}else{
+			$startAge = current(explode(',', $age));
+			$endAge = end(explode(',', $age));
+			return $sizeArray[$startAge][0].'-'.$sizeArray[$endAge][0].'  ('.$sizeArray[$startAge][1].' - '.$sizeArray[$endAge][2].'cm)';
 		}
 	}
 }

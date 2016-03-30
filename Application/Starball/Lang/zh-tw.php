@@ -20,7 +20,7 @@ return array(
     'lastsevenday'=>'最近7天',
     'lastfourweek'=>'最近4个星期',
     'commingsoon'=>'即将有货',
-    ''=>'',
-    
-    
+    'addToShoppingList'=>'添加到購物車',
+    'addToFavoriteList'=>'添加到我的收藏',
+    'size'=>'大小',
 );
