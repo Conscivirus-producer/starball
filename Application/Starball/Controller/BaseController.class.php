@@ -4,13 +4,13 @@ use Think\Controller;
 class BaseController extends Controller {
 	
 	protected function prepareUserSetting(){
-		if(cookie('think_language') == 'zh-cn' && session('preferred_currency') == ''){
-			session('preferred_currency', 'CNY');
+		if(cookie('think_language') == 'zh-cn' && cookie('preferred_currency') == ''){
+			cookie('preferred_currency','CNY',3600);
 		}
 		if(I('currency') == 'CNY'){
-			session('preferred_currency', 'CNY');
+			cookie('preferred_currency','CNY',3600);
 		}else if(I('currency') == 'HKD'){
-			session('preferred_currency', 'HKD');
+			cookie('preferred_currency','HKD',3600);
 		}
 	}
 	
@@ -109,6 +109,8 @@ class BaseController extends Controller {
 	public function addToFavoriteList(){
 		if(session('userName') == ''){
 			$this->addFavoriteListToSession();
+		}else{
+			
 		}
 		$data = array(
 		    'data'=>'吃饼饼',
