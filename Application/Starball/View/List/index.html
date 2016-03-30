@@ -181,7 +181,7 @@ function applychecks(type, checkedArray){
 		}
 }
 $("input").click(function(){
-	var url = "/Starball/List/showList"+"/by/"+"{$by}"+"/byValue/"+"{$byValue}";
+	var params = "";
 	var brands = new Array();
 	var categories = new Array();
 	var genders = new Array();
@@ -198,7 +198,7 @@ $("input").click(function(){
 		});
 	}
 	if(brands.length != 0){
-		url = url+"/brands/"+brands.toString();
+		params = params+"/brands/"+brands.toString();
 	}
 	$("input.gender").each(function(){
 		if($(this).is(':checked')){
@@ -206,7 +206,7 @@ $("input").click(function(){
 		}
 	});
 	if(genders.length != 0){
-		url = url+"/genders/"+genders.toString();
+		params = params+"/genders/"+genders.toString();
 	}
 	$("input.color").each(function(){
 		if($(this).is(':checked')){
@@ -214,7 +214,7 @@ $("input").click(function(){
 		}
 	});
 	if(colors.length != 0){
-		url = url+"/colors/"+colors.toString();
+		params = params+"/colors/"+colors.toString();
 	}
 	$("input.category").each(function(){
 		if($(this).is(':checked')){
@@ -224,7 +224,11 @@ $("input").click(function(){
 	if(categories.length != 0){
 		url = url+"/categories/"+categories.toString();
 	}
-	window.location=(url);
+	var url = "{:U('Starball/List/showList/by/$by/byValue/$byValue$params')}";
+	url = url.replace("$by","{$by}");
+	url = url.replace("$byValue","{$byValue}");
+	url = url.replace("$params",params);
+	window.location.href=url;
 });
 </script>
 </block>
