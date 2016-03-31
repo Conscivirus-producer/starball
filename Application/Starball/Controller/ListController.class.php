@@ -18,7 +18,7 @@ class ListController extends BaseController {
 		if($by == "time"){
 			$map["DateDiff(now(),lastUpdatedDate)"] = array('ELT', $byValue); 
 		}elseif($by == "brand"){
-			$map["brandId"] = array('EQ', $byValue);
+			$map["t_item.brandId"] = array('EQ', $byValue);
 		}
 		
 		//get filters
