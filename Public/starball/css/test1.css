@@ -1,0 +1,11 @@
+div.yu-sub-menu{
+	display: none;
+	position: relative;
+	box-sizing: border-box;
+	z-index: 999;
+	margin-bottom: -100%;
+	background-color: white;
+	width: 128%;
+	left: -14%;
+	padding-top: 20px;
+}

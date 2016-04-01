@@ -16,6 +16,14 @@ ul.yu-top-margin-039{
 	margin-top:3.9%;
 }
 
+button.yu-offcanvas{
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	z-index: 999;
+	background-color: white;
+}
+
 /*header in mdup screen*/
 .yu-mduplefttop-adjustor{
 	margin-bottom:0px !important;
@@ -265,6 +273,7 @@ nav.yu-nav{
 a.yu-menu{
 	margin-bottom: 0px;
 }
+
 div.yu-sub-menu{
 	display: none;
 	position: relative;
@@ -272,28 +281,24 @@ div.yu-sub-menu{
 	z-index: 999;
 	margin-bottom: -100%;
 	background-color: white;
-}
-button.yu-offcanvas{
-	position: absolute;
-	left: 10px;
-	top: 10px;
-	z-index: 999;
-	background-color: white;
-}
-div.yu-sub-menu-list{
-	margin-left: 6% !important;
+	padding-top: 20px;
+	padding-bottom: 20px;
 	border-bottom: 3px solid black;
-	max-width: 970px;
+	height: auto !important;
+}
+
+div.yu-sub-menu-list{
 	font-size: 13px;
 	text-align: left;
 }
 div.yu-sub-menu-img-title{
 	position: absolute;
 	top: 50%;
-	width: 10%;
-	margin-left: 40%;
+	width: 30%;
+	margin-left: 35%;
 	background-color: #f9f9f9;
 	background:rgba(255, 255, 255, 0.6)!important;
+	padding-top: 10px;
 }
 input.yu-input-sm{
 	font-size:12px !important;
@@ -334,8 +339,6 @@ div.yu-footer-container{
     padding-left: 10px;
     padding-right:10px;
 }
-                       
-
 .menu-sub-block{
 	float:left;
 	font-size:14px;
