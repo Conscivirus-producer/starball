@@ -7,6 +7,12 @@
 			$data = $this->where($map)->select();
 			return $data;
 		}
+		
+		public function getSizeDescriptionById($id){
+			$map['id'] = $id;
+			$data = $this->where($map)->select();
+			return getSizeDescriptionByAge($data[0]['age']);
+		}
 	}
 
 

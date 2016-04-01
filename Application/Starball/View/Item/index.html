@@ -13,7 +13,10 @@
 				<div class="am-u-md-7 am-u-sm-12">
 					<div class="am-slider am-slider-default" data-am-flexslider="{controlNav: 'thumbnails', directionNav: false, slideshow: false}">
 					  <ul class="am-slides">
-					  	<volist name="images" id="vo">
+					  	<volist name="images" id="vo" key="k">
+				  		    <eq name="k" value="1">
+				  		    	<input type="hidden" id="itemImage" value="{$vo.image}"/>
+			  		    	</eq>
 						    <li data-thumb="{$vo.image}?imageView2/1/w/88/h/88/q/100">
 						      <img src="{$vo.image}?imageView2/1/w/503/h/519/q/100" />
 						    </li>
@@ -23,16 +26,16 @@
 				</div>
 				<div class="am-u-md-5 am-u-sm-12">
 					<input type="hidden" id="itemId" value="{$data.itemId}"/>
-					<div class="am-g"><h2 style="margin-bottom: 0px">ARMANI JUNIOR 阿玛尼少年</h2></div>
-					<div class="am-g">{$data.name}</div>
+					<div class="am-g"><h2 id='brandName' style="margin-bottom: 0px">{$data.brandName}</h2></div>
+					<div class="am-g" id='itemName'>{$data.name}</div>
 					<div class="am-g">
 						<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
 						<span style="font-size: 14px">颜色：{$data.color}</span>
 						<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
 					</div>
 					<div class="am-g">
-						<input type="hidden" id="currentPrice" value="{$currenctPrice}"/>
-						<div class="am-u-sm-3">{$priceSymbol}  {$currenctPrice}</div>
+						<input type="hidden" id="currentPrice" value="{$currentPrice}"/>
+						<div class="am-u-sm-3">{$priceSymbol}  {$currentPrice}</div>
 						<div class="am-u-sm-3" style="padding-right:0px">
 							<select data-am-selected="{btnWidth: '100%', btnSize: 'sm'}" onchange="window.location.href='?currency='+$(this).val();">
 								<volist name="prices" id="vo">
@@ -123,7 +126,12 @@
 				alert("请选择尺码");
 				return;
 			}
-		    $.post('__URL__/addToShoppingList',{'itemId':$('#itemId').val(), 'itemSize':$('#itemSize').val()},function(data){
+		    $.post('__URL__/addToShoppingList',{'itemId':$('#itemId').val(), 
+		    									'currentPrice':$('#currentPrice').val(),
+		    									'itemImage':$('#itemImage').val(), 
+		    									'brandName':$('#brandName')[0].innerText, 
+		    									'itemName':$('#itemName')[0].innerText, 
+		    									'itemSize':$('#itemSize').val()},function(data){
 		    	if(data.status == 1){
 		    		alert("添加成功");
 		    	}
@@ -131,6 +139,7 @@
 		}
 		
 		function addToFavoriteList(){
+			alert($('#$currentPrice').val());
 		    $.post('__URL__/addToFavoriteList',{'itemId':$('#itemId').val(), 'itemSize':$('#itemSize').val()},function(data){
 		    	if(data.status == 1){
 		    		alert("添加成功");

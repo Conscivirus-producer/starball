@@ -27,14 +27,37 @@ class BaseController extends Controller {
 		}
 	}
 	
-	protected function prepareShoppingAndFavoriteList(){
+	private function appendSessionShoppingListToUser(){
 		$shoppingList = session('shoppingList');
 		$favoriteList = session('favoriteList');
+		$totalQuantity = 0;
+		$totalPrice = 0;
+		
+		foreach($shoppingList as $itemIds => $subarray){
+			$itemData = D("Item", "Logic")->getItemById($itemId);
+			$imageData = D("Image", "Logic")->getImageById($itemId);
+			$priceData = D("ItemPrice", "Logic")->getPriceByItemId($itemId);
+			foreach($subarray as  $itemSize=>$quantity){
+				$totalQuantity += $quantity;		
+				
+			}
+		}		
+	}
+	
+	protected function prepareShoppingAndFavoriteList(){
+		
 		if(session('userName') == ''){
 			//$this->assign('shoppingList',$shoppingList);
 			//$this->assign('favoriteList',$favoriteList);
 		}else{
 			$userId = session('userId');
+			$orderLogic = D('Order', 'Logic');
+			$backlogOrder = $orderLogic->getOrderByUserId($userId, 'B');
+			if(count($backlogOrder) == 0){
+				$data['orderNumber'] = '';
+				$data['totalItemCount'] = 0; 
+			}
+			//logInfo('$backlogOrder:'.$backlogOrder);
 		}
 		//log testing
 		/*foreach(session('shoppingList') as $itemId=>$subarray){
@@ -98,10 +121,10 @@ class BaseController extends Controller {
 		$map['password'] = $data['password'];
 		$result = $login->where($map)->find();
 		if($result){
-			session('userId', $result['id']);
+			session('userId', $result['userId']);
 			session('email', $result['email']);
 			session('userName', $result['userName']);
-			session('lastDate', $result['lastDate']);
+			session('lastDate', $result['lastUpdatedDate']);
 			session('lastIp', $result['lastIp']);
 			//$this->assign('userName', $result['userName']);
 		} else{
@@ -109,46 +132,11 @@ class BaseController extends Controller {
 		}
 	}
 
-	public function addToFavoriteList(){
-		if(session('userName') == ''){
-			$this->addFavoriteListToSession();
-		}else{
-			
-		}
-		$data = array(
-		    'data'=>'吃饼饼',
-		    'message'=>'处理成功',
-		);
-		$vo = $data;
-		$vo['status'] = 1;
-		$this->ajaxReturn($vo, "json");
-	}
-
-	private function addFavoriteListToSession(){
-		$itemId = I('itemId');
-		if(session('favoriteList') == ''){
-			session('favoriteList',array($itemId));
-		}else{
-			$itemList = session('favoriteList');
-			if(!in_array($itemId, $itemList)){
-				array_push($itemList, $itemId);
-				session('favoriteList',$itemList);
-			}
-		}
-	}
-	
-	protected function getSizeDescriptionByAge($age){
-		$sizeArray = C('ITEMSIZE');
-		if(strpos($age, ',') <= 0){
-			return $sizeArray[$age][0].'  ('.$sizeArray[$age][1].' - '.$sizeArray[$age][2].'cm)';
-		}else{
-			$startAge = current(explode(',', $age));
-			$endAge = end(explode(',', $age));
-			return $sizeArray[$startAge][0].'-'.$sizeArray[$endAge][0].'  ('.$sizeArray[$startAge][1].' - '.$sizeArray[$endAge][2].'cm)';
-		}
-	}
-	
 	protected function isLogin(){
 		return session("userName") != '';
+	}
+	
+	protected function getCurrency(){
+		return cookie('preferred_currency');
 	}
 }

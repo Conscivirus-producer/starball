@@ -15,7 +15,7 @@ class ItemController extends BaseController {
 		$inventoryResult = D("Inventory", "Logic")->getInventoryByItemId($itemId);
 		$inventoryData = array();
 		foreach($inventoryResult as $inventory){
-			$inventory['description'] = $this->getSizeDescriptionByAge($inventory['age']);
+			$inventory['description'] = getSizeDescriptionByAge($inventory['age']);
 			array_push($inventoryData, $inventory);
 		}
 		$this->assign('data', $data);
@@ -26,7 +26,7 @@ class ItemController extends BaseController {
 			if(cookie('preferred_currency') == $price['currency']){
 				$currencyArray = C('CURRENCY');
 				$this->assign('priceSymbol', $currencyArray[$price['currency']]);
-				$this->assign('currenctPrice', $price['price']);
+				$this->assign('currentPrice', $price['price']);
 			}
 		}
 		$this->display();
@@ -35,6 +35,8 @@ class ItemController extends BaseController {
 	public function addToShoppingList(){
 		if(session('userName') == ''){
 			$this->addShoppingListToSession();
+		}else{
+			$this->addShoppingListToUser();
 		}
 		$data = array(
 		    'data'=>'吃饼饼',
@@ -44,6 +46,44 @@ class ItemController extends BaseController {
 		$vo = $data;
 		$vo['status'] = 1;
 		$this->ajaxReturn($vo, "json");
+	}
+	
+	private function addShoppingListToUser(){
+		$userId = session('userId');
+		$orderLogic = D('Order', 'Logic');
+		$backlogOrder = $orderLogic->getOrderByUserId($userId, 'B');
+		if(count($backlogOrder) == 0){
+			$strUtil = new \Org\Util\String();
+			$orderNumber = $strUtil->randString(6,1);
+			$data['orderNumber'] = $orderNumber;
+			$data['totalItemCount'] = 1; 
+			$data['totalAmount'] = I('currentPrice');
+			$data['userId'] = $userId; 
+			$data['status'] = 'B';
+			$data['currency'] = $this->getCurrency();
+			$orderLogic->create($data);
+			$orderLogic->add();
+			
+			$this->createOrderItem($orderNumber);
+		} else{
+			$order = $backlogOrder[0];
+			$data['totalItemCount'] = $order['totalItemCount'] + 1;
+			$data['totalAmount'] = $order['totalAmount'] + I('currentPrice');
+			$orderLogic->updateOrder($data, $order['orderId']);
+			
+			$this->createOrderItem($order['orderNumber']);
+		}
+	}
+
+	private function createOrderItem($orderNumber){
+		$itemData['orderNumber'] = $orderNumber;
+		$itemData['itemId'] = I('itemId');
+		$itemData['itemName'] = I('itemName');
+		$itemData['itemSize'] = I('itemSize');
+		$itemData['price'] = I('currentPrice');
+		$itemData['quantity'] = 1;
+		$itemData['status'] = 'B';
+		D('OrderItem')->add($itemData);
 	}
 
 	private function addShoppingListToSession(){
@@ -67,6 +107,42 @@ class ItemController extends BaseController {
 			}
 			session('shoppingList',$itemList);
 		}
+		
+		foreach(session('shoppingList') as $itemId=>$subarray){
+			foreach($subarray as $itemSize=>$quantity){
+				logInfo("shoppingItemList: itemId:".$itemId.",itemSize:".$itemSize.",quantity:".$quantity);
+			}
+	 		foreach(session('favoriteList') as $value){
+				logInfo('favoriteItemList:'.$value);
+			}
+		}
 	}
-	
+
+	public function addToFavoriteList(){
+		if(session('userName') == ''){
+			$this->addFavoriteListToSession();
+		}else{
+			
+		}
+		$data = array(
+		    'data'=>'吃饼饼',
+		    'message'=>'处理成功',
+		);
+		$vo = $data;
+		$vo['status'] = 1;
+		$this->ajaxReturn($vo, "json");
+	}
+
+	private function addFavoriteListToSession(){
+		$itemId = I('itemId');
+		if(session('favoriteList') == ''){
+			session('favoriteList',array($itemId));
+		}else{
+			$itemList = session('favoriteList');
+			if(!in_array($itemId, $itemList)){
+				array_push($itemList, $itemId);
+				session('favoriteList',$itemList);
+			}
+		}
+	}	
 }
