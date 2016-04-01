@@ -30,7 +30,7 @@
 					<div class="am-g" id='itemName'>{$data.name}</div>
 					<div class="am-g">
 						<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
-						<span style="font-size: 14px">颜色：{$data.color}</span>
+						<span style="font-size: 14px">颜色：</span><span style="font-size: 14px" id="itemColor">{$data.color}</span>
 						<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
 					</div>
 					<div class="am-g">
@@ -130,7 +130,8 @@
 		    									'currentPrice':$('#currentPrice').val(),
 		    									'itemImage':$('#itemImage').val(), 
 		    									'brandName':$('#brandName')[0].innerText, 
-		    									'itemName':$('#itemName')[0].innerText, 
+		    									'itemName':$('#itemName')[0].innerText,
+		    									'itemColor':$('#itemColor')[0].innerText,  
 		    									'itemSize':$('#itemSize').val()},function(data){
 		    	if(data.status == 1){
 		    		alert("添加成功");

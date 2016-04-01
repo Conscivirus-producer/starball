@@ -64,26 +64,38 @@ class ItemController extends BaseController {
 			$orderLogic->create($data);
 			$orderLogic->add();
 			
-			$this->createOrderItem($orderNumber);
+			$this->updateOrderItem($orderNumber);
 		} else{
 			$order = $backlogOrder[0];
 			$data['totalItemCount'] = $order['totalItemCount'] + 1;
 			$data['totalAmount'] = $order['totalAmount'] + I('currentPrice');
 			$orderLogic->updateOrder($data, $order['orderId']);
 			
-			$this->createOrderItem($order['orderNumber']);
+			$this->updateOrderItem($order['orderNumber']);
 		}
 	}
 
-	private function createOrderItem($orderNumber){
+	private function updateOrderItem($orderNumber){
+		$orderItemLogic = D('OrderItem', 'Logic');
+		$orderItem = $orderItemLogic->getExistingOrderItem(I('itemId'), I('itemSize'), $orderNumber);
+		if(count($orderItem) > 0){
+			//如果记录已经存在，数量+1
+			$orderItemLogic->addQuantity($orderItem[0]);
+			return;
+		}
+		
+		//创建新的记录
 		$itemData['orderNumber'] = $orderNumber;
 		$itemData['itemId'] = I('itemId');
 		$itemData['itemName'] = I('itemName');
+		$itemData['brandName'] = I('brandName');
+		$itemData['itemImage'] = I('itemImage');
+		$itemData['itemColor'] = I('itemColor');
 		$itemData['itemSize'] = I('itemSize');
 		$itemData['price'] = I('currentPrice');
 		$itemData['quantity'] = 1;
 		$itemData['status'] = 'B';
-		D('OrderItem')->add($itemData);
+		$orderItemLogic->create($itemData);
 	}
 
 	private function addShoppingListToSession(){
