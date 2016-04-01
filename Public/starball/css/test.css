@@ -1,3 +1,4 @@
+
 /*top left and right button in small screen*/
 button.yu-right-menubutton{
 	float:right;
@@ -31,11 +32,21 @@ ul.yu-top-margin-039{
 }
 button.yu-login-button-adjustor{
 	font-size:12px;
-	margin:6px 7px 3px 7px;
+	margin:6px 7px 3px 7px!important;
 	width:250px;
+}
+button.yu-check-button-adjustor{
+	font-size:12px;
+	margin:6px 7px 6px 7px;
+	width:336px;
 }
 a.yu-newaccount{
 	text-decoration:underline;
+	margin-left:24%;
+	margin-bottom:3%;
+	font-size:11px;
+}
+a.yu-newaccount-1{
 	margin-left:24%;
 	margin-bottom:3%;
 	font-size:11px;
@@ -53,6 +64,8 @@ a.yu-forget-pwd{
 	font-size:12px;
 	margin-bottom:5.1px;
 	padding-top:3px;
+	padding-left:6px;
+	color:#000100;
 }
 .yu-rm-me{
 	padding-top:0px !important;
@@ -62,9 +75,103 @@ a.yu-forget-pwd{
 .yu-font-12{
 	font-size:12px;
 }
+.yu-checkbox-adjustor{
+	padding-top:0px;
+	float:left;
+	margin-left:8px;
+}
 
+ul.yu-dropdown-content-contanier{
+	padding-bottom:1px !important;
+	padding-top:0 !important;
+	width: 350px;
+}
 
+/*My favortie and my shooping cart*/
+div.yu-total-price-panier{
+	background-color: #ececec;
+	padding: 4px 10px;
+	text-align: center;
+	margin-top: 0;
+	max-width:100%;
+}
+li.margin-adjustor{
+	margin:0;
+}
+span.value-total-price{
+	font-size:12px;
+	font-weight:bold;
+}
+button.yu-button-333{
+	font-size:12px;
+	margin:6px 7px 6px 7px;
+}
+span.yu-item-price{
+	font-size:12px;
+	font-weight:bold;
+	display: block;
+	float:left;
+	margin-top:6px;
+}
+span.yu-size-container{
+   display:block;
+   border-top: 1px solid #ececec;
+   border-bottom: 1px solid #ececec;
+   margin: 5px 0;
+   padding: 2px 10px 2px 0;font-size:11px
+}
+span.subtitle-item-panier{
+	display:block;
+    overflow: hidden;
+	text-overflow: ellipsis;    
+	white-space: nowrap;
+	padding-right: 100px;
+    margin-top: 4px;
+}
+span.title-item-panier{
+	display:block;
+	text-transform:uppercase;
+}
+a.item-panier{
+	height:120px;
+	width:100%!important;
+	padding-left:10px!important;
+	padding-right:0!important;
+	padding-top:10px!important;
+	padding-bottom:10px!important;
+}
+img.item-photo-adjustor{
+	height:100px;
+	width:100px;
+	display:block;
+	float:left;
+}
+span.content-item-panier{
+	display: block;
+	float: left;
+	width: 220px;
+	margin-left: 15px;
+	position: relative;
+}	
+/*mdup logo and search*/
+div.yu-mduplogo-adjustor{
+	height: 100px;
+	margin-bottom:-1%;
+	float:left;
+	padding-left:0;
+}
+div.yu-mdupsearch-adjustor{
+	margin-top:20px;
+	padding-right:0;
+}
 
+/*sm search*/
+div.yu-smsearch-adjustor{
+	padding:0;
+	margin-top: -7px;
+}
+
+/*slider*/
 div.yu-slider-content { 
 	background-color:rgba(0,0,0,0)；
     padding: 10px 6px;
@@ -212,6 +319,7 @@ div.yu-header-container{
  	max-width:100%;
  	margin:0 auto;
  	padding:0 10px;
+ 	border-bottom: 3px solid black;
  	}
  
  div.yu-layout-container{
@@ -243,69 +351,41 @@ ul.yu-menu-content{
     margin: auto;
     text-align: left;
 }
-div.yu-total-price-panier{
-	background-color: #ececec;
-	padding: 4px 10px;
-	text-align: center;
-	margin-top: 0;
-	max-width:100%;
+div.yu-main-container{
+	max-width:970px;
+	width:100%;
 }
-li.margin-adjustor{
-	margin:0;
-}
-span.value-total-price{
-	font-size:12px;
-	font-weight:bold;
-}
-button.yu-button-333{
-	font-size:12px;
-	margin:6px 7px 6px 7px;
-}
-span.yu-item-price{
-	font-size:12px;
-	font-weight:bold;
-	display: block;
-	float:left;
-	margin-top:6px;
-}
-span.yu-size-container{
-   display:block;
-   border-top: 1px solid #ececec;
-   border-bottom: 1px solid #ececec;
-   margin: 5px 0;
-   padding: 2px 10px 2px 0;font-size:11px
-}
-span.subtitle-item-panier{
-	display:block;
-    overflow: hidden;
-	text-overflow: ellipsis;    
-	white-space: nowrap;
-	padding-right: 100px;
-    margin-top: 4px;
-}
-span.title-item-panier{
-	display:block;
-	text-transform:uppercase;
-}
-a.item-panier{
-	height:120px;
-	width:100%!important;
-	padding-left:10px!important;
-	padding-right:0!important;
-	padding-top:10px!important;
-	padding-bottom:10px!important;
-}
-img.item-photo-adjustor{
-	height:100px;
-	width:100px;
-	display:block;
-	float:left;
-}
-span.content-item-panier{
-	display: block;
-	float: left;
-	width: 220px;
-	margin-left: 15px;
-	position: relative;
-}	
 
+/*login page*/
+div.yu-signin-container{
+	border:1px solid #cecece;
+	margin:20px 20px 0 0;
+	float:left;
+	max-width:485px;
+	width: calc(50% - 12px);
+	padding:0 0 40px 0;
+}
+div.yu-signup-container{
+	border:1px solid #cecece;
+	margin:20px 0 0 0;
+	float:left;
+	max-width:485px;
+	width: calc(50% - 12px);
+	padding:0 0 40px 0;
+}
+p.yu-signin-title{
+	display: block;
+    margin: 0 0 40px 0;
+    background: #f8f8f8;
+    border-bottom: 1px solid #cecece;
+    padding: 20px 0 20px;
+    text-align: center;
+    font-size:15px
+    color: #000;;
+    text-transform: uppercase;
+}
+form.yu-signin-form{
+	display:block;
+	max-width:300px;
+	margin:auto;
+}
