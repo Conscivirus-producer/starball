@@ -7,12 +7,39 @@ class BaseController extends Controller {
 		if(cookie('think_language') == 'zh-cn' && cookie('preferred_currency') == ''){
 			cookie('preferred_currency','CNY',3600);
 		}
-		if(I('currency') == 'CNY'){
-			cookie('preferred_currency','CNY',3600);
-		}else if(I('currency') == 'HKD'){
-			cookie('preferred_currency','HKD',3600);
+		if(I('currency') != '' && I('currency') != $this->getCurrency()){
+			cookie('preferred_currency',I('currency'),3600);
+			$this->updateUserShoppingListByCurrency();
 		}
 		$this->assign('preferred_currency', cookie('preferred_currency'));		
+	}
+	
+	private function updateUserShoppingListByCurrency(){
+		if(!$this->isLogin()){
+			return;
+		}
+		$orderLogic = D('Order', 'Logic');
+		$backlogOrder = $orderLogic->getOrderByUserId($this->getCurrentUserId(), 'B');
+		if(count($backlogOrder) == 0){
+			return;
+		}
+		$order = $backlogOrder[0];
+		
+		$orderItemLogic = D('OrderItem', 'Logic');
+		$orderItems = $orderItemLogic->getOrderItemsByOrdeNumber($order['orderNumber']);
+		//重新计算总的价格
+		$newTotalPrice = 0;
+		foreach($orderItems as $record){
+			//更新每个item的记录
+			$priceMap = D("ItemPrice", "Logic")->getPriceMap($record['itemId']);
+			$data['price'] = $priceMap[$this->getCurrency()];
+			$orderItemLogic->updateOrderItem($data, $record['id']);
+			$newTotalPrice += $data['price'] * $record['quantity'];
+		}
+		
+		$orderData['totalAmount'] = $newTotalPrice;
+		$orderData['currency'] = $this->getCurrency();
+		$orderLogic->updateOrder($orderData, $order['orderId']);
 	}
 	
 	protected function prepareBrandList(){
@@ -44,7 +71,7 @@ class BaseController extends Controller {
 		}		
 	}
 	
-	protected function prepareShoppingAndFavoriteList(){
+	protected function prepareShoppingList(){
 		
 		if(session('userName') == ''){
 			//$this->assign('shoppingList',$shoppingList);
@@ -52,12 +79,16 @@ class BaseController extends Controller {
 		}else{
 			$userId = session('userId');
 			$orderLogic = D('Order', 'Logic');
+			$orderItemLogic = D('OrderItem', 'Logic');
 			$backlogOrder = $orderLogic->getOrderByUserId($userId, 'B');
 			if(count($backlogOrder) == 0){
-				$data['orderNumber'] = '';
-				$data['totalItemCount'] = 0; 
+				$this->assign('emptyshoppinglist', 'true');
+			}else{
+				$order = $backlogOrder[0];
+				$this->assign('shoppingList', $order);
+				$orderItems = $orderItemLogic->getOrderItemsByOrdeNumber($order['orderNumber']);
+				$this->assign('shoppingListItems', $orderItems);
 			}
-			//logInfo('$backlogOrder:'.$backlogOrder);
 		}
 		//log testing
 		/*foreach(session('shoppingList') as $itemId=>$subarray){
@@ -74,7 +105,7 @@ class BaseController extends Controller {
 		$this->prepareUserSetting();
 		$this->prepareBrandList();
 		$this->prepareUserMenu();
-		$this->prepareShoppingAndFavoriteList();
+		$this->prepareShoppingList();
 		if(IS_POST){
 			if(I('method') == 'register'){
 				$this->register();
@@ -135,6 +166,10 @@ class BaseController extends Controller {
 	protected function isLogin(){
 		return session("userName") != '';
 	}
+
+	protected function getCurrentUserId(){
+		return session("userId");	
+	}	
 	
 	protected function getCurrency(){
 		return cookie('preferred_currency');
