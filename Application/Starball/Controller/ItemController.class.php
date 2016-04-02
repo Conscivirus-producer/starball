@@ -38,6 +38,7 @@ class ItemController extends BaseController {
 		}else{
 			$this->addShoppingListToUser();
 		}
+		$this->prepareShoppingList();
 		$data = array(
 		    'data'=>'吃饼饼',
 		    'message'=>'处理成功',
@@ -92,6 +93,7 @@ class ItemController extends BaseController {
 		$itemData['itemImage'] = I('itemImage');
 		$itemData['itemColor'] = I('itemColor');
 		$itemData['itemSize'] = I('itemSize');
+		$itemData['sizeDescription'] = D('Inventory', 'Logic')->getSizeDescriptionById(I('itemSize'));
 		$itemData['price'] = I('currentPrice');
 		$itemData['quantity'] = 1;
 		$itemData['status'] = 'B';

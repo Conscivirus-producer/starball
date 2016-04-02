@@ -4,7 +4,7 @@ use Think\Controller;
 class BaseController extends Controller {
 	
 	protected function prepareUserSetting(){
-		if(cookie('think_language') == 'zh-cn' && cookie('preferred_currency') == ''){
+		if(cookie('think_language') == 'zh-CN' && cookie('preferred_currency') == ''){
 			cookie('preferred_currency','CNY',3600);
 		}
 		if(I('currency') != '' && I('currency') != $this->getCurrency()){
@@ -76,18 +76,21 @@ class BaseController extends Controller {
 		if(session('userName') == ''){
 			//$this->assign('shoppingList',$shoppingList);
 			//$this->assign('favoriteList',$favoriteList);
+			$this->assign('shoppingListCount', 0);
 		}else{
+			logInfo('preparing');
 			$userId = session('userId');
 			$orderLogic = D('Order', 'Logic');
 			$orderItemLogic = D('OrderItem', 'Logic');
 			$backlogOrder = $orderLogic->getOrderByUserId($userId, 'B');
-			if(count($backlogOrder) == 0){
-				$this->assign('emptyshoppinglist', 'true');
-			}else{
+			$this->assign('shoppingListCount', count($backlogOrder));
+			if(count($backlogOrder) > 0){
 				$order = $backlogOrder[0];
 				$this->assign('shoppingList', $order);
 				$orderItems = $orderItemLogic->getOrderItemsByOrdeNumber($order['orderNumber']);
 				$this->assign('shoppingListItems', $orderItems);
+				$currencyArray = C('CURRENCY');
+				$this->assign('priceSymbol', $currencyArray[$order['currency']]);
 			}
 		}
 		//log testing
