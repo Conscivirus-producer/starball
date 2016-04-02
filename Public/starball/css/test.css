@@ -142,10 +142,12 @@ span.subtitle-item-panier{
 	white-space: nowrap;
 	padding-right: 100px;
     margin-top: 4px;
+    font-size:12px;
 }
 span.title-item-panier{
 	display:block;
 	text-transform:uppercase;
+	font-size:13px;
 }
 a.item-panier{
 	height:120px;
@@ -369,6 +371,7 @@ ul.yu-menu-content{
 div.yu-main-container{
 	max-width:970px;
 	width:100%;
+	padding:0 10px;
 }
 
 /*login page*/
@@ -462,3 +465,27 @@ div.yu-listpage-header {
     padding: 0 10px;
     line-height: 1;
 }
+.item-caption-adjustor{
+	padding:0px 5px 5px 5px !important;
+	border:none;
+	margin-bottom:60px;
+}
+span.listpage-subtitle-item-panier{
+	display:block;
+    margin-top: 4px;
+    font-size:11px;
+    text-align:center;
+}
+span.listpage-title-item-panier{
+	display:block;
+	text-transform:uppercase;
+	font-size:13px;
+	text-align:center;
+}
+span.listpage-item-price{
+	 font-size: 11px;
+    display: block;
+    margin-top: 6px;
+    text-align: center;
+    margin-top: 18px;
+}   
