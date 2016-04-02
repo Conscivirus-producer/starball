@@ -407,6 +407,13 @@ button.yu-signin-button{
 	padding: 0.6rem 1rem;
     margin-top:9.9px;
 }
+div.yu-otherlogin{
+	display: block;
+    max-width: 300px;
+    margin: 20px auto 18px;
+    position: relative;
+    text-align: center;
+}
 .yu-seperate{
 	display: block;
     position: absolute;
@@ -414,13 +421,6 @@ button.yu-signin-button{
     width: 100%;
     height: 12px;
     border-bottom: 1px solid #cecece;
-}
-div.yu-otherlogin{
-	display: block;
-    max-width: 300px;
-    margin: 20px auto 18px;
-    position: relative;
-    text-align: center;
 }
 .yu-text-or{
     display: inline-block;
@@ -431,4 +431,30 @@ div.yu-otherlogin{
     padding: 0 10px;
     color: #cecece;
 	line-height:1;
+}
+/*list page*/
+div.yu-listpage-header {
+    display: block;
+    max-width: 390px;
+    margin: 20px auto 3px;
+    position: relative;
+    text-align: center;
+}    
+.yu-listpage-seperate {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 15px;
+    border-bottom: 1px solid #cecece;
+}
+.yu-listpage-title{
+	font-size: 26px;
+    color: #111100;
+	display: inline-block;
+    position: relative;
+    z-index: 2;
+    background: #fff;
+    padding: 0 10px;
+    line-height: 1;
 }
