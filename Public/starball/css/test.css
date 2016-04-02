@@ -282,8 +282,11 @@ div.yu-sub-menu{
 	position: relative;
 	box-sizing: border-box;
 	z-index: 999;
+	margin-top: 8px;
 	margin-bottom: -100%;
 	background-color: white;
+	width: 102%;
+	left: -1%;
 	padding-top: 20px;
 	padding-bottom: 20px;
 	border-bottom: 3px solid black;
@@ -302,6 +305,7 @@ div.yu-sub-menu-img-title{
 	background-color: #f9f9f9;
 	background:rgba(255, 255, 255, 0.6)!important;
 	padding-top: 10px;
+	margin-top: 10px;
 }
 input.yu-input-sm{
 	font-size:12px !important;
@@ -318,18 +322,18 @@ input.yu-input-sm{
 
 header.yu-home-header{
 	border-bottom: 2px solid black;
-	}
+}
 header.yu-no-border{
 	border:none;
-	}
+}
 
 div.yu-header-container{
  	width:970px;
  	max-width:100%;
  	margin:0 auto;
  	padding:0 10px;
- 	border-bottom: 3px solid black;
- 	}
+ 	border-bottom: 2px solid black;
+ }
  
  div.yu-layout-container{
     width: calc(100% - 80px);
@@ -403,6 +407,13 @@ button.yu-signin-button{
 	padding: 0.6rem 1rem;
     margin-top:9.9px;
 }
+div.yu-otherlogin{
+	display: block;
+    max-width: 300px;
+    margin: 20px auto 18px;
+    position: relative;
+    text-align: center;
+}
 .yu-seperate{
 	display: block;
     position: absolute;
@@ -410,13 +421,6 @@ button.yu-signin-button{
     width: 100%;
     height: 12px;
     border-bottom: 1px solid #cecece;
-}
-div.yu-otherlogin{
-	display: block;
-    max-width: 300px;
-    margin: 20px auto 18px;
-    position: relative;
-    text-align: center;
 }
 .yu-text-or{
     display: inline-block;
@@ -427,4 +431,30 @@ div.yu-otherlogin{
     padding: 0 10px;
     color: #cecece;
 	line-height:1;
+}
+/*list page*/
+div.yu-listpage-header {
+    display: block;
+    max-width: 390px;
+    margin: 20px auto 3px;
+    position: relative;
+    text-align: center;
+}    
+.yu-listpage-seperate {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 15px;
+    border-bottom: 1px solid #cecece;
+}
+.yu-listpage-title{
+	font-size: 26px;
+    color: #111100;
+	display: inline-block;
+    position: relative;
+    z-index: 2;
+    background: #fff;
+    padding: 0 10px;
+    line-height: 1;
 }
