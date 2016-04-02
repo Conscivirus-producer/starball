@@ -279,8 +279,11 @@ div.yu-sub-menu{
 	position: relative;
 	box-sizing: border-box;
 	z-index: 999;
+	margin-top: 8px;
 	margin-bottom: -100%;
 	background-color: white;
+	width: 102%;
+	left: -1%;
 	padding-top: 20px;
 	padding-bottom: 20px;
 	border-bottom: 3px solid black;
@@ -299,6 +302,7 @@ div.yu-sub-menu-img-title{
 	background-color: #f9f9f9;
 	background:rgba(255, 255, 255, 0.6)!important;
 	padding-top: 10px;
+	margin-top: 10px;
 }
 input.yu-input-sm{
 	font-size:12px !important;
@@ -314,18 +318,18 @@ input.yu-input-sm{
 
 header.yu-home-header{
 	border-bottom: 2px solid black;
-	}
+}
 header.yu-no-border{
 	border:none;
-	}
+}
 
 div.yu-header-container{
  	width:970px;
  	max-width:100%;
  	margin:0 auto;
  	padding:0 10px;
- 	border-bottom: 3px solid black;
- 	}
+ 	border-bottom: 2px solid black;
+ }
  
  div.yu-layout-container{
     width: calc(100% - 80px);
