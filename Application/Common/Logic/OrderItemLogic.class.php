@@ -8,7 +8,7 @@
 		}
 		
 		public function getOrderItemsById($id){
-			return $this->where('id='.$id)->select();
+			return $this->where('id='.$id)->order('updatedDate desc')->select();
 		}
 		
 		public function getOrderItemsByOrdeNumber($orderNumber){

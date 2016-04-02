@@ -105,31 +105,48 @@ class ItemController extends BaseController {
 		$itemSize = I('itemSize');
 		if(session('shoppingList') == ''){
 			//没有任何item添加到购物车
-			session('shoppingList',array(I('itemId') => array(I('itemSize') => 1)));
+			//session('shoppingList',array(I('itemId') => array(I('itemSize') => 1)));
+			session('shoppingList',array('totalItemCount' => '1', 'totalAmount'=>I('currentPrice')));
+			session('shoppingListItems', array($itemId.'_'.$itemSize => $this->processSingleOrderItemForSession()));
 		}else{
-			$itemList = session('shoppingList');
-			if(array_key_exists($itemId, $itemList)){
-				//这个item已经添加了
-				if(array_key_exists($itemSize, $itemList[$itemId])){
-					//这个item的这个尺寸已经添加了
-					$itemList[$itemId][$itemSize] += 1;
-				}else{
-					$itemList[$itemId][$itemSize] = 1;
-				}
+			$shoppingList = session('shoppingList');
+			$shoppingListItems = session('shoppingListItems');
+			$key = $itemId.'_'.$itemSize;
+			if(array_key_exists($key, $shoppingListItems)){
+				//这个item的这个size已经添加了
+				$record = $shoppingListItems[$key];
+				$record['quantity'] += 1;
+				$record['price'] += I('currentPrice');
+				$shoppingListItems[$key] = $record;
 			}else{
-				$itemList[$itemId][$itemSize] = 1;
+				$shoppingListItems[$key] = $this->processSingleOrderItemForSession();
 			}
-			session('shoppingList',$itemList);
+			session('shoppingListItems', $shoppingListItems);
+			
+			$shoppingList['totalItemCount'] += 1;
+			$shoppingList['totalAmount'] += I('currentPrice');
+			session('shoppingList',$shoppingList);
+			
 		}
+		$shoppingList = session('shoppingList');
+		logInfo('shoppingList  totalItemCount:'.$shoppingList['totalItemCount'].',totalAmount:'.$shoppingList['totalAmount']);
 		
-		foreach(session('shoppingList') as $itemId=>$subarray){
-			foreach($subarray as $itemSize=>$quantity){
-				logInfo("shoppingItemList: itemId:".$itemId.",itemSize:".$itemSize.",quantity:".$quantity);
-			}
-	 		foreach(session('favoriteList') as $value){
-				logInfo('favoriteItemList:'.$value);
-			}
+		$shoppingListItems = session('shoppingListItems');
+		logInfo('shoppingListItems:');
+		foreach($shoppingListItems as $key => $value){
+			logInfo('key:'.$key.',itemName:'.$value['itemName'].',brandName:'.$value['brandName']
+			.',itemImage:'.$value['itemImage'].',itemColor:'.$value['itemColor'].',sizeDescription:'.$value['sizeDescription'].',price:'.$value['price'].',quantity:'.$value['quantity']);
 		}
+	}
+
+	private function processSingleOrderItemForSession(){
+		return array('itemName'=>I('itemName'), 
+				  'brandName'=>I('brandName'), 
+				  'itemImage'=>I('itemImage'),
+				  'itemColor'=>I('itemColor'),
+				  'sizeDescription'=>D('Inventory', 'Logic')->getSizeDescriptionById(I('itemSize')),
+				  'price'=>I('currentPrice'),
+				  'quantity'=>1);
 	}
 
 	public function addToFavoriteList(){

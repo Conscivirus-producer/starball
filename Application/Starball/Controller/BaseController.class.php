@@ -9,21 +9,51 @@ class BaseController extends Controller {
 		}
 		if(I('currency') != '' && I('currency') != $this->getCurrency()){
 			cookie('preferred_currency',I('currency'),3600);
-			$this->updateUserShoppingListByCurrency();
+			$this->updateShoppingListByCurrency();
 		}
 		$this->assign('preferred_currency', cookie('preferred_currency'));		
 	}
 	
-	private function updateUserShoppingListByCurrency(){
+	private function updateShoppingListByCurrency(){
 		if(!$this->isLogin()){
-			return;
+			$this->updateSessionShoppingListByCurrency();
+		}else{
+			$this->updateUserShoppingListByCurrency();
 		}
+	}
+	
+	private function updateSessionShoppingListByCurrency(){
+		$shoppingList = session('shoppingList');
+		$shoppingListItems = session('shoppingListItems');
+		$newTotalPrice = 0;
+		foreach($shoppingListItems as $key => $values){
+			//The key is in such format: itemId_itemSize, explode the string to get the value
+			$array = explode('_', $key);
+			$itemId = current($array);
+			$itemSize = end($array);
+			$priceMap = D("ItemPrice", "Logic")->getPriceMap($itemId);
+			$values['price'] = $priceMap[$this->getCurrency()] * $values['quantity'];
+			$shoppingListItems[$key] = $values;
+			$newTotalPrice += $values['price'];
+		}
+		session('shoppingListItems', $shoppingListItems);
+		
+		$shoppingList['totalAmount'] = $newTotalPrice;
+		session('shoppingList', $shoppingList);
+	}
+	
+	private function updateUserShoppingListByCurrency(){
 		$orderLogic = D('Order', 'Logic');
 		$backlogOrder = $orderLogic->getOrderByUserId($this->getCurrentUserId(), 'B');
 		if(count($backlogOrder) == 0){
+			//No order found.
 			return;
 		}
 		$order = $backlogOrder[0];
+		if($order['currency'] == $this->getCurrency()){
+			//If currency is same with the existing return.
+			return;
+		}
 		
 		$orderItemLogic = D('OrderItem', 'Logic');
 		$orderItems = $orderItemLogic->getOrderItemsByOrdeNumber($order['orderNumber']);
@@ -56,29 +86,75 @@ class BaseController extends Controller {
 	
 	private function appendSessionShoppingListToUser(){
 		$shoppingList = session('shoppingList');
-		$favoriteList = session('favoriteList');
-		$totalQuantity = 0;
-		$totalPrice = 0;
-		
-		foreach($shoppingList as $itemIds => $subarray){
-			$itemData = D("Item", "Logic")->getItemById($itemId);
-			$imageData = D("Image", "Logic")->getImageById($itemId);
-			$priceData = D("ItemPrice", "Logic")->getPriceByItemId($itemId);
-			foreach($subarray as  $itemSize=>$quantity){
-				$totalQuantity += $quantity;		
-				
+		$shoppingListItems = session('shoppingListItems');
+		if($shoppingList == '' || $shoppingListItems == ''){
+			return;
+		}
+		$orderLogic = D('Order', 'Logic');
+		$backlogOrder = $orderLogic->getOrderByUserId($this->getCurrentUserId(), 'B');
+		if(count($backlogOrder) == 0){
+			//No order found.
+			return;
+		}
+		$order = $backlogOrder[0];
+		$orderItemLogic = D('OrderItem', 'Logic');
+		$orderItems = $orderItemLogic->getOrderItemsByOrdeNumber($order['orderNumber']);
+		//重新计算总的价格
+		$newTotalPrice = $shoppingList['totalAmount'];
+		$newTotalCount = $shoppingList['totalItemCount'];
+		foreach($orderItems as $record){
+			$key = $record['itemId'].'_'.$record['itemSize'];
+			//该记录不存在时，才需要存入数据库
+			if(array_key_exists($key, $shoppingListItems)){
+				$newTotalPrice -= $shoppingListItems[$key]['price'];
+				$newTotalCount -= $shoppingListItems[$key]['quantity'];
+				unset($shoppingListItems[$key]);
 			}
-		}		
+			//更新每个item的记录
+			$priceMap = D("ItemPrice", "Logic")->getPriceMap($record['itemId']);
+			$data['price'] = $priceMap[$this->getCurrency()];
+			$orderItemLogic->updateOrderItem($data, $record['id']);
+			$newTotalPrice += $data['price'] * $record['quantity'];
+		}
+		
+		foreach($shoppingListItems as $key => $value){
+			//创建新的记录
+			$itemData['orderNumber'] = $order['orderNumber'];
+			$itemData['itemId'] = current(explode('_', $key));
+			$itemData['itemName'] = $value['itemName'];
+			$itemData['brandName'] = $value['brandName'];
+			$itemData['itemImage'] = $value['itemImage'];
+			$itemData['itemColor'] = $value['itemColor'];
+			$itemData['itemSize'] = end(explode('_', $key));
+			$itemData['sizeDescription'] = $value['sizeDescription'];
+			$itemData['price'] = $value['price'];
+			$itemData['quantity'] = $value['quantity'];
+			$itemData['status'] = 'B';
+			$orderItemLogic->create($itemData);
+		}
+		
+		
+		$orderData['totalAmount'] += $newTotalPrice;
+		$orderData['totalItemCount'] += $newTotalCount;
+		$orderData['currency'] = $this->getCurrency();
+		$orderLogic->updateOrder($orderData, $order['orderId']);
 	}
 	
 	protected function prepareShoppingList(){
-		
 		if(session('userName') == ''){
 			//$this->assign('shoppingList',$shoppingList);
 			//$this->assign('favoriteList',$favoriteList);
-			$this->assign('shoppingListCount', 0);
+			$shoppingList = session('shoppingList');
+			if($shoppingList != '' && $shoppingList['totalItemCount'] > 0){
+				$this->assign('shoppingListCount', 1);
+			}else{
+				$this->assign('shoppingListCount', 0);
+				return;
+			}
+			$shoppingListItems = session('shoppingListItems');
+			$this->assign('shoppingList', $shoppingList);
+			$this->assign('shoppingListItems', $shoppingListItems);
 		}else{
-			logInfo('preparing');
 			$userId = session('userId');
 			$orderLogic = D('Order', 'Logic');
 			$orderItemLogic = D('OrderItem', 'Logic');
@@ -93,22 +169,9 @@ class BaseController extends Controller {
 				$this->assign('priceSymbol', $currencyArray[$order['currency']]);
 			}
 		}
-		//log testing
-		/*foreach(session('shoppingList') as $itemId=>$subarray){
-			foreach($subarray as $itemSize=>$quantity){
-				logInfo("shoppingItemList: itemId:".$itemId.",itemSize:".$itemSize.",quantity:".$quantity);
-			}
-	 		foreach(session('favoriteList') as $value){
-				logInfo('favoriteItemList:'.$value);
-			}
-		}*/
 	}
 	
 	protected function commonProcess(){
-		$this->prepareUserSetting();
-		$this->prepareBrandList();
-		$this->prepareUserMenu();
-		$this->prepareShoppingList();
 		if(IS_POST){
 			if(I('method') == 'register'){
 				$this->register();
@@ -118,6 +181,10 @@ class BaseController extends Controller {
 				$this->logout();
 			}
 		}
+		$this->prepareUserSetting();
+		$this->prepareBrandList();
+		$this->prepareUserMenu();
+		$this->prepareShoppingList();
 	}
 	
 	//abstract protected function pageDisplay();	
@@ -160,6 +227,12 @@ class BaseController extends Controller {
 			session('userName', $result['userName']);
 			session('lastDate', $result['lastUpdatedDate']);
 			session('lastIp', $result['lastIp']);
+			
+			//登录之后自动根据当前汇率重新计算用户订单的总额
+			$this->updateUserShoppingListByCurrency();
+			
+			//并且把当前session的购物车加到用户下面
+			$this->appendSessionShoppingListToUser();
 			//$this->assign('userName', $result['userName']);
 		} else{
 			$this->error("用户名密码不正确");
