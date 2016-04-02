@@ -65,7 +65,10 @@ p.yu-login-title{
 	margin:6px 3px 12px 3px;
 }
 .yu-margin-0612{
-	margin:0 6px 12px 6px;
+	margin:0 6px 12px 6px !important;
+}
+.yu-margin-0012{
+	margin-bottom:12px !important;
 }
 a.yu-forget-pwd{
 	float:left;
@@ -84,7 +87,7 @@ a.yu-forget-pwd{
 	font-size:12px;
 }
 .yu-checkbox-adjustor{
-	padding-top:0px;
+	padding-top:0px !important;
 	float:left;
 	margin-left:8px;
 }
@@ -306,6 +309,7 @@ div.yu-sub-menu-img-title{
 }
 input.yu-input-sm{
 	font-size:12px !important;
+	padding:7px !important;
 	}
 .login-img{
 	display: block;
@@ -394,5 +398,37 @@ p.yu-signin-title{
 form.yu-signin-form{
 	display:block;
 	max-width:300px;
+	width:100%;
 	margin:auto;
+}
+button.yu-signin-button{
+	font-size:12px;
+	width:300px;
+	padding: 0.6rem 1rem;
+    margin-top:9.9px;
+}
+.yu-seperate{
+	display: block;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 12px;
+    border-bottom: 1px solid #cecece;
+}
+div.yu-otherlogin{
+	display: block;
+    max-width: 300px;
+    margin: 20px auto 18px;
+    position: relative;
+    text-align: center;
+}
+.yu-text-or{
+    display: inline-block;
+    position: relative;
+    z-index: 2;
+    font-size:14px;
+    background: #fff;
+    padding: 0 10px;
+    color: #cecece;
+	line-height:1;
 }

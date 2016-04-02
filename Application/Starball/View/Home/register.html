@@ -2,38 +2,67 @@
 <block name="title"><title>注册</title></block>
 <block name="main">
 <div class="am-g yu-main-container">
-<div class="am-u-lg-6 am-u-md-6 am-u-sm-12 yu-signin-container">
-	<p class="yu-signin-title am-kai">
+<div class="am-u-lg-6 am-u-md-6 am-u-sm-12 yu-signin-container am-kai">
+	<p class="yu-signin-title">
 	<span>登录我的账户</span>
 	</p>
 	<form class="am-form am-form-horizontal yu-signin-form" role="form" method="post">
 				<input type="hidden" name="method" value="login">
-				<div class="am-form-group am-input-group-sm" >
-					<input name="userName" class="am-form-field am-kai yu-input-sm" placeholder="用户名/电子邮件">
-				</div>
-
-				<div class="am-form-group am-input-group-sm">
-					<input type="password" name="password" class="am-form-field am-kai yu-input-sm" placeholder="密码">
-				</div>
-
-				<a class="am-btn am-btn-link yu-forget-pwd am-padding-left-0">忘记密码？</a>
-				<div class="am-checkbox yu-rm-me">
+				 <div class="am-form-group yu-margin-0012">
+            <input type="email" name="email" class="am-form-field yu-input-sm" placeholder="用户名/电子邮件">
+        </div>
+        <div class="am-form-group yu-margin-0012">
+            <input type="password" name="password" class="am-form-field yu-input-sm" placeholder="密码">
+        </div>
+				<a class="am-btn am-btn-link yu-forget-pwd am-padding-left-0" style="text-decoration: underline;">忘记密码？</a>
+				<div class="am-checkbox yu-rm-me am-margin-right-0">
 					<label class="yu-font-12">
-						<input type="checkbox"  style="margin-top:4.2px;">
+						<input type="checkbox"   style="margin-top:5.1px;">
 						记住我 </label>
 				</div>
-
-				<button type="submit" class="am-btn am-btn-default yu-login-button-adjustor">
+				<button type="submit" class="am-btn am-btn-default yu-signin-button">
 					登录
 				</button>
-				
-
+				<div class="yu-otherlogin">
+				    <span class="yu-seperate"></span>
+				    <span class="yu-text-or">或</span>
+				</div>
 	</form>
 </div>
 <div class="am-u-lg-6 am-u-md-6 am-u-sm-12 yu-signup-container">
 	<p class="yu-signin-title am-kai">
 	<span>创建我的账户</span>
 	</p>
+	<form class="am-form am-form-horizontal yu-signin-form am-kai" role="form" method="post" >
+        <input type="hidden" name="method" value="register">
+        <div class="am-form-group yu-margin-0012">
+            <input type="email" name="email" class="am-form-field yu-input-sm" placeholder="电子邮件*">
+        </div>
+        <div class="am-form-group yu-margin-0012">
+            <input type="password" name="password" class="am-form-field yu-input-sm" placeholder="密码*">
+        </div>
+        <div class="am-form-group yu-margin-0012">
+            <input type="password" class="am-form-field yu-input-sm" placeholder="确认您的密码*">
+        </div>
+        <div class="am-form-group yu-margin-0012">
+            <input type="text" name="client_name" class="am-form-field yu-input-sm" placeholder="昵称">
+        </div>
+        <div class="am-form-group yu-margin-0012">
+            <input type="text" name="mobile" class="am-form-field yu-input-sm" placeholder="联络号码">
+        </div>
+        <div class="am-checkbox yu-checkbox-adjustor">
+            <label style="font-size:12px;">
+                <input type="checkbox" style="margin-top:4.2px;">
+                我希望订阅starball新闻咨询和特价优惠信息 </label>
+        </div>
+        <button type="submit" class="am-btn am-btn-default yu-signin-button">
+            立即注册
+        </button>
+        <div class="yu-otherlogin">
+            <span class="yu-seperate"></span>
+            <span class="yu-text-or">或</span>
+        </div>
+    </form>
 </div>
 </div>
 

@@ -9,7 +9,7 @@
 		}
 		
 		public function getSizeDescriptionById($id){
-			$map['id'] = $id;
+			$map['inventoryId'] = $id;
 			$data = $this->where($map)->select();
 			return getSizeDescriptionByAge($data[0]['age']);
 		}

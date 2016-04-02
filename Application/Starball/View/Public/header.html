@@ -203,10 +203,10 @@
 									<input type="password" class="am-form-field yu-input-sm" placeholder="确认您的密码*">
 								</div>
 								<div class="am-form-group yu-margin-0612">
-									<input type="password" class="am-form-field yu-input-sm" placeholder="昵称*">
-								</div>
-								<div class="am-form-group yu-margin-0612"ß>
-									<input type="phonenumber" name="mobile" class="am-form-field yu-input-sm" placeholder="联络号码">
+                                    <input type="text" name="userName" class="am-form-field yu-input-sm" placeholder="昵称">
+                                </div>
+								<div class="am-form-group yu-margin-0612">
+									<input type="text" name="mobile" class="am-form-field yu-input-sm" placeholder="联络号码">
 								</div>
 								<div class="am-checkbox yu-checkbox-adjustor">
 									<label style="font-size:12px;">
@@ -240,24 +240,31 @@
 					
 					<!-- myshoppingcart dropdown  -->
 					<li class="am-dropdown" data-am-dropdown="">
-						<a class="am-dropdown-toggle am-icon-shopping-bag" data-am-dropdown-toggle href="javascript:"style="padding-left:6px">{$Think.lang.myshoppinglist}</a>
+						<a id="myShoppingListLnk" class="am-dropdown-toggle am-icon-shopping-bag" data-am-dropdown-toggle href="javascript:"style="padding-left:6px">{$Think.lang.myshoppinglist}</a>
 						<ul class="am-dropdown-content yu-dropdown-content-contanier">
-							<li>
-								<a href="#" class="item-panier"> <img alt="Mini Me Choupette猫咪印图T恤" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/karl-lagerfeld-kids-t-1446712438-p_l_157397_A.jpg" class="item-photo-adjustor"> 
-									<span class="content-item-panier"> <span class="title-item-panier">Karl Lagerfeld Kids</span> <span class="subtitle-item-panier">Mini Me Choupette猫咪印图T恤 </span> 
-									<span class="yu-size-container"> <span class="" style="text-transform: none;"> 尺码： <span class="am-sans-serif"style="font-weight:bold;">4岁 (99 - 104 cm)</span> </span> <span class="" style="float:right"> 数量： <span class="">1</span> </span> <span class="am-sans-serif yu-item-price"> <span> Ұ&nbsp;358 </span> </span> </span> </span> </a>
-							</li>
-							<li class="am-divider"></li>
-							<li style="margin:0;">
-								<div id="" class="yu-total-price-panier">
-									<span class="">总金额： </span>
-									<span class="am-sans-serif value-total-price" >Ұ&nbsp; 358</span>
-								</div>
-							</li>
-							<li class="am-divider"></li>
-							<button type="button" class="am-btn am-btn-default yu-button-333 yu-check-button-adjustor">
-								查看我的购物袋
-							</button>
+							<eq name="shoppingListCount" value="0">
+								您的购物袋为空
+							<else/>
+								<volist name="shoppingListItems" id="vo">
+									<li>
+										<a href="#" class="item-panier"> <img alt="{$vo.itemName}" src="{$vo.itemImage}?imageView2/1/w/100/h/100/q/100" class="item-photo-adjustor"> 
+											<span class="content-item-panier"> <span class="title-item-panier">{$vo.brandName}</span> <span class="subtitle-item-panier">{$vo.itemName}</span> 
+											<span class="yu-size-container"> <span class="" style="text-transform: none;"> 尺码： <span class="am-sans-serif"style="font-weight:bold;">{$vo.sizeDescription}</span> </span> <span class="" style="float:right"> 数量： <span class="">{$vo.quantity}</span> </span> <span class="am-sans-serif yu-item-price"> <span> {$priceSymbol}&nbsp;{$vo.price} </span> </span> </span> </span> </a>
+									</li>
+									<li class="am-divider"></li>
+								</volist>								
+	
+								<li style="margin:0;">
+									<div id="" class="yu-total-price-panier">
+										<span class="">总金额： </span>
+										<span class="am-sans-serif value-total-price" >{$priceSymbol}&nbsp; {$shoppingList.totalAmount}</span>
+									</div>
+								</li>
+								<li class="am-divider"></li>
+								<button type="button" class="am-btn am-btn-default yu-button-333 yu-check-button-adjustor">
+									查看我的购物袋
+								</button>
+							</eq>
 						</ul>
 					</li>
 				</ol>
