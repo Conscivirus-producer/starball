@@ -19,6 +19,12 @@ class ListController extends BaseController {
 			$map["DateDiff(now(),lastUpdatedDate)"] = array('ELT', $byValue); 
 		}elseif($by == "brand"){
 			$map["t_item.brandId"] = array('EQ', $byValue);
+		}elseif($by == "baby"){
+			$map["grade"] = array('EQ',"1");
+		}elseif($by == "boy"){
+			$map["gender"] = array('EQ', 'M');
+		}elseif($by == "girl"){
+			$map["gender"] = array('EQ', 'F');
 		}
 		
 		//get filters
@@ -32,7 +38,7 @@ class ListController extends BaseController {
 		}
 		if($ages != ""){
 			$agesChecked = explode(",", $ages);
-			
+			$map["t_item.grade"] = array('IN', $ages);
 		}
 		if($colors != ""){
 			$colorsChecked = explode(",", $colors);
@@ -57,42 +63,59 @@ class ListController extends BaseController {
 		$count = D('Item')->where($map)->count();
 		$Page = new \Think\Page($count,12);
 		$show = $Page->show();					 
-		//refresh filters
-		// unset($map["t_item.categoryId"]);
-		// $category = D('Item')->field('distinct t_item.categoryId, ctg.categoryName, count(*) as count')->where($map)->join('t_category ctg ON ctg.categoryId = t_item.categoryId')->group('t_item.categoryId')->order('categoryId desc')->select();
-		// unset($map["t_item.brandId"]);
-		// $brand = D('Item')->field('distinct t_item.brandId, brd.brand Name, count(*)')->where($map)->join('t_brand brd ON brd.brandId = t_item.brandId')->group('t_item.brandId')->order('brandId asc')->select();
-		// $gender = D('Item')->field('distinct t_item.gender')->where($map)->select();
-		// $color = D('Item')->field('distinct t_item.color')->where($map)->select();
-		// $season = D('Item')->field('distinct t_item.season')->where($map)->select();
+		
 		$filterArray = array_keys(I('get.'));
 		if(in_array("categories", $filterArray)){
-			// unset($map["t_item.categoryId"]);
 			$category = D('Item')->field('distinct t_item.categoryId, ctg.categoryName, count(*) as count')->where($map)->join('t_category ctg ON ctg.categoryId = t_item.categoryId')->group('t_item.categoryId')->order('categoryId desc')->select();
-			// $map["t_item.categoryId"] = array('IN',$categories );
 		}else{
 			$category = D('Item')->field('distinct t_item.categoryId, ctg.categoryName, count(*) as count')->where($map)->join('t_category ctg ON ctg.categoryId = t_item.categoryId')->group('t_item.categoryId')->order('categoryId desc')->select();
 		}
 		if(in_array("brands", $filterArray)){
-			// unset($map["t_item.brandId"]);
 			$brand = D('Item')->field('distinct t_item.brandId, brd.brandName, count(*)')->where($map)->join('t_brand brd ON brd.brandId = t_item.brandId')->group('t_item.brandId')->order('brandId asc')->select();
-			// $map["t_item.brandId"] = array('IN',$brands );
 		}else{
 			$brand = D('Item')->field('distinct t_item.brandId, brd.brandName, count(*)')->where($map)->join('t_brand brd ON brd.brandId = t_item.brandId')->group('t_item.brandId')->order('brandId asc')->select();
 		}
 		if(in_array("genders", $filterArray)){
-			// unset($map["t_item.gender"]);
 			$gender = D('Item')->field('distinct t_item.gender')->where($map)->select();
-			// $map["t_item.gender"] = array('IN',$genders );
 		}else{
 			$gender = D('Item')->field('distinct t_item.gender')->where($map)->select();
 		}
 		if(in_array("colors", $filterArray)){
-			// unset($map["t_item.color"]);
 			$color = D('Item')->field('distinct t_item.color')->where($map)->select();
-			// $map["t_item.color"] = array('IN',$colors );
 		}else{
 			$color = D('Item')->field('distinct t_item.color')->where($map)->select();
+		}
+		if(in_array("ages", $filterArray)){
+			$age = D('Item')->field('distinct t_item.grade')->where($map)->select();
+			$itemSize = C('ITEMSIZE');
+			for ($i=0; $i < count($age); $i++) {
+				$age[$i]["gradeName"] = $itemSize[$age[$i]["grade"]][0];
+				if($itemSize[$age[$i]["grade"]][1] != ""){
+					$age[$i]["gradeName"] = $age[$i]["gradeName"]." ".$itemSize[$age[$i]["grade"]][1]."~".$itemSize[$age[$i]["grade"]][2]."cm"; 
+				}
+			}
+		}else{
+			$age = D('Item')->field('distinct t_item.grade')->where($map)->select();
+			$itemSize = C('ITEMSIZE');
+			for ($i=0; $i < count($age); $i++) {
+				$age[$i]["gradeName"] = $itemSize[$age[$i]["grade"]][0];
+				if($itemSize[$age[$i]["grade"]][1] != ""){
+					$age[$i]["gradeName"] = $age[$i]["gradeName"]." ".$itemSize[$age[$i]["grade"]][1]."~".$itemSize[$age[$i]["grade"]][2]."cm"; 
+				}
+			}
+		}
+		if(in_array("seasons", $filterArray)){
+			$season = D('Item')->field('distinct t_item.season')->where($map)->select();
+			$seasonName = C('SEASON');
+			for($i=0; $i < count($season); $i++){
+				$season[$i]["seasonName"] = $seasonName[$season[$i]["season"]];
+			}
+		}else{
+			$season = D('Item')->field('distinct t_item.season')->where($map)->select();
+			$seasonName = C('SEASON');
+			for($i=0; $i < count($season); $i++){
+				$season[$i]["seasonName"] = $seasonName[$season[$i]["season"]];
+			}
 		}
 		
 		//entry
@@ -103,6 +126,8 @@ class ListController extends BaseController {
 		$this->assign('categoriesChecked',json_encode($categoriesChecked));
 		$this->assign('gendersChecked',json_encode($gendersChecked));
 		$this->assign('colorsChecked',json_encode($colorsChecked));
+		$this->assign('agesChecked', json_encode($agesChecked));
+		$this->assign('seasonsChecked', json_encode($seasonsChecked));
 		//pageing
 		$this->assign('page', $show);
 		$this->assign('itemList',$itemList);
@@ -111,6 +136,8 @@ class ListController extends BaseController {
 		$this->assign('brand', $brand);
 		$this->assign('gender', $gender);
 		$this->assign('color', $color);
+		$this->assign('age', $age);
+		$this->assign('season', $season);
 		//show item list page
 		$this->display('index');
 	}

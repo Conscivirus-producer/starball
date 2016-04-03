@@ -328,10 +328,10 @@
 					<a href="{:U('Starball/List/showList','by=time&byValue=7')}">{$Think.lang.lastsevenday}</a>
 				</div>
 				<div class="am-u-md-12 am-icon-angle-right am-margin-0 am-padding-0">
-					{$Think.lang.lastfourweek}
+					<a href="{:U('Starball/List/showList','by=time&byValue=28')}">{$Think.lang.lastfourweek}</a>
 				</div>
 				<div class="am-u-md-12 am-icon-angle-right am-margin-0 am-padding-0">
-					{$Think.lang.commingsoon}
+					<a href="{:U('Starball/List/showList','by=time&byValue=180')}">{$Think.lang.commingsoon}</a>
 				</div>
 			</div>
 			<div class="am-u-md-7 am-u-end">
@@ -373,7 +373,7 @@
 					<ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
 						<volist name="babyMenuBrand" id="vo">
 							<li class="">
-								<a href="{:U('Starball/List/showList',array('by'=>'baby', 'byValue'=>'brand', 'brandId'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
+								<a href="{:U('Starball/List/showList',array('by'=>'baby', 'byValue'=>'brand', 'brands'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
 							</li>
 						</volist>
 					</ul>
@@ -386,7 +386,7 @@
 					<ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
 						<volist name="babyMenuCategory" id="vo">
 							<li class="">
-								<a href="{:U('Starball/List/showList',array('by'=>'baby', 'byValue'=>'category', 'categoryId'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
+								<a href="{:U('Starball/List/showList',array('by'=>'baby', 'byValue'=>'category', 'categories'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
 							</li>
 						</volist>
 					</ul>

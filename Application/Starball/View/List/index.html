@@ -40,36 +40,40 @@
 							</dd>
 						</dl>
 					</if>
-					<dl class="am-accordion-item gender">
-						<dt class="am-accordion-title">
-							性别
-						</dt>
-						<dd class="am-accordion-bd am-collapse ">
-							<div class="am-accordion-content">
-								<volist name="gender" id="gdata">
-									<label class="am-radio am-secondary">
-										<input class="gender {$gdata.gender}" type="checkbox"  value="{$gdata.gender}" data-am-ucheck>
-										<if condition="$gdata.gender eq 'M'">男<else />女</if>
-									</label>
-								</volist>
-							</div>
-						</dd>
-					</dl>
-					<dl class="am-accordion-item age">
-						<dt class="am-accordion-title">
-							年龄
-						</dt>
-						<dd class="am-accordion-bd am-collapse ">
-							<div class="am-accordion-content">
-								<!-- <volist name="brand" id="data">
-									<label class="am-radio am-secondary">
-										<input id="{$data.brandName}" class="brand" type="checkbox" value="{$data.brandId}" data-am-ucheck />
-										{$data.brandName}
-									</label>
-								</volist> -->
-							</div>
-						</dd>
-					</dl>
+					<if condition="$by neq 'boy' and $by neq 'girl'">
+						<dl class="am-accordion-item gender">
+							<dt class="am-accordion-title">
+								性别
+							</dt>
+							<dd class="am-accordion-bd am-collapse ">
+								<div class="am-accordion-content">
+									<volist name="gender" id="gdata">
+										<label class="am-radio am-secondary">
+											<input class="gender {$gdata.gender}" type="checkbox"  value="{$gdata.gender}" data-am-ucheck>
+											<if condition="$gdata.gender eq 'M'">男<else />女</if>
+										</label>
+									</volist>
+								</div>
+							</dd>
+						</dl>
+					</if>
+					<if condition="$by neq 'baby'">
+						<dl class="am-accordion-item age">
+							<dt class="am-accordion-title">
+								年龄
+							</dt>
+							<dd class="am-accordion-bd am-collapse ">
+								<div class="am-accordion-content">
+									<volist name="age" id="adata">
+										<label class="am-radio am-secondary">
+											<input class="age {$adata.grade}" type="checkbox" value="{$adata.grade}" data-am-ucheck />
+											{$adata.gradeName}
+										</label>
+									</volist>
+								</div>
+							</dd>
+						</dl>
+					</if>
 					<dl class="am-accordion-item color">
 						<dt class="am-accordion-title">
 							颜色
@@ -91,12 +95,12 @@
 						</dt>
 						<dd class="am-accordion-bd am-collapse ">
 							<div class="am-accordion-content">
-								<!-- <volist name="brand" id="data">
+								<volist name="season" id="sdata">
 									<label class="am-radio am-secondary">
-										<input id="{$data.brandName}" class="brand" type="checkbox" value="{$data.brandId}" data-am-ucheck />
-										{$data.brandName}
+										<input class="season {$sdata.season}" type="checkbox" value="{$sdata.season}" data-am-ucheck />
+										{$sdata.seasonName}
 									</label>
-								</volist> -->
+								</volist>
 							</div>
 						</dd>
 					</dl>
@@ -173,6 +177,13 @@ $(document).ready(function(){
 	if({:$colorsChecked} != null){
 		applychecks("color",{:$colorsChecked});
 	}
+	if({:$agesChecked} != null){
+		applychecks("age",{:$agesChecked});
+	}
+	if({:$seasonsChecked} != null){
+		applychecks("season",{:$seasonsChecked});
+	}
+	
 });
 function applychecks(type, checkedArray){
 		var checkeds = new Array();
@@ -189,6 +200,8 @@ $("input").click(function(){
 	var categories = new Array();
 	var genders = new Array();
 	var colors = new Array();
+	var ages = new Array();
+	var seasons = new Array();
 	
 	//for brand, single
 	if($(this).hasClass('brand')&&$(this).is('checked')){
@@ -225,7 +238,23 @@ $("input").click(function(){
 		}
 	});
 	if(categories.length != 0){
-		url = url+"/categories/"+categories.toString();
+		params = params+"/categories/"+categories.toString();
+	}
+	$("input.age").each(function(){
+		if($(this).is(':checked')){
+			ages.push($(this).attr("value"));
+		}
+	});
+	if(ages.length != 0){
+		params = params+"/ages/"+ages.toString();
+	}
+	$("input.season").each(function(){
+		if($(this).is(':checked')){
+			seasons.push($(this).attr("value"));
+		}
+	});
+	if(seasons.length != 0){
+		params = params+"/seasons/"+seasons.toString();
 	}
 	var url = "{:U('Starball/List/showList/by/$by/byValue/$byValue$params')}";
 	url = url.replace("$by","{$by}");
