@@ -1,5 +1,13 @@
 var timeOut;
 $(function() {
+	//如果是从添加到收藏夹/购物车刷新的页面，则需要弹开相应的窗口
+	var channel = $('#channel').val();
+	if(channel == 'addSL'){
+		$("#myShoppingListLnk").click();
+	}else if(channel = 'addFL'){
+		//TBC	
+	}
+	var shoppingListItems = JSON.parse(decodeURIComponent($('#shoppingListItems').val()));
   $('.am-slider').flexslider({
     // options
     smoothHeight: false
