@@ -1,419 +1,406 @@
 <extend name="Public/base" />
 <block name="customizedCss">
-	<link rel="stylesheet" type="text/css" href="__PUBLIC__/starball/css/test1.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/starball/css/test1.css">
 </block>
 <block name="title">
-	<title>{$Think.lang.home}</title>
+    <title>{$Think.lang.home}</title>
 </block>
 <block name="main">
-	<li class="am-show-md-up">
-		<div class="am-g">
-			<div data-am-widget="slider" class="am-slider am-slider-d2" data-am-slider='{"directionNav":false}' >
-				<ul class="am-slides">
-					<volist name="headArea" id="vo">
-						<li>
-							<img src="{$vo.image}" >
-							<div class="yu-slider-desc">
-								<div class="yu-slider-content">
-									<h2 class="am-slider-title yu-slider-title am-kai">{$vo.title}</h2>
-									<p class="yu-slider-subtitle am-kai">
-										{$vo.subtitle}
-									</p>
-								</div><a class="yu-slider-more am-kai">〉立即购买</a>
-							</div>
+    <li class="am-show-md-up">
+        <div class="am-g">
+            <div data-am-widget="slider" class="am-slider am-slider-d2" data-am-slider='{"directionNav":false}' >
+                <ul class="am-slides">
+                    <volist name="headArea" id="vo">
+                        <li>
+                            <img src="{$vo.image}" >
+                            <div class="yu-slider-desc">
+                                <div class="yu-slider-content">
+                                    <h2 class="am-slider-title yu-slider-title am-kai">{$vo.title}</h2>
+                                    <p class="yu-slider-subtitle am-kai">
+                                        {$vo.subtitle}
+                                    </p>
+                                </div><a class="yu-slider-more am-kai">〉立即购买</a>
+                            </div>
 
-						</li>
-					</volist>
-				</ul>
-			</div>
-		</div>
-	</li>
-	<li class="am-show-sm-only">
-		<div class="am-g">
-			<div data-am-widget="slider" class="am-slider am-slider-d2" data-am-slider='{"directionNav":false}' >
-				<ul class="am-slides">
-					<volist name="headArea" id="vo">
-						<li>
-							<img class="yu-slides-sm" src="{$vo.image}">
-							<div class="yu-slider-desc-sm">
-								<div class="yu-slider-content">
-									<h2 class="am-slider-title yu-slider-title-sm am-kai">{$vo.title}</h2>
-									<p class="yu-slider-subtitle-sm am-kai">
-										{$vo.subtitle}
-									</p>
-								</div><a class="yu-slider-more-sm am-kai">〉立即购买</a>
-							</div>
-						</li>
-					</volist>
-				</ul>
+                        </li>
+                    </volist>
+                </ul>
+            </div>
+        </div>
+    </li>
+    <li class="am-show-sm-only">
+        <div class="am-g">
+            <div data-am-widget="slider" class="am-slider am-slider-d2" data-am-slider='{"directionNav":false}' >
+                <ul class="am-slides">
+                    <volist name="headArea" id="vo">
+                        <li>
+                            <img class="yu-slides-sm" src="{$vo.image}">
+                            <div class="yu-slider-desc-sm">
+                                <div class="yu-slider-content">
+                                    <h2 class="am-slider-title yu-slider-title-sm am-kai">{$vo.title}</h2>
+                                    <p class="yu-slider-subtitle-sm am-kai">
+                                        {$vo.subtitle}
+                                    </p>
+                                </div><a class="yu-slider-more-sm am-kai">〉立即购买</a>
+                            </div>
+                        </li>
+                    </volist>
+                </ul>
 
-			</div>
-		</div>
-	</li>
-	<div class="yu-layout-container">
-		<li class="am-show-lg-only yu-margin-top am-kai yu-text-alicen">
-			<div class="am-g">
-				<div class="am-u-lg-8" style="
-				padding-left: 0;
-				/* height: 405px; */
-				/* position: absolute; */
-				/* margin-bottom: 26px; */
-				">
-					<div class="am-u-lg-6" style="
-					/* padding: 0; */
-					padding-left: 0;
-					padding-right: 25px;
-					/* height: 405px; */
-					margin-bottom: 26px;
-					">
-						<div class="am-thumbnail" style="
-						padding: 0;
-						/* height: 405px; */
-						/* overflow: hidden; */
-						/* object-fit: cover; */
-						">
-							<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/bar-jeans-405-spring-summer-2016-2.jpg" alt="" style="
-							width: 100%;
-							object-fit: cover;
-							object-position: top;
-							height: 315px;
-							">
-							<div class="am-thumbnail-caption am-kai" style="
-							/* padding-bottom: 0; */
-							/* padding-top: 0; */
-							">
-								<p style="
-								font-size: 24px;
-								margin-bottom: 5px;
-								">
-									牛仔系列
-								</p>
-								<p style="
-								font-size: 16px;
-								margin: 0;
-								">
-									单宁世界
-								</p>
-								<p style="
-								margin: 0;
-								">
-									<a href="##" style="
-									font-size: 12px;
-									color: black;
-									"> 〉立即购买 </a>
-								</p>
-							</div>
-						</div>
-					</div>
-					<div class="am-u-lg-6" style="
-					padding-left: 25px;
-					padding-right: 0;
-					">
-						<div class="am-thumbnail" style="
-						padding: 0;
-						">
-							<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/gucci-405-spring-summer-2016.jpg" alt="" style="
-							width: 100%;
-							object-fit: cover;
-							object-position: top;
-							height: 315px;
-							">
-							<div class="am-thumbnail-caption am-kai">
-								<p style="
-								font-size: 24px;
-								margin-bottom: 5px;
-								">
-									GUCCI
-								</p>
-								<p style="
-								margin: 0;
-								font-size: 16px;
-								">
-									单宁世界
-								</p>
-								<p style="
-								margin: 0;
-								">
-									<a href="##" style="
-									font-size: 12px;
-									color: black;
-									"> 〉立即购买 </a>
-								</p>
-							</div>
-						</div>
-					</div>
-					<div class="am-u-sm-12 am-u-md-12 am-u-lg-12" style="
-					padding-left: 0;
-					padding-right: 0;
-					float: left;
-					/* width: 100%; */
-					">
-						<div class="am-thumbnail" style="
-						padding: 0;
-						">
-							<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/archimede-998-spring-summer-2016.jpg" alt="" style="
-							width: 100%;
-							object-fit: cover;
-							object-position: top;
-							height: 315px;
-							">
-							<div class="am-thumbnail-caption am-kai yu-text-alicen">
-								<p style="
-								font-size: 24px;
-								margin-bottom: 5px;
-								">
-									ARCHIMEDE
-								</p>
-								<p style="
-								margin: 0;
-								font-size: 16px;
-								">
-									单宁世界
-								</p>
-								<p style="
-								margin: 0;
-								">
-									<a href="##" style="
-									font-size: 12px;
-									color: black;
-									"> 〉立即购买 </a>
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="am-u-lg-4" style="
-				padding-right: 0;
-				padding-left: 62px;
-				">
-					<div class="am-g">
-						<div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
-							<div class="am-thumbnail yu-margin-right" style="
-							padding: 0;
-							">
-								<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/marguerite-style-spring-summer-2016.jpg" alt="" style="
-								width: 100%;
-								">
-								<div class="am-thumbnail-caption">
-									<p class="yu-thumbnail-title">
-										LE MEGAZINE
-									</p>
-									<p class="yu-thumbnail-subtitle">
-										THE HISTORY OF DAISIES
-									</p>
+            </div>
+        </div>
+    </li>
+    <div class="yu-layout-container">
+        <li class="am-show-lg-only yu-margin-top am-kai yu-text-alicen">
+            <div class="am-g">
+                <div class="am-u-lg-8 am-padding-left-0">
+                    <div class="am-u-lg-6" style="
+                    padding-left: 0;
+                    padding-right: 25px;
+                    margin-bottom: 26px;
+                    ">
+                        <div class="am-thumbnail" style="
+                        padding: 0;
+                        ">
+                            <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/bar-jeans-405-spring-summer-2016-2.jpg" alt="" style="
+                            width: 100%;
+                            object-fit: cover;
+                            object-position: top;
+                            height: 315px;
+                            ">
+                            <div class="am-thumbnail-caption am-kai" style="
+                            ">
+                                <p style="
+                                font-size: 24px;
+                                margin-bottom: 5px;
+                                ">
+                                    牛仔系列
+                                </p>
+                                <p style="
+                                font-size: 16px;
+                                margin: 0;
+                                ">
+                                    单宁世界
+                                </p>
+                                <p style="
+                                margin: 0;
+                                ">
+                                    <a href="##" style="
+                                    font-size: 12px;
+                                    color: black;
+                                    "> 〉立即购买 </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="am-u-lg-6" style="
+                    padding-left: 25px;
+                    padding-right: 0;
+                    ">
+                        <div class="am-thumbnail" style="
+                        padding: 0;
+                        ">
+                            <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/gucci-405-spring-summer-2016.jpg" alt="" style="
+                            width: 100%;
+                            object-fit: cover;
+                            object-position: top;
+                            height: 315px;
+                            ">
+                            <div class="am-thumbnail-caption am-kai">
+                                <p style="
+                                font-size: 24px;
+                                margin-bottom: 5px;
+                                ">
+                                    GUCCI
+                                </p>
+                                <p style="
+                                margin: 0;
+                                font-size: 16px;
+                                ">
+                                    单宁世界
+                                </p>
+                                <p style="
+                                margin: 0;
+                                ">
+                                    <a href="##" style="
+                                    font-size: 12px;
+                                    color: black;
+                                    "> 〉立即购买 </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="am-u-sm-12 am-u-md-12 am-u-lg-12" style="
+                    padding-left: 0;
+                    padding-right: 0;
+                    float: left;
+                    ">
+                        <div class="am-thumbnail" style="
+                        padding: 0;
+                        ">
+                            <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/archimede-998-spring-summer-2016.jpg" alt="" style="
+                            width: 100%;
+                            object-fit: cover;
+                            object-position: top;
+                            height: 315px;
+                            ">
+                            <div class="am-thumbnail-caption am-kai yu-text-alicen">
+                                <p style="
+                                font-size: 24px;
+                                margin-bottom: 5px;
+                                ">
+                                    ARCHIMEDE
+                                </p>
+                                <p style="
+                                margin: 0;
+                                font-size: 16px;
+                                ">
+                                    单宁世界
+                                </p>
+                                <p style="
+                                margin: 0;
+                                ">
+                                    <a href="##" style="
+                                    font-size: 12px;
+                                    color: black;
+                                    "> 〉立即购买 </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="am-u-lg-4" style="
+                padding-right: 0;
+                padding-left: 62px;
+                ">
+                    <div class="am-g">
+                        <div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
+                            <div class="am-thumbnail yu-margin-right" style="
+                            padding: 0;
+                            ">
+                                <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/marguerite-style-spring-summer-2016.jpg" alt="" style="
+                                width: 100%;
+                                ">
+                                <div class="am-thumbnail-caption">
+                                    <p class="yu-thumbnail-title">
+                                        LE MEGAZINE
+                                    </p>
+                                    <p class="yu-thumbnail-subtitle">
+                                        THE HISTORY OF DAISIES
+                                    </p>
 
-								</div>
-							</div>
-						</div>
-						<div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
-							<div class="am-thumbnail yu-margin-right" style="
-							padding: 0;
-							">
-								<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/botanique-cabinet-curiosites-spring-summer-2016.jpg" alt="" style="
-								width: 100%;
-								">
-								<div class="am-thumbnail-caption">
-									<p class="yu-thumbnail-title">
-										LE MEGAZINE
-									</p>
-									<p class="yu-thumbnail-subtitle">
-										THE CABINET OF CURIOSITIES
-									</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
+                            <div class="am-thumbnail yu-margin-right" style="
+                            padding: 0;
+                            ">
+                                <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/botanique-cabinet-curiosites-spring-summer-2016.jpg" alt="" style="
+                                width: 100%;
+                                ">
+                                <div class="am-thumbnail-caption">
+                                    <p class="yu-thumbnail-title">
+                                        LE MEGAZINE
+                                    </p>
+                                    <p class="yu-thumbnail-subtitle">
+                                        THE CABINET OF CURIOSITIES
+                                    </p>
 
-								</div>
-							</div>
-						</div>
-						<div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
-							<div class="am-thumbnail yu-margin-right" style="
-							padding: 0;
-							">
-								<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/barrio-latino-style-spring-summer-2016.jpg" alt="" style="
-								width: 100%;
-								">
-								<div class="am-thumbnail-caption">
-									<p class="yu-thumbnail-title">
-										LE MEGAZINE
-									</p>
-									<p class="yu-thumbnail-subtitle">
-										BARRIO LATINO
-									</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
+                            <div class="am-thumbnail yu-margin-right" style="
+                            padding: 0;
+                            ">
+                                <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/barrio-latino-style-spring-summer-2016.jpg" alt="" style="
+                                width: 100%;
+                                ">
+                                <div class="am-thumbnail-caption">
+                                    <p class="yu-thumbnail-title">
+                                        LE MEGAZINE
+                                    </p>
+                                    <p class="yu-thumbnail-subtitle">
+                                        BARRIO LATINO
+                                    </p>
 
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</li>
-		<li class="am-show-md-down yu-margin-top am-kai yu-text-alicen">
-			<div class="am-g">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="am-show-md-down yu-margin-top am-kai yu-text-alicen">
+            <div class="am-g">
 
-				<div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
-					<div class="am-thumbnail">
-						<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/bar-jeans-405-spring-summer-2016-2.jpg" alt="">
-						<div class="am-thumbnail-caption am-kai">
-							<h3>牛仔系列</h3>
-							<p>
-								单宁世界
-							</p>
-							<p>
-								<button class="am-btn am-btn-default">
-									〉立即购买
-								</button>
-							</p>
-						</div>
-					</div>
-				</div>
-				<div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
-					<div class="am-thumbnail">
-						<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/gucci-405-spring-summer-2016.jpg" alt="">
-						<div class="am-thumbnail-caption am-kai">
-							<h3>GUCCI</h3>
-							<p>
-								单宁世界
-							</p>
-							<p>
-								<button class="am-btn am-btn-default">
-									〉立即购买
-								</button>
-							</p>
-						</div>
-					</div>
-				</div>
-				<div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
-					<div class="am-thumbnail">
-						<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/archimede-998-spring-summer-2016.jpg" alt="">
-						<div class="am-thumbnail-caption">
-							<h3>ARCHIMEDE</h3>
-							<p>
-								单宁世界
-							</p>
-							<p>
-								<button class="am-btn am-btn-default">
-									〉查看全部
-								</button>
-							</p>
-						</div>
-					</div>
-				</div>
+                <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
+                    <div class="am-thumbnail">
+                        <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/bar-jeans-405-spring-summer-2016-2.jpg" alt="">
+                        <div class="am-thumbnail-caption am-kai">
+                            <h3>牛仔系列</h3>
+                            <p>
+                                单宁世界
+                            </p>
+                            <p>
+                                <button class="am-btn am-btn-default">
+                                    〉立即购买
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
+                    <div class="am-thumbnail">
+                        <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/gucci-405-spring-summer-2016.jpg" alt="">
+                        <div class="am-thumbnail-caption am-kai">
+                            <h3>GUCCI</h3>
+                            <p>
+                                单宁世界
+                            </p>
+                            <p>
+                                <button class="am-btn am-btn-default">
+                                    〉立即购买
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                    <div class="am-thumbnail">
+                        <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/archimede-998-spring-summer-2016.jpg" alt="">
+                        <div class="am-thumbnail-caption">
+                            <h3>ARCHIMEDE</h3>
+                            <p>
+                                单宁世界
+                            </p>
+                            <p>
+                                <button class="am-btn am-btn-default">
+                                    〉查看全部
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
-				<div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
-					<div class="am-thumbnail yu-margin-right">
-						<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/marguerite-style-spring-summer-2016.jpg" alt="">
-						<div class="am-thumbnail-caption">
-							<p class="yu-thumbnail-title">
-								LE MEGAZINE
-							</p>
-							<p class="yu-thumbnail-subtitle">
-								THE HISTORY OF DAISIES
-							</p>
+                <div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
+                    <div class="am-thumbnail yu-margin-right">
+                        <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/marguerite-style-spring-summer-2016.jpg" alt="">
+                        <div class="am-thumbnail-caption">
+                            <p class="yu-thumbnail-title">
+                                LE MEGAZINE
+                            </p>
+                            <p class="yu-thumbnail-subtitle">
+                                THE HISTORY OF DAISIES
+                            </p>
 
-						</div>
-					</div>
-				</div>
-				<div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
-					<div class="am-thumbnail yu-margin-right">
-						<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/botanique-cabinet-curiosites-spring-summer-2016.jpg" alt="">
-						<div class="am-thumbnail-caption">
-							<p class="yu-thumbnail-title">
-								LE MEGAZINE
-							</p>
-							<p class="yu-thumbnail-subtitle">
-								THE CABINET OF CURIOSITIES
-							</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
+                    <div class="am-thumbnail yu-margin-right">
+                        <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/botanique-cabinet-curiosites-spring-summer-2016.jpg" alt="">
+                        <div class="am-thumbnail-caption">
+                            <p class="yu-thumbnail-title">
+                                LE MEGAZINE
+                            </p>
+                            <p class="yu-thumbnail-subtitle">
+                                THE CABINET OF CURIOSITIES
+                            </p>
 
-						</div>
-					</div>
-				</div>
-				<div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
-					<div class="am-thumbnail yu-margin-right">
-						<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/barrio-latino-style-spring-summer-2016.jpg" alt="">
-						<div class="am-thumbnail-caption">
-							<p class="yu-thumbnail-title">
-								LE MEGAZINE
-							</p>
-							<p class="yu-thumbnail-subtitle">
-								BARRIO LATINO
-							</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
+                    <div class="am-thumbnail yu-margin-right">
+                        <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/barrio-latino-style-spring-summer-2016.jpg" alt="">
+                        <div class="am-thumbnail-caption">
+                            <p class="yu-thumbnail-title">
+                                LE MEGAZINE
+                            </p>
+                            <p class="yu-thumbnail-subtitle">
+                                BARRIO LATINO
+                            </p>
 
-						</div>
-					</div>
-				</div>
-			</div>
-		</li>
-		<ul data-am-widget="gallery" class="am-gallery am-avg-sm-1   am-avg-md-5 am-avg-lg-5 am-gallery-overlay am-no-layout" data-am-gallery="{ pureview: true }" style="
-		border: 1px solid #cecece;
-		padding: 0;
-		">
-			<li>
-				<div class="am-gallery-item">
-					<a href="http://s.amazeui.org/media/i/demos/bing-1.jpg" class=""> <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/coup-de-coeur-botany1.jpg" alt="" data-am-pureviewed="1">
-					<div class="am-gallery-desc">
-						2375-09-26
-					</div> </a>
-				</div>
-			</li>
-			<li>
-				<div class="am-gallery-item">
-					<a href="http://s.amazeui.org/media/i/demos/bing-2.jpg" class=""> <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/coup-de-coeur-botany2.jpg" alt="" data-am-pureviewed="1">
-					<div class="am-gallery-desc">
-						2375-09-26
-					</div> </a>
-				</div>
-			</li>
-			<li>
-				<div class="am-gallery-item">
-					<a href="http://s.amazeui.org/media/i/demos/bing-3.jpg" class=""> <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/coup-de-coeur-botany3.jpg" alt="" data-am-pureviewed="1">
-					<div class="am-gallery-desc">
-						2375-09-26
-					</div> </a>
-				</div>
-			</li>
-			<li>
-				<div class="am-gallery-item">
-					<a href="http://s.amazeui.org/media/i/demos/bing-4.jpg" class=""> <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/coup-de-coeur-botany4.jpg" alt="" data-am-pureviewed="1">
-					<div class="am-gallery-desc">
-						2375-09-26
-					</div> </a>
-				</div>
-			</li>
-			<li>
-				<div class="am-gallery-item">
-					<a href="http://s.amazeui.org/media/i/demos/bing-4.jpg" class=""> <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/coup-de-coeur-botany5.jpg" alt="" data-am-pureviewed="1">
-					<div class="am-gallery-desc">
-						2375-09-26
-					</div> </a>
-				</div>
-			</li>
-			<div class="am-kai" style="text-align:center;padding-bottom: 20px;">
-				<p style="
-				font-size: 24px;
-				margin-bottom: 5px;
-				">
-					一见钟情
-				</p>
-				<p style="
-				margin: 0;
-				font-size: 16px;
-				">
-					BOTANY
-				</p>
-				<p style="
-				margin: 0;
-				">
-					<a href="##" style="
-					font-size: 12px;
-					color: black;
-					"> 〉立即购买 </a>
-				</p>
-			</div>
-		</ul>
-	</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <ul data-am-widget="gallery" class="am-gallery am-avg-sm-1   am-avg-md-5 am-avg-lg-5 am-gallery-overlay am-no-layout" data-am-gallery="{ pureview: true }" style="
+        border: 1px solid #cecece;
+        padding: 0;margin-top:30px;
+        ">
+            <li>
+                <div class="am-gallery-item">
+                    <a href="http://s.amazeui.org/media/i/demos/bing-1.jpg" class=""> <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/coup-de-coeur-botany1.jpg" alt="" data-am-pureviewed="1">
+                    <div class="am-gallery-desc">
+                        2375-09-26
+                    </div> </a>
+                </div>
+            </li>
+            <li>
+                <div class="am-gallery-item">
+                    <a href="http://s.amazeui.org/media/i/demos/bing-2.jpg" class=""> <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/coup-de-coeur-botany2.jpg" alt="" data-am-pureviewed="1">
+                    <div class="am-gallery-desc">
+                        2375-09-26
+                    </div> </a>
+                </div>
+            </li>
+            <li>
+                <div class="am-gallery-item">
+                    <a href="http://s.amazeui.org/media/i/demos/bing-3.jpg" class=""> <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/coup-de-coeur-botany3.jpg" alt="" data-am-pureviewed="1">
+                    <div class="am-gallery-desc">
+                        2375-09-26
+                    </div> </a>
+                </div>
+            </li>
+            <li>
+                <div class="am-gallery-item">
+                    <a href="http://s.amazeui.org/media/i/demos/bing-4.jpg" class=""> <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/coup-de-coeur-botany4.jpg" alt="" data-am-pureviewed="1">
+                    <div class="am-gallery-desc">
+                        2375-09-26
+                    </div> </a>
+                </div>
+            </li>
+            <li>
+                <div class="am-gallery-item">
+                    <a href="http://s.amazeui.org/media/i/demos/bing-4.jpg" class=""> <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/coup-de-coeur-botany5.jpg" alt="" data-am-pureviewed="1">
+                    <div class="am-gallery-desc">
+                        2375-09-26
+                    </div> </a>
+                </div>
+            </li>
+            <div class="am-kai" style="text-align:center;padding-bottom: 20px;">
+                <p style="
+                font-size: 24px;
+                margin-bottom: 5px;
+                ">
+                    一见钟情
+                </p>
+                <p style="
+                margin: 0;
+                font-size: 16px;
+                ">
+                    BOTANY
+                </p>
+                <p style="
+                margin: 0;
+                ">
+                    <a href="##" style="
+                    font-size: 12px;
+                    color: black;
+                    "> 〉立即购买 </a>
+                </p>
+            </div>
+        </ul>
+    </div>
 </block>
 <block name="customizedJavascript">
-	<script type="text/javascript">
-		$("#headerArea").removeClass('yu-no-border');
-		$("#headerArea").addClass('yu-home-header');
-		$("#subMenuListDiv").removeAttr("style");
-	</script>
+    <script type="text/javascript">
+$("#headerArea").removeClass('yu-no-border');
+$("#headerArea").addClass('yu-home-header');
+$("#subMenuListDiv").removeAttr("style");
+    </script>
 </block>

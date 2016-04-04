@@ -347,12 +347,6 @@ div.yu-header-container{
     margin: auto;
     max-width: 1440px;
 }
-div.yu-footer-container{
-	font-size:12px;
-    max-width:970px;
-    padding-left: 10px;
-    padding-right:10px;
-}
 .menu-sub-block{
 	float:left;
 	font-size:14px;
@@ -489,3 +483,34 @@ span.listpage-item-price{
     text-align: center;
     margin-top: 18px;
 }   
+/*footer*/
+div.yu-layout-footer{
+	margin-top:40px;
+	border-top:2px solid #000;
+}
+div.yu-footer-container{
+	font-size:12px;
+    max-width:970px;
+    padding-left: 10px;
+    padding-right:10px;
+    padding-top: 2px;
+}
+.yu-follow-us-title{
+	line-height:28px;
+	padding-right:5%;
+	color:#000;
+}
+.yu-footer-support{
+	font-size:12px;
+	color:#000;
+}
+.yu-footer-block-icon{
+	float: left;
+	display: block;
+}
+div.yu-footer-block-text{
+	margin-left: 8%;
+	margin-top: 2%;
+	display: inline-block;
+	color:#000;
+}
