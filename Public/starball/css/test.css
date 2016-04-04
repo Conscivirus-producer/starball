@@ -23,7 +23,14 @@ button.yu-offcanvas{
 	z-index: 999;
 	background-color: white;
 }
-
+/*search in small size*/
+input.yu-border-btmonly{
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-bottom:1px solid #ececec !important;
+    padding:10px 8px 10px 28px;
+}
 /*header in mdup screen*/
 .yu-mduplefttop-adjustor{
 	margin-bottom:0px !important;
@@ -186,6 +193,7 @@ div.yu-mdupsearch-adjustor{
 div.yu-smsearch-adjustor{
 	padding:0;
 	margin-top: -7px;
+	margin-bottom:15px;
 }
 
 /*slider*/
@@ -513,4 +521,7 @@ div.yu-footer-block-text{
 	margin-top: 2%;
 	display: inline-block;
 	color:#000;
+}
+div.yu-mddn-container{
+	padding:0 18px;
 }
