@@ -26,15 +26,14 @@ class BaseController extends Controller {
 		$shoppingList = session('shoppingList');
 		$shoppingListItems = session('shoppingListItems');
 		$newTotalPrice = 0;
-		foreach($shoppingListItems as $key => $values){
+		$i = 0;
+		foreach($shoppingListItems as $values){
 			//The key is in such format: itemId_itemSize, explode the string to get the value
-			$array = explode('_', $key);
-			$itemId = current($array);
-			$itemSize = end($array);
-			$priceMap = D("ItemPrice", "Logic")->getPriceMap($itemId);
+			$priceMap = D("ItemPrice", "Logic")->getPriceMap($values['itemId']);
 			$values['price'] = $priceMap[$this->getCurrency()] * $values['quantity'];
-			$shoppingListItems[$key] = $values;
+			$shoppingListItems[$i] = $values;
 			$newTotalPrice += $values['price'];
+			$i++;
 		}
 		session('shoppingListItems', $shoppingListItems);
 		
@@ -93,7 +92,25 @@ class BaseController extends Controller {
 		$orderLogic = D('Order', 'Logic');
 		$backlogOrder = $orderLogic->getOrderByUserId($this->getCurrentUserId(), 'B');
 		if(count($backlogOrder) == 0){
-			//No order found.
+			$strUtil = new \Org\Util\String();
+			$orderNumber = $strUtil->randString(6,1);
+			$data['orderNumber'] = $orderNumber;
+			$data['totalItemCount'] = $shoppingList['totalItemCount']; 
+			$data['totalAmount'] = $shoppingList['totalAmount'];
+			$data['userId'] = $this->getCurrentUserId(); 
+			$data['status'] = 'B';
+			$data['currency'] = $this->getCurrency();
+			$orderLogic->create($data);
+			$orderLogic->add();
+			
+			$orderItemLogic = D('OrderItem', 'Logic');
+			foreach($shoppingListItems as $record){
+				//创建新的记录
+				$record['orderNumber'] = $orderNumber;
+				$record['sizeDescription'] = D('Inventory', 'Logic')->getSizeDescriptionById($record['itemSize']);
+				$record['status'] = 'B';
+				$orderItemLogic->create($record);
+			}			
 			return;
 		}
 		$order = $backlogOrder[0];
@@ -102,45 +119,45 @@ class BaseController extends Controller {
 		//重新计算总的价格
 		$newTotalPrice = $shoppingList['totalAmount'];
 		$newTotalCount = $shoppingList['totalItemCount'];
+		$keyArray = array();
 		foreach($orderItems as $record){
 			$key = $record['itemId'].'_'.$record['itemSize'];
-			//该记录不存在时，才需要存入数据库
-			if(array_key_exists($key, $shoppingListItems)){
-				$newTotalPrice -= $shoppingListItems[$key]['price'];
-				$newTotalCount -= $shoppingListItems[$key]['quantity'];
-				unset($shoppingListItems[$key]);
+			array_push($keyArray, $key);
+		}
+
+		foreach($shoppingListItems as $value){
+			//判断记录是否已经存在
+			$key = $value['itemId'].'_'.$value['itemSize'];
+			if(in_array($key, $keyArray)){
+				$newTotalPrice -= $value['price'];
+				$newTotalCount -= $value['quantity'];
+			}else{
+				//如果记录不存在，创建新的记录
+				$itemData['orderNumber'] = $order['orderNumber'];
+				$itemData['itemId'] = current(explode('_', $key));
+				$itemData['itemName'] = $value['itemName'];
+				$itemData['brandName'] = $value['brandName'];
+				$itemData['itemImage'] = $value['itemImage'];
+				$itemData['itemColor'] = $value['itemColor'];
+				$itemData['itemSize'] = end(explode('_', $key));
+				$itemData['sizeDescription'] = $value['sizeDescription'];
+				$itemData['price'] = $value['price'];
+				$itemData['quantity'] = $value['quantity'];
+				$itemData['status'] = 'B';
+				$orderItemLogic->create($itemData);
 			}
-			//更新每个item的记录
-			$priceMap = D("ItemPrice", "Logic")->getPriceMap($record['itemId']);
-			$data['price'] = $priceMap[$this->getCurrency()];
-			$orderItemLogic->updateOrderItem($data, $record['id']);
-			$newTotalPrice += $data['price'] * $record['quantity'];
-		}
-		
-		foreach($shoppingListItems as $key => $value){
-			//创建新的记录
-			$itemData['orderNumber'] = $order['orderNumber'];
-			$itemData['itemId'] = current(explode('_', $key));
-			$itemData['itemName'] = $value['itemName'];
-			$itemData['brandName'] = $value['brandName'];
-			$itemData['itemImage'] = $value['itemImage'];
-			$itemData['itemColor'] = $value['itemColor'];
-			$itemData['itemSize'] = end(explode('_', $key));
-			$itemData['sizeDescription'] = $value['sizeDescription'];
-			$itemData['price'] = $value['price'];
-			$itemData['quantity'] = $value['quantity'];
-			$itemData['status'] = 'B';
-			$orderItemLogic->create($itemData);
 		}
 		
 		
-		$orderData['totalAmount'] += $newTotalPrice;
-		$orderData['totalItemCount'] += $newTotalCount;
+		$orderData['totalAmount'] = $order['totalAmount'] + $newTotalPrice;
+		$orderData['totalItemCount'] = $order['totalItemCount'] + $newTotalCount;
 		$orderData['currency'] = $this->getCurrency();
 		$orderLogic->updateOrder($orderData, $order['orderId']);
 	}
-	
+
 	protected function prepareShoppingList(){
+		//获取channel，如果是从添加到购物车或者是添加到收藏夹过来的，需要通知页面，页面自动弹出相应的框
+		$this->assign('channel', I('channel'));
 		if(session('userName') == ''){
 			//$this->assign('shoppingList',$shoppingList);
 			//$this->assign('favoriteList',$favoriteList);
@@ -154,6 +171,7 @@ class BaseController extends Controller {
 			$shoppingListItems = session('shoppingListItems');
 			$this->assign('shoppingList', $shoppingList);
 			$this->assign('shoppingListItems', $shoppingListItems);
+			$this->assign('shoppingListItemsCount', count($shoppingListItems));
 		}else{
 			$userId = session('userId');
 			$orderLogic = D('Order', 'Logic');
@@ -161,10 +179,11 @@ class BaseController extends Controller {
 			$backlogOrder = $orderLogic->getOrderByUserId($userId, 'B');
 			$this->assign('shoppingListCount', count($backlogOrder));
 			if(count($backlogOrder) > 0){
-				$order = $backlogOrder[0];
-				$this->assign('shoppingList', $order);
-				$orderItems = $orderItemLogic->getOrderItemsByOrdeNumber($order['orderNumber']);
-				$this->assign('shoppingListItems', $orderItems);
+				$shoppingList = $backlogOrder[0];
+				$this->assign('shoppingList', $shoppingList);
+				$shoppingListItems = $orderItemLogic->getOrderItemsByOrdeNumber($shoppingList['orderNumber']);
+				$this->assign('shoppingListItems', $shoppingListItems);
+				$this->assign('shoppingListItemsCount', count($shoppingListItems));
 				$currencyArray = C('CURRENCY');
 				$this->assign('priceSymbol', $currencyArray[$order['currency']]);
 			}
@@ -172,6 +191,7 @@ class BaseController extends Controller {
 	}
 	
 	protected function commonProcess(){
+		//session(null);
 		if(IS_POST){
 			if(I('method') == 'register'){
 				$this->register();

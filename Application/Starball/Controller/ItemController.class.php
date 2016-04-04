@@ -5,9 +5,6 @@ class ItemController extends BaseController {
 	public function index(){
 		$this->commonProcess();
     	$itemId = I('itemId');
-		if($itemId == ''){
-			$itemId = -1;
-		}
 		$itemData = D("Item", "Logic")->getItemById($itemId);
 		$imageData = D("Image", "Logic")->getImageById($itemId);
 		$priceData = D("ItemPrice", "Logic")->getPriceByItemId($itemId);
@@ -101,25 +98,27 @@ class ItemController extends BaseController {
 	}
 
 	private function addShoppingListToSession(){
-		$itemId = I('itemId');
-		$itemSize = I('itemSize');
 		if(session('shoppingList') == ''){
 			//没有任何item添加到购物车
-			//session('shoppingList',array(I('itemId') => array(I('itemSize') => 1)));
 			session('shoppingList',array('totalItemCount' => '1', 'totalAmount'=>I('currentPrice')));
-			session('shoppingListItems', array($itemId.'_'.$itemSize => $this->processSingleOrderItemForSession()));
+			session('shoppingListItems', array($this->processSingleOrderItemForSession()));
 		}else{
 			$shoppingList = session('shoppingList');
 			$shoppingListItems = session('shoppingListItems');
-			$key = $itemId.'_'.$itemSize;
-			if(array_key_exists($key, $shoppingListItems)){
-				//这个item的这个size已经添加了
-				$record = $shoppingListItems[$key];
-				$record['quantity'] += 1;
-				$record['price'] += I('currentPrice');
-				$shoppingListItems[$key] = $record;
-			}else{
-				$shoppingListItems[$key] = $this->processSingleOrderItemForSession();
+			$hasRecord = false;
+			$i = 0;
+			foreach($shoppingListItems as $record){
+				if($record['itemId'] == I('itemId') && $record['itemSize'] == I('itemSize')){
+					$record['quantity'] += 1;
+					$record['price'] += I('currentPrice');
+					$shoppingListItems[$i] = $record;
+					$hasRecord = true;
+					break;
+				}
+				$i++;
+			}
+			if(!$hasRecord){
+				array_push($shoppingListItems, $this->processSingleOrderItemForSession());
 			}
 			session('shoppingListItems', $shoppingListItems);
 			
@@ -128,25 +127,31 @@ class ItemController extends BaseController {
 			session('shoppingList',$shoppingList);
 			
 		}
+		//$this->testLogShoppingList();
+	}
+
+	private function testLogShoppingList(){
 		$shoppingList = session('shoppingList');
 		logInfo('shoppingList  totalItemCount:'.$shoppingList['totalItemCount'].',totalAmount:'.$shoppingList['totalAmount']);
 		
 		$shoppingListItems = session('shoppingListItems');
 		logInfo('shoppingListItems:');
-		foreach($shoppingListItems as $key => $value){
-			logInfo('key:'.$key.',itemName:'.$value['itemName'].',brandName:'.$value['brandName']
+		foreach($shoppingListItems as $value){
+			logInfo('itemId:'.$value['itemId'].',itemSize:'.$value['itemSize'].',itemName:'.$value['itemName'].',brandName:'.$value['brandName']
 			.',itemImage:'.$value['itemImage'].',itemColor:'.$value['itemColor'].',sizeDescription:'.$value['sizeDescription'].',price:'.$value['price'].',quantity:'.$value['quantity']);
-		}
+		}		
 	}
 
 	private function processSingleOrderItemForSession(){
-		return array('itemName'=>I('itemName'), 
-				  'brandName'=>I('brandName'), 
-				  'itemImage'=>I('itemImage'),
-				  'itemColor'=>I('itemColor'),
-				  'sizeDescription'=>D('Inventory', 'Logic')->getSizeDescriptionById(I('itemSize')),
-				  'price'=>I('currentPrice'),
-				  'quantity'=>1);
+		return array('itemId'=>I('itemId'),
+					  'itemSize'=>I('itemSize'),
+					  'itemName'=>I('itemName'), 
+					  'brandName'=>I('brandName'), 
+					  'itemImage'=>I('itemImage'),
+					  'itemColor'=>I('itemColor'),
+					  'sizeDescription'=>D('Inventory', 'Logic')->getSizeDescriptionById(I('itemSize')),
+					  'price'=>I('currentPrice'),
+					  'quantity'=>1);
 	}
 
 	public function addToFavoriteList(){
