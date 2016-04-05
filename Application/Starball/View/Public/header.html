@@ -418,7 +418,7 @@
 					<ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
 						<volist name="girlMenuBrand" id="vo">
 							<li class="">
-								<a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>'brand', 'brandId'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
+								<a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>'brand', 'brands'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
 							</li>
 						</volist>
 					</ul>
@@ -431,7 +431,7 @@
 					<ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
 						<volist name="girlMenuCategory" id="vo">
 							<li class="">
-								<a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>'category', 'categoryId'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
+								<a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>'category', 'categories'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
 							</li>
 						</volist>
 					</ul>
@@ -455,7 +455,7 @@
 					<ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
 						<volist name="boyMenuBrand" id="vo">
 							<li class="">
-								<a href="{:U('Starball/List/showList',array('by'=>'boy', 'byValue'=>'brand', 'brandId'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
+								<a href="{:U('Starball/List/showList',array('by'=>'boy', 'byValue'=>'brand', 'brands'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
 							</li>
 						</volist>
 					</ul>
@@ -468,7 +468,7 @@
 					<ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
 						<volist name="boyMenuCategory" id="vo">
 							<li class="">
-								<a href="{:U('Starball/List/showList',array('by'=>'boy', 'byValue'=>'category', 'categoryId'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
+								<a href="{:U('Starball/List/showList',array('by'=>'boy', 'byValue'=>'category', 'categories'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
 							</li>
 						</volist>
 					</ul>
