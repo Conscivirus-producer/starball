@@ -1,0 +1,1 @@
+ALTER TABLE  `t_orderitem` ADD  `updatedDate` DATETIME NOT NULL;

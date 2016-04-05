@@ -250,18 +250,34 @@
 					<li class="am-dropdown" data-am-dropdown="">
 						<a id="myShoppingListLnk" class="am-dropdown-toggle am-icon-shopping-bag" data-am-dropdown-toggle href="javascript:"style="padding-left:6px">{$Think.lang.myshoppinglist}</a>
 						<ul class="am-dropdown-content yu-dropdown-content-contanier">
+							<input type="hidden" id= "shoppingListItems" value = "<?php echo urlencode(json_encode($shoppingListItems));?>" />
+							<input type="hidden" id= "channel" value = "<?php echo I('channel');?>" />
 							<eq name="shoppingListCount" value="0">
 								您的购物袋为空
 							<else/>
-								<volist name="shoppingListItems" id="vo">
+							<gt name="shoppingListItemsCount" value="3">
+								<div class="scroll-item-list">
+									<a href="#" onclick="">
+										<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/arrow-jcarousel-thumb-top.jpg" alt="‹">
+									</a>
+								</div>
+							</gt>
+								<volist name="shoppingListItems" id="vo" offset="0" length='30'>
 									<li>
 										<a href="#" class="item-panier"> <img alt="{$vo.itemName}" src="{$vo.itemImage}?imageView2/1/w/100/h/100/q/100" class="item-photo-adjustor"> 
 											<span class="content-item-panier"> <span class="title-item-panier">{$vo.brandName}</span> <span class="subtitle-item-panier">{$vo.itemName}</span> 
 											<span class="yu-size-container"> <span class="" style="text-transform: none;"> 尺码： <span class="am-sans-serif"style="font-weight:bold;">{$vo.sizeDescription}</span> </span> <span class="" style="float:right"> 数量： <span class="">{$vo.quantity}</span> </span> <span class="am-sans-serif yu-item-price"> <span> {$priceSymbol}&nbsp;{$vo.price} </span> </span> </span> </span> </a>
 									</li>
 									<li class="am-divider"></li>
-								</volist>								
-	
+								</volist>
+							<gt name="shoppingListItemsCount" value="3">
+								<div class="scroll-item-list">
+									<a href="#">
+										<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/arrow-jcarousel-thumb-bottom.jpg" alt="›">
+									</a>
+								</div>
+							</gt>
+								
 								<li style="margin:0;">
 									<div id="" class="yu-total-price-panier">
 										<span class="">总金额： </span>
@@ -495,10 +511,10 @@
 
 <!-- ####################################################################################### -->
 <!-- small only search -->
-<form class="am-topbar-form am-topbar-left am-form-inline am-show-sm-only" role="search">
+<form class="am-topbar-form am-topbar-left am-form-inline am-show-sm-only am-kai" role="search">
 	<div class="am-form-field am-form-icon yu-smsearch-adjustor">
 		<i class="am-icon-search"></i>
-		<input type="text" class="am-form-field" placeholder="&nbsp{$Think.lang.search}">
+		<input type="text" class="am-form-field yu-border-btmonly" placeholder="&nbsp{$Think.lang.search}">
 	</div>
 </form>
 
