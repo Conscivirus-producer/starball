@@ -77,8 +77,22 @@ class ListController extends BaseController {
 		}
 		if(in_array("genders", $filterArray)){
 			$gender = D('Item')->field('distinct t_item.gender')->where($map)->select();
+			for ($i=0; $i < count($gender); $i++) { 
+				if($gender[$i]["gender"] == "M"){
+					$gender[$i]["genderName"] = "男";
+				}else{
+					$gender[$i]["genderName"] = "女";
+				}
+			}
 		}else{
 			$gender = D('Item')->field('distinct t_item.gender')->where($map)->select();
+			for ($i=0; $i < count($gender); $i++) { 
+				if($gender[$i]["gender"] == "M"){
+					$gender[$i]["genderName"] = "男";
+				}else{
+					$gender[$i]["genderName"] = "女";
+				}
+			}
 		}
 		if(in_array("colors", $filterArray)){
 			$color = D('Item')->field('distinct t_item.color')->where($map)->select();
@@ -106,16 +120,8 @@ class ListController extends BaseController {
 		}
 		if(in_array("seasons", $filterArray)){
 			$season = D('Item')->field('distinct t_item.season')->where($map)->select();
-			$seasonName = C('SEASON');
-			for($i=0; $i < count($season); $i++){
-				$season[$i]["seasonName"] = $seasonName[$season[$i]["season"]];
-			}
 		}else{
 			$season = D('Item')->field('distinct t_item.season')->where($map)->select();
-			$seasonName = C('SEASON');
-			for($i=0; $i < count($season); $i++){
-				$season[$i]["seasonName"] = $seasonName[$season[$i]["season"]];
-			}
 		}
 		
 		//entry

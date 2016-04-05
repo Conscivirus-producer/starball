@@ -22,10 +22,28 @@
 							&nbsp; <a href="##"> {$Think.lang.home} </a>
 						</ul>
 						<ul class="am-padding-0">
-							&nbsp; <a href="##"> {$Think.lang.newseries} </a>
+							&nbsp; <a href="##" data-am-collapse="{target: '#collapse-list-new'}"> {$Think.lang.newseries} <i class="am-icon-angle-right" style="float:right"></i> </a>
+							<ul id="collapse-list-new" class="am-collapse">
+								<li style="list-style-type:none;">
+									<a href="{:U('Starball/List/showList','by=time&byValue=7')}">{$Think.lang.lastsevenday}</a>
+								</li>
+								<li style="list-style-type:none;">
+									<a href="{:U('Starball/List/showList','by=time&byValue=28')}">{$Think.lang.lastfourweek}</a>
+								</li>
+								<li style="list-style-type:none;">
+									<a href="{:U('Starball/List/showList','by=time&byValue=180')}">{$Think.lang.commingsoon}</a>
+								</li>
+							</ul>
 						</ul>
 						<ul class="am-padding-0">
-							&nbsp; <a href="##"> {$Think.lang.brand} </a>
+							&nbsp; <a href="##" data-am-collapse="{target: '#collapse-list-brand'}"> {$Think.lang.brand} <i class="am-icon-angle-right" style="float:right"></i></a>
+							<ul id="collapse-list-brand" class="am-collapse">
+								<volist name="brandList" id="vo">
+									<li style="list-style-type: none;">
+										<a href="{:U('Starball/List/showList',array('by'=>'brand','byValue'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
+									</li>
+								</volist>
+							</ul>
 						</ul>
 						<ul class="am-padding-0">
 							&nbsp; <a href="##"> {$Think.lang.baby} </a>
