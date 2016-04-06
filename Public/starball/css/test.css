@@ -526,7 +526,16 @@ div.yu-mddn-container{
 	padding:0 18px;
 }
 div.scroll-item-list{
-	text-align: center;	
+	text-align: center;
+	height: 20px;	
+	margin-top: 7px;
+	font-size: 12px;
+}
+div.empty-list{
+	text-align: center;
+	height: 50px;	
+	margin-top: 25px;
+	font-size: 12px;
 }
 /*homepage*/
 div.yu-leftsection-adjustor{

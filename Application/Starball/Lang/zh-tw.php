@@ -23,4 +23,5 @@ return array(
     'addToShoppingList'=>'添加到購物車',
     'addToFavoriteList'=>'添加到我的收藏',
     'size'=>'大小',
+    'recentShoppingList'=>'最近加入的宝贝',
 );

@@ -20,6 +20,14 @@
 			}
 			return true;
 		}
+		public function updateOneItemImages($itemId, $imageArray) {
+			$map['itemId'] = $itemId;
+			if ($this->where($map)->delete() == false) {
+				return false;
+			} else {
+				return $this->insertMultipleImages($itemId, $imageArray);
+			}
+		}
 	}
 
 
