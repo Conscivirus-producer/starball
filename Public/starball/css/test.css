@@ -556,3 +556,15 @@ div.yu-leftsection-adjustor{
 	padding-left: 25px !important;
 	padding-right: 0 !important;
 }
+div.yu-home-rightend{
+	padding-right: 0;
+    padding-left: 62px;
+}
+ul.yu-lastlayer-adjustor{
+	border: 1px solid #cecece;
+	padding: 0;
+}
+div.yu-bottomlayer-adjustor{
+	text-align:center;
+	padding-bottom: 20px;
+}
