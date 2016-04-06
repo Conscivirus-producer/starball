@@ -135,7 +135,8 @@
 		    									'itemSize':$('#itemSize').val()},function(data){
 		    	if(data.status == 1){
 		    		alert("添加成功");
-		    		location.href = '?channel=addSL';
+		    		$("#myShoppingListLnk").click();
+		    		//location.href = '?channel=addSL';
 		    	}
 		    },'json');
 		}
