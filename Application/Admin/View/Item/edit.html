@@ -1,0 +1,330 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>StarBall Admin Page</title>
+    <meta name="description" content="商品管理页面">
+    <meta name="keywords" content="help">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" href="__PUBLIC__/AmazeUI-2.5.2/assets/i/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="__PUBLIC__/AmazeUI-2.5.2/assets/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="stylesheet" href="__PUBLIC__/AmazeUI-2.5.2/assets/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="__PUBLIC__/AmazeUI-2.5.2/assets/css/admin.css">
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+    以获得更好的体验！</p>
+<![endif]-->
+<!-- 七牛token -->
+<input type="text" id="qiniuToken" name="qiniuToken" value="{$qiniuToken}" style="display: none">
+<header class="am-topbar admin-header">
+    <div class="am-topbar-brand">
+        <strong>StarBall</strong> <small>后台管理模板</small>
+    </div>
+
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+            <li><a href="javascript:;"><span class="am-icon-envelope-o"></span> 收件箱 <span class="am-badge am-badge-warning">5</span></a></li>
+            <li class="am-dropdown" data-am-dropdown>
+                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                    <span class="am-icon-users"></span> 管理员 <span class="am-icon-caret-down"></span>
+                </a>
+                <ul class="am-dropdown-content">
+                    <li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
+                    <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
+                    <li><a href="#"><span class="am-icon-power-off"></span> 退出</a></li>
+                </ul>
+            </li>
+            <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><span class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
+        </ul>
+    </div>
+</header>
+
+<div class="am-cf admin-main">
+    <!-- sidebar start -->
+    <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+        <div class="am-offcanvas-bar admin-offcanvas-bar">
+            <ul class="am-list admin-sidebar-list">
+                <li><a href="admin-index.html"><span class="am-icon-home"></span> 订单管理</a></li>
+                <li class="admin-parent">
+                    <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 库存管理 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+                        <li><a href="admin-brand.html" class="am-cf"><span class="am-icon-check"></span> 品牌管理<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                        <li><a href="admin-item.html"><span class="am-icon-puzzle-piece"></span> 商品管理</a></li>
+                        <li><a href="admin-count.html"><span class="am-icon-th"></span> 库存盘点<span class="am-badge am-badge-secondary am-margin-right am-fr">24</span></a></li>
+                    </ul>
+                </li>
+                <li><a href="admin-page.html"><span class="am-icon-table"></span> 页面管理</a></li>
+                <li><a href="#"><span class="am-icon-sign-out"></span> 注销</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- sidebar end -->
+
+    <!-- content start -->
+    <div class="admin-content">
+        <div class="am-g">
+            <!-- single uploading area -->
+            <div class="am-u-sm-12">
+                <form class="am-form" id="single-item-form" method="post" enctype="multipart/form-data">
+                    <fieldset>
+                        <legend>上传单个商品</legend>
+                        <input type="text" id="item-id" name="itemId" value="{$itemInformation['itemId']}" style="display: none">
+                        <div class="am-form-group">
+                            <label for="item-name">商品名称</label>
+                            <input type="text" class="" name="name" id="item-name" placeholder="输入商品名称" value="{$itemInformation['name']}">
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="item-color">商品颜色</label>
+                            <input type="text" class="" name="color" id="item-color" placeholder="输入商品颜色" value="{$itemInformation['color']}">
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="item-detailDescription">商品详细描述</label>
+                            <textarea class="" rows="4" name="detailDescription" id="item-detailDescription" placeholder="输入商品详细描述">{$itemInformation['detailDescription']}</textarea>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="item-component">商品成分</label>
+                            <textarea class="" rows="2" name="component" id="item-component" placeholder="100% 棉。Machine washable at 30°C">{$itemInformation['component']}</textarea>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="item-brandId">商品品牌</label>
+                            <select name="brandId" id="item-brandId">
+                            </select>
+                            <span class="am-form-caret"></span>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="item-categoryId">商品类别</label>
+                            <select name="categoryId" id="item-categoryId">
+                            </select>
+                            <span class="am-form-caret"></span>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="item-grade">商品等级</label>
+                            <select name="grade" id="item-grade">
+                                <option value="1">Baby</option>
+                                <option value="2">Child</option>
+                            </select>
+                            <span class="am-form-caret"></span>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="item-gender">商品对象性别</label>
+                            <select name="gender" id="item-gender">
+                                <option value="M">男</option>
+                                <option value="F">女</option>
+                            </select>
+                            <span class="am-form-caret"></span>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="item-priceHKD">商品港币价格</label>
+                            <div class="am-input-group">
+                                <input type="text" class="" name="priceHKD" id="item-priceHKD" placeholder="输入商品价格" value="{$itemInformation['itemPrice']['HKD']['price']}">
+                                <span class="am-input-group-label">港币</span>
+                            </div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="item-priceCNY">商品人民币价格</label>
+                            <div class="am-input-group">
+                                <input type="text" class="" name="priceCNY" id="item-priceCNY" placeholder="输入商品价格" value="{$itemInformation['itemPrice']['CNY']['price']}">
+                                <span class="am-input-group-label">人民币</span>
+                            </div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="item-season">商品季节</label>
+                            <input type="text" class="" name="season" id="item-season" placeholder="输入商品季节" value="{$itemInformation['season']}">
+                        </div>
+
+                        <div class="am-form-group am-form-file">
+                            <button type="button" class="am-btn am-btn-primary am-btn-sm">
+                                <i class="am-icon-cloud-upload"></i> 选择要上传的商品图片
+                            </button>
+                            <input id="item-images" type="file" name="item-images" >
+                        </div>
+
+                        <ul class="am-avg-sm-4 am-thumbnails" id="images-gallery">
+
+                        </ul>
+
+                        <div class="am-form-group" style="display:none">
+                            <label for="item-images-array">商品图片数组</label>
+                            <textarea class="" rows="4" name="images_array" id="item-images-array" placeholder="商品图片数组"></textarea>
+                        </div>
+
+                        <p><button type="button" id="update-single-item" class="am-btn am-btn-default">提交</button></p>
+                    </fieldset>
+                </form>
+            </div>
+
+            <!-- 内容填写不完整报错框 -->
+            <div class="am-modal am-modal-alert" tabindex="-1" id="single-input-alert">
+                <div class="am-modal-dialog">
+                    <div class="am-modal-hd">请把内容填写完整</div>
+                    <div class="am-modal-bd">
+                        请把内容填写完整
+                    </div>
+                    <div class="am-modal-footer">
+                        <span class="am-modal-btn">确定</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 更新不成功报错框 -->
+            <div class="am-modal am-modal-alert" tabindex="-1" id="update-fail-alert">
+                <div class="am-modal-dialog">
+                    <div class="am-modal-hd">更新失败</div>
+                    <div class="am-modal-bd">
+                        请重新更新
+                    </div>
+                    <div class="am-modal-footer">
+                        <span class="am-modal-btn">确定</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 更新成功报错框 -->
+            <div class="am-modal am-modal-alert" tabindex="-1" id="update-success-alert">
+                <div class="am-modal-dialog">
+                    <div class="am-modal-hd">更新成功</div>
+                    <div class="am-modal-bd">
+                        更新成功
+                    </div>
+                    <div class="am-modal-footer">
+                        <span class="am-modal-btn">确定</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- content end -->
+
+</div>
+
+<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+<footer>
+    <hr>
+    <p class="am-padding-left">© 2016 UltraBravo Inc.</p>
+</footer>
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="__PUBLIC__/AmazeUI-2.5.2/assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="__PUBLIC__/AmazeUI-2.5.2/assets/js/amazeui.min.js"></script>
+<script src="__PUBLIC__/AmazeUI-2.5.2/assets/js/app.js"></script>
+<script src="__PUBLIC__/starball/js/jquery.form.js"></script>
+<!-- 自己的JS代码-->
+<script>
+    var imagesArray = new Array();
+    var itemInformation = {$itemInformationJSON};
+    $(document).ready(function(){
+        // category
+        $.getJSON( "./getCategoryInfo", function(data) {
+            $.each(data, function( index, value ) {
+                $("#item-categoryId").append("<option value='" + value.categoryId + "'>" + value.categoryName + "</option>");
+            });
+            $("#item-categoryId").val(itemInformation.categoryId);
+        });
+        // brand
+        $.getJSON( "./getBrandInfo", function(data) {
+            $.each(data, function( index, value ) {
+                $("#item-brandId").append("<option value='" + value.brandId + "'>" + value.brandName + "</option>");
+            });
+            $("#item-brandId").val(itemInformation.brandId);
+        });
+        $("#item-grade").val(itemInformation.grade);
+        $("#item-gender").val(itemInformation.gender);
+    });
+    // load images
+    $.each(itemInformation.images, function(index, value) {
+        $("#images-gallery").append('<li id="image' + value.imageId + '"><img class="am-thumbnail" src="' + value.image +'" /></li>');
+        imagesArray.push(value.image);
+    });
+    function validateFields() {
+        if ($("#item-name").val().trim() == "") {
+            $('#single-input-alert').modal('open');
+            $("#item-name").focus();
+            return false;
+        } else if ($("#item-color").val().trim() == "") {
+            $('#single-input-alert').modal('open');
+            $("#item-color").focus();
+            return false;
+        } else if ($("#item-detailDescription").val().trim() == "") {
+            $('#single-input-alert').modal('open');
+            $("#item-detailDescription").focus();
+            return false;
+        } else if ($("#item-component").val().trim() == "") {
+            $('#single-input-alert').modal('open');
+            $("#item-component").focus();
+            return false;
+        } else if ($("#item-priceHKD").val().trim() == "") {
+            $('#single-input-alert').modal('open');
+            $("#item-priceHKD").focus();
+            return false;
+        } else if ($("#item-priceCNY").val().trim() == "") {
+            $('#single-input-alert').modal('open');
+            $("#item-priceCNY").focus();
+            return false;
+        } else if ($("#item-season").val().trim() == "") {
+            $('#single-input-alert').modal('open');
+            $("#item-season").focus();
+            return false;
+        } else if ($("#item-images-array").val().trim() == "") {
+            $('#single-input-alert').modal('open');
+            return false;
+        }
+        return true;
+    }
+    $("#update-single-item").click(function(){
+        $("#item-images-array").val(imagesArray.join(","));
+        if (validateFields() == true) {
+            var $form = $("#single-item-form");
+            var options = {
+                type : 'post',
+                url : "./updateSingleItem",
+                dataType: 'text',
+                contentType: "application/json; charset=utf-8",
+                success:function(data) {
+                    $("#update-single-item").prop('disabled', false);
+                    if ($.parseJSON(data).status == "success") {
+                        $("#update-success-alert").modal('open');
+                    } else {
+                        $('#update-fail-alert').modal('open');
+                    }
+                },
+                error:function(XmlHttpRequest, textStatus, errorThrown){
+                    $("#update-single-item").prop('disabled', false);
+                    alert(textStatus);
+                    alert(errorThrown);
+                }
+            };
+            $form.ajaxSubmit(options);
+            $(this).prop('disabled', false);
+        }
+    });
+</script>
+</body>
+</html>
