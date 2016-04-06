@@ -22,10 +22,28 @@
 							&nbsp; <a href="##"> {$Think.lang.home} </a>
 						</ul>
 						<ul class="am-padding-0">
-							&nbsp; <a href="##"> {$Think.lang.newseries} </a>
+							&nbsp; <a href="##" data-am-collapse="{target: '#collapse-list-new'}"> {$Think.lang.newseries} <i class="am-icon-angle-right" style="float:right"></i> </a>
+							<ul id="collapse-list-new" class="am-collapse">
+								<li style="list-style-type:none;">
+									<a href="{:U('Starball/List/showList','by=time&byValue=7')}">{$Think.lang.lastsevenday}</a>
+								</li>
+								<li style="list-style-type:none;">
+									<a href="{:U('Starball/List/showList','by=time&byValue=28')}">{$Think.lang.lastfourweek}</a>
+								</li>
+								<li style="list-style-type:none;">
+									<a href="{:U('Starball/List/showList','by=time&byValue=180')}">{$Think.lang.commingsoon}</a>
+								</li>
+							</ul>
 						</ul>
 						<ul class="am-padding-0">
-							&nbsp; <a href="##"> {$Think.lang.brand} </a>
+							&nbsp; <a href="##" data-am-collapse="{target: '#collapse-list-brand'}"> {$Think.lang.brand} <i class="am-icon-angle-right" style="float:right"></i></a>
+							<ul id="collapse-list-brand" class="am-collapse">
+								<volist name="brandList" id="vo">
+									<li style="list-style-type: none;">
+										<a href="{:U('Starball/List/showList',array('by'=>'brand','byValue'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
+									</li>
+								</volist>
+							</ul>
 						</ul>
 						<ul class="am-padding-0">
 							&nbsp; <a href="##"> {$Think.lang.baby} </a>
@@ -262,7 +280,7 @@
 									</a>
 								</div>
 							</gt>
-								<volist name="shoppingListItems" id="vo" offset="0" length='30'>
+								<volist name="shoppingListItems" id="vo" offset="0" length='3'>
 									<li>
 										<a href="#" class="item-panier"> <img alt="{$vo.itemName}" src="{$vo.itemImage}?imageView2/1/w/100/h/100/q/100" class="item-photo-adjustor"> 
 											<span class="content-item-panier"> <span class="title-item-panier">{$vo.brandName}</span> <span class="subtitle-item-panier">{$vo.itemName}</span> 
@@ -434,7 +452,7 @@
 					<ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
 						<volist name="girlMenuBrand" id="vo">
 							<li class="">
-								<a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>'brand', 'brandId'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
+								<a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>'brand', 'brands'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
 							</li>
 						</volist>
 					</ul>
@@ -447,7 +465,7 @@
 					<ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
 						<volist name="girlMenuCategory" id="vo">
 							<li class="">
-								<a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>'category', 'categoryId'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
+								<a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>'category', 'categories'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
 							</li>
 						</volist>
 					</ul>
@@ -471,7 +489,7 @@
 					<ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
 						<volist name="boyMenuBrand" id="vo">
 							<li class="">
-								<a href="{:U('Starball/List/showList',array('by'=>'boy', 'byValue'=>'brand', 'brandId'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
+								<a href="{:U('Starball/List/showList',array('by'=>'boy', 'byValue'=>'brand', 'brands'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
 							</li>
 						</volist>
 					</ul>
@@ -484,7 +502,7 @@
 					<ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
 						<volist name="boyMenuCategory" id="vo">
 							<li class="">
-								<a href="{:U('Starball/List/showList',array('by'=>'boy', 'byValue'=>'category', 'categoryId'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
+								<a href="{:U('Starball/List/showList',array('by'=>'boy', 'byValue'=>'category', 'categories'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
 							</li>
 						</volist>
 					</ul>

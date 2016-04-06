@@ -41,10 +41,4 @@ return array(
 		'HKD' => '$HK',
 		'CNY' => 'Ұ',
 	),
-	'SEASON' => array(
-		'spring' => '春季',
-		'summer' => '夏季',
-		'autumn' => '秋季',
-		'winter' => '冬季',
-	),
 );

@@ -6,23 +6,25 @@
 		<ol class="am-breadcrumb am-breadcrumb-slash am-kai am-margin-bottom-15 am-text-center">
 			    <div class="yu-listpage-header">
                       <span class="yu-listpage-seperate"></span>
-                      <span class="yu-listpage-title">新系列</span>
+                      <if condition="$by eq 'time'"><span class="yu-listpage-title">新系列</span></if>
+                      <if condition="$by eq 'brand'"><span class="yu-listpage-title">品牌</span></if>
+                      <if condition="$by eq 'baby'"><span class="yu-listpage-title">婴儿</span></if>
+                      <if condition="$by eq 'girl'"><span class="yu-listpage-title">女孩</span></if>
+                      <if condition="$by eq 'boy'"><span class="yu-listpage-title">男孩</span></if>
                 </div>
-			<li>
-				<a href="#">首页</a>
-			</li>
-			<li>
-				<a href="#">春·夏 2016</a>
-			</li>
+                <if condition="$by eq 'time'"><div class="filterings">最近{$byValue}天</div></if>
+	            <if condition="$by eq 'brand'"><div class="filterings">{$brand[0].brandName}</div></if>
+	            <if condition="$byValue eq 'brand'"><div class="filterings">{$brand[0].brandName}</div></if>
+	            <if condition="$byValue eq 'category'"><div class="filterings">{$category[0].categoryName}</div></if>
 		</ol>
 		<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
 		<div data-am-widget="gotop" class="am-gotop am-gotop-fixed" >
 			<a href="#top" title="回到顶部"> <span class="am-gotop-title">回到顶部</span> <i class="am-gotop-icon am-icon-chevron-up"></i> </a>
 		</div>
-		<span><a class="am-kai" style="font-size:12px;color:#A9A9A9;margin-bottom:1%;">筛选</a></span>
+		<span><a href="#" class="am-kai yu-filter-button" style="font-size:12px;color:#A9A9A9;margin-bottom:1%;">筛选<i class="am-icon-eye"></i></a></span>
 		<div class="am-g" style="margin-top:15px;">
-			<div class="am-show-md-up am-u-md-3 am-u-lg-3 am-kai" style="font-size:15px; ">
-				<section data-am-widget="accordion" class="am-accordion am-accordion-default am-margin-0" data-am-accordion='{ "multiple": true }'>
+			<div class=" am-u-md-3 am-u-lg-3 am-kai" style="font-size:15px; ">
+				<section data-am-widget="accordion" class="am-accordion am-accordion-default am-margin-0 am-show-md-up" data-am-accordion='{ "multiple": true }'>
 					<if condition="$by neq 'brand'">
 						<dl class="am-accordion-item brand">
 							<dt class="am-accordion-title">
@@ -32,7 +34,7 @@
 								<div class="am-accordion-content">
 									<volist name="brand" id="data">
 										<label class="am-radio am-secondary">
-											<input class="brand {$data.brandId}" type="checkbox" value="{$data.brandId}" data-am-ucheck />
+											<input class="brand {$data.brandId} filter" type="checkbox" value="{$data.brandId}" data-yu-val="{$data.brandName}" data-am-ucheck />
 											{$data.brandName}
 										</label>
 									</volist>
@@ -49,8 +51,8 @@
 								<div class="am-accordion-content">
 									<volist name="gender" id="gdata">
 										<label class="am-radio am-secondary">
-											<input class="gender {$gdata.gender}" type="checkbox"  value="{$gdata.gender}" data-am-ucheck>
-											<if condition="$gdata.gender eq 'M'">男<else />女</if>
+											<input class="gender {$gdata.gender} filter" type="checkbox"  value="{$gdata.gender}" data-yu-val="{$gdata.genderName}" data-am-ucheck>
+											{$gdata.genderName}
 										</label>
 									</volist>
 								</div>
@@ -66,7 +68,7 @@
 								<div class="am-accordion-content">
 									<volist name="age" id="adata">
 										<label class="am-radio am-secondary">
-											<input class="age {$adata.grade}" type="checkbox" value="{$adata.grade}" data-am-ucheck />
+											<input class="age {$adata.grade} filter" type="checkbox" value="{$adata.grade}" data-yu-val="{$adata.gradeName}" data-am-ucheck />
 											{$adata.gradeName}
 										</label>
 									</volist>
@@ -82,7 +84,7 @@
 							<div class="am-accordion-content">
 								<volist name="color" id="cdata">
 									<label class="am-radio am-secondary">
-										<input class="color {$cdata.color}" type="checkbox" value="{$cdata.color}" data-am-ucheck />
+										<input class="color {$cdata.color} filter" type="checkbox" value="{$cdata.color}" data-yu-val="{$cdata.color}" data-am-ucheck />
 										{$cdata.color}
 									</label>
 								</volist>
@@ -97,8 +99,8 @@
 							<div class="am-accordion-content">
 								<volist name="season" id="sdata">
 									<label class="am-radio am-secondary">
-										<input class="season {$sdata.season}" type="checkbox" value="{$sdata.season}" data-am-ucheck />
-										{$sdata.seasonName}
+										<input class="season {$sdata.season} filter" type="checkbox" value="{$sdata.season}" data-yu-val="{$sdata.season}" data-am-ucheck />
+										{$sdata.season}
 									</label>
 								</volist>
 							</div>
@@ -112,7 +114,7 @@
 							<div class="am-accordion-content">
 								<volist name="category" id="data">
 									<label class="am-radio am-secondary">
-										<input class="category {$data.categoryId}" type="checkbox" value="{$data.categoryId}" data-am-ucheck />
+										<input class="category {$data.categoryId} filter" type="checkbox" value="{$data.categoryId}" data-yu-val="{$data.categoryName}" data-am-ucheck />
 										{$data.categoryName}({$data.count})
 										<!-- <if condition="count($data['subCategories'])!=0">
 											<ul>
@@ -187,9 +189,10 @@ function applychecks(type, checkedArray){
 		checkeds = checkedArray;
 		for(var i = 0; i < checkeds.length; i++){
 			$("."+type+"."+checkeds[i]).uCheck('check');
+			$(".filterings").append("/"+$("."+type+"."+checkeds[i]).attr("data-yu-val"));
 		}
 }
-$("input").click(function(){
+$("input.filter").click(function(){
 	var params = "";
 	var brands = new Array();
 	var categories = new Array();
@@ -256,6 +259,10 @@ $("input").click(function(){
 	url = url.replace("$byValue","{$byValue}");
 	url = url.replace("$params",params);
 	window.location.href=url;
+});
+
+$("a.yu-filter-button").click(function(){
+	$("section.am-accordion").toggleClass("am-show-md-up");
 });
 </script>
 </block>
