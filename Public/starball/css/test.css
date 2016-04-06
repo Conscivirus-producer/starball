@@ -528,3 +528,31 @@ div.yu-mddn-container{
 div.scroll-item-list{
 	text-align: center;	
 }
+/*homepage*/
+div.yu-leftsection-adjustor{
+    padding-left: 0;
+    padding-right: 25px;
+    margin-bottom: 26px;
+}
+.yu-lgimg-fixer{
+	width: 100%;
+    object-fit: cover;
+    object-position: top;
+    height: 315px !important;
+}
+.yu-home-title{
+	font-size: 24px;
+    margin-bottom: 3px;
+}
+.yu-home-subtitle{
+	font-size: 16px;
+    margin: 0;
+}
+.yu-home-button{
+	font-size: 12px;
+    color: black;
+}
+.yu-mdsection-adjustor{
+	padding-left: 25px !important;
+	padding-right: 0 !important;
+}
