@@ -125,7 +125,7 @@
 				<ol class="am-breadcrumb am-kai">
 					<li class="am-dropdown" data-am-dropdown="">
 						<!-- dropdown button -->
-						<a class="am-dropdown-toggle" id="myAccountLnk" href="javascript:;">
+						<a class="am-dropdown-toggle am-text-xs" id="myAccountLnk" href="javascript:;">
 							<if condition="session('userName') != ''">
 								<?php echo session('userName');?>
 								<else />
@@ -249,7 +249,7 @@
 					
 					<!-- myfavorite dropdown -->
 					<li class="am-dropdown"data-am-dropdown="">
-						<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:"style="padding-left:6px">{$Think.lang.myfavorite}</a>
+						<a class="am-dropdown-toggle am-text-xs" data-am-dropdown-toggle href="javascript:"style="padding-left:6px">{$Think.lang.myfavorite}</a>
 						<ul class="am-dropdown-content yu-dropdown-content-contanier">
 							<li>
 								<a href="#" class="item-panier">
@@ -266,35 +266,26 @@
 					
 					<!-- myshoppingcart dropdown  -->
 					<li class="am-dropdown" data-am-dropdown="">
-						<a id="myShoppingListLnk" class="am-dropdown-toggle am-icon-shopping-bag" data-am-dropdown-toggle href="javascript:"style="padding-left:6px">{$Think.lang.myshoppinglist}</a>
+						<a id="myShoppingListLnk" class="am-dropdown-toggle am-icon-shopping-bag am-text-xs" data-am-dropdown-toggle href="javascript:"style="padding-left:6px">{$Think.lang.myshoppinglist}</a>
 						<ul class="am-dropdown-content yu-dropdown-content-contanier">
 							<input type="hidden" id= "shoppingListItems" value = "<?php echo urlencode(json_encode($shoppingListItems));?>" />
-							<input type="hidden" id= "channel" value = "<?php echo I('channel');?>" />
 							<eq name="shoppingListCount" value="0">
+								<div class="empty-list">
 								您的购物袋为空
-							<else/>
-							<gt name="shoppingListItemsCount" value="3">
-								<div class="scroll-item-list">
-									<a href="#" onclick="">
-										<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/arrow-jcarousel-thumb-top.jpg" alt="‹">
-									</a>
 								</div>
-							</gt>
+							<else/>
+								<div class="scroll-item-list">
+									<strong>{$Think.lang.recentShoppingList}</strong>
+								</div>
+								<li class="am-divider"></li>
 								<volist name="shoppingListItems" id="vo" offset="0" length='3'>
 									<li>
-										<a href="#" class="item-panier"> <img alt="{$vo.itemName}" src="{$vo.itemImage}?imageView2/1/w/100/h/100/q/100" class="item-photo-adjustor"> 
+										<a href="{:U('Starball/Item/index','itemId='.$vo['itemId'])}" class="item-panier"> <img alt="{$vo.itemName}" src="{$vo.itemImage}?imageView2/1/w/100/h/100/q/100" class="item-photo-adjustor"> 
 											<span class="content-item-panier"> <span class="title-item-panier">{$vo.brandName}</span> <span class="subtitle-item-panier">{$vo.itemName}</span> 
 											<span class="yu-size-container"> <span class="" style="text-transform: none;"> 尺码： <span class="am-sans-serif"style="font-weight:bold;">{$vo.sizeDescription}</span> </span> <span class="" style="float:right"> 数量： <span class="">{$vo.quantity}</span> </span> <span class="am-sans-serif yu-item-price"> <span> {$priceSymbol}&nbsp;{$vo.price} </span> </span> </span> </span> </a>
 									</li>
 									<li class="am-divider"></li>
 								</volist>
-							<gt name="shoppingListItemsCount" value="3">
-								<div class="scroll-item-list">
-									<a href="#">
-										<img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/arrow-jcarousel-thumb-bottom.jpg" alt="›">
-									</a>
-								</div>
-							</gt>
 								
 								<li style="margin:0;">
 									<div id="" class="yu-total-price-panier">
