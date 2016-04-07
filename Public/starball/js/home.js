@@ -32,3 +32,8 @@ $("div.yu-sub-menu.am-u-md-12").mouseenter(function(){
 $("div.yu-sub-menu.am-u-md-12").mouseleave(function(){
 	$(this).fadeOut();
 });
+
+$("#myShoppingCart").click(function(){
+	window.location.href="/Starball/Cart/index";
+	
+});
