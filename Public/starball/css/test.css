@@ -4,6 +4,7 @@ button.yu-right-menubutton{
 	float:right;
 	background-color:#ffffff;
 	margin:10px;
+	border:none;
 }
 div.yu-offcanvas-content-adjustor{
 	font-size:15px;
@@ -22,6 +23,7 @@ button.yu-offcanvas{
 	top: 10px;
 	z-index: 999;
 	background-color: white;
+	border:none;
 }
 /*search in small size*/
 input.yu-border-btmonly{
@@ -392,6 +394,11 @@ div.yu-signup-container{
 	max-width:485px;
 	width: calc(50% - 12px);
 	padding:0 0 40px 0;
+}
+div.yu-smsign-contianer{
+	border: 1px solid #cecece;
+    padding: 0;
+    margin-bottom: 20px;
 }
 p.yu-signin-title{
 	display: block;
