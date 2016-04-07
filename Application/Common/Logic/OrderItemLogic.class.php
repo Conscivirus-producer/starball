@@ -3,7 +3,9 @@
 	use Common\Model\OrderItemModel;
 	class OrderItemLogic extends OrderItemModel{
 		public function create($data){
-			$data['updatedDate'] = date("Y-m-d H:i:s" ,time());
+			if($data['updatedDate'] == ''){
+				$data['updatedDate'] = date("Y-m-d H:i:s" ,time());
+			}
 			$this->add($data);	
 		}
 		
@@ -16,7 +18,6 @@
 		}
 		
 		public function updateOrderItem($data, $id){
-			$data['updatedDate'] = date("Y-m-d H:i:s" ,time());
 			$this->where('id='.$id)->save($data);
 		}
 		
@@ -30,6 +31,7 @@
 		public function addQuantity($record){
 			$data['quantity'] = $record['quantity'] + 1;
 			$data['price'] = $record['price'] + $record['price'] / $record['quantity'];
+			$data['updatedDate'] = date("Y-m-d H:i:s" ,time());
 			$this->updateOrderItem($data, $record['id']);
 		}
 		
@@ -38,6 +40,7 @@
 				return;
 			}
 			$data['quantity'] = $record['quantity'] - 1;
+			$data['updatedDate'] = date("Y-m-d H:i:s" ,time());
 			$this->updateOrderItem($data, $record['id']);
 		}		
 	}

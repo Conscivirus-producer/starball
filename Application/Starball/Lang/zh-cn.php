@@ -23,4 +23,6 @@ return array(
     'addToShoppingList'=>'添加到购物车',
     'addToFavoriteList'=>'添加到我的收藏',
     'size'=>'大小',
+    'recentShoppingList'=>'最近加入的宝贝',
+    'totalAmount'=>'总金额',
 );

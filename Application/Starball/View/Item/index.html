@@ -1,9 +1,9 @@
 <extend name="Public/base" />
 <block name="title"><title>产品页</title></block>
 <block name="main">
-<div class="am-g">
-		<div class="am-u-sm-10 am-u-sm-offset-1">
-			<ol class="am-breadcrumb am-breadcrumb-slash am-kai" style="font-size:12px;">
+<div class="am-g yu-main-container am-kai">
+		<div class="am-u-sm-12">
+			<ol class="am-breadcrumb am-breadcrumb-slash am-text-xs">
 			  <li>Starball</li>
 			  <li>Armani Junior</li>
 			  <li>上衣和T恤</li>
@@ -35,8 +35,8 @@
 					</div>
 					<div class="am-g">
 						<input type="hidden" id="currentPrice" value="{$currentPrice}"/>
-						<div class="am-u-sm-3">{$priceSymbol}  {$currentPrice}</div>
-						<div class="am-u-sm-3" style="padding-right:0px">
+						<div class="am-u-sm-3 am-padding-left-0">{$priceSymbol}  {$currentPrice}</div>
+						<div class="am-u-sm-3 am-padding-right-0">
 							<select data-am-selected="{btnWidth: '100%', btnSize: 'sm'}" onchange="window.location.href='?currency='+$(this).val();">
 								<volist name="prices" id="vo">
 							  		<option value="{$vo.currency}" <eq name="vo.currency" value="$preferred_currency">selected="selected"</eq>>{$vo.currency}</option>
@@ -135,6 +135,7 @@
 		    									'itemSize':$('#itemSize').val()},function(data){
 		    	if(data.status == 1){
 		    		alert("添加成功");
+		    		$('#ulMyShoppingList').html(data.html);
 		    		$("#myShoppingListLnk").click();
 		    		//location.href = '?channel=addSL';
 		    	}

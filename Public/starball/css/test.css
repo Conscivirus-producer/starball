@@ -4,6 +4,7 @@ button.yu-right-menubutton{
 	float:right;
 	background-color:#ffffff;
 	margin:10px;
+	border:none;
 }
 div.yu-offcanvas-content-adjustor{
 	font-size:15px;
@@ -22,6 +23,7 @@ button.yu-offcanvas{
 	top: 10px;
 	z-index: 999;
 	background-color: white;
+	border:none;
 }
 /*search in small size*/
 input.yu-border-btmonly{
@@ -393,6 +395,11 @@ div.yu-signup-container{
 	width: calc(50% - 12px);
 	padding:0 0 40px 0;
 }
+div.yu-smsign-contianer{
+	border: 1px solid #cecece;
+    padding: 0;
+    margin-bottom: 20px;
+}
 p.yu-signin-title{
 	display: block;
     margin: 0 0 40px 0;
@@ -526,7 +533,16 @@ div.yu-mddn-container{
 	padding:0 18px;
 }
 div.scroll-item-list{
-	text-align: center;	
+	text-align: center;
+	height: 20px;	
+	margin-top: 7px;
+	font-size: 12px;
+}
+div.empty-list{
+	text-align: center;
+	height: 50px;	
+	margin-top: 25px;
+	font-size: 12px;
 }
 /*homepage*/
 div.yu-leftsection-adjustor{
@@ -555,4 +571,16 @@ div.yu-leftsection-adjustor{
 .yu-mdsection-adjustor{
 	padding-left: 25px !important;
 	padding-right: 0 !important;
+}
+div.yu-home-rightend{
+	padding-right: 0;
+    padding-left: 62px;
+}
+ul.yu-lastlayer-adjustor{
+	border: 1px solid #cecece;
+	padding: 0;
+}
+div.yu-bottomlayer-adjustor{
+	text-align:center;
+	padding-bottom: 20px;
 }

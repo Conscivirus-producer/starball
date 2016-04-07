@@ -143,6 +143,7 @@ class BaseController extends Controller {
 				$itemData['sizeDescription'] = $value['sizeDescription'];
 				$itemData['price'] = $value['price'];
 				$itemData['quantity'] = $value['quantity'];
+				$itemData['updatedDate'] = $value['updatedDate'];
 				$itemData['status'] = 'B';
 				$orderItemLogic->create($itemData);
 			}
@@ -156,11 +157,7 @@ class BaseController extends Controller {
 	}
 
 	protected function prepareShoppingList(){
-		//获取channel，如果是从添加到购物车或者是添加到收藏夹过来的，需要通知页面，页面自动弹出相应的框
-		$this->assign('channel', I('channel'));
 		if(session('userName') == ''){
-			//$this->assign('shoppingList',$shoppingList);
-			//$this->assign('favoriteList',$favoriteList);
 			$shoppingList = session('shoppingList');
 			if($shoppingList != '' && $shoppingList['totalItemCount'] > 0){
 				$this->assign('shoppingListCount', 1);
@@ -184,10 +181,11 @@ class BaseController extends Controller {
 				$shoppingListItems = $orderItemLogic->getOrderItemsByOrdeNumber($shoppingList['orderNumber']);
 				$this->assign('shoppingListItems', $shoppingListItems);
 				$this->assign('shoppingListItemsCount', count($shoppingListItems));
-				$currencyArray = C('CURRENCY');
-				$this->assign('priceSymbol', $currencyArray[$order['currency']]);
 			}
 		}
+		$currencyArray = C('CURRENCY');
+		$this->assign('priceSymbol', $currencyArray[$this->getCurrency()]);
+		//logInfo('priceSymbol:'.$this->get('priceSymbol'));
 	}
 	
 	protected function commonProcess(){
