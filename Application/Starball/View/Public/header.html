@@ -267,11 +267,10 @@
 					<!-- myshoppingcart dropdown  -->
 					<li class="am-dropdown" data-am-dropdown="">
 						<a id="myShoppingListLnk" class="am-dropdown-toggle am-icon-shopping-bag am-text-xs" data-am-dropdown-toggle href="javascript:"style="padding-left:6px">{$Think.lang.myshoppinglist}</a>
-						<ul class="am-dropdown-content yu-dropdown-content-contanier">
-							<input type="hidden" id= "shoppingListItems" value = "<?php echo urlencode(json_encode($shoppingListItems));?>" />
+						<ul class="am-dropdown-content yu-dropdown-content-contanier" id="ulMyShoppingList">
 							<eq name="shoppingListCount" value="0">
 								<div class="empty-list">
-								您的购物袋为空
+								<div style="margin-top: 25px;">您的购物袋为空</div>
 								</div>
 							<else/>
 								<div class="scroll-item-list">
