@@ -584,3 +584,29 @@ div.yu-bottomlayer-adjustor{
 	text-align:center;
 	padding-bottom: 20px;
 }
+/*product page*/
+div.yu-sizetext-styler{
+	font-size: 10px;
+    margin: 10px -18px 30px -18px;
+    text-decoration: underline;
+}
+button.yu-product-buy{
+	background-color: black;
+	font-size:13px;
+	padding:9px 0 9px 0;
+	margin-bottom:10px;
+}
+button.yu-product-favorite{
+	font-size:13px;
+	padding:9px 0 9px 0;
+}
+dl.yu-accordion-item{
+	border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    margin:0 !important;
+}
+dt.yu-accordion-title{
+    padding-left: 0;
+    font-size: 15px;
+}
