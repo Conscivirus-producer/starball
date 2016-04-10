@@ -10,7 +10,7 @@
 			  <li>Graphic slubbed jersey T-shirt</li>
 			</ol>
 			<div class="am-g">
-				<div class="am-u-md-6 am-u-md-offset-1 am-u-sm-12">
+				<div class="am-u-md-6 am-u-md-offset-1 am-show-md-up">
 					<div class="am-slider am-slider-default" data-am-flexslider="{controlNav: 'thumbnails', directionNav: false, slideshow: false}">
 					  <ul class="am-slides">
 					  	<volist name="images" id="vo" key="k">
@@ -18,7 +18,25 @@
 				  		    	<input type="hidden" id="itemImage" value="{$vo.image}"/>
 			  		    	</eq>
 						    <li data-thumb="{$vo.image}?imageView2/1/w/88/h/88/q/100">
-						      <img src="{$vo.image}?imageView2/1/w/503/h/519/q/100" />
+						      <a  href="{$vo.image}?imageView2/1/q/100" class="swipebox">
+						      	<img src="{$vo.image}?imageView2/1/w/503/h/519/q/100" />
+						      </a>
+						    </li>
+					  	</volist>
+					  </ul>
+					</div>
+				</div>
+				<div class="am-show-sm-only am-u-sm-12">
+					<div class="am-slider am-slider-a4" data-am-flexslider="{directionNav: flase}">
+					  <ul class="am-slides">
+					  	<volist name="images" id="vo" key="k">
+				  		    <eq name="k" value="1">
+				  		    	<input type="hidden" id="itemImage" value="{$vo.image}"/>
+			  		    	</eq>
+						    <li>
+						    	<a href="{$vo.image}?imageView2/1/q/100" class="swipebox">
+						      		<img src="{$vo.image}?imageView2/1/w/503/h/519/q/100" />
+						      	</a>
 						    </li>
 					  	</volist>
 					  </ul>
@@ -122,6 +140,9 @@
 </block>
 <block name="customizedJavascript">
 	<script type="text/javascript">
+		$(document).ready(function($){
+			$(".swipebox").swipebox();
+		});
 		function addToShoppingList(){
 			if($("#itemSize").val() == 'none'){
 				alert("请选择尺码");
