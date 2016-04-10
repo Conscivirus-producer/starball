@@ -3,7 +3,7 @@
 <block name="main">
 <div class="am-g yu-main-container am-kai">
 		<div class="am-u-sm-12">
-			<ol class="am-breadcrumb am-breadcrumb-slash am-text-xs">
+			<ol class="am-breadcrumb am-breadcrumb-slash am-text-xs am-margin-0">
 			  <li>Starball</li>
 			  <li>Armani Junior</li>
 			  <li>上衣和T恤</li>
@@ -39,7 +39,7 @@
 						<div class="am-u-sm-3 am-padding-right-0">
 							<select data-am-selected="{btnWidth: '100%', btnSize: 'sm'}" onchange="window.location.href='?currency='+$(this).val();">
 								<volist name="prices" id="vo">
-							  		<option value="{$vo.currency}" <eq style="font-size:13px;" name="vo.currency" value="$preferred_currency">selected="selected"</eq>>{$vo.currency}</option>
+							  		<option value="{$vo.currency}" <eq name="vo.currency" value="$preferred_currency">selected="selected"</eq>>{$vo.currency}</option>
 							  	</volist>
 							</select>
 						</div>
