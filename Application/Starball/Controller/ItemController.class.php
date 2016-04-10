@@ -153,7 +153,7 @@ class ItemController extends BaseController {
 		$this->testLogShoppingList();
 	}
 
-	private function testLogShoppingList(){
+	protected function testLogShoppingList(){
 		$shoppingList = session('shoppingList');
 		logInfo('shoppingList  totalItemCount:'.$shoppingList['totalItemCount'].',totalAmount:'.$shoppingList['totalAmount']);
 		

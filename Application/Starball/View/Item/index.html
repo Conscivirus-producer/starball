@@ -3,7 +3,7 @@
 <block name="main">
 <div class="am-g yu-main-container am-kai">
 		<div class="am-u-sm-12">
-			<ol class="am-breadcrumb am-breadcrumb-slash am-text-xs">
+			<ol class="am-breadcrumb am-breadcrumb-slash am-text-xs am-margin-0">
 			  <li>Starball</li>
 			  <li>Armani Junior</li>
 			  <li>上衣和T恤</li>
@@ -29,9 +29,9 @@
 					<div class="am-g"><h2 id='brandName' style="margin-bottom: 0px">{$data.brandName}</h2></div>
 					<div class="am-g" id='itemName'>{$data.name}</div>
 					<div class="am-g">
-						<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
-						<span style="font-size: 14px">颜色：</span><span style="font-size: 14px" id="itemColor">{$data.color}</span>
-						<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+						<hr data-am-widget="divider" style="margin-bottom:3px;" class="am-divider am-divider-default" />
+						<span style="font-size: 13px">颜色：</span><span style="font-size: 13px" id="itemColor">{$data.color}</span>
+						<hr data-am-widget="divider" style="margin-top:3px;" class="am-divider am-divider-default" />
 					</div>
 					<div class="am-g">
 						<input type="hidden" id="currentPrice" value="{$currentPrice}"/>
@@ -52,23 +52,24 @@
 						  </volist>
 						</select>
 					</div>
-					<div class="am-g" style="font-size: 10px; margin-top: 10px">尺寸：</div>
+					<div class="am-g yu-sizetext-styler">尺寸：</div>
 					<div class="am-g">
-						<button type="button" class="am-btn am-btn-primary am-btn-block" style="background-color: black;" onclick="addToShoppingList()">{$Think.lang.addToShoppingList}</button>
-						<button type="button" class="am-btn am-btn-default am-btn-block" onclick="addToFavoriteList()">{$Think.lang.addToFavoriteList}</button>
+						<button type="button" class="am-btn am-btn-primary am-btn-block yu-product-buy" onclick="addToShoppingList()">{$Think.lang.addToShoppingList}</button>
+						<button type="button" class="am-btn am-btn-default am-btn-block yu-product-favorite" onclick="addToFavoriteList()">{$Think.lang.addToFavoriteList}</button>
 					</div>
 					<div class="am-g">
-						<hr data-am-widget="divider" style="margin-bottom: 5px" class="am-divider am-divider-default" />
-						<div class="am-u-sm-3"><a href="##" class="am-icon-btn am-icon-twitter"></a></div>	
-						<div class="am-u-sm-3"><a href="##" class="am-icon-btn am-icon-facebook"></a></div>	
-						<div class="am-u-sm-3"><a href="##" class="am-icon-btn am-icon-weibo"></a></div>	
-						<div class="am-u-sm-3"><a href="##" class="am-icon-btn am-icon-wechat"></a></div>	
-						<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+						<hr data-am-widget="divider" style="margin-bottom: 5px;margin-top:10px;" class="am-divider am-divider-default" />
+        					<div class="am-u-sm-2" style="margin-left:38px;"><a href="##" style="margin-bottom: 5px;color:#000000" class="am-icon-twitter"></a></div>	
+        					<div class="am-u-sm-2"><a href="##" style="color:#000000;" class="am-icon-facebook"></a></div>	
+        					<div class="am-u-sm-2"><a href="##" style="color:#000000;" class="am-icon-weibo"></a></div>	
+        					<div class="am-u-sm-2"><a href="##" style="color:#000000;" class="am-icon-wechat"></a></div>
+        					<div class="am-u-sm-2"><a href="##" style="color:#000000;" class="am-icon-instagram"></a></div>
+						<hr data-am-widget="divider" style="margin-bottom:0;" class="am-divider am-divider-default" />
 					</div>
 					<div class="am-g">
-						<section data-am-widget="accordion" class="am-accordion am-accordion-default " data-am-accordion='{ "multiple": true }'>
-							<dl class="am-accordion-item">
-								<dt class="am-accordion-title">
+						<section data-am-widget="accordion" class="am-accordion am-accordion-gapped" style="margin:0" data-am-accordion='{ "multiple": true }'>
+							<dl class="am-accordion-item yu-accordion-item yu-accordion-item">
+								<dt class="am-accordion-title yu-accordion-title">
 									详细信息
 								</dt>
 								<dd class="am-accordion-bd am-collapse ">
@@ -78,8 +79,8 @@
 									</div>
 								</dd>
 							</dl>
-							<dl class="am-accordion-item">
-								<dt class="am-accordion-title">
+							<dl class="am-accordion-item yu-accordion-item">
+								<dt class="am-accordion-title yu-accordion-title">
 									成分
 								</dt>
 								<dd class="am-accordion-bd am-collapse ">
@@ -89,8 +90,8 @@
 									</div>
 								</dd>
 							</dl>
-							<dl class="am-accordion-item">
-								<dt class="am-accordion-title">
+							<dl class="am-accordion-item yu-accordion-item">
+								<dt class="am-accordion-title yu-accordion-title">
 									退货与送货
 								</dt>
 								<dd class="am-accordion-bd am-collapse ">
@@ -100,8 +101,8 @@
 									</div>
 								</dd>
 							</dl>
-							<dl class="am-accordion-item">
-								<dt class="am-accordion-title">
+							<dl class="am-accordion-item yu-accordion-item">
+								<dt class="am-accordion-title yu-accordion-title">
 									联系我们
 								</dt>
 								<dd class="am-accordion-bd am-collapse ">
