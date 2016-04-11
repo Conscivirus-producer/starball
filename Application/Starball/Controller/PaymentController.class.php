@@ -23,18 +23,27 @@ class PaymentController extends BaseController {
 		date_default_timezone_set("Asia/Shanghai");
 		
 		$data = array();
-		$appSecret = "b3842787-3442-49eb-914a-5ec86e0b2e74";
+		/*$appSecret = "b3842787-3442-49eb-914a-5ec86e0b2e74";
 		$data["app_id"] = "045c259d-9ceb-4320-84e6-64d463c01a2d";
 		$data["timestamp"] = time() * 1000;
 		$data["app_sign"] = md5($data["app_id"] . $data["timestamp"] . $appSecret);
-		//选择渠道类型(WX、WX_APP、WX_NATIVE、WX_JSAPI、ALI、ALI_APP、ALI_WEB、ALI_QRCODE、UN、UN_APP、UN_WEB)
 		$data["channel"] = "WX";
 		$data["limit"] = 10;
-		$data["bill_no"] = $_POST["billNo"];
+		$data["bill_no"] = $_POST["billNo"];*/
+		$data["orderNumber"] = '678630';
+		$data['status'] = 'C';
+		$result = D('Order', 'Logic')->queryOrder($data);
+		$vo = array();
+		if(count($result) == 1){
+			$vo['status'] = 1;
+			$vo['result_msg'] = 'OK';
+		}else{
+			$vo['status'] = 0;
+			$vo['result_msg'] = 'FAILED';
+		}
+		//$result = \beecloud\rest\api::bills($data);
 		
-		$result = \beecloud\rest\api::bills($data);
-		
-		print json_encode($result);
+		print json_encode($vo);
 	}
 	
 	public function webhook(){
