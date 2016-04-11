@@ -614,6 +614,7 @@ dt.yu-accordion-title{
     padding-left: 0;
     font-size: 15px;
 }
+
 /*account page*/
 div.yu-account-container{
     max-width: 970px;
@@ -625,3 +626,18 @@ li.yu-account-tab{
 	width: 25%;
     text-align: center;
 }
+
+
+ol.am-control-nav.am-control-thumbs li{
+	width: 100%;
+	float: inherit !important;
+	display:inherit !important;
+}
+ol.am-control-nav.am-control-thumbs{
+	position: absolute;
+	top: 0px !important;
+	right: 101%;
+	width: 20%;
+}
+
+

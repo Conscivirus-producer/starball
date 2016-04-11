@@ -9,6 +9,10 @@
 			return $data;
 		}
 		
+		public function queryOrder($map){
+			return $this->where($map)->select();
+		}
+		
 		public function updateOrder($data, $orderId){
 			$data['updatedDate'] = date("Y-m-d H:i:s" ,time());
 			$this->where('orderId='.$orderId)->save($data);
