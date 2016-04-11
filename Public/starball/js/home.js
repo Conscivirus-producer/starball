@@ -29,3 +29,10 @@ $("#myShoppingCart").click(function(){
 	window.location.href="/Starball/Cart/index";
 	
 });
+$(document).ready(function(){
+	$("#yu-spynav").scrollspynav(
+		options={active:"am-active",
+		offsetTop: "200"
+		}
+	);
+});

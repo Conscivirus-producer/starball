@@ -290,7 +290,10 @@ nav.yu-nav{
 	padding: 0;
 }
 a.yu-menu{
-	margin-bottom: 0px;
+	margin-bottom:0px;
+}
+a.yu-text-black{
+	color:#000000 !important;
 }
 
 div.yu-sub-menu{
@@ -610,4 +613,15 @@ dl.yu-accordion-item{
 dt.yu-accordion-title{
     padding-left: 0;
     font-size: 15px;
+}
+/*account page*/
+div.yu-account-container{
+    max-width: 970px;
+    width: 100%;
+    padding: 0 10px;
+    margin: 0 auto;
+}
+li.yu-account-tab{
+	width: 25%;
+    text-align: center;
 }
