@@ -639,5 +639,33 @@ ol.am-control-nav.am-control-thumbs{
 	right: 101%;
 	width: 20%;
 }
-
-
+div.yu-account-block{
+	float: left;
+    box-sizing: border-box;
+    background: #ececec;
+    padding: 15px;
+    margin: 0 0 20px;
+    width:calc(50% - 10px);
+}
+p.yu-account-title{
+	font-size:14px;
+	text-transform: uppercase;
+    padding: 0 0 10px 0;
+    text-align: left;
+    letter-spacing: inherit;
+    border-bottom:1px solid #000;
+    margin:0 0 10px 0;
+}
+input.yu-account-input{
+	font-size: 12px !important;
+    padding: 8px 6px !important;
+    margin-bottom:10px;
+}
+button.yu-balck-button{
+	font-size: 12px;
+    background-color: #000;
+    color: #fff;
+    float: right;
+    padding: 8px 24px;
+    margin-bottom: 10px;
+}
