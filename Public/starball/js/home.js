@@ -27,5 +27,4 @@ $("div.yu-sub-menu.am-u-md-12").mouseleave(function(){
 
 $("#myShoppingCart").click(function(){
 	window.location.href="/Starball/Cart/index";
-	
 });
