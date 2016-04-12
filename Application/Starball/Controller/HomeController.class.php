@@ -18,4 +18,8 @@ class HomeController extends BaseController {
 		$this->assign('footArea', $footArea);
 		$this->display();
 	}
+	
+	public function register(){
+		$this->display();
+	}
 }
