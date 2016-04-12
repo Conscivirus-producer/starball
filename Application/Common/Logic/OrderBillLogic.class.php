@@ -7,9 +7,10 @@
  */
 namespace Common\Logic;
 use Common\Model\OrderBillModel;
-class OrderBillLogic extends BrandModel{
+class OrderBillLogic extends OrderBillModel{
 	public function create($data){
 		$data['createdDate'] = date("Y-m-d H:i:s" ,time());
+		$data['lastUpdatedDate'] = date("Y-m-d H:i:s" ,time());
 		$this->add($data);
 	}
 	

@@ -13,18 +13,18 @@
 			return $this->where('id='.$id)->order('updatedDate desc')->select();
 		}
 		
-		public function getOrderItemsByOrdeNumber($orderNumber){
-			return $this->where('orderNumber='.$orderNumber)->order('updatedDate desc')->select();
+		public function getOrderItemsByOrdeId($orderId){
+			return $this->where('orderId='.$orderId)->order('updatedDate desc')->select();
 		}
 		
 		public function updateOrderItem($data, $id){
 			$this->where('id='.$id)->save($data);
 		}
 		
-		public function getExistingOrderItem($itemId, $itemSize, $orderNumber){
+		public function getExistingOrderItem($itemId, $itemSize, $orderId){
 			$map['itemId'] = $itemId;
 			$map['itemSize'] = $itemSize;
-			$map['orderNumber'] = $orderNumber;
+			$map['orderId'] = $orderId;
 			return $this->where($map)->select();
 		}
 		

@@ -55,7 +55,7 @@ class BaseController extends Controller {
 		}
 		
 		$orderItemLogic = D('OrderItem', 'Logic');
-		$orderItems = $orderItemLogic->getOrderItemsByOrdeNumber($order['orderNumber']);
+		$orderItems = $orderItemLogic->getOrderItemsByOrdeId($order['orderId']);
 		//重新计算总的价格
 		$newTotalPrice = 0;
 		foreach($orderItems as $record){
@@ -92,21 +92,18 @@ class BaseController extends Controller {
 		$orderLogic = D('Order', 'Logic');
 		$backlogOrder = $orderLogic->getOrderByUserId($this->getCurrentUserId(), 'B');
 		if(count($backlogOrder) == 0){
-			$strUtil = new \Org\Util\String();
-			$orderNumber = $strUtil->randString(6,1);
-			$data['orderNumber'] = $orderNumber;
 			$data['totalItemCount'] = $shoppingList['totalItemCount']; 
 			$data['totalAmount'] = $shoppingList['totalAmount'];
 			$data['userId'] = $this->getCurrentUserId(); 
 			$data['status'] = 'B';
 			$data['currency'] = $this->getCurrency();
 			$orderLogic->create($data);
-			$orderLogic->add();
+			$orderId = $orderLogic->add();
 			
 			$orderItemLogic = D('OrderItem', 'Logic');
 			foreach($shoppingListItems as $record){
 				//创建新的记录
-				$record['orderNumber'] = $orderNumber;
+				$record['orderId'] = $orderId;
 				$record['sizeDescription'] = D('Inventory', 'Logic')->getSizeDescriptionById($record['itemSize']);
 				$record['status'] = 'B';
 				$orderItemLogic->create($record);
@@ -115,7 +112,7 @@ class BaseController extends Controller {
 		}
 		$order = $backlogOrder[0];
 		$orderItemLogic = D('OrderItem', 'Logic');
-		$orderItems = $orderItemLogic->getOrderItemsByOrdeNumber($order['orderNumber']);
+		$orderItems = $orderItemLogic->getOrderItemsByOrdeId($order['orderId']);
 		//重新计算总的价格
 		$newTotalPrice = $shoppingList['totalAmount'];
 		$newTotalCount = $shoppingList['totalItemCount'];
@@ -133,7 +130,7 @@ class BaseController extends Controller {
 				$newTotalCount -= $value['quantity'];
 			}else{
 				//如果记录不存在，创建新的记录
-				$itemData['orderNumber'] = $order['orderNumber'];
+				$itemData['orderId'] = $order['orderId'];
 				$itemData['itemId'] = current(explode('_', $key));
 				$itemData['itemName'] = $value['itemName'];
 				$itemData['brandName'] = $value['brandName'];
@@ -178,7 +175,7 @@ class BaseController extends Controller {
 			if(count($backlogOrder) > 0){
 				$shoppingList = $backlogOrder[0];
 				$this->assign('shoppingList', $shoppingList);
-				$shoppingListItems = $orderItemLogic->getOrderItemsByOrdeNumber($shoppingList['orderNumber']);
+				$shoppingListItems = $orderItemLogic->getOrderItemsByOrdeId($shoppingList['orderId']);
 				$this->assign('shoppingListItems', $shoppingListItems);
 				$this->assign('shoppingListItemsCount', count($shoppingListItems));
 			}
@@ -190,12 +187,14 @@ class BaseController extends Controller {
 	
 	protected function commonProcess(){
 		//session(null);
+		header("Content-type: text/html; charset=utf-8");
 		if(IS_POST){
 			if(I('method') == 'register'){
 				$this->register();
 			}else if(I('method') == 'login'){
 				$this->login();
 			}else if(I('method') == 'logout'){
+				logInfo('sodfjisodif');
 				$this->logout();
 			}
 		}

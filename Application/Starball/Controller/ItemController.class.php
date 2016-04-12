@@ -64,7 +64,7 @@ class ItemController extends BaseController {
 			$i++;
 		}
 		$tab = $tab."<li style='margin:0;'><div id='' class='yu-total-price-panier'><span class=''>".L('totalAmount')."： </span><span class='am-sans-serif value-total-price' >".$this->get('priceSymbol')."&nbsp; ".$shoppingList['totalAmount']."</span></div></li>";
-		$tab = $tab."<li class='am-divider'></li><button type='button' class='am-btn am-btn-default yu-button-333 yu-check-button-adjustor'>查看我的购物袋</button>";
+		$tab = $tab."<li class='am-divider'></li><button type='button' id='myShoppingCart' class='am-btn am-btn-default yu-button-333 yu-check-button-adjustor'>查看我的购物袋</button>";
 		return $tab;
 	}
 	
@@ -73,31 +73,28 @@ class ItemController extends BaseController {
 		$orderLogic = D('Order', 'Logic');
 		$backlogOrder = $orderLogic->getOrderByUserId($userId, 'B');
 		if(count($backlogOrder) == 0){
-			$strUtil = new \Org\Util\String();
-			$orderNumber = $strUtil->randString(6,1);
-			$data['orderNumber'] = $orderNumber;
 			$data['totalItemCount'] = 1; 
 			$data['totalAmount'] = I('currentPrice');
 			$data['userId'] = $userId; 
 			$data['status'] = 'B';
 			$data['currency'] = $this->getCurrency();
 			$orderLogic->create($data);
-			$orderLogic->add();
+			$orderId = $orderLogic->add();
 			
-			$this->updateOrderItem($orderNumber);
+			$this->updateOrderItem($orderId);
 		} else{
 			$order = $backlogOrder[0];
 			$data['totalItemCount'] = $order['totalItemCount'] + 1;
 			$data['totalAmount'] = $order['totalAmount'] + I('currentPrice');
 			$orderLogic->updateOrder($data, $order['orderId']);
 			
-			$this->updateOrderItem($order['orderNumber']);
+			$this->updateOrderItem($order['orderId']);
 		}
 	}
 
-	private function updateOrderItem($orderNumber){
+	private function updateOrderItem($orderId){
 		$orderItemLogic = D('OrderItem', 'Logic');
-		$orderItem = $orderItemLogic->getExistingOrderItem(I('itemId'), I('itemSize'), $orderNumber);
+		$orderItem = $orderItemLogic->getExistingOrderItem(I('itemId'), I('itemSize'), $orderId);
 		if(count($orderItem) > 0){
 			//如果记录已经存在，数量+1
 			$orderItemLogic->addQuantity($orderItem[0]);
@@ -105,7 +102,7 @@ class ItemController extends BaseController {
 		}
 		
 		//创建新的记录
-		$itemData['orderNumber'] = $orderNumber;
+		$itemData['orderId'] = $orderId;
 		$itemData['itemId'] = I('itemId');
 		$itemData['itemName'] = I('itemName');
 		$itemData['brandName'] = I('brandName');
