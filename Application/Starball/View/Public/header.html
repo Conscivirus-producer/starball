@@ -86,7 +86,7 @@
 			<div class="am-u-md-4 am-show-md-up am-padding-0">
 				<ol class="am-breadcrumb am-kai yu-left yu-mduplefttop-adjustor">
 					<li class="am-dropdown" data-am-dropdown="">
-						<a class="am-dropdown-toggle am-text-xs" data-am-dropdown-toggle="" href="javascript:;"style="padding-left:15px;" >
+						<a class="am-dropdown-toggle am-text-xs yu-text-black" data-am-dropdown-toggle="" href="javascript:;"style="padding-left:15px;" >
 						<if condition="cookie('think_language') == 'zh-tw'">
 							繁体中文
 							<else/>
@@ -102,7 +102,7 @@
 						</ul>
 					</li>
 					<li class="am-dropdown" data-am-dropdown="">
-						<a class="am-dropdown-toggle am-text-xs" data-am-dropdown-toggle="" href="javascript:;"style="padding-left:15px;" >
+						<a class="am-dropdown-toggle am-text-xs yu-text-black" data-am-dropdown-toggle="" href="javascript:;"style="padding-left:15px;" >
 						<if condition="cookie('preferred_currency') == 'CNY'">
 							CNY
 							<else/>
@@ -125,7 +125,7 @@
 				<ol class="am-breadcrumb am-kai am-margin-bottom-0">
 					<li class="am-dropdown" data-am-dropdown="">
 						<!-- dropdown button -->
-						<a class="am-dropdown-toggle am-text-xs" id="myAccountLnk" href="javascript:;">
+						<a class="am-dropdown-toggle am-text-xs yu-text-black" id="myAccountLnk" href="javascript:;">
 							<if condition="session('userName') != ''">
 								<?php echo session('userName');?>
 								<else />
@@ -249,7 +249,7 @@
 					
 					<!-- myfavorite dropdown -->
 					<li class="am-dropdown"data-am-dropdown="">
-						<a class="am-dropdown-toggle am-text-xs" data-am-dropdown-toggle href="javascript:"style="padding-left:6px">{$Think.lang.myfavorite}</a>
+						<a class="am-dropdown-toggle am-text-xs yu-text-black" data-am-dropdown-toggle href="javascript:"style="padding-left:6px">{$Think.lang.myfavorite}</a>
 						<ul class="am-dropdown-content yu-dropdown-content-contanier">
 							<li>
 								<a href="#" class="item-panier">
@@ -266,7 +266,7 @@
 					
 					<!-- myshoppingcart dropdown  -->
 					<li class="am-dropdown" data-am-dropdown="">
-						<a id="myShoppingListLnk" class="am-dropdown-toggle am-icon-shopping-bag am-text-xs" data-am-dropdown-toggle href="javascript:"style="padding-left:6px">{$Think.lang.myshoppinglist}</a>
+						<a id="myShoppingListLnk" class="am-dropdown-toggle am-icon-shopping-bag am-text-xs yu-text-black" data-am-dropdown-toggle href="javascript:"style="padding-left:6px">{$Think.lang.myshoppinglist}</a>
 						<ul class="am-dropdown-content yu-dropdown-content-contanier" id="ulMyShoppingList">
 							<eq name="shoppingListCount" value="0">
 								<div class="empty-list">
@@ -303,7 +303,7 @@
 			</div>
 		</div>
 		
-		<!-- logo and mdup search -->
+		<!-- logo and mdup search and ScrollSpyNav -->
 		<div class="am-g am-show-md-up yu-header">
 			<div class="am-u-md-3 am-u-lg-3 yu-mduplogo-adjustor">
 				<a href="{:U('Home/index')}" class="login-img"></a>
@@ -319,31 +319,30 @@
 				</div>
 			</div>
 		</div>
-		
 		<!-- menu -->
 		<div id="subMenuListDiv" class="am-g yu-menu-list">
-			<nav class="yu-nav  am-u-lg-12 am-u-md-12 am-show-md-up am-kai">
+			<nav class="yu-nav  am-u-lg-12 am-u-md-12 am-show-md-up am-kai scrollspy-nav" data-am-scrollspy-nav="{offsetTop: 45}" data-am-sticky>
 				<ul class="am-avg-md-7 am-show-md-up yu-menu-content">
 					<li>
-						<a class="yu-menu" id="new" style="margin-right: 21px;">{$Think.lang.newseries}</a>
+						<a class="yu-menu yu-text-black" id="new" style="margin-right: 21px;">{$Think.lang.newseries}</a>
 					</li>
 					<li>
-						<a class="yu-menu" id="brand"  style=" margin: 0 21px;">{$Think.lang.brand}</a>
+						<a class="yu-menu yu-text-black" id="brand"  style=" margin: 0 21px;">{$Think.lang.brand}</a>
 					</li>
 					<li>
-						<a class="yu-menu" id="baby" style=" margin: 0 21px;">{$Think.lang.baby}</a>
+						<a class="yu-menu yu-text-black" id="baby" style=" margin: 0 21px;">{$Think.lang.baby}</a>
 					</li>
 					<li>
-						<a class="yu-menu" id="girl" style=" margin: 0 21px;">{$Think.lang.girl}</a>
+						<a class="yu-menu yu-text-black" id="girl" style=" margin: 0 21px;">{$Think.lang.girl}</a>
 					</li>
 					<li style="text-align: center;">
-						<a class="yu-menu" id="boy" style="margin-right:30px;">{$Think.lang.boy}</a>
+						<a class="yu-menu yu-text-black" id="boy" style="margin-right:30px;">{$Think.lang.boy}</a>
 					</li>
 					<li style="text-align: center;">
-						<a class="yu-menu" id="selected" style="margin: 0 21px;">{$Think.lang.featured}</a>
+						<a class="yu-menu yu-text-black" id="selected" style="margin: 0 21px;">{$Think.lang.featured}</a>
 					</li>
 					<li style="text-align:right;">
-						<a class="yu-menu" id="special">{$Think.lang.clothingmatch}</a>
+						<a class="yu-menu yu-text-black" id="special">{$Think.lang.clothingmatch}</a>
 					</li>
 				</ul>
 			</nav>

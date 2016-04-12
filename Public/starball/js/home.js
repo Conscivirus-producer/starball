@@ -24,3 +24,11 @@ $("div.yu-sub-menu.am-u-md-12").mouseenter(function(){
 $("div.yu-sub-menu.am-u-md-12").mouseleave(function(){
 	$(this).fadeOut();
 });
+
+$(document).ready(function(){
+	$("#yu-spynav").scrollspynav(
+		options={active:"am-active",
+		offsetTop: "200"
+		}
+	);
+});

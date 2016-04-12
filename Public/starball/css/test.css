@@ -290,7 +290,10 @@ nav.yu-nav{
 	padding: 0;
 }
 a.yu-menu{
-	margin-bottom: 0px;
+	margin-bottom:0px;
+}
+a.yu-text-black{
+	color:#000000 !important;
 }
 
 div.yu-sub-menu{
@@ -612,6 +615,19 @@ dt.yu-accordion-title{
     font-size: 15px;
 }
 
+/*account page*/
+div.yu-account-container{
+    max-width: 970px;
+    width: 100%;
+    padding: 0 10px;
+    margin: 0 auto;
+}
+li.yu-account-tab{
+	width: 25%;
+    text-align: center;
+}
+
+
 ol.am-control-nav.am-control-thumbs li{
 	width: 100%;
 	float: inherit !important;
@@ -623,4 +639,84 @@ ol.am-control-nav.am-control-thumbs{
 	right: 101%;
 	width: 20%;
 }
-
+div.yu-account-leftside{
+	margin-right:20px;
+	width:calc(50% - 10px);
+	padding:0;
+}
+div.yu-account-rightside{
+	width:calc(50% - 10px);
+	padding:0;
+}
+div.yu-account-block{
+	float: left;
+    box-sizing: border-box;
+    background: #ececec;
+    padding: 15px;
+    margin: 0 0 20px;
+    max-width:476px;
+    width:100%
+}
+div.yu-account-block-100{
+	float: left;
+    box-sizing: border-box;
+    background: #ececec;
+    padding: 15px;
+    margin: 0 0 20px;
+    max-width:970px;
+    width:100%
+}
+p.yu-account-title{
+	font-size:14px;
+	text-transform: uppercase;
+    padding: 0 0 10px 0;
+    text-align: left;
+    letter-spacing: inherit;
+    border-bottom:1px solid #000;
+    margin:0 0 10px 0;
+}
+input.yu-account-input{
+	font-size: 12px !important;
+    padding: 8px 6px !important;
+    margin-bottom:10px;
+}
+button.yu-black-button{
+	font-size: 12px;
+    background-color: #000;
+    color: #fff;
+    float: right;
+    padding: 8px 24px;
+    margin-bottom: 10px;
+}
+div.yu-account-otherlogin{
+	display: block;
+    max-width: 475px;
+    margin: 20px auto 18px;
+    position: relative;
+    text-align: center;
+}
+.yu-account-seperate{
+	display: block;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 12px;
+    border-bottom: 1px solid #cecece;
+}
+.yu-account-textor{
+    display: inline-block;
+    position: relative;
+    z-index: 2;
+    font-size:14px;
+    background: #ECECEC;
+    padding: 0 10px;
+    color: #000000;
+	line-height:1;
+}
+a.yu-account-detailinfo{
+	text-decoration: underline;
+	font-size:12px;
+	font-weight:bold;
+	color:black;
+	float:right;
+}
