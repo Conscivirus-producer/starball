@@ -34,7 +34,6 @@ class PaymentController extends BaseController {
 		$data["bill_no"] = $orderNumber.$data["timestamp"];
 		//$data["bill_no"] = "bcdemo" . "static";
 		$data["title"] = "StarBall.Kids订单".$orderNumber;
-		logInfo('total_fee:'.$data["total_fee"]);
 		$this->createOrderBill($data, $orderNumber, 'WX', 'PAY');
 	    $result = \beecloud\rest\api::bill($data);
 	    if ($result->result_code != 0) {
