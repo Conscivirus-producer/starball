@@ -20,63 +20,129 @@
                     <a href="#tab4" style="padding:18px 0;">我的礼品卡</a>
                 </li>
             </ul>
-            <!-- personal information block -->
+            <!--Tab1 personal information block -->
             <div class="am-tabs-bd">
                 <div class="am-tab-panel am-fade am-in am-active am-padding-0" id="tab1">
                     <div class="am-g" style="margin-top:39px;">
-                        <div class="am-u-sm-12 am-u-md-6 yu-account-block am-kai" style="margin-right:20px;">
-                            <p class="yu-account-title">
-                                我的个人信息
-                            </p>
-                            <p class="am-text-xs">
-                                如果您的个人信息发生改变，请随时进行更新。为更好地保护您的个人信息，请输入密码以进行身份认证。
-                            </p>
-                            <form class="am-form" role="form">
-                                <input type="text" class="am-form-field am-text-xs yu-account-input" placeholder="昵称">
-                                <input type="email" class="am-form-field am-text-xs yu-account-input" placeholder="电子邮箱*">
-                                <input type="text" class="am-form-field am-text-xs yu-account-input" placeholder="国家">
-                                <input type="tel" class="am-form-field am-text-xs yu-account-input" placeholder="联络号码">
-                            </form>
-                            <p>
-                                <button type="submit" class="am-btn am-btn-default yu-balck-button">
-                                    提交
-                                </button>
-                            </p>
-                            <!-- <div class="yu-otherlogin">
-                            <span class="yu-seperate"></span>
-                            <span class="yu-text-or">绑定社交媒体账号</span>
-                            </div> -->
+                        <div class="am-u-sm-12 am-u-md-6 yu-account-leftside am-kai" style="margin-right:20px;">
+                            <div class="yu-account-block">
+                                <p class="yu-account-title">
+                                    我的个人信息
+                                </p>
+                                <p class="am-text-xs">
+                                    如果您的个人信息发生改变，请随时进行更新。为更好地保护您的个人信息，请输入密码以进行身份认证。
+                                </p>
+                                <form class="am-form" role="form" style="margin-bottom: 63px;">
+                                    <input type="text" class="am-form-field am-text-xs yu-account-input" placeholder="昵称">
+                                    <input type="email" class="am-form-field am-text-xs yu-account-input" placeholder="电子邮箱*">
+                                    <input type="text" class="am-form-field am-text-xs yu-account-input" placeholder="国家">
+                                    <input type="tel" class="am-form-field am-text-xs yu-account-input" placeholder="联络号码">
+                                    <p>
+                                        <button type="submit" class="am-btn am-btn-default yu-black-button">
+                                            提交
+                                        </button>
+                                    </p>
+                                </form>
+                                <div class="yu-account-otherlogin">
+                                    <span class="yu-account-seperate"></span>
+                                    <span class="yu-account-textor">绑定社交媒体账号</span>
+                                </div>
+                            </div>
+                            <div class="yu-account-block">
+                                <p class="yu-account-title">
+                                    我的地址
+                                </p>
+                                <p class="am-text-xs">
+                                    您可添加多个送货地址（家庭住址和工作地址等）或账单地址。请标注不同的名称，以便在您下订单时快速查找。
+                                    <br>
+                                    您还可添加其他地址（如配送到您的办公室）。
+                                </p>
+                                <section data-am-widget="accordion" class="am-accordion am-accordion-gapped am-no-layout" style="margin:0" data-am-accordion="{ &quot;multiple&quot;: true }">
+                                    <dl class="am-accordion-item yu-accordion-item yu-accordion-item">
+                                        <dt class="am-accordion-title yu-accordion-title">
+                                            办公室
+                                        </dt>
+                                        <dd class="am-accordion-bd am-collapse" style="height: 0px;">
+                                            <!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
+                                            <div class="am-accordion-content">
+                                                深圳市南山区讯美科技广场三栋15F15-21B
+                                            </div>
+                                        </dd>
+                                    </dl>
+                                </section>
+                                <p>
+                                    <button type="button" class="am-btn am-btn-default yu-black-button">
+                                        输入新地址
+                                    </button>
+                                </p>
+                            </div>
                         </div>
-
-                        <div class="am-u-sm-12 am-u-md-6 yu-account-block am-kai">
-                            <p class="yu-account-title">
-                                更改密码
-                            </p>
-                            <form class="am-form" role="form">
-                                <input type="password" class="am-form-field am-text-xs yu-account-input" placeholder="当前密码*">
-                            </form>
-                            <form class="am-form" role="form">
-                                <input type="password" class="am-form-field am-text-xs yu-account-input" placeholder="输入密码* （至少5个字符）">
-                            </form>
-                            <form class="am-form" role="form">
-                                <input type="password" class="am-form-field am-text-xs yu-account-input" placeholder="确认您的密码*">
-                            </form>
-                            <p>
-                                <button type="submit" class="am-btn am-btn-default yu-balck-button">
-                                    提交
+                        <!-- Password changing -->
+                        <div class="am-u-sm-12 am-u-md-6 yu-account-rightside am-kai">
+                            <div class="yu-account-block">
+                                <p class="yu-account-title">
+                                    更改密码
+                                </p>
+                                <form class="am-form" role="form">
+                                    <input type="password" class="am-form-field am-text-xs yu-account-input" placeholder="当前密码*">
+                                </form>
+                                <form class="am-form" role="form">
+                                    <input type="password" class="am-form-field am-text-xs yu-account-input" placeholder="输入密码* （至少5个字符）">
+                                </form>
+                                <form class="am-form" role="form">
+                                    <input type="password" class="am-form-field am-text-xs yu-account-input" placeholder="确认您的密码*">
+                                </form>
+                                <p>
+                                    <button type="submit" class="am-btn am-btn-default yu-black-button">
+                                        提交
+                                    </button>
+                                </p>
+                            </div>
+                            <div class="yu-account-block">
+                                <p class="yu-account-title">
+                                    我的收藏
+                                </p>
+                                <button type="button" class="am-btn am-btn-default yu-black-button">
+                                    查看我的收藏
                                 </button>
-                            </p>
+                            </div>
                         </div>
                     </div>
-                    <div class="am-tab-panel am-fade" id="tab2">
-
+                </div>
+                <!-- Tab 2---order information -->
+                <div class="am-tab-panel am-fade" id="tab2">
+                    <div class="am-g am-kai" style="margin-top:39px;">
+                        <div class="yu-account-block-100">
+                            <p class="yu-account-title">
+                                我的订单
+                            </p>
+                            <table class="am-table am-text-sm">
+                                <thead>
+                                    <tr>
+                                        <th>订单号</th>
+                                        <th>订单日期</th>
+                                        <th>金额</th>
+                                        <th>状态</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>2526640</td>
+                                        <td>10/04/2016</td>
+                                        <td>3,010.80</td>
+                                        <td>超时</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <a class="yu-account-detailinfo" href="##">详细信息 〉</a>
+                        </div>
                     </div>
-                    <div class="am-tab-panel am-fade" id="tab3">
+                </div>
+                <div class="am-tab-panel am-fade" id="tab3">
 
-                    </div>
-                    <div class="am-tab-panel am-fade" id="tab4">
+                </div>
+                <div class="am-tab-panel am-fade" id="tab4">
 
-                    </div
                 </div>
             </div>
         </div>
