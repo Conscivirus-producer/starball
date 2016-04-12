@@ -30,7 +30,7 @@ class PaymentController extends BaseController {
 		$data["timestamp"] = time() * 1000;
 		$data["app_sign"] = md5($data["app_id"] . $data["timestamp"] . $appSecret);
 		$data["channel"] = "WX_NATIVE";
-		$data["total_fee"] = $order['totalAmount'] * 100;
+		$data["total_fee"] =  intval($order['totalAmount'] * 100);
 		$data["bill_no"] = $orderNumber.$data["timestamp"];
 		//$data["bill_no"] = "bcdemo" . "static";
 		$data["title"] = "StarBall.Kids订单".$orderNumber;
@@ -40,7 +40,6 @@ class PaymentController extends BaseController {
 	        print_r($result);
 	        exit();
 	    }
-		logInfo('fk111');
 		//选填 optional
 		//$data["return_url"] = "http://starballkids.com/";
 		//$data["optional"] = json_decode(json_encode(array("tag"=>"msgtoreturn")));
@@ -58,7 +57,7 @@ class PaymentController extends BaseController {
 		$billData['subChannel'] = $data["channel"];
 		$billData['type'] = $type;
 		$billData['status'] = 'N';
-		D('OrderBill', 'Logic')->create($billData);
+		D('OrderBill', 'Logic')->createBill($billData);
 	}
 	
 	public function wxrefund(){
@@ -78,7 +77,7 @@ class PaymentController extends BaseController {
 		
 		$data = array();
 		$data["orderNumber"] = I('orderNumber');
-		$data['status'] = 'C';
+		$data['status'] = 'P';
 		$result = D('Order', 'Logic')->queryOrder($data);
 		$vo = array();
 		if(count($result) == 1){
@@ -94,9 +93,11 @@ class PaymentController extends BaseController {
 	}
 	
 	public function webhook(){
+		header("Content-type: text/html; charset=utf-8");
 		$appId = "045c259d-9ceb-4320-84e6-64d463c01a2d";
 		$appSecret = "b3842787-3442-49eb-914a-5ec86e0b2e74";
 		$jsonStr = file_get_contents("php://input");
+		//$jsonStr = file_get_contents(dirname(__FILE__)."/pay_json.txt");
 		$msg = json_decode($jsonStr);
 		// webhook字段文档: http://beecloud.cn/doc/php.php#webhook
 		
@@ -124,7 +125,30 @@ class PaymentController extends BaseController {
 		    //messageDetail 参考文档
 		    switch ($msg->channelType) {
 		        case "WX":
+					$billLogic = D('OrderBill', 'Logic');
+					$map['billNumber'] = $msg->transaction_id;
+					$map['type'] = 'PAY';
+					$record = $billLogic->queryBill($map);
+					if(count($record) == 0){
+						logWarn('Payment Webhook:cannot find matched bill record, msg:'.$jsonStr);
+						break;						
+					}
+					$bill = $record[0];
+					if($bill['totalAmount'] != $msg->transaction_fee / 100){
+						//确认金额确实为业务产生的金额
+						logWarn('Payment Webhook:Total Fee not matched, msg:'.$jsonStr);
+						break;
+					}
+					//如果支付成功，则更新状态为SUCCESS,否则为FAILED
+					$data['status'] = $result ? 'S' : 'F';
+					$data['billId'] = $bill['billId'];
+					$billLogic->update($data);
 					
+					//如果支付成功,更新订单状态为PAID
+					if($result){
+						$orderData['status'] = 'P';
+						D('Order', 'Logic')->updateOrderByNumber($orderData, $bill['orderNumber']);
+					}
 		            break;
 		        case "ALI":
 		            break;

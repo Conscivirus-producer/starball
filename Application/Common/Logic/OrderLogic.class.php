@@ -15,7 +15,14 @@
 		
 		public function updateOrder($data, $orderId){
 			$data['updatedDate'] = date("Y-m-d H:i:s" ,time());
-			$this->where('orderId='.$orderId)->save($data);
+			$map['orderId'] = $orderId;
+			$this->where($map)->save($data);
+		}
+		
+		public function updateOrderByNumber($data, $orderNumber){
+			$data['updatedDate'] = date("Y-m-d H:i:s" ,time());
+			$map['orderNumber'] = $orderNumber;
+			$this->where($map)->save($data);
 		}
 	}
 
