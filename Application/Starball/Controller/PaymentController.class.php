@@ -30,17 +30,17 @@ class PaymentController extends BaseController {
 		$data["timestamp"] = time() * 1000;
 		$data["app_sign"] = md5($data["app_id"] . $data["timestamp"] . $appSecret);
 		$data["channel"] = "WX_NATIVE";
-		$data["total_fee"] = $order['totalAmount'] * 100;
+		$data["total_fee"] =  intval($order['totalAmount'] * 100);
 		$data["bill_no"] = $orderNumber.$data["timestamp"];
 		//$data["bill_no"] = "bcdemo" . "static";
 		$data["title"] = "StarBall.Kids订单".$orderNumber;
+		logInfo('total_fee:'.$data["total_fee"]);
 		$this->createOrderBill($data, $orderNumber, 'WX', 'PAY');
 	    $result = \beecloud\rest\api::bill($data);
 	    if ($result->result_code != 0) {
 	        print_r($result);
 	        exit();
 	    }
-		logInfo('fk111');
 		//选填 optional
 		//$data["return_url"] = "http://starballkids.com/";
 		//$data["optional"] = json_decode(json_encode(array("tag"=>"msgtoreturn")));
