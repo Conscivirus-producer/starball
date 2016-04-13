@@ -17,7 +17,7 @@
                     <a href="#tab3" style="padding:18px 0;">我的优惠券</a>
                 </li>
                 <li class="yu-account-tab">
-                    <a href="#tab4" style="padding:18px 0;">我的礼品卡</a>
+                    <a href="#tab4" style="padding:18px 0;margin: 0;">我的礼品卡</a>
                 </li>
             </ul>
             <!--Tab1 personal information block -->
@@ -139,10 +139,59 @@
                     </div>
                 </div>
                 <div class="am-tab-panel am-fade" id="tab3">
-
+                    <div class="am-g am-kai" style="margin-top:39px;">
+                        <section data-am-widget="accordion" class="am-accordion am-accordion-gapped am-no-layout" style="margin:0" data-am-accordion="{ &quot;multiple&quot;: true }">
+                            <dl class="am-accordion-item yu-accordion-item yu-accordion-item">
+                                <dt class="am-accordion-title yu-accordion-title">
+                                    我的代金券
+                                </dt>
+                                <dd class="am-accordion-bd am-collapse" style="height: 0px;">
+                                    <!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
+                                    <div class="am-accordion-content">
+                                        你现在还没有代金券
+                                    </div>
+                                </dd>
+                            </dl>
+                        </section>
+                    </div>
                 </div>
                 <div class="am-tab-panel am-fade" id="tab4">
-
+                    <div class="am-g am-kai" style="margin-top:39px;">
+                        <section data-am-widget="accordion" class="am-accordion am-accordion-gapped am-no-layout" style="margin:0" data-am-accordion="{ &quot;multiple&quot;: true }">
+                            <dl class="am-accordion-item yu-accordion-item yu-accordion-item" style="border:none;">
+                                <dt class="am-accordion-title yu-accordion-title">
+                                    添加我的礼品卡
+                                </dt>
+                                <dd class="am-accordion-bd am-collapse" style="height: 0px;">
+                                    <!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
+                                    <div class="am-accordion-content">
+                                        <form class="am-form" role="form">
+                                            <p class="am-text-xs">
+                                                请输入您收到的邮件里的礼品卡代码， 请按照大写小写输入。
+                                            </p>
+                                            <input type="password" class="am-form-field am-text-xs yu-account-input" placeholder="请输入您的代码">
+                                            <p>
+                                                <button type="submit" class="am-btn am-btn-default yu-black-button">
+                                                    提交
+                                                </button>
+                                            </p>
+                                        </form>
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl class="am-accordion-item yu-accordion-item yu-accordion-item">
+                                <dt class="am-accordion-title yu-accordion-title">
+                                    我的礼品卡
+                                </dt>
+                                <dd class="am-accordion-bd am-collapse" style="height: 0px;">
+                                    <!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
+                                    <div class="am-accordion-content">
+                                        在这个账户未启用任何礼品卡
+                                    </div>
+                                </dd>
+                            </dl>
+                        </section>
+                    </div>
                 </div>
             </div>
         </div>
