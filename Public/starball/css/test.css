@@ -729,3 +729,37 @@ div.yu-account-block-sm{
     margin:0 auto;
     margin-bottom:20px;
 }
+/*order info*/
+th.yu-thead-taller{
+	padding-top:15px !important;
+	padding-bottom:15px !important;
+}
+.yu-thead-bg{
+	background-color:#ececec
+}
+a.yu-backto-order{
+	font-size: 12px;
+    font-weight: bold;
+    color: black;
+    float: right;
+    margin-bottom: 12px;
+}
+div.yu-orderinfo-title{
+	margin: 40px 0 10px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ececec;
+}
+div.yu-item-styler{
+	border-bottom: 1px solid #ececec !important;
+    padding-bottom: 20px;
+    margin-bottom: 10px;
+}
+div.yu-image-styler{
+	padding: 10px;
+    border: 1px solid #ececec;
+    width: 122px;
+    height: 122px;
+}
+div.yu-product-description{
+	padding:0 0 0 20px;
+}
