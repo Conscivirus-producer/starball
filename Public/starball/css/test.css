@@ -720,3 +720,12 @@ a.yu-account-detailinfo{
 	color:black;
 	float:right;
 }
+div.yu-account-block-sm{
+    box-sizing: border-box;
+    background: #ececec;
+    padding: 15px 15px 33px 15px;
+    max-width:476px;
+    width:100%;
+    margin:0 auto;
+    margin-bottom:20px;
+}
