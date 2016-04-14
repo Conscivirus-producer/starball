@@ -3,21 +3,22 @@
     <title>我的账户</title>
 </block>
 <block name="main">
+	<input type="hidden" value="{$tab}" id="tab"/>
     <!-- Four Tabs -->
     <div class="yu-account-container">
         <div class="am-tabs" data-am-tabs>
             <ul class="am-tabs-nav am-nav am-nav-tabs am-kai am-text-xs" style="background-color: #ececec">
                 <li class="am-active yu-account-tab">
-                    <a href="#tab1" style="padding:18px 0;">我的账户</a>
+                    <a id="account" href="#tab1" style="padding:18px 0;">我的账户</a>
                 </li>
                 <li class="yu-account-tab">
-                    <a href="#tab2" style="padding:18px 0;">我的订单和退货</a>
+                    <a id="order" href="#tab2" style="padding:18px 0;">我的订单和退货</a>
                 </li>
                 <li class="yu-account-tab">
-                    <a href="#tab3" style="padding:18px 0;">我的优惠券</a>
+                    <a id="coupon" href="#tab3" style="padding:18px 0;">我的优惠券</a>
                 </li>
                 <li class="yu-account-tab">
-                    <a href="#tab4" style="padding:18px 0;margin: 0;">我的礼品卡</a>
+                    <a id="giftcard" href="#tab4" style="padding:18px 0;">我的礼品卡</a>
                 </li>
             </ul>
             <!--Tab1 personal information block -->
@@ -219,15 +220,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>2526640</td>
-                                        <td>10/04/2016</td>
-                                        <td>3,010.80</td>
-                                        <td>超时</td>
-                                    </tr>
+                                	<volist name="data" id="vo">
+	                                    <tr>
+	                                        <td>{$vo.orderNumber}</td>
+	                                        <td>{$vo.updatedDate}</td>
+	                                        <td>{$vo.totalAmount}</td>
+	                                        <td>{$vo.statusDescription}</td>
+	                            			<td><a class="yu-account-detailinfo" href="##">详细信息 〉</a></td>
+	                                    </tr>
+                                	</volist> 
                                 </tbody>
                             </table>
-                            <a class="yu-account-detailinfo" href="##">详细信息 〉</a>
                         </div>
                     </div>
                 </div>
@@ -289,4 +292,9 @@
             </div>
         </div>
     </div>
+</block>
+<block name="customizedJavascript">
+	<script>
+		$("#"+$("#tab").val()).click();
+	</script>
 </block>

@@ -143,27 +143,23 @@
 								<li class="am-divider"></li>
 							</if>
 							<li>
-								<a href="#">{$Think.lang.myaccount}</a>
+								<a href="{:U('Starball/User/index', array('tab'=>'account'))}">{$Think.lang.myaccount}</a>
 							</li>
 							<li class="am-divider"></li>
 							<li>
-								<a href="#">我的订单</a>
+								<a href="{:U('Starball/User/index', array('tab'=>'order'))}">我的订单</a>
 							</li>
 							<li class="am-divider"></li>
 							<li>
-								<a href="#">退货</a>
+								<a href="{:U('Starball/User/index', array('tab'=>'order'))}">退货</a>
 							</li>
 							<li class="am-divider"></li>
 							<li>
-								<a href="#">我的优惠券</a>
+								<a href="{:U('Starball/User/index', array('tab'=>'coupon'))}">我的优惠券</a>
 							</li>
 							<li class="am-divider"></li>
 							<li>
-								<a href="#">我的礼品卡</a>
-							</li>
-							<li class="am-divider"></li>
-							<li>
-								<a href="#">我的收藏</a>
+								<a href="{:U('Starball/User/index', array('tab'=>'giftcard'))}">我的礼品卡</a>
 							</li>
 							<if condition="session('userName') != ''">
 								<form class="am-form am-form-horizontal" role="form" method="post">

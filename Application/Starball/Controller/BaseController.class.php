@@ -153,6 +153,25 @@ class BaseController extends Controller {
 		$orderLogic->updateOrder($orderData, $order['orderId']);
 	}
 
+	protected function prepareOrderList(){
+		if(session('userName') == ''){
+			return;	
+		}
+		$orderLogic = D('Order', 'Logic');
+		$map['userId'] = $this->getCurrentUserId();
+		$map['status'] <> 'B';
+		$result = $orderLogic->queryOrder($map);
+		$orderStatus = C('ORDERSTATUS');
+		$i = 0;
+		foreach($result as $record){
+			$record['statusDescription'] = $orderStatus[$record['status']];
+			$result[$i] = $record;
+			logInfo('statusDescription:'.$result[$i]['statusDescription']);
+			$i++;
+		}
+		$this->assign('data', $result);
+	}
+
 	protected function prepareShoppingList(){
 		if(session('userName') == ''){
 			$shoppingList = session('shoppingList');
@@ -202,6 +221,7 @@ class BaseController extends Controller {
 		$this->prepareBrandList();
 		$this->prepareUserMenu();
 		$this->prepareShoppingList();
+		$this->prepareOrderList();
 	}
 	
 	//abstract protected function pageDisplay();	

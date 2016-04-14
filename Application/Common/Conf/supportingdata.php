@@ -41,4 +41,10 @@ return array(
 		'HKD' => '$HK',
 		'CNY' => 'Ұ',
 	),
+	'ORDERSTATUS' => array(
+		'N' => '新订单',
+		'P' => '已支付',
+		'C' => '已取消',
+		'D' => '已完成',
+	),
 );
