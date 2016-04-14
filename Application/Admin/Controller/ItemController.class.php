@@ -12,6 +12,7 @@ use Qiniu\Auth;
 
 class ItemController extends Controller {
     public function uploadCsv() {
+        $itemLogic = D("Item", "Logic");
         $filename = $_FILES['file']['tmp_name'];
         $callback = array(
             "status" => "",
@@ -24,9 +25,10 @@ class ItemController extends Controller {
             exit;
         }
         $handle = fopen($filename, 'r');
-        $contents = stream_get_contents($handle);
+        $contents = trim(stream_get_contents($handle));
         fclose($handle);
-        echo current(split("\n", $contents));
+        $res = $itemLogic->bulkUploadUsingCSV($contents);
+        echo json_encode($res);
     }
 
     public function getCategoryInfo() {
@@ -102,8 +104,8 @@ class ItemController extends Controller {
     }
 
     public function test() {
-        $itemLogic = D("Item", "Logic");
-        print_r($itemLogic->getItemInformationById(26));
+        $imageLogic = D("Image", "Logic");
+        echo $imageLogic->deleteOneImageByImageId(24);
     }
 
     public function updateSingleItem() {
@@ -137,5 +139,72 @@ class ItemController extends Controller {
             $result["status"] = "success";
             echo json_encode($result);
         }
+    }
+
+    public function deleteImageByQiniuKey() {
+        $key = I('get.qiniuKey');
+        $imageLogic = D("Image", "Logic");
+        $result["status"] = "0";
+        if ($imageLogic->deleteImageByQiniuKey($key) == true) {
+            $result["status"] = "1";
+        }
+        echo json_encode($result);
+    }
+
+    public function deleteImageByImageId() {
+        $imageId = I('get.imageDeleteId');
+        $imageLogic = D("Image", "Logic");
+        $result["status"] = "0";
+        if ($imageLogic->deleteOneImageByImageId($imageId) == true) {
+            $result["status"] = "1";
+        }
+        echo json_encode($result);
+    }
+
+    public function search() {
+        $itemLogic = D("Item", "Logic");
+        $fields = array(
+            "name",
+            "color",
+            "detailDescription",
+            "component",
+            "brandId",
+            "categoryId",
+            "grade",
+            "gender",
+            "priceHKDL",
+            "priceHKDH",
+            "priceCNYL",
+            "priceCNYH",
+            "season"
+        );
+        $conditions = array();
+        $selectConditions = array(
+            "brandId",
+            "categoryId",
+            "grade",
+            "gender"
+        );
+        for ($i = 0; $i < count($fields); $i++) {
+            if (in_array($fields[$i], $selectConditions)) {
+                $conditions[$fields[$i]] = trim(I("post.".$fields[$i], "noting"));
+            } else {
+                $conditions[$fields[$i]] = trim(I("post.".$fields[$i], ""));
+            }
+        }
+        $this->assign("conditions", $conditions);
+        $this->assign("conditionsJSON", json_encode($conditions));
+        $this->assign("searchResult", $itemLogic->search($conditions));
+        $this->display();
+    }
+
+    function deleteOneItemByItemId() {
+        $itemLogic = D("Item", "Logic");
+        $itemId = I("get.deleteItemId", "");
+        $res["status"] = "0";
+        if ($itemLogic->deleteOneItemByItemId($itemId) == true) {
+            $res["status"] = "1";
+        }
+        echo json_encode($res);
     }
 }

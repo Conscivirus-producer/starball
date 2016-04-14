@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>StarBall Admin Page</title>
-    <meta name="description" content="商品管理页面">
+    <title>商品编辑</title>
+    <meta name="description" content="商品编辑页面">
     <meta name="keywords" content="help">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
@@ -76,7 +76,7 @@
             <div class="am-u-sm-12">
                 <form class="am-form" id="single-item-form" method="post" enctype="multipart/form-data">
                     <fieldset>
-                        <legend>上传单个商品</legend>
+                        <legend>更新单个商品</legend>
                         <input type="text" id="item-id" name="itemId" value="{$itemInformation['itemId']}" style="display: none">
                         <div class="am-form-group">
                             <label for="item-name">商品名称</label>
@@ -240,6 +240,8 @@
 <script>
     var imagesArray = new Array();
     var itemInformation = {$itemInformationJSON};
+    var qiniuToken = $("#qiniuToken").val().trim();
+    var Qiniu_UploadUrl = "http://up.qiniu.com";
     $(document).ready(function(){
         // category
         $.getJSON( "./getCategoryInfo", function(data) {
@@ -260,7 +262,23 @@
     });
     // load images
     $.each(itemInformation.images, function(index, value) {
-        $("#images-gallery").append('<li id="image' + value.imageId + '"><img class="am-thumbnail" src="' + value.image +'" /></li>');
+        //$("#images-gallery").append('<li id="image' + value.imageId + '"><img class="am-thumbnail" src="' + value.image +'" /></li>');
+        var $li = $('<li id="image' + value.imageId + '"></li>');
+        var $img = $('<img class="am-thumbnail" src="' + value.image +'" />');
+        var $button = $('<button type="button" name="' + value.imageId + '" class="am-close">&times;</button>');
+        $button.click(function(){
+            var currentImageId = $(this).attr("name");
+            var currentImageUrl = $(this).prev().attr("src");
+            $.getJSON("./deleteImageByImageId?imageDeleteId=" + currentImageId,function(result){
+                if (result.status == "1") {
+                    $li.remove();
+                    imagesArray.splice(imagesArray.indexOf(currentImageUrl), 1);
+                }
+            });
+        });
+        $li.append($img);
+        $li.append($button);
+        $("#images-gallery").append($li);
         imagesArray.push(value.image);
     });
     function validateFields() {
@@ -323,6 +341,53 @@
             };
             $form.ajaxSubmit(options);
             $(this).prop('disabled', false);
+        }
+    });
+    // qiniu upload
+    $("#item-images").change(function() {
+        $(this).prop('disabled', true);
+        var Qiniu_upload = function(f, token, key) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', Qiniu_UploadUrl, true);
+            var formData;
+            formData = new FormData();
+            if (key !== null && key !== undefined) formData.append('key', key);
+            formData.append('token', token);
+            formData.append('file', f);
+            xhr.onreadystatechange = function(response) {
+                if (xhr.readyState == 4 && xhr.status == 200 && xhr.responseText != "") {
+                    $("#item-images").prop('disabled', false);
+                    $('li:last-child', $("#images-gallery")).remove();
+                    var $li = $("<li></li>");
+                    $li.append('<img class="am-thumbnail" src="http://7xp6oq.com2.z0.glb.qiniucdn.com/' + key +'" />');
+                    var $button = $('<button type="button" name="' + key + '" class="am-close">&times;</button>');
+                    $button.click(function() {
+                        var currentKey = $(this).attr("name");
+                        $.getJSON("./deleteImageByQiniuKey?qiniuKey=" + currentKey,function(result){
+                            if (result.status == "1") {
+                                $li.remove();
+                                imagesArray.splice(imagesArray.indexOf("http://7xp6oq.com2.z0.glb.qiniucdn.com/" + currentKey), 1);
+                            }
+                        });
+                    });
+                    $li.append($button);
+                    $("#images-gallery").append($li);
+                    imagesArray.push("http://7xp6oq.com2.z0.glb.qiniucdn.com/" + key);
+                } else if (xhr.status != 200 && xhr.responseText) {
+                    $('#single-pic-alert').modal('open');
+                    $("#item-images").prop('disabled', false);
+                }
+            };
+            xhr.send(formData);
+        };
+        if ($("#item-images")[0].files.length > 0 && qiniuToken != "") {
+            var startDate = new Date().getTime();
+            imageKey = "item_image_" + startDate;
+            $("#images-gallery").append('<li><img class="am-thumbnail" src="http://7xoh2x.com1.z0.glb.clouddn.com/loading.gif" /></li>');
+            Qiniu_upload($("#item-images")[0].files[0], qiniuToken, imageKey);
+        } else {
+            $('#single-pic-alert').modal('open');
+            $("#item-images").prop('disabled', false);
         }
     });
 </script>
