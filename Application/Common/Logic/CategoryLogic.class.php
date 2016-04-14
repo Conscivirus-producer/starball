@@ -12,4 +12,10 @@ class CategoryLogic extends CategoryModel{
         $dbData = $this->where()->select();
         return $dbData;
     }
+
+    public function getCategoryIdByCategoryName($categoryName) {
+        $map["categoryName"] = $categoryName;
+        $data = $this->where($map)->select();
+        return $data[0]["categoryId"];
+    }
 }

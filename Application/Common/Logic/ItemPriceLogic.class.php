@@ -54,6 +54,15 @@
 			}
 			return true;
 		}
+
+		public function deleteItemPricesByItemId($itemId) {
+			$map["itemId"] = $itemId;
+			if ($this->where($map)->delete() !== false) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 	}
 
 ?>

@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>StarBall Admin Page</title>
-    <meta name="description" content="商品管理页面">
+    <title>商品上传</title>
+    <meta name="description" content="商品上传页面">
     <meta name="keywords" content="help">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
@@ -72,17 +72,20 @@
     <div class="admin-content">
         <div class="am-g">
             <!-- multiple uploading using csv area -->
-            <div class="am-u-sm-12" style="display: none">
-                <form class="am-form" id="csv-file-upload" action="../uploadCsv" method="post" enctype="multipart/form-data">
-                    <div class="am-form-group am-form-file">
-                        <button type="button" class="am-btn am-btn-danger am-btn-sm">
-                            <i class="am-icon-cloud-upload"></i> 选择要上传的商品CSV文件
-                        </button>
-                        <input id="doc-form-file" type="file" name="file">
-                    </div>
-                    <div id="file-list"></div>
-                    <p><button type="button" id="upload-csv-file" class="am-btn am-btn-default">上传</button></p>
-                </form>
+            <div class="am-u-sm-12">
+                <fieldset>
+                    <legend>批量上传商品</legend>
+                    <form class="am-form" id="csv-file-upload" action="./uploadCsv" method="post" enctype="multipart/form-data">
+                        <div class="am-form-group am-form-file">
+                            <button type="button" class="am-btn am-btn-success am-btn-sm">
+                                <i class="am-icon-cloud-upload"></i> 选择要上传的商品CSV文件
+                            </button>
+                            <input id="doc-form-file" type="file" name="file">
+                        </div>
+                        <div id="file-list"></div>
+                        <p><button type="button" id="upload-csv-file" class="am-btn am-btn-default">上传</button></p>
+                    </form>
+                </fieldset>
             </div>
             <!-- single uploading area -->
             <div class="am-u-sm-12">
@@ -164,7 +167,7 @@
                         </div>
 
                         <div class="am-form-group am-form-file">
-                            <button type="button" class="am-btn am-btn-primary am-btn-sm">
+                            <button type="button" class="am-btn am-btn-success am-btn-sm">
                                 <i class="am-icon-cloud-upload"></i> 选择要上传的商品图片
                             </button>
                             <input id="item-images" type="file" name="item-images" >
@@ -278,6 +281,7 @@
 <script>
     // respond to the event
     var imageKey;
+    var imagesArray = new Array();
     $(function() {
         $('#doc-form-file').on('change', function() {
             var fileName = this.files[0].name;
@@ -301,7 +305,12 @@
             dataType: 'text',
             contentType: "application/json; charset=utf-8",
             success:function(data) {
-                alert(data);
+                if ($.parseJSON(data).status == "1") {
+                    $("#success-modal").modal('open');
+                } else {
+                    alert("CSV文件第" + $.parseJSON(data).row + "行格式错误");
+                    $('#single-upload-alert').modal('open');
+                }
             },
             error:function(XmlHttpRequest, textStatus, errorThrown){
                 alert(textStatus);
@@ -325,7 +334,7 @@
                 $("#item-brandId").append("<option value='" + value.brandId + "'>" + value.brandName + "</option>");
             });
         });
-    })
+    });
     // qiniu upload
     $("#item-images").change(function() {
         $(this).prop('disabled', true);
@@ -341,12 +350,21 @@
                 if (xhr.readyState == 4 && xhr.status == 200 && xhr.responseText != "") {
                     $("#item-images").prop('disabled', false);
                     $('li:last-child', $("#images-gallery")).remove();
-                    $("#images-gallery").append('<li><img class="am-thumbnail" src="http://7xp6oq.com2.z0.glb.qiniucdn.com/' + key +'" /></li>');
-                    if ($("#item-images-array").val() == "") {
-                        $("#item-images-array").val("http://7xp6oq.com2.z0.glb.qiniucdn.com/" + key);
-                    } else {
-                        $("#item-images-array").val($("#item-images-array").val() + ",http://7xp6oq.com2.z0.glb.qiniucdn.com/" + key);
-                    }
+                    var $li = $("<li></li>");
+                    $li.append('<img class="am-thumbnail" src="http://7xp6oq.com2.z0.glb.qiniucdn.com/' + key +'" />');
+                    var $button = $('<button type="button" name="' + key + '" class="am-close">&times;</button>');
+                    $button.click(function() {
+                        var currentKey = $(this).attr("name");
+                        $.getJSON("./deleteImageByQiniuKey?qiniuKey=" + currentKey,function(result){
+                            if (result.status == "1") {
+                                $li.remove();
+                                imagesArray.splice(imagesArray.indexOf("http://7xp6oq.com2.z0.glb.qiniucdn.com/" + currentKey), 1);
+                            }
+                        });
+                    });
+                    $li.append($button);
+                    $("#images-gallery").append($li);
+                    imagesArray.push("http://7xp6oq.com2.z0.glb.qiniucdn.com/" + key);
                 } else if (xhr.status != 200 && xhr.responseText) {
                     $('#single-pic-alert').modal('open');
                     $("#item-images").prop('disabled', false);
@@ -365,6 +383,7 @@
         }
     });
     $("#upload-single-item").click(function(){
+        $("#item-images-array").val(imagesArray.join(","));
         if ($("#item-name").val().trim() == "") {
             $('#single-input-alert').modal('open');
             $("#item-name").focus();
@@ -393,7 +412,7 @@
             var $form = $("#single-item-form");
             var options = {
                 type : 'post',
-                url : "../uploadSingleItem",
+                url : "./uploadSingleItem",
                 dataType: 'text',
                 contentType: "application/json; charset=utf-8",
                 success:function(data) {
@@ -422,10 +441,13 @@
         $("#item-detailDescription").val("");
         $("#item-component").val("");
         $("#item-priceHKD").val("");
+        $("#item-priceCNY").val("");
         $("#item-season").val("");
         $("#item-images-array").val("");
         $("#images-gallery").empty();
+        imagesArray = new Array();
     }
+
 </script>
 </body>
 </html>
