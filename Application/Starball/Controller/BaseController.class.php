@@ -4,10 +4,18 @@ use Think\Controller;
 class BaseController extends Controller {
 	
 	protected function prepareUserSetting(){
+		//如果当前用户的默认语言不在支持的语言列表里,那么设为默认语言
+		$langList = C('LANG_LIST');
+		$currencyLang = strtolower(cookie('think_language'));
+		if(false == stripos($langList,$currencyLang)){
+			cookie('think_language',C('DEFAULT_LANG'),3600);
+		}
+		logInfo('current_currency:'.cookie('preferred_currency'));
 		if($this->getCurrency() == ''){
 			//根据当前语言自动设置currency
 			$langCurrencyMap = C('LANG_CURRENCY');
 			cookie('preferred_currency',$langCurrencyMap[cookie('think_language')],3600);
+			logInfo('current_currency:'.cookie('preferred_currency'));
 		}
 		if(I('currency') != '' && I('currency') != $this->getCurrency()){
 			cookie('preferred_currency',I('currency'),3600);

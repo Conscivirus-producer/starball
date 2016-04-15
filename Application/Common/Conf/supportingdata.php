@@ -58,7 +58,7 @@ return array(
 	),
 	//默认语言汇率设置
 	'LANG_CURRENCY' => array(
-		'zh-CN' => 'CNY',
+		'zh-cn' => 'CNY',
 		'zh-tw' => 'HKD'
 	)
 );
