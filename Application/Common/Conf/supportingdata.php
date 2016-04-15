@@ -47,4 +47,11 @@ return array(
 		'C' => '已取消',
 		'D' => '已完成',
 	),
+	'FROM_ACTION' => array(
+		'account' => array('url'=>'User/index', 'params'=>array('tab' => 'account')),
+		'order' => array('url'=>'User/index', 'params'=>array('tab' => 'order')),
+		'coupon' => array('url'=>'User/index', 'params'=>array('tab' => 'coupon')),
+		'giftcard' => array('url'=>'User/index', 'params'=>array('tab' => 'giftcard')),
+		'shoppinglist' => array('url'=>'Cart/submitOrder', 'params'=>array()),
+	),
 );

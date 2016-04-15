@@ -37,7 +37,8 @@
 				return "";
 			} else {
 				$imageUrl = $data[0]["image"];
-				return split("/", $imageUrl)[3];
+				$dataArray = split("/", $imageUrl);
+				return $dataArray[3];
 			}
 		}
 		public function deleteImageByQiniuKey($key) {

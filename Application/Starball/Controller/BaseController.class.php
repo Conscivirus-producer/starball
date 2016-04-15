@@ -166,7 +166,6 @@ class BaseController extends Controller {
 		foreach($result as $record){
 			$record['statusDescription'] = $orderStatus[$record['status']];
 			$result[$i] = $record;
-			logInfo('statusDescription:'.$result[$i]['statusDescription']);
 			$i++;
 		}
 		$this->assign('data', $result);
@@ -213,7 +212,6 @@ class BaseController extends Controller {
 			}else if(I('method') == 'login'){
 				$this->login();
 			}else if(I('method') == 'logout'){
-				logInfo('sodfjisodif');
 				$this->logout();
 			}
 		}
@@ -241,6 +239,7 @@ class BaseController extends Controller {
 	
 	private function logout(){
 		session(null);
+		$this->redirect('Home/index');
 	}
 	
 	private function login(){
@@ -273,6 +272,13 @@ class BaseController extends Controller {
 			//$this->assign('userName', $result['userName']);
 		} else{
 			$this->error("用户名密码不正确");
+		}
+		//从哪里跳到登录页面，跳回去
+		logInfo('fromAction:'.session('fromAction'));
+		if(session('fromAction') != ''){
+			$actionArray = C('FROM_ACTION');
+			$actionDetail = $actionArray[session('fromAction')];
+			$this->redirect($actionDetail['url'], $actionDetail['params']);
 		}
 	}
 

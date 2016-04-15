@@ -19,7 +19,9 @@ class HomeController extends BaseController {
 		$this->display();
 	}
 	
-	public function register(){
+	public function register($fromAction){
+		session('fromAction', $fromAction);
+		$this->commonProcess();
 		$this->display();
 	}
 }
