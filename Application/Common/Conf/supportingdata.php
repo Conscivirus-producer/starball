@@ -32,7 +32,7 @@ return array(
 		'28' => array('均码', '', ''),
     ),
     'USERTYPE' => array(
-    	//usertype => array(grade, gender)
+    	//usertype => array(grade, gender), grade:1-baby, 2-boy/girl
     	'baby' => array('1', ''),
     	'boy' => array('2', 'M'),
     	'girl' => array('2', 'F'),
@@ -41,12 +41,14 @@ return array(
 		'HKD' => '$HK',
 		'CNY' => 'Ұ',
 	),
+	//订单状态代码与描述对应关系
 	'ORDERSTATUS' => array(
 		'N' => '新订单',
 		'P' => '已支付',
 		'C' => '已取消',
 		'D' => '已完成',
 	),
+	//跳到登录页面，如果要回到之前页面，在这里设置
 	'FROM_ACTION' => array(
 		'account' => array('url'=>'User/index', 'params'=>array('tab' => 'account')),
 		'order' => array('url'=>'User/index', 'params'=>array('tab' => 'order')),
@@ -54,4 +56,9 @@ return array(
 		'giftcard' => array('url'=>'User/index', 'params'=>array('tab' => 'giftcard')),
 		'shoppinglist' => array('url'=>'Cart/submitOrder', 'params'=>array()),
 	),
+	//默认语言汇率设置
+	'LANG_CURRENCY' => array(
+		'zh-CN' => 'CNY',
+		'zh-tw' => 'HKD'
+	)
 );

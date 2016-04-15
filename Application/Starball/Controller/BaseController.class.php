@@ -4,8 +4,10 @@ use Think\Controller;
 class BaseController extends Controller {
 	
 	protected function prepareUserSetting(){
-		if(cookie('think_language') == 'zh-CN' && cookie('preferred_currency') == ''){
-			cookie('preferred_currency','CNY',3600);
+		if($this->getCurrency() == ''){
+			//根据当前语言自动设置currency
+			$langCurrencyMap = C('LANG_CURRENCY');
+			cookie('preferred_currency',$langCurrencyMap[cookie('think_language')],3600);
 		}
 		if(I('currency') != '' && I('currency') != $this->getCurrency()){
 			cookie('preferred_currency',I('currency'),3600);
@@ -146,7 +148,6 @@ class BaseController extends Controller {
 			}
 		}
 		
-		
 		$orderData['totalAmount'] = $order['totalAmount'] + $newTotalPrice;
 		$orderData['totalItemCount'] = $order['totalItemCount'] + $newTotalCount;
 		$orderData['currency'] = $this->getCurrency();
@@ -176,14 +177,13 @@ class BaseController extends Controller {
 			$shoppingList = session('shoppingList');
 			if($shoppingList != '' && $shoppingList['totalItemCount'] > 0){
 				$this->assign('shoppingListCount', 1);
+				$shoppingListItems = session('shoppingListItems');
+				$this->assign('shoppingList', $shoppingList);
+				$this->assign('shoppingListItems', $shoppingListItems);
+				$this->assign('shoppingListItemsCount', count($shoppingListItems));
 			}else{
 				$this->assign('shoppingListCount', 0);
-				return;
 			}
-			$shoppingListItems = session('shoppingListItems');
-			$this->assign('shoppingList', $shoppingList);
-			$this->assign('shoppingListItems', $shoppingListItems);
-			$this->assign('shoppingListItemsCount', count($shoppingListItems));
 		}else{
 			$userId = session('userId');
 			$orderLogic = D('Order', 'Logic');
