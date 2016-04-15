@@ -761,5 +761,39 @@ div.yu-image-styler{
     height: 122px;
 }
 div.yu-product-description{
-	padding:0 0 0 20px;
+	float: left;
+    height: 100%;
+    display:block;
 }
+p.yu-product-list{
+    text-transform: uppercase;
+    color: #000;
+    margin: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: block;
+    font-size:11px;
+}
+span.yu-product-title{
+	font-size: 12px;
+    text-transform: uppercase;
+    max-width: none;
+    display: block;
+}
+span.yu-product-subtitle{
+	margin-bottom: 10px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 300px;
+}
+span.yu-product-fronttitle{
+	display: block;
+    text-transform: none;
+}
+span.yu-product-order-content{
+    color: #8d8d8d;
+}
+
+
+
