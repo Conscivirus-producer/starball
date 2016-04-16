@@ -1,23 +1,104 @@
 <extend name="Public/base" />
 <block name="title"><title>我的购物袋</title></block>
 <block name="main">
-	<div class="am-tabs" data-am-tabs="{noSwipe: 1}" id="doc-tab-demo-1">
-	  <ul class="am-tabs-nav am-nav am-nav-tabs">
-	    <li class="am-active"><a href="javascript: void(0)"><span style="border:1px solid black;border-radius: 25px; font-size: 25px;">1</span>流浪</a></li>
-	    <li><a href="javascript: void(0)">流浪</a></li>
-	    <li><a href="javascript: void(0)">再流浪</a></li>
-	  </ul>
-	
-	  <div class="am-tabs-bd">
-	    <div class="am-tab-panel am-active">
-	      ...
-	    </div>
-	    <div class="am-tab-panel">
-	      ...
-	    </div>
-	    <div class="am-tab-panel">
-	      ...
-	    </div>
-	  </div>
+	<div class="yu-cart-header row am-show-md-up am-kai">
+		<div class="cart-step1 am-u-md-3 step-on">
+			<a href="{:U('StarBall/Cart/index')}">
+				<span class="step-num">1</span>
+				<span class="step-name">我的购物车</span>
+			</a>
+		</div>
+		<div class="cart-step2 am-u-md-3">
+			<a href="{:U('StarBall/Cart/index')}">
+				<span class="step-num">2</span>
+				<span class="step-name">送货</span>
+			</a>
+		</div>
+		<div class="cart-step3 am-u-md-3">
+			<a href="{:U('StarBall/Cart/index')}">
+				<span class="step-num">3</span>
+				<span class="step-name">付款</span>
+			</a>
+		</div>
+		<div class="cart-step4 am-u-md-3">
+			<a href="{:U('StarBall/Cart/index')}">
+				<span class="step-num">4</span>
+				<span class="step-name">确认</span>
+			</a>
+		</div>
 	</div>
+	
+	<div class="yu-cart-content">
+		<div class="cart-items am-u-md-8  am-padding-0">
+			<div class="am-panel am-panel-default">
+				<div class="am-panel-hd">1. 商品列表</div>
+				<div class="am-panel-bd">
+					<volist name="shoppingListItems" id="vo" offset="0" length='3'>
+						<div style="display: block; height:120px; position:relative">
+							<a href="{:U('Starball/Item/index','itemId='.$vo['itemId'])}" class="cart-item-panier"> <img alt="{$vo.itemName}" src="{$vo.itemImage}?imageView2/1/w/120/h/120/q/100" class="cart-item-photo-adjustor"></a> 
+							<span class="content-item-panier"> 
+								<span class="title-item-panier">{$vo.brandName}</span> 
+								<a href="{:U('Starball/Item/index','itemId='.$vo['itemId'])}"><span class="cart-sub-item-panier">{$vo.itemName}</span></a>
+								<span class="cart-sub-item-panier">{$vo.itemColor}</span>
+								<span class="cart-sub-item-panier" style="text-transform: none;"> 尺码： <span class="am-sans-serif">{$vo.sizeDescription}</span> </span> 
+								<span>
+									<button class="am-padding-0 delete" style="width: 24px;background-color:#f5f5f5;border:1px solid #ddd;">－</button>
+									<span>{$vo.quantity}</span>
+									<button class="am-padding-0 add" style="width: 24px;background-color:#f5f5f5;border:1px solid #ddd;">＋</button>
+								</span>
+							</span> 
+							<div class="am-sans-serif yu-item-price"> <span> {$priceSymbol}&nbsp;{$vo.price} </span> </div> 
+						</div>
+						<div class="am-divider"></div>
+					</volist>
+					<div class="am-panel am-panel-default" style="margin-top:15px">
+						<div class="am-panel-hd" style="font-size: 13px">
+							<input type="checkbox" name="gift-card" value="" /><span style="margin-left: 10px">礼品包装与礼品卡信息</span><span style="float: right">{$priceSymbol}35</span><br/>
+							
+						</div>
+						<div class="am-panel-bd" style="font-size: 12px">
+							<textarea placeholder="请填写您的祝福" style="width: 100%;border: 1px solid #CECECE"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="cart-others am-u-md-4" style="margin-top: 10px">
+			<div class="am-panel am-panel-default">
+				<div class="am-panel-hd">购物车({$shoppingList.totalItemCount})</div>
+				<div class="am-panel-bd am-padding-0" style="font-size: 13px;">
+					<div style="background-color:#F8F8F8;">
+						<div style="width:100%; padding: 15px 15px 0px 15px"><span>我的购买记录</span><span style="float: right">{$priceSymbol}{$shoppingList.totalAmount}</span></div>
+						<div style="width:100%; padding: 5px 15px 5px 15px"><span>运费</span><span style="float: right">0</span></div>
+						<div style="width:100%; padding: 0px 15px 15px 15px"><span>我的订单总额</span><span style="float: right">{$priceSymbol}{$shoppingList.totalAmount}</span></div>
+					</div>
+					<div style="width:100%; border-top: 1px solid #CECECE; border-bottom: 1px solid #CECECE;padding: 15px"><span style="font-size: 14px">支付总额</span><span style="font-size: 14px;float:right">{$priceSymbol}{$shoppingList.totalAmount}</span></div>
+					<div style="width:100%;text-align: center;background-color:#F8F8F8"><button class="submit"  style="width: 90%; height: 40px;margin:10px; background-color:black; color: white;border: 0;">提交订单</button></div>
+					<div style="clear: both"></div>
+				</div>
+			</div>
+			<div ><input style="height: 27px" placeholder="优惠券" /><button style="float: right;background-color: #CECECE;border:0;color:white;">确认</button></div>
+			<div class="am-panel am-panel-default" style="margin-top:15px">
+				<div class="am-panel-hd"><icon class="am-icon-info"></icon> 关税</div>
+				<div class="am-panel-bd" style="font-size: 13px">
+					当您收取货物时，没有任何额外费用！
+				</div>
+			</div>
+			<div class="am-panel am-panel-default" style="margin-top:15px">
+				<div class="am-panel-hd">需要帮助吗？</div>
+				<div class="am-panel-bd" style="font-size: 13px">
+					<span class="am-icon-clock-o">查看我们的配送时间</span><br/>
+					<span class="am-icon-clock-o">查看我们的退货政策</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style="clear: both;"></div>
+</block>
+<block name="customizedJavascript">
+	<script type="text/javascript">
+		$(".submit").click(function(){
+			window.location.href="/StarBall/Cart/submitOrder";
+		});
+	</script>
 </block>
