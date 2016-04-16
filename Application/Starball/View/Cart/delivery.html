@@ -1,0 +1,72 @@
+<extend name="Public/base" />
+<block name="title"><title>我的购物袋</title></block>
+<block name="main">
+	<div class="yu-cart-header row am-show-md-up am-kai">
+		<div class="cart-step1 am-u-md-3">
+			<a href="{:U('StarBall/Cart/index')}">
+				<span class="step-num">1</span>
+				<span class="step-name">我的购物车</span>
+			</a>
+		</div>
+		<div class="cart-step2 am-u-md-3  step-on">
+			<a href="{:U('StarBall/Cart/index')}">
+				<span class="step-num">2</span>
+				<span class="step-name">送货</span>
+			</a>
+		</div>
+		<div class="cart-step3 am-u-md-3">
+			<a href="{:U('StarBall/Cart/index')}">
+				<span class="step-num">3</span>
+				<span class="step-name">付款</span>
+			</a>
+		</div>
+		<div class="cart-step4 am-u-md-3">
+			<a href="{:U('StarBall/Cart/index')}">
+				<span class="step-num">4</span>
+				<span class="step-name">确认</span>
+			</a>
+		</div>
+	</div>
+	
+	<div class="yu-cart-content">
+		<span style="font-weight: bold;font-size: 13px">创建</span><span style="font-size:13px">我的地址</span>
+		<hr style="border-color: black" />
+		<form class="am-form am-form-horizontal" style="width:70%; margin-left: 15%;font-size: 12px">
+			<div class="am-form-group">
+				<label class="am-radio-inline">
+					<input type="radio" value="M" />男
+				</label>
+				<label class="am-radio-inline">
+					<input type="radio" value="F" />女
+				</label>
+			</div>
+			<div class="am-form-group">
+				<div style="margin-bottom: 10px">
+					<input class="am-form-field" placeholder="姓名" />
+				</div>
+				<div style="margin-bottom: 10px">
+					<input class="am-form-field" placeholder="公司" />
+				</div>
+				<div style="margin-bottom: 10px">
+					<input class="am-form-field" placeholder="地址＊" />
+				</div>
+				<div style="margin-bottom: 10px">
+					<input class="am-form-field" placeholder="邮政编码＊" />
+				</div>
+				<div style="margin-bottom: 10px">
+					<input class="am-form-field" placeholder="城镇／城市＊" />
+				</div>
+				<div style="margin-bottom: 10px">
+					<input class="am-form-field" placeholder="Mobile＊" />
+				</div>
+				<textarea placeholder="更多细节"></textarea>
+				<button style="float: right; margin-top: 10px; width: 80px; height: 28px;background-color: black;border:0; color: white">提交</button>
+			</div>
+		</form>
+	</div>
+	<div style="clear: both;"></div>
+</block>
+<block name="customizedJavascript">
+	<script type="text/javascript">
+	</script>
+</block>

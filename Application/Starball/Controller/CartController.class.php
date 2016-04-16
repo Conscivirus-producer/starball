@@ -8,6 +8,12 @@ class CartController extends BaseController {
 		$this->display();
 	}
 	
+	public function delivery(){
+		$this->testLogShoppingList();
+		$this->commonProcess();
+		$this->display();
+	}
+	
 	public function test(){
 		$this->commonProcess();
 		$this->display();
@@ -29,7 +35,7 @@ class CartController extends BaseController {
 			$data['orderNumber'] = $orderNumber;
 			$data['status'] = 'N';
 			$orderLogic->updateOrder($data, $order['orderId']);
-			$this->redirect('Payment/index', array('orderNumber' => $orderNumber));
+			$this->redirect('Cart/delivery', array('orderNumber' => $orderNumber));
 		}
 	}
 	
