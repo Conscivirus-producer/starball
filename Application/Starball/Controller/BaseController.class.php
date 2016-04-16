@@ -9,13 +9,15 @@ class BaseController extends Controller {
 		$currencyLang = strtolower(cookie('think_language'));
 		if(false == stripos($langList,$currencyLang)){
 			cookie('think_language',C('DEFAULT_LANG'),3600);
+			$currencyLang = strtolower(cookie('think_language'));
 		}
-		logInfo('current_currency:'.cookie('preferred_currency'));
+		logInfo('current_lang:'.cookie('think_language'));
+		logInfo('current currency:'.$this->getCurrency());
 		if($this->getCurrency() == ''){
 			//根据当前语言自动设置currency
 			$langCurrencyMap = C('LANG_CURRENCY');
-			cookie('preferred_currency',$langCurrencyMap[cookie('think_language')],3600);
-			logInfo('current_currency:'.cookie('preferred_currency'));
+			cookie('preferred_currency',$langCurrencyMap[$currencyLang],3600);
+			logInfo('current currency:'.$this->getCurrency());
 		}
 		if(I('currency') != '' && I('currency') != $this->getCurrency()){
 			cookie('preferred_currency',I('currency'),3600);
