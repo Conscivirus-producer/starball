@@ -1,6 +1,7 @@
 <extend name="Public/base" />
 <block name="title"><title>BeeCloud微信扫码示例</title></block>
 <block name="main">
+	<include file="Public/cartcommon" />
 	<div class="am-g">
   	
     <div align="center" id="qrcode" >
@@ -18,6 +19,7 @@
 <block name="customizedJavascript">
     <script src="__PUBLIC__/Beecloud/Js/qrcode.js"></script>
     <script>
+    $(".cart-step3").addClass("step-on");
     var options = {text: $("#codeUrl").val()};
     //参数1表示图像大小，取值范围1-10；参数2表示质量，取值范围'L','M','Q','H'
     var canvas = BCUtil.createQrCode(options);

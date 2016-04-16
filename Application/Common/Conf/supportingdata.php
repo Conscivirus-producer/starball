@@ -54,7 +54,7 @@ return array(
 		'order' => array('url'=>'User/index', 'params'=>array('tab' => 'order')),
 		'coupon' => array('url'=>'User/index', 'params'=>array('tab' => 'coupon')),
 		'giftcard' => array('url'=>'User/index', 'params'=>array('tab' => 'giftcard')),
-		'shoppinglist' => array('url'=>'Cart/submitOrder', 'params'=>array()),
+		'shoppinglist' => array('url'=>'Cart/delivery', 'params'=>array()),
 		'home' => array('url'=>'Home/index', 'params'=>array()),
 	),
 	//默认语言汇率设置

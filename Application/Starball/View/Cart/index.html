@@ -1,32 +1,7 @@
 <extend name="Public/base" />
 <block name="title"><title>我的购物袋</title></block>
 <block name="main">
-	<div class="yu-cart-header row am-show-md-up am-kai">
-		<div class="cart-step1 am-u-md-3  step-on">
-			<a href="{:U('StarBall/Cart/index')}">
-				<span class="step-num">1</span>
-				<span class="step-name">我的购物车</span>
-			</a>
-		</div>
-		<div class="cart-step2 am-u-md-3">
-			<a href="{:U('StarBall/Cart/index')}">
-				<span class="step-num">2</span>
-				<span class="step-name">送货</span>
-			</a>
-		</div>
-		<div class="cart-step3 am-u-md-3">
-			<a href="{:U('StarBall/Cart/index')}">
-				<span class="step-num">3</span>
-				<span class="step-name">付款</span>
-			</a>
-		</div>
-		<div class="cart-step4 am-u-md-3">
-			<a href="{:U('StarBall/Cart/index')}">
-				<span class="step-num">4</span>
-				<span class="step-name">确认</span>
-			</a>
-		</div>
-	</div>
+<include file="Public/cartcommon" />
 	
 	<div class="yu-cart-content">
 		<div class="cart-items am-u-md-8  am-padding-0">
@@ -97,8 +72,10 @@
 </block>
 <block name="customizedJavascript">
 	<script type="text/javascript">
+		$(".cart-step1").addClass("step-on");
+		$("#cartlnk1").attr('href', "{:U('Starball/Cart/index')}");
 		$(".submit").click(function(){
-			window.location.href="/StarBall/Cart/submitOrder";
+			window.location.href="{:U('Starball/Cart/delivery')}";
 		});
 	</script>
 </block>

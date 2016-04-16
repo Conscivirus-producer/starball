@@ -19,6 +19,7 @@ class BaseController extends Controller {
 			cookie('preferred_currency',$langCurrencyMap[$currencyLang],3600);
 			logInfo('current currency:'.$this->getCurrency());
 		}
+		//如果货币发生了变化,那么把用户购物车里的金额按照货币转化
 		if(I('currency') != '' && I('currency') != $this->getCurrency()){
 			cookie('preferred_currency',I('currency'),3600);
 			$this->updateShoppingListByCurrency();

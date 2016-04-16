@@ -1,6 +1,8 @@
 <extend name="Public/base" />
-<block name="title"><title>付款页面</title></block>
+<block name="title"><title>我的购物袋</title></block>
 <block name="main">
+	<include file="Public/cartcommon" />
+	
 	<div class="am-g">
   <div class="am-u-sm-3"></div>
   <div class="am-u-sm-9">
@@ -12,10 +14,13 @@
   	</div>
 </div>
 </div>
-
 </block>
 <block name="customizedJavascript">
 	<script>
+		$(".cart-step3").addClass("step-on");
+		$("#cartlnk1").attr('href', "{:U('Starball/Cart/index')}");
+		$("#cartlnk2").attr('href', "{:U('Starball/Cart/delivery')}");
+		$("#cartlnk3").attr('href', "{:U('Starball/Payment/index')}");
 		$('#wxPay').click(function(){
 			var orderNumber = $('#orderNumber').val();
 			window.location.href='{:U("Payment/wx")}?orderNumber='+orderNumber;

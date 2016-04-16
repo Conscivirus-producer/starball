@@ -3,14 +3,15 @@ namespace Starball\Controller;
 use Think\Controller;
 class CartController extends BaseController {
 	public function index(){
-		$this->testLogShoppingList();
 		$this->commonProcess();
 		$this->display();
 	}
 	
 	public function delivery(){
-		$this->testLogShoppingList();
 		$this->commonProcess();
+		if(!$this->isLogin()){
+			$this->redirect('Home/register', array('fromAction' => 'shoppinglist'));
+		}
 		$this->display();
 	}
 	
@@ -21,9 +22,6 @@ class CartController extends BaseController {
 	
 	public function submitOrder(){
 		$this->commonProcess();
-		if(!$this->isLogin()){
-			$this->redirect('Home/register', array('fromAction' => 'shoppinglist'));
-		}
 		$orderLogic = D('Order', 'Logic');
 		$userId = $this->getCurrentUserId();
 		$backlogOrder = $orderLogic->getOrderByUserId($userId, 'B');
@@ -35,7 +33,7 @@ class CartController extends BaseController {
 			$data['orderNumber'] = $orderNumber;
 			$data['status'] = 'N';
 			$orderLogic->updateOrder($data, $order['orderId']);
-			$this->redirect('Cart/delivery', array('orderNumber' => $orderNumber));
+			$this->redirect('Payment/index', array('orderNumber' => $orderNumber));
 		}
 	}
 	

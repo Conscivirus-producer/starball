@@ -96,8 +96,8 @@ class PaymentController extends BaseController {
 		header("Content-type: text/html; charset=utf-8");
 		$appId = "045c259d-9ceb-4320-84e6-64d463c01a2d";
 		$appSecret = "b3842787-3442-49eb-914a-5ec86e0b2e74";
-		$jsonStr = file_get_contents("php://input");
-		//$jsonStr = file_get_contents(dirname(__FILE__)."/pay_json.txt");
+		//$jsonStr = file_get_contents("php://input");
+		$jsonStr = file_get_contents(dirname(__FILE__)."/pay_json.txt");
 		$msg = json_decode($jsonStr);
 		// webhook字段文档: http://beecloud.cn/doc/php.php#webhook
 		
