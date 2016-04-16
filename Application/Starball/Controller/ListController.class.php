@@ -54,9 +54,10 @@ class ListController extends BaseController {
 		}
 		
 		//get item list and paging
-		$itemList = D('Item')->field('t_item.*, img.image')
+		$itemList = D('Item')->field('t_item.*, img.image, price.price')
 							 ->where($map)
 							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
+							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.currency = '".$this->getCurrency()."'")
 							 ->order('brandId desc,categoryId desc, t_item.itemId desc')
 							 ->page($p.',12')
 							 ->select();

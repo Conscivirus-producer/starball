@@ -21,7 +21,6 @@ class ItemController extends BaseController {
 		foreach($priceData as $price){
 			if(cookie('preferred_currency') == $price['currency']){
 				$currencyArray = C('CURRENCY');
-				$this->assign('priceSymbol', $currencyArray[$price['currency']]);
 				$this->assign('currentPrice', $price['price']);
 			}
 		}

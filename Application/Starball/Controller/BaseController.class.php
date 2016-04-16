@@ -4,8 +4,20 @@ use Think\Controller;
 class BaseController extends Controller {
 	
 	protected function prepareUserSetting(){
-		if(cookie('think_language') == 'zh-CN' && cookie('preferred_currency') == ''){
-			cookie('preferred_currency','CNY',3600);
+		//如果当前用户的默认语言不在支持的语言列表里,那么设为默认语言
+		$langList = C('LANG_LIST');
+		$currencyLang = strtolower(cookie('think_language'));
+		if(false == stripos($langList,$currencyLang)){
+			cookie('think_language',C('DEFAULT_LANG'),3600);
+			$currencyLang = strtolower(cookie('think_language'));
+		}
+		logInfo('current_lang:'.cookie('think_language'));
+		logInfo('current currency:'.$this->getCurrency());
+		if($this->getCurrency() == ''){
+			//根据当前语言自动设置currency
+			$langCurrencyMap = C('LANG_CURRENCY');
+			cookie('preferred_currency',$langCurrencyMap[$currencyLang],3600);
+			logInfo('current currency:'.$this->getCurrency());
 		}
 		if(I('currency') != '' && I('currency') != $this->getCurrency()){
 			cookie('preferred_currency',I('currency'),3600);
@@ -146,11 +158,28 @@ class BaseController extends Controller {
 			}
 		}
 		
-		
 		$orderData['totalAmount'] = $order['totalAmount'] + $newTotalPrice;
 		$orderData['totalItemCount'] = $order['totalItemCount'] + $newTotalCount;
 		$orderData['currency'] = $this->getCurrency();
 		$orderLogic->updateOrder($orderData, $order['orderId']);
+	}
+
+	protected function prepareOrderList(){
+		if(session('userName') == ''){
+			return;	
+		}
+		$orderLogic = D('Order', 'Logic');
+		$map['userId'] = $this->getCurrentUserId();
+		$map['status'] <> 'B';
+		$result = $orderLogic->queryOrder($map);
+		$orderStatus = C('ORDERSTATUS');
+		$i = 0;
+		foreach($result as $record){
+			$record['statusDescription'] = $orderStatus[$record['status']];
+			$result[$i] = $record;
+			$i++;
+		}
+		$this->assign('data', $result);
 	}
 
 	protected function prepareShoppingList(){
@@ -158,14 +187,13 @@ class BaseController extends Controller {
 			$shoppingList = session('shoppingList');
 			if($shoppingList != '' && $shoppingList['totalItemCount'] > 0){
 				$this->assign('shoppingListCount', 1);
+				$shoppingListItems = session('shoppingListItems');
+				$this->assign('shoppingList', $shoppingList);
+				$this->assign('shoppingListItems', $shoppingListItems);
+				$this->assign('shoppingListItemsCount', count($shoppingListItems));
 			}else{
 				$this->assign('shoppingListCount', 0);
-				return;
 			}
-			$shoppingListItems = session('shoppingListItems');
-			$this->assign('shoppingList', $shoppingList);
-			$this->assign('shoppingListItems', $shoppingListItems);
-			$this->assign('shoppingListItemsCount', count($shoppingListItems));
 		}else{
 			$userId = session('userId');
 			$orderLogic = D('Order', 'Logic');
@@ -194,7 +222,6 @@ class BaseController extends Controller {
 			}else if(I('method') == 'login'){
 				$this->login();
 			}else if(I('method') == 'logout'){
-				logInfo('sodfjisodif');
 				$this->logout();
 			}
 		}
@@ -202,6 +229,7 @@ class BaseController extends Controller {
 		$this->prepareBrandList();
 		$this->prepareUserMenu();
 		$this->prepareShoppingList();
+		$this->prepareOrderList();
 	}
 	
 	//abstract protected function pageDisplay();	
@@ -221,6 +249,7 @@ class BaseController extends Controller {
 	
 	private function logout(){
 		session(null);
+		$this->redirect('Home/index');
 	}
 	
 	private function login(){
@@ -253,6 +282,13 @@ class BaseController extends Controller {
 			//$this->assign('userName', $result['userName']);
 		} else{
 			$this->error("用户名密码不正确");
+		}
+		//从哪里跳到登录页面，跳回去
+		logInfo('fromAction:'.session('fromAction'));
+		if(session('fromAction') != ''){
+			$actionArray = C('FROM_ACTION');
+			$actionDetail = $actionArray[session('fromAction')];
+			$this->redirect($actionDetail['url'], $actionDetail['params']);
 		}
 	}
 

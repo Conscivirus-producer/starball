@@ -1,0 +1,4 @@
+ALTER TABLE  `t_tag` DROP  `itemId`;
+ALTER TABLE  `t_tag` ADD  `tagId` INT( 32 ) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST ,
+ADD  `itemId` INT( 32 ) NOT NULL AFTER  `tagId` ,
+ADD INDEX (  `itemId` );

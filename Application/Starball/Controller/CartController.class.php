@@ -16,7 +16,7 @@ class CartController extends BaseController {
 	public function submitOrder(){
 		$this->commonProcess();
 		if(!$this->isLogin()){
-			$this->redirect('Home/register', array('cate_id' => 2));
+			$this->redirect('Home/register', array('fromAction' => 'shoppinglist'));
 		}
 		$orderLogic = D('Order', 'Logic');
 		$userId = $this->getCurrentUserId();

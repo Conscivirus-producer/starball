@@ -12,4 +12,10 @@ class BrandLogic extends BrandModel{
         $dbData = $this->where()->select();
         return $dbData;
     }
+
+    public function getBrandIdByBrandName($brandName) {
+        $map["brandName"] = $brandName;
+        $data = $this->where($map)->select();
+        return $data[0]["brandId"];
+    }
 }

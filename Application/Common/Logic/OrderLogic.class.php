@@ -10,7 +10,7 @@
 		}
 		
 		public function queryOrder($map){
-			return $this->where($map)->select();
+			return $this->where($map)->order('createdDate desc')->select();
 		}
 		
 		public function updateOrder($data, $orderId){
