@@ -48,6 +48,12 @@ class PaymentController extends BaseController {
 		$this->display();
 	}
 
+	public function paysuccess(){
+		$this->commonProcess();
+		$this->assign('orderNumber', I('orderNumber'));
+		$this->display();
+	}
+
 	private function createOrderBill($data, $orderNumber, $channel, $type){
 		$billData['orderNumber'] =  $orderNumber;
 		$billData['billNumber'] = $data["bill_no"];
@@ -96,8 +102,8 @@ class PaymentController extends BaseController {
 		header("Content-type: text/html; charset=utf-8");
 		$appId = "045c259d-9ceb-4320-84e6-64d463c01a2d";
 		$appSecret = "b3842787-3442-49eb-914a-5ec86e0b2e74";
-		//$jsonStr = file_get_contents("php://input");
-		$jsonStr = file_get_contents(dirname(__FILE__)."/pay_json.txt");
+		$jsonStr = file_get_contents("php://input");
+		//$jsonStr = file_get_contents(dirname(__FILE__)."/pay_json.txt");
 		$msg = json_decode($jsonStr);
 		// webhook字段文档: http://beecloud.cn/doc/php.php#webhook
 		
@@ -125,6 +131,7 @@ class PaymentController extends BaseController {
 		    //messageDetail 参考文档
 		    switch ($msg->channelType) {
 		        case "WX":
+					
 					$billLogic = D('OrderBill', 'Logic');
 					$map['billNumber'] = $msg->transaction_id;
 					$map['type'] = 'PAY';
@@ -135,6 +142,7 @@ class PaymentController extends BaseController {
 					}
 					$bill = $record[0];
 					if($bill['totalAmount'] != $msg->transaction_fee / 100){
+						echo '1';
 						//确认金额确实为业务产生的金额
 						logWarn('Payment Webhook:Total Fee not matched, msg:'.$jsonStr);
 						break;

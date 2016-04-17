@@ -40,5 +40,54 @@ class CartController extends BaseController {
 			$this->redirect('Payment/index', array('orderNumber' => $orderNumber));
 		}
 	}
+
+	//增加/减少购物车的商品数量
+	public function changeItemQuantity(){
+		if(session('userName') == ''){
+			$this->changeItemQuantityToSession();
+		}else{
+			$this->changeItemQuantityToUser();
+		}
+		$this->redirect('Cart/index');
+	}
 	
+	private function changeItemQuantityToSession(){
+		$shoppingList = session('shoppingList');
+		$shoppingListItems = session('shoppingListItems');
+		$changedQuantity = I('action') == 'add' ? 1 : -1;
+		$changedPrice = I('action') == 'add' ? I('price') : -I('price');
+		$i = 0;
+		foreach($shoppingListItems as $record){
+			if($record['itemId'] == I('itemId') && $record['itemSize'] == I('itemSize')){
+				$record['quantity'] += $changedQuantity;
+				$record['price'] += $changedPrice;
+				$shoppingListItems[$i] = $record;
+				break;
+			}
+			$i++;
+		}
+		
+		$shoppingList['totalItemCount'] += $changedQuantity;
+		$shoppingList['totalAmount'] += $changedPrice;
+		session('shoppingListItems', $shoppingListItems);
+		session('shoppingList',$shoppingList);
+	}
+	
+	private function changeItemQuantityToUser(){
+		$changedQuantity = I('action') == 'add' ? 1 : -1;
+		$changedPrice = I('action') == 'add' ? I('price') : -I('price');
+		$userId = $this->getCurrentUserId();
+		$orderLogic = D('Order', 'Logic');
+		$backlogOrder = $orderLogic->getOrderByUserId($userId, 'N');
+		$order = $backlogOrder[0];
+		//更新order的数量
+		$data['totalItemCount'] = $order['totalItemCount'] + $changedQuantity;
+		$data['totalAmount'] = $order['totalAmount'] + $changedPrice;
+		$orderLogic->updateOrder($data, $order['orderId']);
+		
+		//更新orderitem的数量
+		$orderItemLogic = D('OrderItem', 'Logic');
+		$orderItem = $orderItemLogic->getExistingOrderItem(I('itemId'), I('itemSize'), $order['orderId']);
+		$orderItemLogic->changeQuantity($orderItem[0], I('action'));
+	}
 }

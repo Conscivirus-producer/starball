@@ -96,7 +96,8 @@ class ItemController extends BaseController {
 		$orderItem = $orderItemLogic->getExistingOrderItem(I('itemId'), I('itemSize'), $orderId);
 		if(count($orderItem) > 0){
 			//如果记录已经存在，数量+1
-			$orderItemLogic->addQuantity($orderItem[0]);
+			$orderItem[0]['updatedDate'] = date("Y-m-d H:i:s" ,time());
+			$orderItemLogic->changeQuantity($orderItem[0], 'add');
 			return;
 		}
 		
@@ -146,7 +147,7 @@ class ItemController extends BaseController {
 			$shoppingList['totalAmount'] += I('currentPrice');
 			session('shoppingList',$shoppingList);
 		}
-		$this->testLogShoppingList();
+		//$this->testLogShoppingList();
 	}
 
 	protected function testLogShoppingList(){

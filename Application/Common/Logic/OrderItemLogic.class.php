@@ -28,21 +28,16 @@
 			return $this->where($map)->select();
 		}
 		
-		public function addQuantity($record){
-			$data['quantity'] = $record['quantity'] + 1;
-			$data['price'] = $record['price'] + $record['price'] / $record['quantity'];
-			$data['updatedDate'] = date("Y-m-d H:i:s" ,time());
+		public function changeQuantity($record, $action){
+			$changedQuantity = ($action == 'add' ? 1 : -1);
+			$changedPrice = ($action == 'add' ? ($record['price'] / $record['quantity']) : (-$record['price'] / $record['quantity']));
+			
+			$data['quantity'] = $record['quantity'] + $changedQuantity;
+			$data['price'] = $record['price'] + $changedPrice;
+			$data['updatedDate'] = $record['updatedDate'];
 			$this->updateOrderItem($data, $record['id']);
 		}
 		
-		public function minusQuantity($record){
-			if($data['quantity'] == 0){
-				return;
-			}
-			$data['quantity'] = $record['quantity'] - 1;
-			$data['updatedDate'] = date("Y-m-d H:i:s" ,time());
-			$this->updateOrderItem($data, $record['id']);
-		}		
 	}
 
 ?>

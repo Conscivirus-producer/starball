@@ -186,8 +186,8 @@ class BaseController extends Controller {
 	protected function prepareShoppingList(){
 		if(session('userName') == ''){
 			$shoppingList = session('shoppingList');
-			if($shoppingList != '' && $shoppingList['totalItemCount'] > 0){
-				$this->assign('shoppingListCount', 1);
+			if($shoppingList != ''){
+				$this->assign('shoppingListCount', $shoppingList['totalItemCount']);
 				$shoppingListItems = session('shoppingListItems');
 				$this->assign('shoppingList', $shoppingList);
 				$this->assign('shoppingListItems', $shoppingListItems);
@@ -200,13 +200,15 @@ class BaseController extends Controller {
 			$orderLogic = D('Order', 'Logic');
 			$orderItemLogic = D('OrderItem', 'Logic');
 			$backlogOrder = $orderLogic->getOrderByUserId($userId, 'N');
-			$this->assign('shoppingListCount', count($backlogOrder));
 			if(count($backlogOrder) > 0){
 				$shoppingList = $backlogOrder[0];
+				$this->assign('shoppingListCount', $shoppingList['totalItemCount']);
 				$this->assign('shoppingList', $shoppingList);
 				$shoppingListItems = $orderItemLogic->getOrderItemsByOrdeId($shoppingList['orderId']);
 				$this->assign('shoppingListItems', $shoppingListItems);
 				$this->assign('shoppingListItemsCount', count($shoppingListItems));
+			}else{
+				$this->assign('shoppingListCount', 0);
 			}
 		}
 		$currencyArray = C('CURRENCY');

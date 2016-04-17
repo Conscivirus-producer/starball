@@ -274,12 +274,14 @@
 								</div>
 								<li class="am-divider"></li>
 								<volist name="shoppingListItems" id="vo" offset="0" length='3'>
+									<gt name="vo['quantity']" value="0">
 									<li>
 										<a href="{:U('Starball/Item/index','itemId='.$vo['itemId'])}" class="item-panier"> <img alt="{$vo.itemName}" src="{$vo.itemImage}?imageView2/1/w/100/h/100/q/100" class="item-photo-adjustor"> 
 											<span class="content-item-panier"> <span class="title-item-panier">{$vo.brandName}</span> <span class="subtitle-item-panier">{$vo.itemName}</span> 
 											<span class="yu-size-container"> <span class="" style="text-transform: none;"> 尺码： <span class="am-sans-serif"style="font-weight:bold;">{$vo.sizeDescription}</span> </span> <span class="" style="float:right"> 数量： <span class="">{$vo.quantity}</span> </span> <span class="am-sans-serif yu-item-price"> <span> {$priceSymbol}&nbsp;{$vo.price} </span> </span> </span> </span> </a>
 									</li>
 									<li class="am-divider"></li>
+									</gt>
 								</volist>
 								
 								<li style="margin:0;">

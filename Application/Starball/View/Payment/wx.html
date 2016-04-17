@@ -1,5 +1,8 @@
 <extend name="Public/base" />
 <block name="title"><title>BeeCloud微信扫码示例</title></block>
+<block name="customizedCss">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/starball/css/cart.css">
+</block>
 <block name="main">
 	<include file="Public/cartcommon" />
 	<div class="am-g">
@@ -48,7 +51,7 @@ function synchronous() {
                 result = JSON.parse(oAjax.responseText);
 
                 if (result && result.status == "1") {
-                	window.location.href = 'http://payservice.beecloud.cn/spay/result.php';
+                	window.location.href = '{:U("Payment/paysuccess")}?orderNumber='+orderNumber;
                     //document.getElementById("query-result").textContent = "支付成功";
                 }
 
