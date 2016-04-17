@@ -20,6 +20,9 @@
     <script src="__PUBLIC__/Beecloud/Js/qrcode.js"></script>
     <script>
     $(".cart-step3").addClass("step-on");
+	$("#cartlnk1").attr('href', "{:U('Starball/Cart/index')}");
+	$("#cartlnk2").attr('href', "{:U('Starball/Cart/delivery')}");
+	$("#cartlnk3").attr('href', "{:U('Starball/Payment/index')}");
     var options = {text: $("#codeUrl").val()};
     //参数1表示图像大小，取值范围1-10；参数2表示质量，取值范围'L','M','Q','H'
     var canvas = BCUtil.createQrCode(options);

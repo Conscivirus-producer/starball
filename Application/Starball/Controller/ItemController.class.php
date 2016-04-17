@@ -70,12 +70,12 @@ class ItemController extends BaseController {
 	private function addShoppingListToUser(){
 		$userId = session('userId');
 		$orderLogic = D('Order', 'Logic');
-		$backlogOrder = $orderLogic->getOrderByUserId($userId, 'B');
+		$backlogOrder = $orderLogic->getOrderByUserId($userId, 'N');
 		if(count($backlogOrder) == 0){
 			$data['totalItemCount'] = 1; 
 			$data['totalAmount'] = I('currentPrice');
 			$data['userId'] = $userId; 
-			$data['status'] = 'B';
+			$data['status'] = 'N';
 			$data['currency'] = $this->getCurrency();
 			$orderLogic->create($data);
 			$orderId = $orderLogic->add();
@@ -111,7 +111,7 @@ class ItemController extends BaseController {
 		$itemData['sizeDescription'] = D('Inventory', 'Logic')->getSizeDescriptionById(I('itemSize'));
 		$itemData['price'] = I('currentPrice');
 		$itemData['quantity'] = 1;
-		$itemData['status'] = 'B';
+		$itemData['status'] = 'N';
 		$orderItemLogic->create($itemData);
 	}
 

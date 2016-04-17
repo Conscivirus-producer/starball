@@ -56,7 +56,7 @@ class BaseController extends Controller {
 	
 	private function updateUserShoppingListByCurrency(){
 		$orderLogic = D('Order', 'Logic');
-		$backlogOrder = $orderLogic->getOrderByUserId($this->getCurrentUserId(), 'B');
+		$backlogOrder = $orderLogic->getOrderByUserId($this->getCurrentUserId(), 'N');
 		if(count($backlogOrder) == 0){
 			//No order found.
 			return;
@@ -103,12 +103,12 @@ class BaseController extends Controller {
 			return;
 		}
 		$orderLogic = D('Order', 'Logic');
-		$backlogOrder = $orderLogic->getOrderByUserId($this->getCurrentUserId(), 'B');
+		$backlogOrder = $orderLogic->getOrderByUserId($this->getCurrentUserId(), 'N');
 		if(count($backlogOrder) == 0){
 			$data['totalItemCount'] = $shoppingList['totalItemCount']; 
 			$data['totalAmount'] = $shoppingList['totalAmount'];
 			$data['userId'] = $this->getCurrentUserId(); 
-			$data['status'] = 'B';
+			$data['status'] = 'N';
 			$data['currency'] = $this->getCurrency();
 			$orderLogic->create($data);
 			$orderId = $orderLogic->add();
@@ -118,7 +118,7 @@ class BaseController extends Controller {
 				//创建新的记录
 				$record['orderId'] = $orderId;
 				$record['sizeDescription'] = D('Inventory', 'Logic')->getSizeDescriptionById($record['itemSize']);
-				$record['status'] = 'B';
+				$record['status'] = 'N';
 				$orderItemLogic->create($record);
 			}			
 			return;
@@ -154,7 +154,7 @@ class BaseController extends Controller {
 				$itemData['price'] = $value['price'];
 				$itemData['quantity'] = $value['quantity'];
 				$itemData['updatedDate'] = $value['updatedDate'];
-				$itemData['status'] = 'B';
+				$itemData['status'] = 'N';
 				$orderItemLogic->create($itemData);
 			}
 		}
@@ -171,7 +171,7 @@ class BaseController extends Controller {
 		}
 		$orderLogic = D('Order', 'Logic');
 		$map['userId'] = $this->getCurrentUserId();
-		$map['status'] <> 'B';
+		$map['status'] <> 'N';
 		$result = $orderLogic->queryOrder($map);
 		$orderStatus = C('ORDERSTATUS');
 		$i = 0;
@@ -199,7 +199,7 @@ class BaseController extends Controller {
 			$userId = session('userId');
 			$orderLogic = D('Order', 'Logic');
 			$orderItemLogic = D('OrderItem', 'Logic');
-			$backlogOrder = $orderLogic->getOrderByUserId($userId, 'B');
+			$backlogOrder = $orderLogic->getOrderByUserId($userId, 'N');
 			$this->assign('shoppingListCount', count($backlogOrder));
 			if(count($backlogOrder) > 0){
 				$shoppingList = $backlogOrder[0];
