@@ -25,3 +25,11 @@ div.big-info-picto {
 div.empty-cart{
 	text-align: center;
 }
+/*payment scuccess*/
+button.yu-backhome-button{
+	font-size: 12px;
+    background-color: #000;
+    color: #fff;
+    padding: 8px 24px;
+    margin-bottom: 0 auto;
+}
