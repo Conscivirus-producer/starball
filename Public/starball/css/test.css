@@ -886,4 +886,8 @@ button.yu-backhome-button{
     padding: 8px 24px;
     margin-bottom: 0 auto;
 }
+/*boutique*/
+.yu-boutique-viewlist{
+    margin: 50px auto 0 !important;
+}
 
