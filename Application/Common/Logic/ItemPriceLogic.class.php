@@ -24,7 +24,7 @@
 				$data["price"] = $value;
 				$data["currency"] = $key;
 				$data["autoAssign"] = 0;
-				if ($this->add($data) == false) {
+				if ($this->add($data) === false) {
 					return false;
 				}
 			}
@@ -48,7 +48,7 @@
 				$map["currency"] = $key;
 				$data["price"] = $value;
 				$data["updatedDate"] = $lastUpdatedDate;
-				if ($this->where($map)->data($data)->save() == false) {
+				if ($this->where($map)->data($data)->save() === false) {
 					return false;
 				}
 			}

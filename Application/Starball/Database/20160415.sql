@@ -6,7 +6,7 @@ ALTER TABLE `t_order` DROP `contactName`;
 ALTER TABLE `t_order` DROP `contactPhone`;
 ALTER TABLE `t_order` DROP `userAvailabeTime`;
 
-ALTER TABLE  `t_shippingaddress` ADD  `name` VARCHAR( 50 ) NOT NULL AFTER  `addressId`;
+
 ALTER TABLE  `t_shippingaddress` ADD  `postCode` VARCHAR( 20 ) NOT NULL AFTER  `address` ,
 ADD  `country` VARCHAR( 20 ) NOT NULL COMMENT  '国家代码,有固定的支持国家列表' AFTER  `postCode`;
 ALTER TABLE  `t_shippingaddress` ADD  `city` VARCHAR( 50 ) NOT NULL AFTER  `address`;
