@@ -23,7 +23,7 @@
 <input type="text" id="qiniuToken" name="qiniuToken" value="{$qiniuToken}" style="display: none">
 <header class="am-topbar admin-header">
     <div class="am-topbar-brand">
-        <strong>StarBall</strong> <small>后台管理模板</small>
+        <strong>StarBall</strong> <small>后台管理</small>
     </div>
 
     <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
@@ -54,14 +54,12 @@
             <ul class="am-list admin-sidebar-list">
                 <li><a href="admin-index.html"><span class="am-icon-home"></span> 订单管理</a></li>
                 <li class="admin-parent">
-                    <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 库存管理 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                    <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 商品管理 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
                     <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
-                        <li><a href="admin-brand.html" class="am-cf"><span class="am-icon-check"></span> 品牌管理<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
-                        <li><a href="admin-item.html"><span class="am-icon-puzzle-piece"></span> 商品管理</a></li>
-                        <li><a href="admin-count.html"><span class="am-icon-th"></span> 库存盘点<span class="am-badge am-badge-secondary am-margin-right am-fr">24</span></a></li>
+                        <li><a href="./upload" class="am-cf" target="_blank"><span class="am-icon-upload"></span> 商品上新</a></li>
+                        <li><a href="./search" target="_blank"><span class="am-icon-search"></span> 商品搜索</a></li>
                     </ul>
                 </li>
-                <li><a href="admin-page.html"><span class="am-icon-table"></span> 页面管理</a></li>
                 <li><a href="#"><span class="am-icon-sign-out"></span> 注销</a></li>
             </ul>
         </div>
