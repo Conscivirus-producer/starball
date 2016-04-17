@@ -16,7 +16,7 @@
 				$data["image"] = $imageArray[$i];
 				$data["sequence"] = $i;
 				$index = $this->add($data);
-				if ($index == false) {
+				if ($index === false) {
 					return false;
 				}
 			}
@@ -24,7 +24,7 @@
 		}
 		public function updateOneItemImages($itemId, $imageArray) {
 			$map['itemId'] = $itemId;
-			if ($this->where($map)->delete() == false) {
+			if ($this->where($map)->delete() === false) {
 				return false;
 			} else {
 				return $this->insertMultipleImages($itemId, $imageArray);
@@ -66,7 +66,7 @@
 			$map["imageId"] = $imageId;
 
 			$key = $this->getQiniuKeyByImageId($imageId);
-			if ($this->deleteImageByQiniuKey($key) == false) {
+			if ($this->deleteImageByQiniuKey($key) === false) {
 				return false;
 			} else {
 				if ($this->where($map)->delete() != false) {

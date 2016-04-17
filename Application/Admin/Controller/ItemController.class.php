@@ -65,6 +65,7 @@ class ItemController extends Controller {
             "priceHKD",
             "priceCNY",
             "season",
+            "tag",
             "images_array"
         );
         $result = array(
@@ -104,8 +105,8 @@ class ItemController extends Controller {
     }
 
     public function test() {
-        $imageLogic = D("Image", "Logic");
-        echo $imageLogic->deleteOneImageByImageId(24);
+        $tagLogic = D("Tag", "Logic");
+        echo $tagLogic->getTagStringByItemId(50);
     }
 
     public function updateSingleItem() {
@@ -122,6 +123,7 @@ class ItemController extends Controller {
             "priceHKD",
             "priceCNY",
             "season",
+            "tag",
             "images_array"
         );
         $result = array(

@@ -10,6 +10,9 @@
 
 		public function insertOneItem($data) {
 			$itemPriceLogic = D("ItemPrice", "Logic");
+			// add the tag
+			$tagLogic = D("Tag", "Logic");
+			$tagString = $data["tag"];
 			$priceArray = array();
 			$priceArray["CNY"] = $data["priceCNY"];
 			$priceArray["HKD"] = $data["priceHKD"];
@@ -19,14 +22,15 @@
 			unset($newData["images_array"]);
 			unset($newData["priceCNY"]);
 			unset($newData["priceHKD"]);
+			unset($newData["tag"]);
 			$newData["lastUpdatedDate"] = date('y-m-d h:i:s',time());
 			$newData["isAvailable"] = "1";
 			$newData["discount"] = 100;
 			$index = $this->add($newData);
-			if($index == false) {
+			if($index === false) {
 				return false;
 			} else {
-				$res = ($imageLogic->insertMultipleImages($index, $imageArray)) & ($itemPriceLogic->insertItemPrices($index, $priceArray));
+				$res = ($imageLogic->insertMultipleImages($index, $imageArray)) & ($itemPriceLogic->insertItemPrices($index, $priceArray) & $tagLogic->insertTagsForOneItem($index, $tagString));
 				return $res;
 			}
 		}
@@ -53,26 +57,31 @@
 		public function getItemInformationById($itemId) {
 			$itemPriceLogic = D("ItemPrice", "Logic");
 			$imageLogic = D("Image", "Logic");
+			$tagLogic = D("Tag", "Logic");
 			$itemMap["itemId"] = $itemId;
 			$basicInformation = $this->where($itemMap)->select();
 			$result = current($basicInformation);
 			$result["itemPrice"] = $itemPriceLogic->getClassifiedPriceByItemId($itemId);
 			$result["images"] = $imageLogic->getImageById($itemId);
+			$result["tag"] = $tagLogic->getTagStringByItemId($itemId);
 			return $result;
 		}
 
 		public function updateOneItem($data) {
 			$itemId = ''.$data["itemId"];
 			$itemPriceLogic = D("ItemPrice", "Logic");
+			$tagLogic = D("Tag", "Logic");
 			$priceArray = array();
 			$priceArray["CNY"] = $data["priceCNY"];
 			$priceArray["HKD"] = $data["priceHKD"];
+			$tagString = $data["tag"];
 			$imageLogic = D("Image", "Logic");
 			$imageArray = split(",",$data["images_array"]);
 			$newData = $data;
 			unset($newData["images_array"]);
 			unset($newData["priceCNY"]);
 			unset($newData["priceHKD"]);
+			unset($newData["tag"]);
 			$lastUpdatedDate = date('y-m-d h:i:s',time());
 			$newData["lastUpdatedDate"] = $lastUpdatedDate;
 			$newData["isAvailable"] = "1";
@@ -80,7 +89,7 @@
 			if ($this->save($newData) == false) {
 				return false;
 			} else {
-				$res = ($itemPriceLogic->updateItemPrices($itemId, $priceArray, $lastUpdatedDate)) & ($imageLogic->updateOneItemImages($itemId, $imageArray));
+				$res = ($itemPriceLogic->updateItemPrices($itemId, $priceArray, $lastUpdatedDate)) & ($imageLogic->updateOneItemImages($itemId, $imageArray)) & ($tagLogic->updateTagsForOneItem($itemId, $tagString));
 				return $res;
 			}
 		}
@@ -93,6 +102,7 @@
 			$brandLogic = D("Brand", "Logic");
 			$itemPriceLogic = D("ItemPrice", "Logic");
 			$categoryLogic = D("Category", "Logic");
+			$tagLogic = D("Tag", "Logic");
 			$gradeMap = array(
 				"Baby" => "1",
 				"Child" => "2"
@@ -107,12 +117,13 @@
 			// used for addAll, make sure that all the data are right
 			$products = array();
 			$priceArrays = array();
+			$tagStringArrays = array();
 			$currentRow = 1;
 			// validation
 			for ($i = 0; $i < count($rows); $i++) {
 				$columns = split(",", $rows[$i]);
 				// len of fields must match
-				if (count($columns) != 11) {
+				if (count($columns) != 12) {
 					$res["row"] = $currentRow;
 					return $res;
 				}
@@ -132,11 +143,13 @@
 				$priceArray["HKD"] = trim($columns[8]);
 				$priceArray["CNY"] = trim($columns[9]);
 				$product["season"] = trim($columns[10]);
+				$tagString = trim($columns[11]);
 				$product["lastUpdatedDate"] = date('y-m-d h:i:s',time());
 				$product["isAvailable"] = "1";
 				$product["discount"] = 100;
 				array_push($products, $product);
 				array_push($priceArrays, $priceArray);
+				array_push($tagStringArrays, $tagString);
 				$currentRow++;
 			}
 			$index = $this->addAll($products);
@@ -144,7 +157,11 @@
 				return $res;
 			} else {
 				for ($i = 0; $i < count($priceArrays); $i++) {
-					if ($itemPriceLogic->insertItemPrices($index, $priceArrays[$i]) == false) {
+					if ($itemPriceLogic->insertItemPrices($index, $priceArrays[$i]) === false) {
+						$res["row"] = $index;
+						return $res;
+					}
+					if ($tagLogic->insertTagsForOneItem($index, $tagStringArrays[$i]) === false) {
 						$res["row"] = $index;
 						return $res;
 					}

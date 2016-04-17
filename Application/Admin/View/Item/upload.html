@@ -73,9 +73,9 @@
         <div class="am-g">
             <!-- multiple uploading using csv area -->
             <div class="am-u-sm-12">
-                <fieldset>
-                    <legend>批量上传商品</legend>
-                    <form class="am-form" id="csv-file-upload" action="./uploadCsv" method="post" enctype="multipart/form-data">
+                <form class="am-form" id="csv-file-upload" action="./uploadCsv" method="post" enctype="multipart/form-data">
+                    <fieldset>
+                        <legend>批量上传商品</legend>
                         <div class="am-form-group am-form-file">
                             <button type="button" class="am-btn am-btn-success am-btn-sm">
                                 <i class="am-icon-cloud-upload"></i> 选择要上传的商品CSV文件
@@ -84,8 +84,9 @@
                         </div>
                         <div id="file-list"></div>
                         <p><button type="button" id="upload-csv-file" class="am-btn am-btn-default">上传</button></p>
-                    </form>
-                </fieldset>
+                        <a class="am-btn am-btn-danger" href="https://docs.google.com/spreadsheets/d/178ZKTtupA3fYzvTmyrNvNfQn1hLIUgX_kg7X-5ESFNs/edit?usp=sharing" target="_blank">上传模板链接</a>
+                    </fieldset>
+                </form>
             </div>
             <!-- single uploading area -->
             <div class="am-u-sm-12">
@@ -164,6 +165,11 @@
                         <div class="am-form-group">
                             <label for="item-season">商品季节</label>
                             <input type="text" class="" name="season" id="item-season" placeholder="输入商品季节">
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="item-tag">商品标签</label>
+                            <input type="text" class="" name="tag" id="item-tag" placeholder="用#分开不同标签">
                         </div>
 
                         <div class="am-form-group am-form-file">
@@ -443,6 +449,7 @@
         $("#item-priceHKD").val("");
         $("#item-priceCNY").val("");
         $("#item-season").val("");
+        $("#item-tag").val("");
         $("#item-images-array").val("");
         $("#images-gallery").empty();
         imagesArray = new Array();
