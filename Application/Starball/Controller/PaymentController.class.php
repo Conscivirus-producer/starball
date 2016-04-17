@@ -44,7 +44,10 @@ class PaymentController extends BaseController {
 		//$data["return_url"] = "http://starballkids.com/";
 		//$data["optional"] = json_decode(json_encode(array("tag"=>"msgtoreturn")));
 		$this->assign('codeUrl', $result->code_url);
+		$this->assign('totalFee', $data["total_fee"]/100);
 		$this->assign('orderNumber', $orderNumber);
+		$this->assign('bill_no', $data["bill_no"]);
+		$this->assign('is_dev', C('IS_DEV'));
 		$this->display();
 	}
 
@@ -96,6 +99,29 @@ class PaymentController extends BaseController {
 		//$result = \beecloud\rest\api::bills($data);
 		
 		print json_encode($vo);
+	}
+	
+	public function testFinishPayment(){
+		//更新bill状态
+		$billLogic = D('OrderBill', 'Logic');
+		$map['billNumber'] = I('bill_no');
+		$map['type'] = 'PAY';
+		$record = $billLogic->queryBill($map);
+		$bill = $record[0];
+		$data['status'] = 'S';
+		$data['billId'] = $bill['billId'];
+		$billLogic->update($data);
+		
+		//更新订单状态
+		$orderData['status'] = 'P';
+		D('Order', 'Logic')->updateOrderByNumber($orderData, $bill['orderNumber']);
+		
+		$data = array(
+		    'message'=>'处理成功',
+		);
+		$vo = $data;
+		$vo['status'] = 1;
+		$this->ajaxReturn($vo, "json");
 	}
 	
 	public function webhook(){
