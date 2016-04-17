@@ -1,0 +1,288 @@
+<extend name="Public/base" />
+<block name="title"><title>折扣区</title></block>
+<block name="main">
+<div class="am-g yu-main-container">
+    <div class="am-u-sm-12 am-padding-0">
+        <ol class="am-breadcrumb am-breadcrumb-slash am-kai am-margin-bottom-15 am-text-center">
+                <div class="yu-listpage-header">
+                      <span class="yu-listpage-seperate"></span>
+                      <if condition="$by eq 'time'"><span class="yu-listpage-title">新系列</span></if>
+                      <if condition="$by eq 'brand'"><span class="yu-listpage-title">品牌</span></if>
+                      <if condition="$by eq 'baby'"><span class="yu-listpage-title">婴儿</span></if>
+                      <if condition="$by eq 'girl'"><span class="yu-listpage-title">女孩</span></if>
+                      <if condition="$by eq 'boy'"><span class="yu-listpage-title">男孩</span></if>
+                </div>
+                <if condition="$by eq 'time'"><div class="filterings">最近{$byValue}天</div></if>
+                <if condition="$by eq 'brand'"><div class="filterings">{$brand[0].brandName}</div></if>
+                <if condition="$byValue eq 'brand'"><div class="filterings">{$brand[0].brandName}</div></if>
+                <if condition="$byValue eq 'category'"><div class="filterings">{$category[0].categoryName}</div></if>
+        </ol>
+        <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+        <div data-am-widget="gotop" class="am-gotop am-gotop-fixed" >
+            <a href="#top" title="回到顶部"> <span class="am-gotop-title">回到顶部</span> <i class="am-gotop-icon am-icon-chevron-up"></i> </a>
+        </div>
+        <span><a href="#" class="am-kai yu-filter-button" style="font-size:12px;color:#A9A9A9;margin-bottom:1%;">筛选<i class="am-icon-eye"></i></a></span>
+        <div class="am-g" style="margin-top:15px;">
+            <div class=" am-u-md-3 am-u-lg-3 am-kai" style="font-size:15px; ">
+                <section data-am-widget="accordion" class="am-accordion am-accordion-gapped  am-show-md-up am-no-layout" data-am-accordion="{ &quot;multiple&quot;: true }" style="margin-bottom: 20px;margin-top: 0px;margin-left: 0;margin-right: 0;">
+                    <dl class="am-accordion-item brand">
+                            <dt class="am-accordion-title">
+                                折扣
+                            </dt>
+                            <dd class="am-accordion-bd am-collapse" style="height: 0px;">
+                                <div class="am-accordion-content">
+                                    <label class="am-radio am-secondary">
+                                        <input class="am-ucheck-checkbox" type="checkbox" value="#" data-yu-val="#" data-am-ucheck="">
+                                        <span class="am-ucheck-icons"><i class="am-icon-unchecked"></i><i class="am-icon-checked"></i></span> 全部 </label>
+                                    <label class="am-radio am-secondary">
+                                        <input class="am-ucheck-checkbox" type="checkbox" value="#" data-yu-val="#" data-am-ucheck="">
+                                        <span class="am-ucheck-icons"><i class="am-icon-unchecked"></i><i class="am-icon-checked"></i></span> -30% </label>
+                                    <label class="am-radio am-secondary">
+                                        <input class="am-ucheck-checkbox" type="checkbox" value="#" data-yu-val="#" data-am-ucheck="">
+                                        <span class="am-ucheck-icons"><i class="am-icon-unchecked"></i><i class="am-icon-checked"></i></span> -20% </label>
+                                    <label class="am-radio am-secondary">
+                                        <input class="am-ucheck-checkbox" type="checkbox" value="#" data-yu-val="#" data-am-ucheck="">
+                                        <span class="am-ucheck-icons"><i class="am-icon-unchecked"></i><i class="am-icon-checked"></i></span> -10% </label>
+                                </div>
+                            </dd>
+                        </dl>             
+                </section>
+                <section data-am-widget="accordion" class="am-accordion am-accordion-gapped am-margin-0 am-show-md-up" data-am-accordion='{ "multiple": true }'>
+                    <if condition="$by neq 'brand'">
+                        <dl class="am-accordion-item am-margin-0 brand">
+                            <dt class="am-accordion-title yu-bottomborder-none">
+                                品牌
+                            </dt>
+                            <dd class="am-accordion-bd am-collapse ">
+                                <div class="am-accordion-content">
+                                    <volist name="brand" id="data">
+                                        <label class="am-radio am-secondary">
+                                            <input class="brand {$data.brandId} filter" type="checkbox" value="{$data.brandId}" data-yu-val="{$data.brandName}" data-am-ucheck />
+                                            {$data.brandName}
+                                        </label>
+                                    </volist>
+                                </div>
+                            </dd>
+                        </dl>
+                    </if>
+                    <if condition="$by neq 'boy' and $by neq 'girl'">
+                        <dl class="am-accordion-item yu-accordion-list gender">
+                            <dt class="am-accordion-title yu-bottomborder-none">
+                                性别
+                            </dt>
+                            <dd class="am-accordion-bd am-collapse ">
+                                <div class="am-accordion-content">
+                                    <volist name="gender" id="gdata">
+                                        <label class="am-radio am-secondary">
+                                            <input class="gender {$gdata.gender} filter" type="checkbox"  value="{$gdata.gender}" data-yu-val="{$gdata.genderName}" data-am-ucheck>
+                                            {$gdata.genderName}
+                                        </label>
+                                    </volist>
+                                </div>
+                            </dd>
+                        </dl>
+                    </if>
+                    <if condition="$by neq 'baby'">
+                        <dl class="am-accordion-item yu-accordion-list age">
+                            <dt class="am-accordion-title yu-bottomborder-none">
+                                年龄
+                            </dt>
+                            <dd class="am-accordion-bd am-collapse ">
+                                <div class="am-accordion-content">
+                                    <volist name="age" id="adata">
+                                        <label class="am-radio am-secondary">
+                                            <input class="age {$adata.grade} filter" type="checkbox" value="{$adata.grade}" data-yu-val="{$adata.gradeName}" data-am-ucheck />
+                                            {$adata.gradeName}
+                                        </label>
+                                    </volist>
+                                </div>
+                            </dd>
+                        </dl>
+                    </if>
+                    <dl class="am-accordion-item yu-accordion-list color">
+                        <dt class="am-accordion-title yu-bottomborder-none">
+                            颜色
+                        </dt>
+                        <dd class="am-accordion-bd am-collapse ">
+                            <div class="am-accordion-content">
+                                <volist name="color" id="cdata">
+                                    <label class="am-radio am-secondary">
+                                        <input class="color {$cdata.color} filter" type="checkbox" value="{$cdata.color}" data-yu-val="{$cdata.color}" data-am-ucheck />
+                                        {$cdata.color}
+                                    </label>
+                                </volist>
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl class="am-accordion-item yu-accordion-list season">
+                        <dt class="am-accordion-title yu-bottomborder-none">
+                            季节                      
+                        </dt>
+                        <dd class="am-accordion-bd am-collapse ">
+                            <div class="am-accordion-content">
+                                <volist name="season" id="sdata">
+                                    <label class="am-radio am-secondary">
+                                        <input class="season {$sdata.season} filter" type="checkbox" value="{$sdata.season}" data-yu-val="{$sdata.season}" data-am-ucheck />
+                                        {$sdata.season}
+                                    </label>
+                                </volist>
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl class="am-accordion-item yu-accordion-list category">
+                        <dt class="am-accordion-title yu-bottomborder-none">
+                            类别
+                        </dt>
+                        <dd class="am-accordion-bd am-collapse ">
+                            <div class="am-accordion-content">
+                                <volist name="category" id="data">
+                                    <label class="am-radio am-secondary">
+                                        <input class="category {$data.categoryId} filter" type="checkbox" value="{$data.categoryId}" data-yu-val="{$data.categoryName}" data-am-ucheck />
+                                        {$data.categoryName}({$data.count})
+                                        <!-- <if condition="count($data['subCategories'])!=0">
+                                            <ul>
+                                                <volist name="data['subCategories']" id="subs">
+                                                    <li id="{$subs.categoryId}">
+                                                        {$subs.categoryName}
+                                                    </li>
+                                                </volist>
+                                            </ul>
+                                        </if> --> 
+                                    </label>
+                                </volist>
+                            </div>
+                        </dd>
+                    </dl>
+                </section>
+            </div>
+            <div class="am-sm-8 am-u-md-9 am-u-lg-9 am-padding-0">
+                <volist name="itemList" id="vo">
+                    <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-end item-caption-adjustor">
+                        <a href="{:U('Starball/Item/index','itemId='.$vo['itemId'])}">
+                            <div class="am-thumbnail" style="border:none;">
+                                <img src="{$vo.image}" alt=""/>
+                                <div class="am-thumbnail-caption" style="border:none">
+                                    <span class="listpage-title-item-panier">{$vo.name}</span>
+                                    <span class="listpage-item-price">
+                                       {$priceSymbol}  {$vo.price}
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </volist>
+            </div>
+        </div>
+        <div class="am-pagination am-pagination-centered">
+            {$page}
+        </div>
+    </div>
+</div>
+</block>
+<block name="customizedJavascript">
+<script>
+$(document).ready(function(){
+    if({:$brandsChecked} != null){
+        applychecks("brand",{:$brandsChecked});
+    }
+    if({:$categoriesChecked} != null){
+        applychecks("category",{:$categoriesChecked});
+    }
+    if({:$gendersChecked} != null){
+        applychecks("gender",{:$gendersChecked});
+    }
+    if({:$colorsChecked} != null){
+        applychecks("color",{:$colorsChecked});
+    }
+    if({:$agesChecked} != null){
+        applychecks("age",{:$agesChecked});
+    }
+    if({:$seasonsChecked} != null){
+        applychecks("season",{:$seasonsChecked});
+    }
+    
+});
+function applychecks(type, checkedArray){
+        var checkeds = new Array();
+        $(".am-accordion-item."+type).addClass("am-active");
+        $(".am-accordion-item."+type+" dd").addClass("am-in");
+        checkeds = checkedArray;
+        for(var i = 0; i < checkeds.length; i++){
+            $("."+type+"."+checkeds[i]).uCheck('check');
+            $(".filterings").append("/"+$("."+type+"."+checkeds[i]).attr("data-yu-val"));
+        }
+}
+$("input.filter").click(function(){
+    var params = "";
+    var brands = new Array();
+    var categories = new Array();
+    var genders = new Array();
+    var colors = new Array();
+    var ages = new Array();
+    var seasons = new Array();
+    
+    //for brand, single
+    if($(this).hasClass('brand')&&$(this).is('checked')){
+        brands.push($(this).attr("value"));
+    }else{
+        $("input.brand").each(function(){
+            if($(this).is(':checked')){
+                brands.push($(this).attr("value"));
+            }
+        });
+    }
+    if(brands.length != 0){
+        params = params+"/brands/"+brands.toString();
+    }
+    $("input.gender").each(function(){
+        if($(this).is(':checked')){
+            genders.push($(this).attr("value"));
+        }
+    });
+    if(genders.length != 0){
+        params = params+"/genders/"+genders.toString();
+    }
+    $("input.color").each(function(){
+        if($(this).is(':checked')){
+            colors.push($(this).attr("value"));
+        }
+    });
+    if(colors.length != 0){
+        params = params+"/colors/"+colors.toString();
+    }
+    $("input.category").each(function(){
+        if($(this).is(':checked')){
+            categories.push($(this).attr("value"));
+        }
+    });
+    if(categories.length != 0){
+        params = params+"/categories/"+categories.toString();
+    }
+    $("input.age").each(function(){
+        if($(this).is(':checked')){
+            ages.push($(this).attr("value"));
+        }
+    });
+    if(ages.length != 0){
+        params = params+"/ages/"+ages.toString();
+    }
+    $("input.season").each(function(){
+        if($(this).is(':checked')){
+            seasons.push($(this).attr("value"));
+        }
+    });
+    if(seasons.length != 0){
+        params = params+"/seasons/"+seasons.toString();
+    }
+    var url = "{:U('Starball/List/showList/by/$by/byValue/$byValue$params')}";
+    url = url.replace("$by","{$by}");
+    url = url.replace("$byValue","{$byValue}");
+    url = url.replace("$params",params);
+    window.location.href=url;
+});
+
+$("a.yu-filter-button").click(function(){
+    $("section.am-accordion").toggleClass("am-show-md-up");
+});
+</script>
+</block>

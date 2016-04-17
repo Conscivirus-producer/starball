@@ -501,6 +501,12 @@ span.listpage-item-price{
     text-align: center;
     margin-top: 18px;
 }   
+dl.yu-accordion-list{
+	margin:0 !important;
+}
+dt.yu-bottomborder-none{
+	border-bottom:none!important;
+}
 /*footer*/
 div.yu-layout-footer{
 	margin-top:40px;
@@ -898,3 +904,4 @@ button.yu-backhome-button{
     padding: 8px 24px;
     margin-bottom: 0 auto;
 }
+

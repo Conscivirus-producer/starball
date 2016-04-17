@@ -24,113 +24,113 @@
 		<span><a href="#" class="am-kai yu-filter-button" style="font-size:12px;color:#A9A9A9;margin-bottom:1%;">筛选<i class="am-icon-eye"></i></a></span>
 		<div class="am-g" style="margin-top:15px;">
 			<div class=" am-u-md-3 am-u-lg-3 am-kai" style="font-size:15px; ">
-				<section data-am-widget="accordion" class="am-accordion am-accordion-default am-margin-0 am-show-md-up" data-am-accordion='{ "multiple": true }'>
-					<if condition="$by neq 'brand'">
-						<dl class="am-accordion-item brand">
-							<dt class="am-accordion-title">
-								品牌
-							</dt>
-							<dd class="am-accordion-bd am-collapse ">
-								<div class="am-accordion-content">
-									<volist name="brand" id="data">
-										<label class="am-radio am-secondary">
-											<input class="brand {$data.brandId} filter" type="checkbox" value="{$data.brandId}" data-yu-val="{$data.brandName}" data-am-ucheck />
-											{$data.brandName}
-										</label>
-									</volist>
-								</div>
-							</dd>
-						</dl>
-					</if>
-					<if condition="$by neq 'boy' and $by neq 'girl'">
-						<dl class="am-accordion-item gender">
-							<dt class="am-accordion-title">
-								性别
-							</dt>
-							<dd class="am-accordion-bd am-collapse ">
-								<div class="am-accordion-content">
-									<volist name="gender" id="gdata">
-										<label class="am-radio am-secondary">
-											<input class="gender {$gdata.gender} filter" type="checkbox"  value="{$gdata.gender}" data-yu-val="{$gdata.genderName}" data-am-ucheck>
-											{$gdata.genderName}
-										</label>
-									</volist>
-								</div>
-							</dd>
-						</dl>
-					</if>
-					<if condition="$by neq 'baby'">
-						<dl class="am-accordion-item age">
-							<dt class="am-accordion-title">
-								年龄
-							</dt>
-							<dd class="am-accordion-bd am-collapse ">
-								<div class="am-accordion-content">
-									<volist name="age" id="adata">
-										<label class="am-radio am-secondary">
-											<input class="age {$adata.grade} filter" type="checkbox" value="{$adata.grade}" data-yu-val="{$adata.gradeName}" data-am-ucheck />
-											{$adata.gradeName}
-										</label>
-									</volist>
-								</div>
-							</dd>
-						</dl>
-					</if>
-					<dl class="am-accordion-item color">
-						<dt class="am-accordion-title">
-							颜色
-						</dt>
-						<dd class="am-accordion-bd am-collapse ">
-							<div class="am-accordion-content">
-								<volist name="color" id="cdata">
-									<label class="am-radio am-secondary">
-										<input class="color {$cdata.color} filter" type="checkbox" value="{$cdata.color}" data-yu-val="{$cdata.color}" data-am-ucheck />
-										{$cdata.color}
-									</label>
-								</volist>
-							</div>
-						</dd>
-					</dl>
-					<dl class="am-accordion-item season">
-						<dt class="am-accordion-title">
-							季节						
-						</dt>
-						<dd class="am-accordion-bd am-collapse ">
-							<div class="am-accordion-content">
-								<volist name="season" id="sdata">
-									<label class="am-radio am-secondary">
-										<input class="season {$sdata.season} filter" type="checkbox" value="{$sdata.season}" data-yu-val="{$sdata.season}" data-am-ucheck />
-										{$sdata.season}
-									</label>
-								</volist>
-							</div>
-						</dd>
-					</dl>
-					<dl class="am-accordion-item category">
-						<dt class="am-accordion-title">
-							类别
-						</dt>
-						<dd class="am-accordion-bd am-collapse ">
-							<div class="am-accordion-content">
-								<volist name="category" id="data">
-									<label class="am-radio am-secondary">
-										<input class="category {$data.categoryId} filter" type="checkbox" value="{$data.categoryId}" data-yu-val="{$data.categoryName}" data-am-ucheck />
-										{$data.categoryName}({$data.count})
-										<!-- <if condition="count($data['subCategories'])!=0">
-											<ul>
-												<volist name="data['subCategories']" id="subs">
-													<li id="{$subs.categoryId}">
-														{$subs.categoryName}
-													</li>
-												</volist>
-											</ul>
-										</if> --> 
-									</label>
-								</volist>
-							</div>
-						</dd>
-					</dl>
-				</section>
+				<section data-am-widget="accordion" class="am-accordion am-accordion-gapped am-margin-0 am-show-md-up" data-am-accordion='{ "multiple": true }'>
+                    <if condition="$by neq 'brand'">
+                        <dl class="am-accordion-item am-margin-0 brand">
+                            <dt class="am-accordion-title yu-bottomborder-none">
+                                品牌
+                            </dt>
+                            <dd class="am-accordion-bd am-collapse ">
+                                <div class="am-accordion-content">
+                                    <volist name="brand" id="data">
+                                        <label class="am-radio am-secondary">
+                                            <input class="brand {$data.brandId} filter" type="checkbox" value="{$data.brandId}" data-yu-val="{$data.brandName}" data-am-ucheck />
+                                            {$data.brandName}
+                                        </label>
+                                    </volist>
+                                </div>
+                            </dd>
+                        </dl>
+                    </if>
+                    <if condition="$by neq 'boy' and $by neq 'girl'">
+                        <dl class="am-accordion-item yu-accordion-list gender">
+                            <dt class="am-accordion-title yu-bottomborder-none">
+                                性别
+                            </dt>
+                            <dd class="am-accordion-bd am-collapse ">
+                                <div class="am-accordion-content">
+                                    <volist name="gender" id="gdata">
+                                        <label class="am-radio am-secondary">
+                                            <input class="gender {$gdata.gender} filter" type="checkbox"  value="{$gdata.gender}" data-yu-val="{$gdata.genderName}" data-am-ucheck>
+                                            {$gdata.genderName}
+                                        </label>
+                                    </volist>
+                                </div>
+                            </dd>
+                        </dl>
+                    </if>
+                    <if condition="$by neq 'baby'">
+                        <dl class="am-accordion-item yu-accordion-list age">
+                            <dt class="am-accordion-title yu-bottomborder-none">
+                                年龄
+                            </dt>
+                            <dd class="am-accordion-bd am-collapse ">
+                                <div class="am-accordion-content">
+                                    <volist name="age" id="adata">
+                                        <label class="am-radio am-secondary">
+                                            <input class="age {$adata.grade} filter" type="checkbox" value="{$adata.grade}" data-yu-val="{$adata.gradeName}" data-am-ucheck />
+                                            {$adata.gradeName}
+                                        </label>
+                                    </volist>
+                                </div>
+                            </dd>
+                        </dl>
+                    </if>
+                    <dl class="am-accordion-item yu-accordion-list color">
+                        <dt class="am-accordion-title yu-bottomborder-none">
+                            颜色
+                        </dt>
+                        <dd class="am-accordion-bd am-collapse ">
+                            <div class="am-accordion-content">
+                                <volist name="color" id="cdata">
+                                    <label class="am-radio am-secondary">
+                                        <input class="color {$cdata.color} filter" type="checkbox" value="{$cdata.color}" data-yu-val="{$cdata.color}" data-am-ucheck />
+                                        {$cdata.color}
+                                    </label>
+                                </volist>
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl class="am-accordion-item yu-accordion-list season">
+                        <dt class="am-accordion-title yu-bottomborder-none">
+                            季节                      
+                        </dt>
+                        <dd class="am-accordion-bd am-collapse ">
+                            <div class="am-accordion-content">
+                                <volist name="season" id="sdata">
+                                    <label class="am-radio am-secondary">
+                                        <input class="season {$sdata.season} filter" type="checkbox" value="{$sdata.season}" data-yu-val="{$sdata.season}" data-am-ucheck />
+                                        {$sdata.season}
+                                    </label>
+                                </volist>
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl class="am-accordion-item yu-accordion-list category">
+                        <dt class="am-accordion-title yu-bottomborder-none">
+                            类别
+                        </dt>
+                        <dd class="am-accordion-bd am-collapse ">
+                            <div class="am-accordion-content">
+                                <volist name="category" id="data">
+                                    <label class="am-radio am-secondary">
+                                        <input class="category {$data.categoryId} filter" type="checkbox" value="{$data.categoryId}" data-yu-val="{$data.categoryName}" data-am-ucheck />
+                                        {$data.categoryName}({$data.count})
+                                        <!-- <if condition="count($data['subCategories'])!=0">
+                                            <ul>
+                                                <volist name="data['subCategories']" id="subs">
+                                                    <li id="{$subs.categoryId}">
+                                                        {$subs.categoryName}
+                                                    </li>
+                                                </volist>
+                                            </ul>
+                                        </if> --> 
+                                    </label>
+                                </volist>
+                            </div>
+                        </dd>
+                    </dl>
+                </section>
 			</div>
 			<div class="am-sm-8 am-u-md-9 am-u-lg-9 am-padding-0">
 				<volist name="itemList" id="vo">
