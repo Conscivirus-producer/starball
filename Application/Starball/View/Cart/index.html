@@ -4,7 +4,7 @@
 	<link rel="stylesheet" type="text/css" href="__PUBLIC__/starball/css/cart.css">
 </block>
 <block name="main">
-<eq name="shoppingListCount" value="1"><include file="Public/cartcommon" /></eq>
+<gt name="shoppingListCount" value="0"><include file="Public/cartcommon" /></gt>
 	
 	<div class="yu-cart-content">
 		<eq name="shoppingListCount" value="0">
