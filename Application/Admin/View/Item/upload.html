@@ -129,6 +129,7 @@
                         <div class="am-form-group">
                             <label for="item-grade">商品等级</label>
                             <select name="grade" id="item-grade">
+                                <option value="3">其它</option>
                                 <option value="1">Baby</option>
                                 <option value="2">Child</option>
                             </select>
@@ -164,6 +165,15 @@
                             <label for="item-season">商品季节</label>
                             <input type="text" class="" name="season" id="item-season" placeholder="输入商品季节">
                         </div>
+
+                        <!-- inventory -->
+                        <div class="am-form-group" id="inventory-add-section-start">
+                            <label>库存设定</label>
+                            <p><button type="button" id="add-inventory" class="am-btn am-btn-primary">添加库存</button></p>
+                        </div>
+
+                        <input type="text" name="inventory-div-count" id="inventoryDivCount" style="display:none">
+                        <!-- inventory -->
 
                         <div class="am-form-group">
                             <label for="item-tag">商品标签</label>
@@ -283,6 +293,8 @@
 <script src="__PUBLIC__/starball/js/jquery.form.js"></script>
 <!-- 自己的JS代码-->
 <script>
+    // inventory count
+    var count = 1;
     // respond to the event
     var imageKey;
     var imagesArray = new Array();
@@ -451,8 +463,47 @@
         $("#item-images-array").val("");
         $("#images-gallery").empty();
         imagesArray = new Array();
+        count = 1;
+        $(".am-divider.am-divider-default.inventory-line").remove();
+        $(".am-form-group.inventory-setting-group").remove();
     }
 
+
+    // inventory function
+    var itemSizeData = {$itemSizeData};
+    $("#add-inventory").click(function() {
+        var $line = $('<hr data-am-widget="divider" style="" id="inventoryLine' +  count +  '" class="am-divider am-divider-default inventory-line" />');
+        var $div = $('<div class="am-form-group inventory-setting-group" id="inventoryDiv' + count +  '"></div>');
+        var $labelStart = $('<label>大小下限</label>');
+        var $selectStart = $('<select class="inventory-size-start" name="inventory-size-start' + count + '"></select>');
+        $.each(itemSizeData, function( index, value ) {
+            var $option = $("<option value='" + index + "'>" + value[0] + "  (" + value[1] + " - " + value[2] + "cm)</option>");
+            $option.appendTo($selectStart);
+        });
+        var $labelEnd = $('<label>大小上限</label>');
+        var $selectEnd = $('<select class="inventory-size-end" name="inventory-size-end' + count + '"></select>');
+        $.each(itemSizeData, function( index, value ) {
+            var $option = $("<option value='" + index + "'>" + value[0] + "  (" + value[1] + " - " + value[2] + "cm)</option>");
+            $option.appendTo($selectEnd);
+        });
+        var $button = $('<button type="button" name="inventoryDelete' + count + '" class="am-close">&times;</button>');
+        $button.click(function(){
+            var inventoryDeleteId = $(this).attr("name").replace("inventoryDelete", "");
+            $("#inventoryLine" + inventoryDeleteId).remove();
+            $("#inventoryDiv" + inventoryDeleteId).remove();
+        });
+        var $input = $('<input type="text" class="inventory-number" name="inventory-number' + count + '" id="" placeholder="输入库存数量">');
+        $labelStart.appendTo($div);
+        $selectStart.appendTo($div);
+        $labelEnd.appendTo($div);
+        $selectEnd.appendTo($div);
+        $input.appendTo($div);
+        $button.appendTo($div);
+        $div.insertAfter($("#inventory-add-section-start"));
+        $line.insertAfter($("#inventory-add-section-start"));
+        $("#inventoryDivCount").val(count);
+        count++;
+    });
 </script>
 </body>
 </html>

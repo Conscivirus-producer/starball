@@ -13,6 +13,18 @@
 			$data = $this->where($map)->select();
 			return getSizeDescriptionByAge($data[0]['age']);
 		}
+
+		public function insertInventoriesforOneItem($itemId, $inventoryArray){
+			for ($i = 0; $i < count($inventoryArray); $i++) {
+				$data["age"] = $inventoryArray[$i]["age"];
+				$data["inventory"] = $inventoryArray[$i]["inventory"];
+				$data["itemId"] = $itemId;
+				if ($this->add($data) === false) {
+					return false;
+				}
+			}
+			return true;
+		}
 	}
 
 

@@ -1,0 +1,206 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>订单管理</title>
+    <meta name="description" content="订单管理页面">
+    <meta name="keywords" content="help">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" href="__PUBLIC__/AmazeUI-2.5.2/assets/i/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="__PUBLIC__/AmazeUI-2.5.2/assets/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="stylesheet" href="__PUBLIC__/AmazeUI-2.5.2/assets/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="__PUBLIC__/AmazeUI-2.5.2/assets/css/admin.css">
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+    以获得更好的体验！</p>
+<![endif]-->
+<header class="am-topbar admin-header">
+    <div class="am-topbar-brand">
+        <strong>StarBall</strong> <small>后台管理</small>
+    </div>
+
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+            <li><a href="javascript:;"><span class="am-icon-envelope-o"></span> 收件箱 <span class="am-badge am-badge-warning">5</span></a></li>
+            <li class="am-dropdown" data-am-dropdown>
+                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                    <span class="am-icon-users"></span> 管理员 <span class="am-icon-caret-down"></span>
+                </a>
+                <ul class="am-dropdown-content">
+                    <li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
+                    <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
+                    <li><a href="#"><span class="am-icon-power-off"></span> 退出</a></li>
+                </ul>
+            </li>
+            <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><span class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
+        </ul>
+    </div>
+</header>
+
+<div class="am-cf admin-main">
+    <!-- sidebar start -->
+    <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+        <div class="am-offcanvas-bar admin-offcanvas-bar">
+            <ul class="am-list admin-sidebar-list">
+                <li><a href="admin-index.html"><span class="am-icon-home"></span> 订单管理</a></li>
+                <li class="admin-parent">
+                    <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 商品管理 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+                        <li><a href="./upload" class="am-cf" target="_blank"><span class="am-icon-upload"></span> 商品上新</a></li>
+                        <li><a href="./search" target="_blank"><span class="am-icon-search"></span> 商品搜索</a></li>
+                    </ul>
+                </li>
+                <li><a href="#"><span class="am-icon-sign-out"></span> 注销</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- sidebar end -->
+
+    <!-- content start -->
+    <div class="admin-content">
+        <div class="am-g">
+            <!-- search condition area -->
+            <div class="am-u-sm-12">
+                <form class="am-form" id="order-search-form" action="" method="post">
+                    <fieldset>
+                        <legend>搜索条件设置</legend>
+                        <div class="am-form-group">
+                            <label for="order-createdDateStart">下单起始时间</label>
+                            <input type="text" class="" name="createdDateStart" id="order-createdDateStart" placeholder="选择下单起始时间" data-am-datepicker readonly>
+                        </div>
+                        <div class="am-form-group">
+                            <label for="order-createdDateEnd">下单结束时间</label>
+                            <input type="text" class="" name="createdDateEnd" id="order-createdDateEnd" placeholder="选择下单结束时间" data-am-datepicker readonly>
+                        </div>
+                        <div class="am-form-group">
+                            <label for="order-status">订单状态</label>
+                            <select name="status" id="order-status">
+                                <option value="nothing">请选择</option>
+                                <option value="B">购物车</option>
+                                <option value="N">新订单</option>
+                                <option value="P">已支付</option>
+                                <option value="C">已取消</option>
+                                <option value="D">已发货</option>
+                                <option value="V">已收货</option>
+                            </select>
+                            <span class="am-form-caret"></span>
+                        </div>
+                        <div class="am-form-group">
+                            <label for="order-isGiftPackage">是否需要礼品包装</label>
+                            <select name="isGiftPackage" id="order-isGiftPackage">
+                                <option value="nothing">请选择</option>
+                                <option value="1">需要</option>
+                                <option value="0">不需要</option>
+                            </select>
+                            <span class="am-form-caret"></span>
+                        </div>
+                        <div class="am-form-group">
+                            <label for="order-userName">用户名</label>
+                            <input type="text" class="" name="userName" id="order-userName" placeholder="输入用户名模糊搜索">
+                        </div>
+                        <div class="am-form-group">
+                            <label for="order-userMobile">用户联系方式</label>
+                            <input type="text" class="" name="userMobile" id="order-userMobile" placeholder="输入用户联系方式模糊搜索">
+                        </div>
+                        <div class="am-form-group">
+                            <label for="order-userEmail">用户邮箱</label>
+                            <input type="text" class="" name="userEmail" id="order-userEmail" placeholder="输入用户邮箱模糊搜索">
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <!-- order showing area -->
+            <div class="am-u-sm-12">
+                <table class="am-table am-table-bordered am-table-striped am-table-compact">
+                    <thead>
+                    <tr>
+                        <th>订单ID</th>
+                        <th>商品数量</th>
+                        <th>商品总价格</th>
+                        <th>运费</th>
+                        <th>总价格</th>
+                        <th>发货地址</th>
+                        <th>用户</th>
+                        <th>下单时间</th>
+                        <th>订单状态</th>
+                        <th>礼品包装</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <volist name="orders" id="vo">
+                        <tr>
+                            <td>{$vo.orderId}</td>
+                            <td>{$vo.totalItemCount}</td>
+                            <td>{$vo.totalAmount}{$vo.currency}</td>
+                            <td>{$vo.shippingFee}{$vo.currency}</td>
+                            <td>{$vo.totalFee}{$vo.currency}</td>
+                            <td>{$vo.shippingAddress}</td>
+                            <td>
+                                {$vo.userInformation.userName}<br>
+                                {$vo.userInformation.mobile}<br>
+                                {$vo.userInformation.email}
+                            </td>
+                            <td>{$vo.createdDate}</td>
+                            <td>
+                                <switch name="vo.status">
+                                    <case value="B"><span class="am-badge am-badge-primary">购物车</span></case>
+                                    <case value="N"><span class="am-badge am-badge-secondary">新订单</span></case>
+                                    <case value="P"><span class="am-badge am-badge-warning">已支付</span></case>
+                                    <case value="C"><span class="am-badge">已取消</span></case>
+                                    <case value="D"><span class="am-badge am-badge-danger">已发货</span></case>
+                                    <case value="V"><span class="am-badge am-badge-success">已收货</span></case>
+                                </switch>
+                            </td>
+                            <td>
+                                <switch name="vo.isGiftPackage">
+                                    <case value="0"><span class="am-badge">不需要</span></case>
+                                    <case value="1"><span class="am-badge am-badge-success">需要</span></case>
+                                </switch>
+                            </td>
+                        </tr>
+                    </volist>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- content end -->
+
+</div>
+
+<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+<footer>
+    <hr>
+    <p class="am-padding-left">© 2016 UltraBravo Inc.</p>
+</footer>
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="__PUBLIC__/AmazeUI-2.5.2/assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="__PUBLIC__/AmazeUI-2.5.2/assets/js/amazeui.min.js"></script>
+<script src="__PUBLIC__/AmazeUI-2.5.2/assets/js/app.js"></script>
+<script src="__PUBLIC__/starball/js/jquery.form.js"></script>
+<!-- 自己的JS代码-->
+<script>
+$(document).ready(function() {
+
+});
+</script>
+</body>
+</html>
