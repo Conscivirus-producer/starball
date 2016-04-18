@@ -27,6 +27,7 @@ return array(
 		'23' => array('18岁', '', ''),
 		'24' => array('均码', '', ''),
     ),
+    
     'USERTYPE' => array(
     	//usertype => array(grade, gender), grade:1-baby, 2-boy/girl
     	'baby' => array('1', ''),
