@@ -48,11 +48,28 @@ class ItemController extends Controller {
         $auth = new Auth($accessKey, $secretKey);
         $bucket = 'image';
         $token = $auth->uploadToken($bucket,null,3600,null,true);
+        $allItemSize = C("ITEMSIZE");
+        $this->assign("itemSizeData", json_encode($allItemSize));
         $this->assign('qiniuToken',$token);
         $this->display();
     }
 
     public function uploadSingleItem() {
+        // inventory process
+        $inventoryCount = (int)(I("post.inventory-div-count"));
+        $inventoryArray = array();
+        $inventory = array();
+        for ($i = 0; $i <= $inventoryCount; $i++) {
+            $inventorySizeStart = I("post.inventory-size-start".$i, "");
+            if ($inventorySizeStart == "") {
+                continue;
+            }
+            $inventorySizeEnd = I("post.inventory-size-end".$i, "");
+            $inventoryNumber = I("post.inventory-number".$i, "");
+            $inventory["age"] = $inventorySizeStart.",".$inventorySizeEnd;
+            $inventory["inventory"] = $inventoryNumber;
+            array_push($inventoryArray, $inventory);
+        }
         $fields = array(
             "name",
             "color",
@@ -76,6 +93,7 @@ class ItemController extends Controller {
         for ($i = 0; $i < $count; $i++) {
             $data[$fields[$i]] = I('post.'.$fields[$i]);
         }
+        $data["inventory"] = $inventoryArray;
         $itemLogic = D("Item", "Logic");
         if ($itemLogic->insertOneItem($data) == false) {
             echo json_encode($result);
@@ -105,8 +123,8 @@ class ItemController extends Controller {
     }
 
     public function test() {
-        $tagLogic = D("Tag", "Logic");
-        echo $tagLogic->getTagStringByItemId(50);
+        $userLogic = D("User", "Logic");
+        print_r($userLogic->getUserInformationByUserId(10));
     }
 
     public function updateSingleItem() {
@@ -189,7 +207,7 @@ class ItemController extends Controller {
         );
         for ($i = 0; $i < count($fields); $i++) {
             if (in_array($fields[$i], $selectConditions)) {
-                $conditions[$fields[$i]] = trim(I("post.".$fields[$i], "noting"));
+                $conditions[$fields[$i]] = trim(I("post.".$fields[$i], "nothing"));
             } else {
                 $conditions[$fields[$i]] = trim(I("post.".$fields[$i], ""));
             }

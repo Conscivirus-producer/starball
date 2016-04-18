@@ -189,7 +189,7 @@
                     </thead>
                     <tbody>
                     <volist name="searchResult" id="vo">
-                    <tr>
+                    <tr name="delete{$vo.itemId}">
                         <td width="10%">{$vo.name}</td>
                         <td width="30%">{$vo.detailDescription}</td>
                         <td width="10%">{$vo.priceHKD}</td>
@@ -197,7 +197,7 @@
                         <td width="10%">{$vo.discount}</td>
                         <td width="10%">{$vo.lastUpdatedDate}</td>
                         <td width="10%"><a class="am-btn am-btn-primary" href="./edit?itemId={$vo.itemId}" target="_blank">修改</a></td>
-                        <td width="10%" name="delete{$vo.itemId}"><button type="button" name="delete{$vo.itemId}" class="delete-button am-btn am-btn-secondary">删除</button></td>
+                        <td width="10%"><button type="button" name="delete{$vo.itemId}" class="delete-button am-btn am-btn-secondary">删除</button></td>
                     </tr>
                     </volist>
                     </tbody>
@@ -277,20 +277,12 @@
         $("#item-gender").val(conditionsJSON.gender);
     });
     $(".delete-button.am-btn.am-btn-secondary").click(function(){
-        var $button = $(this);
         var itemId = $(this).attr("name").replace("delete", "");
-        $('#my-confirm').modal({
-            relatedTarget: this,
-            onConfirm: function(options) {
-                $.getJSON( "./deleteOneItemByItemId?deleteItemId=" + itemId, function(data) {
-                    if (data.status == "1") {
-                        $button.closest('tr').remove();
-                    } else {
-                        $('#delete-fail-alert').modal('open');
-                    }
-                });
-            },
-            onCancel: function() {
+        $.getJSON( "./deleteOneItemByItemId?deleteItemId=" + itemId, function(data) {
+            if (data.status == "1") {
+                $("tr[name='delete" + itemId + "']").remove();
+            } else {
+                $('#delete-fail-alert').modal('open');
             }
         });
     });

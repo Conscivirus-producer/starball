@@ -10,6 +10,9 @@
 
 		public function insertOneItem($data) {
 			$itemPriceLogic = D("ItemPrice", "Logic");
+			// add the inventory
+			$inventoryLogic = D("Inventory", "Logic");
+			$inventoryArray = $data["inventory"];
 			// add the tag
 			$tagLogic = D("Tag", "Logic");
 			$tagString = $data["tag"];
@@ -23,6 +26,7 @@
 			unset($newData["priceCNY"]);
 			unset($newData["priceHKD"]);
 			unset($newData["tag"]);
+			unset($newData["inventory"]);
 			$newData["lastUpdatedDate"] = date('y-m-d h:i:s',time());
 			$newData["isAvailable"] = "1";
 			$newData["discount"] = 100;
@@ -30,7 +34,7 @@
 			if($index === false) {
 				return false;
 			} else {
-				$res = ($imageLogic->insertMultipleImages($index, $imageArray)) & ($itemPriceLogic->insertItemPrices($index, $priceArray) & $tagLogic->insertTagsForOneItem($index, $tagString));
+				$res = ($imageLogic->insertMultipleImages($index, $imageArray)) & ($itemPriceLogic->insertItemPrices($index, $priceArray) & $tagLogic->insertTagsForOneItem($index, $tagString) & $inventoryLogic->insertInventoriesforOneItem($index, $inventoryArray));
 				return $res;
 			}
 		}
