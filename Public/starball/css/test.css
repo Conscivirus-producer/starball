@@ -878,3 +878,16 @@ div.yu-item-price{
 	bottom:0;
 	right:0;
 }
+/*payment scuccess*/
+button.yu-backhome-button{
+	font-size: 12px;
+    background-color: #000;
+    color: #fff;
+    padding: 8px 24px;
+    margin-bottom: 0 auto;
+}
+/*boutique*/
+.yu-boutique-viewlist{
+    margin: 50px auto 0 !important;
+}
+
