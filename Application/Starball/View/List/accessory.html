@@ -1,0 +1,155 @@
+<extend name="Public/base" />
+<block name="title"><title>配饰</title></block>
+<block name="main">
+<div class="am-g yu-main-container">
+    <div class="am-u-sm-12 am-padding-0">
+        <ol class="am-breadcrumb am-breadcrumb-slash am-kai am-margin-bottom-15 am-text-center">
+                <div class="yu-listpage-header">
+                      <span class="yu-listpage-seperate"></span>
+                      <if condition="$by eq 'time'"><span class="yu-listpage-title">新系列</span></if>
+                      <if condition="$by eq 'brand'"><span class="yu-listpage-title">品牌</span></if>
+                      <if condition="$by eq 'baby'"><span class="yu-listpage-title">婴儿</span></if>
+                      <if condition="$by eq 'girl'"><span class="yu-listpage-title">女孩</span></if>
+                      <if condition="$by eq 'boy'"><span class="yu-listpage-title">男孩</span></if>
+                </div>
+                <if condition="$by eq 'time'"><div class="filterings">最近{$byValue}天</div></if>
+                <if condition="$by eq 'brand'"><div class="filterings">{$brand[0].brandName}</div></if>
+                <if condition="$byValue eq 'brand'"><div class="filterings">{$brand[0].brandName}</div></if>
+                <if condition="$byValue eq 'category'"><div class="filterings">{$category[0].categoryName}</div></if>
+        </ol>
+        <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+        <div data-am-widget="gotop" class="am-gotop am-gotop-fixed" >
+            <a href="#top" title="回到顶部"> <span class="am-gotop-title">回到顶部</span> <i class="am-gotop-icon am-icon-chevron-up"></i> </a>
+        </div>
+        <div class="am-g" style="margin-top:15px;">
+            <div class="am-sm-8 am-u-md-12 am-u-lg-12 am-padding-0">
+                <volist name="itemList" id="vo">
+                    <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-end item-caption-adjustor">
+                        <a href="{:U('Starball/Item/index','itemId='.$vo['itemId'])}">
+                            <div class="am-thumbnail" style="border:none;">
+                                <img src="{$vo.image}" alt=""/>
+                                <div class="am-thumbnail-caption" style="border:none">
+                                    <span class="listpage-title-item-panier">{$vo.name}</span>
+                                    <span class="listpage-item-price">
+                                       {$priceSymbol}  {$vo.price}
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </volist>
+            </div>
+        </div>
+        <div class="am-pagination am-pagination-centered">
+            {$page}
+        </div>
+    </div>
+</div>
+</block>
+<block name="customizedJavascript">
+<script>
+$(document).ready(function(){
+    if({:$brandsChecked} != null){
+        applychecks("brand",{:$brandsChecked});
+    }
+    if({:$categoriesChecked} != null){
+        applychecks("category",{:$categoriesChecked});
+    }
+    if({:$gendersChecked} != null){
+        applychecks("gender",{:$gendersChecked});
+    }
+    if({:$colorsChecked} != null){
+        applychecks("color",{:$colorsChecked});
+    }
+    if({:$agesChecked} != null){
+        applychecks("age",{:$agesChecked});
+    }
+    if({:$seasonsChecked} != null){
+        applychecks("season",{:$seasonsChecked});
+    }
+    
+});
+function applychecks(type, checkedArray){
+        var checkeds = new Array();
+        $(".am-accordion-item."+type).addClass("am-active");
+        $(".am-accordion-item."+type+" dd").addClass("am-in");
+        checkeds = checkedArray;
+        for(var i = 0; i < checkeds.length; i++){
+            $("."+type+"."+checkeds[i]).uCheck('check');
+            $(".filterings").append("/"+$("."+type+"."+checkeds[i]).attr("data-yu-val"));
+        }
+}
+$("input.filter").click(function(){
+    var params = "";
+    var brands = new Array();
+    var categories = new Array();
+    var genders = new Array();
+    var colors = new Array();
+    var ages = new Array();
+    var seasons = new Array();
+    
+    //for brand, single
+    if($(this).hasClass('brand')&&$(this).is('checked')){
+        brands.push($(this).attr("value"));
+    }else{
+        $("input.brand").each(function(){
+            if($(this).is(':checked')){
+                brands.push($(this).attr("value"));
+            }
+        });
+    }
+    if(brands.length != 0){
+        params = params+"/brands/"+brands.toString();
+    }
+    $("input.gender").each(function(){
+        if($(this).is(':checked')){
+            genders.push($(this).attr("value"));
+        }
+    });
+    if(genders.length != 0){
+        params = params+"/genders/"+genders.toString();
+    }
+    $("input.color").each(function(){
+        if($(this).is(':checked')){
+            colors.push($(this).attr("value"));
+        }
+    });
+    if(colors.length != 0){
+        params = params+"/colors/"+colors.toString();
+    }
+    $("input.category").each(function(){
+        if($(this).is(':checked')){
+            categories.push($(this).attr("value"));
+        }
+    });
+    if(categories.length != 0){
+        params = params+"/categories/"+categories.toString();
+    }
+    $("input.age").each(function(){
+        if($(this).is(':checked')){
+            ages.push($(this).attr("value"));
+        }
+    });
+    if(ages.length != 0){
+        params = params+"/ages/"+ages.toString();
+    }
+    $("input.season").each(function(){
+        if($(this).is(':checked')){
+            seasons.push($(this).attr("value"));
+        }
+    });
+    if(seasons.length != 0){
+        params = params+"/seasons/"+seasons.toString();
+    }
+    var url = "{:U('Starball/List/showList/by/$by/byValue/$byValue$params')}";
+    url = url.replace("$by","{$by}");
+    url = url.replace("$byValue","{$byValue}");
+    url = url.replace("$params",params);
+    window.location.href=url;
+});
+
+$("a.yu-filter-button").click(function(){
+    $("section.am-accordion").toggleClass("am-show-md-up");
+});
+</script>
+</block>
