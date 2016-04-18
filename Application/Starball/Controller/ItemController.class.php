@@ -28,7 +28,7 @@ class ItemController extends BaseController {
 	}
 	
 	public function addToShoppingList(){
-		if(session('userName') == ''){
+		if(!$this->isLogin()){
 			$this->addShoppingListToSession();
 		}else{
 			$this->addShoppingListToUser();
@@ -177,7 +177,7 @@ class ItemController extends BaseController {
 	}
 
 	public function addToFavoriteList(){
-		if(session('userName') == ''){
+		if(!$this->isLogin()){
 			$this->addFavoriteListToSession();
 		}else{
 			

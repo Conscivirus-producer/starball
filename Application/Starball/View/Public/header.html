@@ -126,15 +126,15 @@
 					<li class="am-dropdown" data-am-dropdown="">
 						<!-- dropdown button -->
 						<a class="am-dropdown-toggle am-text-xs yu-text-black" id="myAccountLnk" href="javascript:;">
-							<if condition="session('userName') != ''">
-								<?php echo session('userName');?>
+							<if condition="session('starballkids_userName') != ''">
+								<?php echo session('starballkids_userName');?>
 								<else />
 								{$Think.lang.myaccount}
 							</if>
 						</a>
 						<!-- dropdown content 1 -->
 						<ul id="myAccountWindow" class="am-dropdown-content am-padding-bottom-0">
-							<if condition="session('userName') != ''">
+							<if condition="session('starballkids_userName') != ''">
 								<else />
 								<button type="button" id="loginBtn" class="am-btn am-btn-default yu-login-button-adjustor">
 									登录
@@ -161,7 +161,7 @@
 							<li>
 								<a href="{:U('Starball/User/index', array('tab'=>'giftcard'))}">我的礼品卡</a>
 							</li>
-							<if condition="session('userName') != ''">
+							<if condition="session('starballkids_userName') != ''">
 								<form class="am-form am-form-horizontal" role="form" method="post">
 									<input type="hidden" name="method" value="logout">
 									<button type="submit" class="am-btn am-btn-default yu-login-button-adjustor">

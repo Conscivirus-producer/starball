@@ -43,7 +43,7 @@ class CartController extends BaseController {
 
 	//增加/减少购物车的商品数量
 	public function changeItemQuantity(){
-		if(session('userName') == ''){
+		if(!$this->isLogin()){
 			$this->changeItemQuantityToSession();
 		}else{
 			$this->changeItemQuantityToUser();

@@ -166,7 +166,7 @@ class BaseController extends Controller {
 	}
 
 	protected function prepareOrderList(){
-		if(session('userName') == ''){
+		if(!$this->isLogin()){
 			return;	
 		}
 		$orderLogic = D('Order', 'Logic');
@@ -184,7 +184,7 @@ class BaseController extends Controller {
 	}
 
 	protected function prepareShoppingList(){
-		if(session('userName') == ''){
+		if(!$this->isLogin()){
 			$shoppingList = session('shoppingList');
 			if($shoppingList != ''){
 				$this->assign('shoppingListCount', $shoppingList['totalItemCount']);
@@ -245,9 +245,9 @@ class BaseController extends Controller {
             exit($user->getError());
 		}
 		$userId = $user->add($data);
-		session('userId', $userId);
-		session('userName', I('userName'));
-		session('email', I('email'));
+		session('starballkids_userId', $userId);
+		session('starballkids_userName', I('userName'));
+		session('starballkids_email', I('email'));
 	}
 	
 	private function logout(){
@@ -271,11 +271,11 @@ class BaseController extends Controller {
 		$map['password'] = $data['password'];
 		$result = $login->where($map)->find();
 		if($result){
-			session('userId', $result['userId']);
-			session('email', $result['email']);
-			session('userName', $result['userName']);
-			session('lastDate', $result['lastUpdatedDate']);
-			session('lastIp', $result['lastIp']);
+			session('starballkids_userId', $result['userId']);
+			session('starballkids_email', $result['email']);
+			session('starballkids_userName', $result['userName']);
+			session('starballkids_lastLoginDate', $result['lastUpdatedDate']);
+			session('starballkids_lastLoginIp', $result['lastIp']);
 			
 			//登录之后自动根据当前汇率重新计算用户订单的总额
 			$this->updateUserShoppingListByCurrency();
@@ -296,11 +296,11 @@ class BaseController extends Controller {
 	}
 
 	protected function isLogin(){
-		return session("userName") != '';
+		return session('starballkids_userName') != '';
 	}
 
 	protected function getCurrentUserId(){
-		return session("userId");	
+		return session("starballkids_userId");	
 	}	
 	
 	protected function getCurrency(){
