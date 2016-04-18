@@ -6,7 +6,7 @@
 <block name="main">
 <gt name="shoppingListCount" value="0"><include file="Public/cartcommon" /></gt>
 	
-	<div class="yu-cart-content">
+	<div class="yu-cart-content am-kai">
 		<eq name="shoppingListCount" value="0">
 			<div class="empty-cart">
 				<div class='big-info-picto'></div></br>
@@ -36,6 +36,9 @@
 								</span>
 							</span> 
 							<div class="am-sans-serif yu-item-price"> <span> {$priceSymbol}&nbsp;{$vo.price} </span> </div> 
+							<div style="position:absolute;top:0;right:0;">
+							    <a style="color:black;" href="##" class="am-icon-close"></a>
+							</div>
 						</div>
 						<div class="am-divider"></div>
 						</gt>
@@ -78,7 +81,7 @@
 				<div class="am-panel-hd">需要帮助吗？</div>
 				<div class="am-panel-bd" style="font-size: 13px">
 					<span class="am-icon-clock-o">查看我们的配送时间</span><br/>
-					<span class="am-icon-clock-o">查看我们的退货政策</span>
+					<span class="am-icon-black-tie">查看我们的退货政策</span>
 				</div>
 			</div>
 		</div>
