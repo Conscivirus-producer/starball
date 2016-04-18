@@ -9,7 +9,7 @@
 	<div class="yu-cart-content">
 		<span style="font-weight: bold;font-size: 13px">创建</span><span style="font-size:13px">我的地址</span>
 		<hr style="border-color: black" />
-		<div class="am-form am-form-horizontal" style="width:70%; margin-left: 15%;font-size: 12px">
+		<form class="am-form am-form-horizontal" role="form" method="post" style="width:70%; margin-left: 15%;font-size: 12px">
 			<div class="am-form-group">
 				<label class="am-radio-inline">
 					<input type="radio" value="M" />男
@@ -20,27 +20,24 @@
 			</div>
 			<div class="am-form-group">
 				<div style="margin-bottom: 10px">
-					<input class="am-form-field" placeholder="姓名" />
+					<input name="contactName" value="{$data.contactName}" class="am-form-field" placeholder="姓名" />
 				</div>
 				<div style="margin-bottom: 10px">
-					<input class="am-form-field" placeholder="公司" />
+					<input name="address" value="{$data.address}"  class="am-form-field" placeholder="地址＊" />
 				</div>
 				<div style="margin-bottom: 10px">
-					<input class="am-form-field" placeholder="地址＊" />
+					<input name="postCode" value="{$data.postCode}"  class="am-form-field" placeholder="邮政编码＊" />
 				</div>
 				<div style="margin-bottom: 10px">
-					<input class="am-form-field" placeholder="邮政编码＊" />
+					<input name="city" value="{$data.city}"  class="am-form-field" placeholder="城镇／城市＊" />
 				</div>
 				<div style="margin-bottom: 10px">
-					<input class="am-form-field" placeholder="城镇／城市＊" />
+					<input name="phone" value="{$data.phone}" class="am-form-field" placeholder="Mobile＊" />
 				</div>
-				<div style="margin-bottom: 10px">
-					<input class="am-form-field" placeholder="Mobile＊" />
-				</div>
-				<textarea placeholder="更多细节"></textarea>
-				<button id="delivery" onclick="window.location.href='{:U('Cart/submitOrder')}'" style="float: right; margin-top: 10px; width: 80px; height: 28px;background-color: black;border:0; color: white">提交</button>
+				<textarea name="moreDetails" value="{$data.moreDetails}" placeholder="更多细节"></textarea>
+				<button id="delivery" type="submit" style="float: right; margin-top: 10px; width: 80px; height: 28px;background-color: black;border:0; color: white">提交</button>
 			</div>
-		</div>
+		</form>
 	</div>
 	<div style="clear: both;"></div>
 </block>

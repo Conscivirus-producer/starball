@@ -9,6 +9,13 @@
 			return $data;
 		}
 		
+		public function getCurrentOutstandingOrder($userId, $status){
+			$map['userId'] = $userId;
+			$map['status'] = $status;
+			$data = $this->where($map)->find();
+			return $data;
+		}
+		
 		public function queryOrder($map){
 			return $this->where($map)->order('createdDate desc')->select();
 		}

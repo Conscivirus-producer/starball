@@ -9,9 +9,30 @@ class CartController extends BaseController {
 	
 	public function delivery(){
 		$this->commonProcess();
+		$shipppingAddress = D("ShippingAddress", "Logic");
+		$existingAddress=array();
+		$orderLogic = D('Order', 'Logic');
+		$order = $orderLogic->getCurrentOutstandingOrder($this->getCurrentUserId(), 'N');
+		if($order['shippingAddress'] != ''){
+			$existingAddress = $shipppingAddress->findExsitingAddress($order['shippingAddress']);
+		}
 		if(!$this->isLogin()){
 			$this->redirect('Home/register', array('fromAction' => 'shoppinglist'));
 		}
+		if(IS_POST){
+			if(!$data = $shipppingAddress->create()){
+	            header("Content-type: text/html; charset=utf-8");
+	            exit($user->getError());	
+			}
+			if($order['shippingAddress'] != 0){
+				$shipppingAddress->updateAddress($data, $order['shippingAddress']);
+			}else{
+				$orderUpdate['shippingAddress'] = $shipppingAddress->add($data);
+				$orderLogic->updateOrder($orderUpdate, $order['orderId']);
+			}
+			$this->redirect('Cart/submitOrder');
+		}
+		$this->assign('data', $existingAddress);
 		$this->display();
 	}
 	

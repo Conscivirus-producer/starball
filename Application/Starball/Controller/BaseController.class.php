@@ -196,7 +196,7 @@ class BaseController extends Controller {
 				$this->assign('shoppingListCount', 0);
 			}
 		}else{
-			$userId = session('userId');
+			$userId = $this->getCurrentUserId();
 			$orderLogic = D('Order', 'Logic');
 			$orderItemLogic = D('OrderItem', 'Logic');
 			$backlogOrder = $orderLogic->getOrderByUserId($userId, 'N');

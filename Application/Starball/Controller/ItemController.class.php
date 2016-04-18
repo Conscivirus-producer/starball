@@ -68,7 +68,7 @@ class ItemController extends BaseController {
 	}
 	
 	private function addShoppingListToUser(){
-		$userId = session('userId');
+		$userId = $this->getCurrentUserId();
 		$orderLogic = D('Order', 'Logic');
 		$backlogOrder = $orderLogic->getOrderByUserId($userId, 'N');
 		if(count($backlogOrder) == 0){
