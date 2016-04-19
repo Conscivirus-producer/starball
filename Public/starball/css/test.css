@@ -897,3 +897,25 @@ div.yu-boutique-container{
 div.yu-boutique-spacefixer{
 	margin-bottom:12px;
 }
+.yu-boutique-submenu{
+    max-width:970px;
+}
+.yu-boutiqueimg-fixer{
+	width: 100%;
+    object-fit: cover;
+    object-position: top;
+    height: 288px !important;
+}
+a.yu-boutique-more {
+    color: #000000!important;
+    font-size: 15px;
+    padding: 0.9rem 15%;
+    border-style: solid;
+    border-width: thin;
+    width:100%;
+}
+div.yu-boutique-button{
+	padding: 0 1.5rem;
+    margin-left: 33%;
+}
+}
