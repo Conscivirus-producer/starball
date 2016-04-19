@@ -105,6 +105,7 @@ class BaseController extends Controller {
 		$orderLogic = D('Order', 'Logic');
 		$backlogOrder = $orderLogic->getOrderByUserId($this->getCurrentUserId(), 'N');
 		if(count($backlogOrder) == 0){
+			//之前没有任何订单记录
 			$data['totalItemCount'] = $shoppingList['totalItemCount']; 
 			$data['totalAmount'] = $shoppingList['totalAmount'];
 			$data['userId'] = $this->getCurrentUserId(); 
@@ -116,6 +117,9 @@ class BaseController extends Controller {
 			$orderItemLogic = D('OrderItem', 'Logic');
 			foreach($shoppingListItems as $record){
 				//创建新的记录
+				if($record['quantity'] == 0){
+					continue;
+				}
 				$record['orderId'] = $orderId;
 				$record['sizeDescription'] = D('Inventory', 'Logic')->getSizeDescriptionById($record['itemSize']);
 				$record['status'] = 'N';
@@ -123,6 +127,7 @@ class BaseController extends Controller {
 			}			
 			return;
 		}
+		//之前已有订单
 		$order = $backlogOrder[0];
 		$orderItemLogic = D('OrderItem', 'Logic');
 		$orderItems = $orderItemLogic->getOrderItemsByOrdeId($order['orderId']);
@@ -143,6 +148,9 @@ class BaseController extends Controller {
 				$newTotalCount -= $value['quantity'];
 			}else{
 				//如果记录不存在，创建新的记录
+				if($value['quantity'] == 0){
+					continue;
+				}
 				$itemData['orderId'] = $order['orderId'];
 				$itemData['itemId'] = current(explode('_', $key));
 				$itemData['itemName'] = $value['itemName'];

@@ -75,8 +75,8 @@ class CartController extends BaseController {
 	private function changeItemQuantityToSession(){
 		$shoppingList = session('shoppingList');
 		$shoppingListItems = session('shoppingListItems');
-		$changedQuantity = I('action') == 'add' ? 1 : -1;
-		$changedPrice = I('action') == 'add' ? I('price') : -I('price');
+		$changedQuantity = I('changedQuantity');
+		$changedPrice = I('changedPrice');
 		$i = 0;
 		foreach($shoppingListItems as $record){
 			if($record['itemId'] == I('itemId') && $record['itemSize'] == I('itemSize')){
@@ -89,26 +89,26 @@ class CartController extends BaseController {
 		}
 		
 		$shoppingList['totalItemCount'] += $changedQuantity;
-		$shoppingList['totalAmount'] += $changedPrice;
+		$shoppingList['totalAmount'] = round($shoppingList['totalAmount'] + $changedPrice, 2);
 		session('shoppingListItems', $shoppingListItems);
 		session('shoppingList',$shoppingList);
 	}
 	
 	private function changeItemQuantityToUser(){
-		$changedQuantity = I('action') == 'add' ? 1 : -1;
-		$changedPrice = I('action') == 'add' ? I('price') : -I('price');
+		$changedQuantity = I('changedQuantity');
+		$changedPrice = I('changedPrice');
 		$userId = $this->getCurrentUserId();
 		$orderLogic = D('Order', 'Logic');
 		$backlogOrder = $orderLogic->getOrderByUserId($userId, 'N');
 		$order = $backlogOrder[0];
 		//更新order的数量
 		$data['totalItemCount'] = $order['totalItemCount'] + $changedQuantity;
-		$data['totalAmount'] = $order['totalAmount'] + $changedPrice;
+		$data['totalAmount'] = round($order['totalAmount'] + $changedPrice, 2);
 		$orderLogic->updateOrder($data, $order['orderId']);
 		
 		//更新orderitem的数量
 		$orderItemLogic = D('OrderItem', 'Logic');
 		$orderItem = $orderItemLogic->getExistingOrderItem(I('itemId'), I('itemSize'), $order['orderId']);
-		$orderItemLogic->changeQuantity($orderItem[0], I('action'));
+		$orderItemLogic->changeQuantity($orderItem[0], I('changedQuantity'), I('changedPrice'));
 	}
 }
