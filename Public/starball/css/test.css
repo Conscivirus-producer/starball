@@ -915,4 +915,7 @@ div.yu-boutique-button{
 	padding: 0 1.5rem;
     margin-left: 33%;
 }
+/*sales page*/
+span.yu-original-price{
+	text-decoration:line-through;
 }
