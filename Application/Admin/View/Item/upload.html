@@ -293,6 +293,8 @@
 <script src="__PUBLIC__/starball/js/jquery.form.js"></script>
 <!-- 自己的JS代码-->
 <script>
+    // is uploading images or not
+    var is_uploading_image = false;
     // inventory count
     var count = 1;
     // respond to the event
@@ -353,6 +355,8 @@
     });
     // qiniu upload
     $("#item-images").change(function() {
+        // uploading starts
+        is_uploading_image = true;
         $(this).prop('disabled', true);
         var Qiniu_upload = function(f, token, key) {
             var xhr = new XMLHttpRequest();
@@ -381,9 +385,13 @@
                     $li.append($button);
                     $("#images-gallery").append($li);
                     imagesArray.push("http://7xp6oq.com2.z0.glb.qiniucdn.com/" + key);
+                    // uploading ends
+                    is_uploading_image = false;
                 } else if (xhr.status != 200 && xhr.responseText) {
                     $('#single-pic-alert').modal('open');
                     $("#item-images").prop('disabled', false);
+                    // uploading ends
+                    is_uploading_image = false;
                 }
             };
             xhr.send(formData);
@@ -394,35 +402,15 @@
             $("#images-gallery").append('<li><img class="am-thumbnail" src="http://7xoh2x.com1.z0.glb.clouddn.com/loading.gif" /></li>');
             Qiniu_upload($("#item-images")[0].files[0], qiniuToken, imageKey);
         } else {
+            // uploading ends
+            is_uploading_image = false;
             $('#single-pic-alert').modal('open');
             $("#item-images").prop('disabled', false);
         }
     });
     $("#upload-single-item").click(function(){
-        $("#item-images-array").val(imagesArray.join(","));
-        if ($("#item-name").val().trim() == "") {
-            $('#single-input-alert').modal('open');
-            $("#item-name").focus();
-            $("#upload-single-item")
-        } else if ($("#item-color").val().trim() == "") {
-            $('#single-input-alert').modal('open');
-            $("#item-color").focus();
-        } else if ($("#item-detailDescription").val().trim() == "") {
-            $('#single-input-alert').modal('open');
-            $("#item-detailDescription").focus();
-        } else if ($("#item-component").val().trim() == "") {
-            $('#single-input-alert').modal('open');
-            $("#item-component").focus();
-        } else if ($("#item-priceHKD").val().trim() == "") {
-            $('#single-input-alert').modal('open');
-            $("#item-priceHKD").focus();
-        } else if ($("#item-priceCNY").val().trim() == "") {
-            $('#single-input-alert').modal('open');
-            $("#item-priceCNY").focus();
-        }else if ($("#item-season").val().trim() == "") {
-            $('#single-input-alert').modal('open');
-            $("#item-season").focus();
-        } else if ($("#item-images-array").val().trim() == "") {
+        // validation first
+        if (validateFields() == false) {
             $('#single-input-alert').modal('open');
         } else {
             var $form = $("#single-item-form");
@@ -504,6 +492,31 @@
         $("#inventoryDivCount").val(count);
         count++;
     });
+    function validateFields() {
+        $("#item-images-array").val(imagesArray.join(","));
+        if (is_uploading_image == true) {
+            return false;
+        } else if ($("#item-name").val().trim() == "") {
+            return false;
+        } else if ($("#item-color").val().trim() == "") {
+            return false;
+        } else if ($("#item-detailDescription").val().trim() == "") {
+            return false;
+        } else if ($("#item-component").val().trim() == "") {
+            return false;
+        } else if ($("#item-priceHKD").val().trim() == "") {
+            return false;
+        } else if ($("#item-priceCNY").val().trim() == "") {
+            return false;
+        }else if ($("#item-season").val().trim() == "") {
+            return false;
+        } else if ($("#item-images-array").val().trim() == "") {
+            return false;
+        } else if ($(".inventory-number").val().trim() == "") {
+            return false;
+        }
+        return true;
+    }
 </script>
 </body>
 </html>

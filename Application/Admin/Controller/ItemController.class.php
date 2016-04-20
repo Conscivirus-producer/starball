@@ -91,7 +91,13 @@ class ItemController extends Controller {
         $data = array();
         $count = count($fields);
         for ($i = 0; $i < $count; $i++) {
-            $data[$fields[$i]] = I('post.'.$fields[$i]);
+            $data[$fields[$i]] = I('post.'.$fields[$i], "");
+            // validation in the server side, ignore tag, tag is not necessary
+            if ($fields[$i] != "tag") {
+                if ($data[$fields[$i]] == "") {
+                    echo json_encode($result);
+                }
+            }
         }
         $data["inventory"] = $inventoryArray;
         $itemLogic = D("Item", "Logic");
