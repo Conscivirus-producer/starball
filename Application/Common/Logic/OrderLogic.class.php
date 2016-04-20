@@ -33,14 +33,37 @@
 		}
 
 		public function getOrderInformationWithUserInformation($map) {
+			$newMap = array();
+			$createdDateStart = "2014-10-02";
+			if ($map["createdDateStart"] != "") {
+				$createdDateStart = $map["createdDateStart"];
+			}
+			$createdDateEnd = date("Y-m-d" ,time());
+			if ($map["createdDateEnd"] != "") {
+				$createdDateEnd = $map["createdDateEnd"];
+			}
+			$newMap["createdDate"] = array('between',array($createdDateStart,$createdDateEnd));
+			if ($map["status"] != "nothing") {
+				$newMap["status"] = $map["status"];
+			}
+			if ($map["isGiftPackage"] != "nothing") {
+				$newMap["isGiftPackage"] = $map["isGiftPackage"];
+			}
 			$userLogic = D("User", "Logic");
-			$data = $this->where($map)->order('createdDate desc')->select();
+			$data = $this->where($newMap)->order('createdDate desc')->select();
 			$res = array();
+			$userMap["userName"] = array('like', "%".$map["userName"]."%");
+			$userMap["email"] = array('like', "%".$map["email"]."%");
+			$userMap["mobile"] = array('like', "%".$map["mobile"]."%");
 			for ($i = 0; $i < count($data); $i++) {
 				$temp = $data[$i];
 				$userId = $temp["userId"];
-				$temp["userInformation"] = $userLogic->getUserInformationByUserId($userId);
-				array_push($res, $temp);
+				$userMap["userId"] = array('eq',$userId);
+				$userInformation = $userLogic->getUserInformationByMap($userMap);
+				if ($userInformation !== false) {
+					$temp["userInformation"] = $userInformation;
+					array_push($res, $temp);
+				}
 			}
 			return $res;
 		}
