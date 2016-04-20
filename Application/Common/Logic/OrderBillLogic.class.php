@@ -20,6 +20,6 @@ class OrderBillLogic extends OrderBillModel{
 	}
 	
 	public function queryBill($map){
-		return $this->where($map)->select();
+		return $this->where($map)->order('createdDate desc')->select();
 	}
 }

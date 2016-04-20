@@ -28,12 +28,9 @@
 			return $this->where($map)->select();
 		}
 		
-		public function changeQuantity($record, $action){
-			$changedQuantity = ($action == 'add' ? 1 : -1);
-			$changedPrice = ($action == 'add' ? ($record['price'] / $record['quantity']) : (-$record['price'] / $record['quantity']));
-			
+		public function changeQuantity($record, $changedQuantity, $changedPrice){
 			$data['quantity'] = $record['quantity'] + $changedQuantity;
-			$data['price'] = $record['price'] + $changedPrice;
+			$data['price'] = round($record['price'] + $changedPrice, 2);
 			$data['updatedDate'] = $record['updatedDate'];
 			$this->updateOrderItem($data, $record['id']);
 		}

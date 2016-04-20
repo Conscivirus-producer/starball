@@ -6,7 +6,7 @@
 <block name="main">
 <gt name="shoppingListCount" value="0"><include file="Public/cartcommon" /></gt>
 	
-	<div class="yu-cart-content">
+	<div class="yu-cart-content am-kai">
 		<eq name="shoppingListCount" value="0">
 			<div class="empty-cart">
 				<div class='big-info-picto'></div></br>
@@ -28,14 +28,17 @@
 								<span class="cart-sub-item-panier">{$vo.itemColor}</span>
 								<span class="cart-sub-item-panier" style="text-transform: none;"> 尺码： <span class="am-sans-serif">{$vo.sizeDescription}</span> </span> 
 								<span>
-									<button onclick="window.location.href='{:U('Cart/changeItemQuantity', array('action'=>'minus', 'itemId'=>$vo['itemId'],'itemSize'=>$vo['itemSize'],'price'=>$vo['price']/$vo['quantity']))}'" 
+									<button onclick="window.location.href='{:U('Cart/changeItemQuantity', array('changedQuantity'=>-1, 'itemId'=>$vo['itemId'],'itemSize'=>$vo['itemSize'],'changedPrice'=>-$vo['price']/$vo['quantity']))}'" 
 										class="am-padding-0 delete" style="width: 24px;background-color:#f5f5f5;border:1px solid #ddd;">－</button>
 									<span>{$vo.quantity}</span>
-									<button onclick="window.location.href='{:U('Cart/changeItemQuantity', array('action'=>'add', 'itemId'=>$vo['itemId'],'itemSize'=>$vo['itemSize'],'price'=>$vo['price']/$vo['quantity']))}'" 
+									<button onclick="window.location.href='{:U('Cart/changeItemQuantity', array('changedQuantity'=>1, 'itemId'=>$vo['itemId'],'itemSize'=>$vo['itemSize'],'changedPrice'=>$vo['price']/$vo['quantity']))}'" 
 										class="am-padding-0 add" style="width: 24px;background-color:#f5f5f5;border:1px solid #ddd;">＋</button>
 								</span>
 							</span> 
 							<div class="am-sans-serif yu-item-price"> <span> {$priceSymbol}&nbsp;{$vo.price} </span> </div> 
+							<div style="position:absolute;top:0;right:0;">
+							    <a style="color:black;" href="{:U('Cart/changeItemQuantity',array('changedQuantity'=>-$vo['quantity'], 'itemId'=>$vo['itemId'],'itemSize'=>$vo['itemSize'],'changedPrice'=>-$vo['price']))}" class="am-icon-close"></a>
+							</div>
 						</div>
 						<div class="am-divider"></div>
 						</gt>
@@ -78,7 +81,7 @@
 				<div class="am-panel-hd">需要帮助吗？</div>
 				<div class="am-panel-bd" style="font-size: 13px">
 					<span class="am-icon-clock-o">查看我们的配送时间</span><br/>
-					<span class="am-icon-clock-o">查看我们的退货政策</span>
+					<span class="am-icon-black-tie">查看我们的退货政策</span>
 				</div>
 			</div>
 		</div>

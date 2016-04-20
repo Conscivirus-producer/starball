@@ -28,13 +28,20 @@ class TagLogic extends TagModel{
         return implode("#", $tagArray);
     }
     public function updateTagsForOneItem($itemId, $tagString) {
-        $map["itemId"] = $itemId;
-        if ($this->where($map)->delete() === false) {
+        if ($this->deleteTagsForOneItem($itemId) === false) {
             return false;
         } else {
             return $this->insertTagsForOneItem($itemId, $tagString);
         }
     }
+    public function deleteTagsForOneItem($itemId) {
+        $map["itemId"] = $itemId;
+        if ($this->where($map)->count() == 0) {
+            return true;
+        }
+        return ($this->where($map)->delete() !== false);
+    }
+
 }
 
 ?>

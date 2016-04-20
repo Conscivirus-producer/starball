@@ -9,7 +9,7 @@ namespace Common\Logic;
 use Common\Model\BrandModel;
 class BrandLogic extends BrandModel{
     public function getAllBrandInfo() {
-        $dbData = $this->where()->select();
+        $dbData = $this->where()->order('brandName')->select();
         return $dbData;
     }
 

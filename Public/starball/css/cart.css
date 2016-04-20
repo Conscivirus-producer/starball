@@ -33,3 +33,7 @@ button.yu-backhome-button{
     padding: 8px 24px;
     margin-bottom: 0 auto;
 }
+div.address{
+	font-family: Fangsong,sans-serif !important;
+	font-size: 10px;
+}

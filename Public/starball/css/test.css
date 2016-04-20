@@ -342,7 +342,7 @@ input.yu-input-sm{
 .login-img{
 	display: block;
 	width: 150px;
-	background: url('http://7xr7p7.com2.z0.glb.qiniucdn.com/starballlogo2.jpeg');
+	background: url('http://7xr7p7.com2.z0.glb.qiniucdn.com/webwxgetmsgimg%20%281.1%29.jpeg');
 	background-size: 150px;
 	height: 60px;
 	max-width: 100%;
@@ -899,3 +899,40 @@ button.yu-backhome-button{
 .yu-boutique-viewlist{
     margin: 50px auto 0 !important;
 }
+
+div.yu-boutique-container{
+	max-width:970px;
+	width:100%;
+}
+div.yu-boutique-spacefixer{
+	margin-bottom:12px;
+}
+.yu-boutiqueimg-fixer{
+	width: 100%;
+    object-fit: cover;
+    object-position: top;
+    height: 288px !important;
+}
+a.yu-boutique-more {
+    color: #000000!important;
+    font-size: 15px;
+    padding: 0.9rem 15%;
+    border-style: solid;
+    border-width: thin;
+    width:100%;
+}
+div.yu-boutique-button{
+	padding: 0 1.5rem;
+    margin-left: 33%;
+}
+/*sales page*/
+span.yu-original-price{
+	text-decoration:line-through;
+}
+/*babystyling imgtext page*/
+article.yu-paragraph img{
+	max-width:100%;
+	margin:0 auto;
+	padding:0;
+}
+

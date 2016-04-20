@@ -55,8 +55,8 @@
                 <li class="admin-parent">
                     <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 商品管理 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
                     <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
-                        <li><a href="./upload" class="am-cf" target="_blank"><span class="am-icon-upload"></span> 商品上新</a></li>
-                        <li><a href="./search" target="_blank"><span class="am-icon-search"></span> 商品搜索</a></li>
+                        <li><a href="./Item/upload" class="am-cf" target="_blank"><span class="am-icon-upload"></span> 商品上新</a></li>
+                        <li><a href="./Item/search" target="_blank"><span class="am-icon-search"></span> 商品搜索</a></li>
                     </ul>
                 </li>
                 <li><a href="#"><span class="am-icon-sign-out"></span> 注销</a></li>
@@ -75,11 +75,11 @@
                         <legend>搜索条件设置</legend>
                         <div class="am-form-group">
                             <label for="order-createdDateStart">下单起始时间</label>
-                            <input type="text" class="" name="createdDateStart" id="order-createdDateStart" placeholder="选择下单起始时间" data-am-datepicker readonly>
+                            <input type="text" class="" name="createdDateStart" id="order-createdDateStart" placeholder="选择下单起始时间" value="{$conditions.createdDateStart}" data-am-datepicker readonly>
                         </div>
                         <div class="am-form-group">
                             <label for="order-createdDateEnd">下单结束时间</label>
-                            <input type="text" class="" name="createdDateEnd" id="order-createdDateEnd" placeholder="选择下单结束时间" data-am-datepicker readonly>
+                            <input type="text" class="" name="createdDateEnd" id="order-createdDateEnd" placeholder="选择下单结束时间" value="{$conditions.createdDateEnd}" data-am-datepicker readonly>
                         </div>
                         <div class="am-form-group">
                             <label for="order-status">订单状态</label>
@@ -109,12 +109,14 @@
                         </div>
                         <div class="am-form-group">
                             <label for="order-userMobile">用户联系方式</label>
-                            <input type="text" class="" name="userMobile" id="order-userMobile" placeholder="输入用户联系方式模糊搜索">
+                            <input type="text" class="" name="mobile" id="order-userMobile" placeholder="输入用户联系方式模糊搜索">
                         </div>
                         <div class="am-form-group">
                             <label for="order-userEmail">用户邮箱</label>
-                            <input type="text" class="" name="userEmail" id="order-userEmail" placeholder="输入用户邮箱模糊搜索">
+                            <input type="text" class="" name="email" id="order-userEmail" placeholder="输入用户邮箱模糊搜索">
                         </div>
+                        <p><button type="button" id="clear-search-conditions" class="am-btn am-btn-success">清空搜索条件</button></p>
+                        <p><button type="submit" id="order-search-button" class="am-btn am-btn-primary">搜索</button></p>
                     </fieldset>
                 </form>
             </div>
@@ -138,7 +140,7 @@
                     <tbody>
                     <volist name="orders" id="vo">
                         <tr>
-                            <td>{$vo.orderId}</td>
+                            <td><a class="" href="./Order/showDetailedInformation?orderId={$vo.orderId}" target="_blank">{$vo.orderId}</a></td>
                             <td>{$vo.totalItemCount}</td>
                             <td>{$vo.totalAmount}{$vo.currency}</td>
                             <td>{$vo.shippingFee}{$vo.currency}</td>
@@ -198,9 +200,26 @@
 <script src="__PUBLIC__/starball/js/jquery.form.js"></script>
 <!-- 自己的JS代码-->
 <script>
-$(document).ready(function() {
-
-});
+    var conditionsJSON = {$conditionsJSON};
+    $(document).ready(function() {
+        $("#order-status").val(conditionsJSON.status);
+        $("#order-isGiftPackage").val(conditionsJSON.isGiftPackage);
+        $("#order-userName").val(conditionsJSON.userName);
+        $("#order-userMobile").val(conditionsJSON.mobile);
+        $("#order-userEmail").val(conditionsJSON.email);
+    });
+    $("#clear-search-conditions").click(function(){
+        clearSearchConditions();
+    });
+    function clearSearchConditions() {
+        $("#order-createdDateStart").val("");
+        $("#order-createdDateEnd").val("");
+        $("#order-status").val("nothing");
+        $("#order-isGiftPackage").val("nothing");
+        $("#order-userName").val("");
+        $("#order-userMobile").val("");
+        $("#order-userEmail").val("");
+    }
 </script>
 </body>
 </html>

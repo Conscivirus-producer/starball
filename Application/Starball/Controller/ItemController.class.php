@@ -54,13 +54,16 @@ class ItemController extends BaseController {
 			if($i > 2){
 				break;
 			}
+			$i++;
+			if($record['quantity'] == 0){
+				continue;
+			}
 			$url = U('Starball/Item/index','itemId='.$record['itemId']);
 			$tab = $tab."<li><a href='".$url."' class='item-panier'> <img alt='".$record['itemName']."' src='".$record['itemImage']."?imageView2/1/w/100/h/100/q/100' class='item-photo-adjustor'> 
 						<span class='content-item-panier'> <span class='title-item-panier'>".$record['brandName']."</span> <span class='subtitle-item-panier'>".$record['itemName']."</span> 
 						<span class='yu-size-container'> <span class='' style='text-transform: none;'> 尺码： <span class='am-sans-serif'style='font-weight:bold;'>".$record['sizeDescription']."</span> </span> 
 						<span class='' style='float:right'> 数量： <span class=''>".$record['quantity']."</span> </span> <span class='am-sans-serif yu-item-price'> <span> ".$this->get('priceSymbol')."&nbsp;".$record['price'].
 						" </span> </span> </span> </span> </a></li>";
-			$i++;
 		}
 		$tab = $tab."<li style='margin:0;'><div id='' class='yu-total-price-panier'><span class=''>".L('totalAmount')."： </span><span class='am-sans-serif value-total-price' >".$this->get('priceSymbol')."&nbsp; ".$shoppingList['totalAmount']."</span></div></li>";
 		$tab = $tab."<li class='am-divider'></li><button type='button' id='myShoppingCart' class='am-btn am-btn-default yu-button-333 yu-check-button-adjustor'>查看我的购物袋</button>";
@@ -68,7 +71,7 @@ class ItemController extends BaseController {
 	}
 	
 	private function addShoppingListToUser(){
-		$userId = session('userId');
+		$userId = $this->getCurrentUserId();
 		$orderLogic = D('Order', 'Logic');
 		$backlogOrder = $orderLogic->getOrderByUserId($userId, 'N');
 		if(count($backlogOrder) == 0){

@@ -62,18 +62,22 @@
 			$itemPriceLogic = D("ItemPrice", "Logic");
 			$imageLogic = D("Image", "Logic");
 			$tagLogic = D("Tag", "Logic");
+			$inventoryLogic = D("Inventory", "Logic");
 			$itemMap["itemId"] = $itemId;
 			$basicInformation = $this->where($itemMap)->select();
 			$result = current($basicInformation);
 			$result["itemPrice"] = $itemPriceLogic->getClassifiedPriceByItemId($itemId);
 			$result["images"] = $imageLogic->getImageById($itemId);
 			$result["tag"] = $tagLogic->getTagStringByItemId($itemId);
+			$result["inventory"] = $inventoryLogic->getInventoryByItemId($itemId);
 			return $result;
 		}
 
 		public function updateOneItem($data) {
 			$itemId = ''.$data["itemId"];
 			$itemPriceLogic = D("ItemPrice", "Logic");
+			$inventoryLogic = D("Inventory", "Logic");
+			$inventoryArray = $data["inventory"];
 			$tagLogic = D("Tag", "Logic");
 			$priceArray = array();
 			$priceArray["CNY"] = $data["priceCNY"];
@@ -86,6 +90,7 @@
 			unset($newData["priceCNY"]);
 			unset($newData["priceHKD"]);
 			unset($newData["tag"]);
+			unset($newData["inventory"]);
 			$lastUpdatedDate = date('y-m-d h:i:s',time());
 			$newData["lastUpdatedDate"] = $lastUpdatedDate;
 			$newData["isAvailable"] = "1";
@@ -93,7 +98,7 @@
 			if ($this->save($newData) == false) {
 				return false;
 			} else {
-				$res = ($itemPriceLogic->updateItemPrices($itemId, $priceArray, $lastUpdatedDate)) & ($imageLogic->updateOneItemImages($itemId, $imageArray)) & ($tagLogic->updateTagsForOneItem($itemId, $tagString));
+				$res = ($itemPriceLogic->updateItemPrices($itemId, $priceArray, $lastUpdatedDate)) & ($imageLogic->updateOneItemImages($itemId, $imageArray)) & ($tagLogic->updateTagsForOneItem($itemId, $tagString) & ($inventoryLogic->updateInventoriresForOneItem($itemId, $inventoryArray)));
 				return $res;
 			}
 		}

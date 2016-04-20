@@ -162,7 +162,9 @@
 						window.location.href="{:U('Starball/Cart/index')}";
 					});
 		    		$("#myShoppingListLnk").click();
-		    		//location.href = '?channel=addSL';
+				    setTimeout(function () { 
+				        $("#myShoppingListLnk").click();
+				    }, 2000);
 		    	}
 		    },'json');
 		}
