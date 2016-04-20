@@ -25,6 +25,22 @@
 			}
 			return true;
 		}
+
+		public function deleteInventoriesByItemId($itemId){
+			$map["itemId"] = $itemId;
+			if ($this->where($map)->count() == 0) {
+				return true;
+			}
+			return ($this->where($map)->delete() !== false);
+		}
+
+		public function updateInventoriresForOneItem($itemId, $inventoryArray) {
+			if ($this->deleteInventoriesByItemId($itemId) === false) {
+				return false;
+			} else {
+				return $this->insertInventoriesforOneItem($itemId, $inventoryArray);
+			}
+		}
 	}
 
 

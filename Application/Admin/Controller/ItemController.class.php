@@ -122,6 +122,8 @@ class ItemController extends Controller {
         $bucket = 'image';
         $token = $auth->uploadToken($bucket,null,3600,null,true);
         $itemInformation = $itemLogic->getItemInformationById($itemId);
+        $allItemSize = C("ITEMSIZE");
+        $this->assign("itemSizeData", json_encode($allItemSize));
         $this->assign("itemInformation", $itemInformation);
         $this->assign("itemInformationJSON", json_encode($itemInformation));
         $this->assign('qiniuToken',$token);
@@ -129,11 +131,26 @@ class ItemController extends Controller {
     }
 
     public function test() {
-        $userLogic = D("User", "Logic");
-        print_r($userLogic->getUserInformationByUserId(10));
+        $inventoryLogic = D("Inventory", "Logic");
+        print_r($inventoryLogic->getInventoryByItemId(59));
     }
 
     public function updateSingleItem() {
+        // inventory process
+        $inventoryCount = (int)(I("post.inventory-div-count"));
+        $inventoryArray = array();
+        $inventory = array();
+        for ($i = 0; $i <= $inventoryCount; $i++) {
+            $inventorySizeStart = I("post.inventory-size-start".$i, "");
+            if ($inventorySizeStart == "") {
+                continue;
+            }
+            $inventorySizeEnd = I("post.inventory-size-end".$i, "");
+            $inventoryNumber = I("post.inventory-number".$i, "");
+            $inventory["age"] = $inventorySizeStart.",".$inventorySizeEnd;
+            $inventory["inventory"] = $inventoryNumber;
+            array_push($inventoryArray, $inventory);
+        }
         $fields = array(
             "itemId",
             "name",
@@ -154,9 +171,16 @@ class ItemController extends Controller {
             "status" => "fail"
         );
         $data = array();
+        $data["inventory"] = $inventoryArray;
         $count = count($fields);
         for ($i = 0; $i < $count; $i++) {
             $data[$fields[$i]] = I('post.'.$fields[$i]);
+            // validation in the server side, ignore tag, tag is not necessary
+            if ($fields[$i] != "tag") {
+                if ($data[$fields[$i]] == "") {
+                    echo json_encode($result);
+                }
+            }
         }
         $itemLogic = D("Item", "Logic");
         if ($itemLogic->updateOneItem($data) == false) {

@@ -489,11 +489,11 @@
         $button.appendTo($div);
         $div.insertAfter($("#inventory-add-section-start"));
         $line.insertAfter($("#inventory-add-section-start"));
-        $("#inventoryDivCount").val(count);
         count++;
     });
     function validateFields() {
         $("#item-images-array").val(imagesArray.join(","));
+        $("#inventoryDivCount").val(count);
         if (is_uploading_image == true) {
             return false;
         } else if ($("#item-name").val().trim() == "") {
@@ -504,16 +504,18 @@
             return false;
         } else if ($("#item-component").val().trim() == "") {
             return false;
-        } else if ($("#item-priceHKD").val().trim() == "") {
+        } else if ($("#item-priceHKD").val().trim() == "" || !$.isNumeric($("#item-priceHKD").val().trim())) {
             return false;
-        } else if ($("#item-priceCNY").val().trim() == "") {
+        } else if ($("#item-priceCNY").val().trim() == "" || !$.isNumeric($("#item-priceCNY").val().trim())) {
             return false;
         }else if ($("#item-season").val().trim() == "") {
             return false;
         } else if ($("#item-images-array").val().trim() == "") {
             return false;
-        } else if ($(".inventory-number").val().trim() == "") {
-            return false;
+        } else if ($(".inventory-number").length > 0) {
+            if ($(".inventory-number").val().trim() == "" || !$.isNumeric($(".inventory-number").val().trim())) {
+                return false;
+            }
         }
         return true;
     }

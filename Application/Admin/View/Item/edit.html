@@ -113,6 +113,7 @@
                         <div class="am-form-group">
                             <label for="item-grade">商品等级</label>
                             <select name="grade" id="item-grade">
+                                <option value="3">其它</option>
                                 <option value="1">Baby</option>
                                 <option value="2">Child</option>
                             </select>
@@ -149,6 +150,15 @@
                             <input type="text" class="" name="season" id="item-season" placeholder="输入商品季节" value="{$itemInformation['season']}">
                         </div>
 
+                        <!-- inventory -->
+                        <div class="am-form-group" id="inventory-add-section-start">
+                            <label>库存设定</label>
+                            <p><button type="button" id="add-inventory" class="am-btn am-btn-primary">添加库存</button></p>
+                        </div>
+
+                        <input type="text" name="inventory-div-count" id="inventoryDivCount" style="display:none">
+                        <!-- inventory -->
+
                         <!-- add tags-->
                         <div class="am-form-group">
                             <label for="item-tag">商品标签</label>
@@ -156,7 +166,7 @@
                         </div>
 
                         <div class="am-form-group am-form-file">
-                            <button type="button" class="am-btn am-btn-primary am-btn-sm">
+                            <button type="button" class="am-btn am-btn-success am-btn-sm">
                                 <i class="am-icon-cloud-upload"></i> 选择要上传的商品图片
                             </button>
                             <input id="item-images" type="file" name="item-images" >
@@ -242,10 +252,14 @@
 <script src="__PUBLIC__/starball/js/jquery.form.js"></script>
 <!-- 自己的JS代码-->
 <script>
+    // is uploading images or not
+    var is_uploading_image = false;
     var imagesArray = new Array();
     var itemInformation = {$itemInformationJSON};
     var qiniuToken = $("#qiniuToken").val().trim();
     var Qiniu_UploadUrl = "http://up.qiniu.com";
+    var itemSizeData = {$itemSizeData};
+    var inventoryCount = 1;
     $(document).ready(function(){
         // category
         $.getJSON( "./getCategoryInfo", function(data) {
@@ -263,6 +277,41 @@
         });
         $("#item-grade").val(itemInformation.grade);
         $("#item-gender").val(itemInformation.gender);
+        $.each(itemInformation.inventory, function( index, inventoryValue ) {
+            var $line = $('<hr data-am-widget="divider" style="" id="inventoryLine' +  inventoryCount +  '" class="am-divider am-divider-default inventory-line" />');
+            var $div = $('<div class="am-form-group inventory-setting-group" id="inventoryDiv' + inventoryCount +  '"></div>');
+            var $labelStart = $('<label>大小下限</label>');
+            var $selectStart = $('<select class="inventory-size-start" name="inventory-size-start' + inventoryCount + '"></select>');
+            $.each(itemSizeData, function( index, value ) {
+                var $option = $("<option value='" + index + "'>" + value[0] + "  (" + value[1] + " - " + value[2] + "cm)</option>");
+                $option.appendTo($selectStart);
+            });
+            var $labelEnd = $('<label>大小上限</label>');
+            var $selectEnd = $('<select class="inventory-size-end" name="inventory-size-end' + inventoryCount + '"></select>');
+            $.each(itemSizeData, function( index, value ) {
+                var $option = $("<option value='" + index + "'>" + value[0] + "  (" + value[1] + " - " + value[2] + "cm)</option>");
+                $option.appendTo($selectEnd);
+            });
+            var $button = $('<button type="button" name="inventoryDelete' + inventoryCount + '" class="am-close">&times;</button>');
+            $button.click(function(){
+                var inventoryDeleteId = $(this).attr("name").replace("inventoryDelete", "");
+                $("#inventoryLine" + inventoryDeleteId).remove();
+                $("#inventoryDiv" + inventoryDeleteId).remove();
+            });
+            var $input = $('<input type="text" class="inventory-number" name="inventory-number' + inventoryCount + '" id="" placeholder="输入库存数量">');
+            $selectStart.val(inventoryValue.age.split(",")[0]);
+            $selectEnd.val(inventoryValue.age.split(",")[1]);
+            $input.val(inventoryValue.inventory);
+            $labelStart.appendTo($div);
+            $selectStart.appendTo($div);
+            $labelEnd.appendTo($div);
+            $selectEnd.appendTo($div);
+            $input.appendTo($div);
+            $button.appendTo($div);
+            $div.insertAfter($("#inventory-add-section-start"));
+            $line.insertAfter($("#inventory-add-section-start"));
+            inventoryCount++;
+        });
     });
     // load images
     $.each(itemInformation.images, function(index, value) {
@@ -286,42 +335,34 @@
         imagesArray.push(value.image);
     });
     function validateFields() {
-        if ($("#item-name").val().trim() == "") {
-            $('#single-input-alert').modal('open');
-            $("#item-name").focus();
+        $("#item-images-array").val(imagesArray.join(","));
+        $("#inventoryDivCount").val(inventoryCount);
+        if (is_uploading_image == true) {
+            return false;
+        }else if ($("#item-name").val().trim() == "") {
             return false;
         } else if ($("#item-color").val().trim() == "") {
-            $('#single-input-alert').modal('open');
-            $("#item-color").focus();
             return false;
         } else if ($("#item-detailDescription").val().trim() == "") {
-            $('#single-input-alert').modal('open');
-            $("#item-detailDescription").focus();
             return false;
         } else if ($("#item-component").val().trim() == "") {
-            $('#single-input-alert').modal('open');
-            $("#item-component").focus();
             return false;
-        } else if ($("#item-priceHKD").val().trim() == "") {
-            $('#single-input-alert').modal('open');
-            $("#item-priceHKD").focus();
+        } else if ($("#item-priceHKD").val().trim() == "" || !$.isNumeric($("#item-priceHKD").val().trim())) {
             return false;
-        } else if ($("#item-priceCNY").val().trim() == "") {
-            $('#single-input-alert').modal('open');
-            $("#item-priceCNY").focus();
+        } else if ($("#item-priceCNY").val().trim() == "" || !$.isNumeric($("#item-priceCNY").val().trim())) {
             return false;
         } else if ($("#item-season").val().trim() == "") {
-            $('#single-input-alert').modal('open');
-            $("#item-season").focus();
             return false;
         } else if ($("#item-images-array").val().trim() == "") {
-            $('#single-input-alert').modal('open');
             return false;
+        } else if ($(".inventory-number").length > 0) {
+            if ($(".inventory-number").val().trim() == "" || !$.isNumeric($(".inventory-number").val().trim())) {
+                return false;
+            }
         }
         return true;
     }
     $("#update-single-item").click(function(){
-        $("#item-images-array").val(imagesArray.join(","));
         if (validateFields() == true) {
             var $form = $("#single-item-form");
             var options = {
@@ -345,10 +386,13 @@
             };
             $form.ajaxSubmit(options);
             $(this).prop('disabled', false);
+        } else {
+            $('#single-input-alert').modal('open');
         }
     });
     // qiniu upload
     $("#item-images").change(function() {
+        is_uploading_image = true;
         $(this).prop('disabled', true);
         var Qiniu_upload = function(f, token, key) {
             var xhr = new XMLHttpRequest();
@@ -377,9 +421,11 @@
                     $li.append($button);
                     $("#images-gallery").append($li);
                     imagesArray.push("http://7xp6oq.com2.z0.glb.qiniucdn.com/" + key);
+                    is_uploading_image = false;
                 } else if (xhr.status != 200 && xhr.responseText) {
                     $('#single-pic-alert').modal('open');
                     $("#item-images").prop('disabled', false);
+                    is_uploading_image = false;
                 }
             };
             xhr.send(formData);
@@ -392,7 +438,40 @@
         } else {
             $('#single-pic-alert').modal('open');
             $("#item-images").prop('disabled', false);
+            is_uploading_image = false;
         }
+    });
+    $("#add-inventory").click(function() {
+        var $line = $('<hr data-am-widget="divider" style="" id="inventoryLine' +  inventoryCount +  '" class="am-divider am-divider-default inventory-line" />');
+        var $div = $('<div class="am-form-group inventory-setting-group" id="inventoryDiv' + inventoryCount +  '"></div>');
+        var $labelStart = $('<label>大小下限</label>');
+        var $selectStart = $('<select class="inventory-size-start" name="inventory-size-start' + inventoryCount + '"></select>');
+        $.each(itemSizeData, function( index, value ) {
+            var $option = $("<option value='" + index + "'>" + value[0] + "  (" + value[1] + " - " + value[2] + "cm)</option>");
+            $option.appendTo($selectStart);
+        });
+        var $labelEnd = $('<label>大小上限</label>');
+        var $selectEnd = $('<select class="inventory-size-end" name="inventory-size-end' + inventoryCount + '"></select>');
+        $.each(itemSizeData, function( index, value ) {
+            var $option = $("<option value='" + index + "'>" + value[0] + "  (" + value[1] + " - " + value[2] + "cm)</option>");
+            $option.appendTo($selectEnd);
+        });
+        var $button = $('<button type="button" name="inventoryDelete' + inventoryCount + '" class="am-close">&times;</button>');
+        $button.click(function(){
+            var inventoryDeleteId = $(this).attr("name").replace("inventoryDelete", "");
+            $("#inventoryLine" + inventoryDeleteId).remove();
+            $("#inventoryDiv" + inventoryDeleteId).remove();
+        });
+        var $input = $('<input type="text" class="inventory-number" name="inventory-number' + inventoryCount + '" id="" placeholder="输入库存数量">');
+        $labelStart.appendTo($div);
+        $selectStart.appendTo($div);
+        $labelEnd.appendTo($div);
+        $selectEnd.appendTo($div);
+        $input.appendTo($div);
+        $button.appendTo($div);
+        $div.insertAfter($("#inventory-add-section-start"));
+        $line.insertAfter($("#inventory-add-section-start"));
+        inventoryCount++;
     });
 </script>
 </body>
