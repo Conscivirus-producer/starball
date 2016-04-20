@@ -14,7 +14,7 @@ return array(
     'boy'=>'男孩',
     'sales'=>'特卖场',
     'featured'=>'精选',
-    'clothingmatch'=>'穿衣搭配',
+    'clothingmatch'=>'宝宝搭配',
     'search'=>'搜索',
     'bytime'=>'按时间',
     'lastsevenday'=>'最近7天',
