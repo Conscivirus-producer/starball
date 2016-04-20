@@ -8,31 +8,46 @@ class CartController extends BaseController {
 	}
 	
 	public function delivery(){
-		$this->commonProcess();
-		$shipppingAddress = D("ShippingAddress", "Logic");
-		$existingAddress=array();
-		$orderLogic = D('Order', 'Logic');
-		$order = $orderLogic->getCurrentOutstandingOrder($this->getCurrentUserId(), 'N');
-		if($order['shippingAddress'] != ''){
-			$existingAddress = $shipppingAddress->findExsitingAddress($order['shippingAddress']);
-		}
 		if(!$this->isLogin()){
 			$this->redirect('Home/register', array('fromAction' => 'shoppinglist'));
 		}
+		$this->commonProcess();
+		$shipppingAddress = D("ShippingAddress", "Logic");
+		$addressList = $shipppingAddress->getAllAddress($this->getCurrentUserId());
+		foreach($addressList as $record){
+			if($record['default'] == 1){
+				$defaultAddress = $record;
+			}
+		}
+		if(count($addressList) == 0){
+			$this->redirect('Cart/address');
+		}
+		$this->assign('addressList', $addressList);
+		$this->display();
+	}
+	
+	public function address(){
+		$this->commonProcess();
+		if(!$this->isLogin()){
+			$this->redirect('Home/register', array('fromAction' => 'shoppinglist'));
+		}
+		$this->commonProcess();
+		$shipppingAddress = D("ShippingAddress", "Logic");
+		$orderLogic = D('Order', 'Logic');
+		$order = $orderLogic->getCurrentOutstandingOrder($this->getCurrentUserId(), 'N');
 		if(IS_POST){
 			if(!$data = $shipppingAddress->create()){
 	            header("Content-type: text/html; charset=utf-8");
 	            exit($user->getError());	
 			}
-			if($order['shippingAddress'] != 0){
-				$shipppingAddress->updateAddress($data, $order['shippingAddress']);
-			}else{
-				$orderUpdate['shippingAddress'] = $shipppingAddress->add($data);
-				$orderLogic->updateOrder($orderUpdate, $order['orderId']);
-			}
-			$this->redirect('Cart/submitOrder');
+			//把其它address设成非default
+			$shipppingAddress->unsetDefault($this->getCurrentUserId());
+			//把addressId存入order
+			$data['userId'] = $this->getCurrentUserId();
+			$orderUpdate['shippingAddress'] = $shipppingAddress->add($data);
+			$orderLogic->updateOrder($orderUpdate, $order['orderId']);
+			$this->redirect('Cart/delivery');
 		}
-		$this->assign('data', $existingAddress);
 		$this->display();
 	}
 	
@@ -43,21 +58,29 @@ class CartController extends BaseController {
 	
 	public function submitOrder(){
 		$this->commonProcess();
+		$addressId = I('addressId');
 		$orderLogic = D('Order', 'Logic');
 		$userId = $this->getCurrentUserId();
 		$backlogOrder = $orderLogic->getOrderByUserId($userId, 'N');
 		if(count($backlogOrder) > 0){
 			$order = $backlogOrder[0];
-			if($order['orderNumber'] != ''){
-				//订单已提交，订单号已经存在
-				$this->redirect('Payment/index', array('orderNumber' => $order['orderNumber']));
+			if($order['orderNumber'] == ''){
+				//生成订单号,规则: 数字8(1位) + 年份最后1位，如2016最后一位6(1位) + 月份，如04(2位) + 日期，如12(2位) + 当前秒数,如59(2位) + 用户ID后2位,如87(4位) + 随机数(2位) 
+				$strUtil = new \Org\Util\String();
+				$orderNumber = '8'.substr(date("Ymds"), 3).substr($userId, -2).$strUtil->randString(2,1);
+				$data['orderNumber'] = $orderNumber;
+			}else{
+				$orderNumber = $order['orderNumber'];
 			}
-			//生成订单号,规则: 数字8(1位) + 年份最后1位，如2016最后一位6(1位) + 月份，如04(2位) + 日期，如12(2位) + 当前秒数,如59(2位) + 用户ID后2位,如87(4位) + 随机数(2位) 
-			$strUtil = new \Org\Util\String();
-			$orderNumber = '8'.substr(date("Ymds"), 3).substr($userId, -2).$strUtil->randString(2,1);
-			$data['orderNumber'] = $orderNumber;
-			//$data['status'] = 'N';
+			
+			//更新订单地址信息
+			$data['shippingAddress'] = $addressId;
 			$orderLogic->updateOrder($data, $order['orderId']);
+			
+			//更新用户默认地址
+			$shipppingAddress = D("ShippingAddress", "Logic");
+			$shipppingAddress->unsetDefault($this->getCurrentUserId());
+			$shipppingAddress->setDefault($this->getCurrentUserId(), $addressId);
 			$this->redirect('Payment/index', array('orderNumber' => $orderNumber));
 		}
 	}
