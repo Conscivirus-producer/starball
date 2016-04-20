@@ -77,6 +77,9 @@
 		}
 		public function deleteImagesByItemId($itemId) {
 			$map["itemId"] = $itemId;
+			if ($this->where($map)->count() == 0) {
+				return true;
+			}
 			$images = $this->where($map)->select();
 			for ($i = 0; $i < count($images); $i++) {
 				$imageId = $images[$i]["imageId"];

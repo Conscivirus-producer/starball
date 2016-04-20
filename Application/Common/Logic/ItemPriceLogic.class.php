@@ -57,6 +57,9 @@
 
 		public function deleteItemPricesByItemId($itemId) {
 			$map["itemId"] = $itemId;
+			if ($this->where($map)->count() == 0) {
+				return true;
+			}
 			if ($this->where($map)->delete() !== false) {
 				return true;
 			} else {

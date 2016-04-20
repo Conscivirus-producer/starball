@@ -301,7 +301,7 @@ div.yu-sub-menu{
 	position: relative;
 	box-sizing: border-box;
 	z-index: 999;
-	margin-top: 8px;
+	margin-top: 0px;
 	margin-bottom: -100%;
 	background-color: white;
 	width: 102%;
@@ -310,6 +310,7 @@ div.yu-sub-menu{
 	padding-bottom: 20px;
 	border-bottom: 3px solid black;
 	height: auto !important;
+	border-top: 2px solid black;
 }
 
 div.yu-sub-menu-list{
@@ -325,6 +326,14 @@ div.yu-sub-menu-img-title{
 	background:rgba(255, 255, 255, 0.6)!important;
 	padding-top: 10px;
 	margin-top: 10px;
+}
+div.yu-menu-adj{
+	max-width: 970px;
+	margin: 0 auto;
+}
+div.yu-scroll-bg{
+	background-color: white;
+	filter:alpha(opacity=50);
 }
 input.yu-input-sm{
 	font-size:12px !important;
@@ -507,6 +516,7 @@ dl.yu-accordion-list{
 dt.yu-bottomborder-none{
 	border-bottom:none!important;
 }
+
 /*footer*/
 div.yu-layout-footer{
 	margin-top:40px;
@@ -890,6 +900,7 @@ button.yu-backhome-button{
 .yu-boutique-viewlist{
     margin: 50px auto 0 !important;
 }
+
 div.yu-boutique-container{
 	max-width:970px;
 	width:100%;
@@ -940,3 +951,4 @@ img.blog-photo-adjustor{
 a.yu-blog-title{
 	font-size:150%;
 }
+

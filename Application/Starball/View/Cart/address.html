@@ -1,0 +1,59 @@
+<extend name="Public/base" />
+<block name="title"><title>我的购物袋</title></block>
+<block name="customizedCss">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/starball/css/cart.css">
+</block>
+<block name="main">
+	<include file="Public/cartcommon" />
+	
+	<div class="yu-cart-content">
+		<span style="font-weight: bold;font-size: 13px">创建</span><span style="font-size:13px">我的地址</span>
+		<hr style="border-color: black" />
+		<form class="am-form am-form-horizontal" role="form" method="post" style="width:70%; margin-left: 15%;font-size: 12px">
+			<input type="hidden" value="1" name="default"/>
+			<div class="am-form-group">
+			  <label class="am-radio-inline">
+			    <input type="radio" name="contactGender" value="M"> 男
+			  </label>
+			  <label class="am-radio-inline">
+			    <input type="radio" name="contactGender" value="F"> 女
+			  </label>
+			</div>
+			<div class="am-form-group">
+				<div style="margin-bottom: 10px">
+					<input name="contactName" value="{$data.contactName}" class="am-form-field" placeholder="姓名" />
+				</div>
+				<div style="margin-bottom: 10px">
+					<input name="address" value="{$data.address}"  class="am-form-field" placeholder="地址＊" />
+				</div>
+				<div style="margin-bottom: 10px">
+					<input name="postCode" value="{$data.postCode}"  class="am-form-field" placeholder="邮政编码＊" />
+				</div>
+				<div style="margin-bottom: 10px">
+					<input name="city" value="{$data.city}"  class="am-form-field" placeholder="城镇／城市＊" />
+				</div>
+				<div style="margin-bottom: 10px">
+					<input name="phone" value="{$data.phone}" class="am-form-field" placeholder="Mobile＊" />
+				</div>
+				<textarea name="moreDetails" value="{$data.moreDetails}" placeholder="更多细节"></textarea>
+			</div>
+			<div class="am-form-group">
+				<div style="margin-bottom: 10px">
+					请为此地址设定一个名称，以便日后查询*	
+				</div>
+				<div style="margin-bottom: 10px">
+					<input name="addressName" value="{$data.addressName}" class="am-form-field" placeholder="" />
+				</div>
+				<button id="delivery" type="submit" style="float: right; margin-top: 10px; width: 80px; height: 28px;background-color: black;border:0; color: white">提交</button>
+			</div>
+		</form>
+	</div>
+	<div style="clear: both;"></div>
+</block>
+<block name="customizedJavascript">
+	<script type="text/javascript">
+		$(".cart-step2").addClass("step-on");
+		$("#cartlnk1").attr('href', "{:U('Starball/Cart/index')}");
+		$("#cartlnk2").attr('href', "{:U('Starball/Cart/delivery')}");
+	</script>
+</block>
