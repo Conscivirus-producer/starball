@@ -131,8 +131,8 @@ class ItemController extends Controller {
     }
 
     public function test() {
-        $inventoryLogic = D("Inventory", "Logic");
-        print_r($inventoryLogic->getInventoryByItemId(59));
+        $orderLogic = D("Order", "Logic");
+        print_r($orderLogic->getOrderInformationByOrderId(30));
     }
 
     public function updateSingleItem() {

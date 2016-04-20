@@ -140,7 +140,7 @@
                     <tbody>
                     <volist name="orders" id="vo">
                         <tr>
-                            <td>{$vo.orderId}</td>
+                            <td><a class="" href="./Order/showDetailedInformation?orderId={$vo.orderId}" target="_blank">{$vo.orderId}</a></td>
                             <td>{$vo.totalItemCount}</td>
                             <td>{$vo.totalAmount}{$vo.currency}</td>
                             <td>{$vo.shippingFee}{$vo.currency}</td>

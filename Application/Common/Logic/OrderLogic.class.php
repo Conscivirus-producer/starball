@@ -67,6 +67,30 @@
 			}
 			return $res;
 		}
+
+		public function getOrderInformationByOrderId($orderId) {
+			$orderItemLogic = D("OrderItem", "Logic");
+			$shippingAddressLogic = D("ShippingAddress", "Logic");
+			$orderBillLogic = D("OrderBill", "Logic");
+			$map["orderId"] = $orderId;
+			$information = current($this->where($map)->select());
+			$information["orderItems"] = $orderItemLogic->getOrderItemsByOrdeId($orderId);
+			$shippingAddressId = $information["shippingAddress"];
+			if ($shippingAddressId == "0") {
+				$information["shippingAddress"] = "";
+			} else {
+				$information["shippingAddress"] = current($shippingAddressLogic->findExsitingAddress($shippingAddressId));
+			}
+			$orderNumber = $information["orderNumber"];
+			if ($orderNumber == "") {
+				$information["orderBills"] = "";
+			} else {
+				$orderBillMap["orderNumber"] = $orderNumber;
+				$information["orderBills"] = $orderBillLogic->queryBill($orderBillMap);
+			}
+			return $information;
+		}
+
 	}
 
 ?>

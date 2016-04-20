@@ -35,4 +35,14 @@ class OrderController extends Controller {
         $this->assign("conditionsJSON", json_encode($map));
         $this->display();
     }
+
+    public function showDetailedInformation() {
+        $orderLogic = D("Order", "Logic");
+        $orderId = trim(I("get.orderId", ""));
+        if ($orderId == "") {
+            die("错误操作");
+        }
+        $this->assign("information", $orderLogic->getOrderInformationByOrderId($orderId));
+        $this->display();
+    }
 }
