@@ -14,14 +14,10 @@ class CartController extends BaseController {
 		$this->commonProcess();
 		$shipppingAddress = D("ShippingAddress", "Logic");
 		$addressList = $shipppingAddress->getAllAddress($this->getCurrentUserId());
-		foreach($addressList as $record){
-			if($record['default'] == 1){
-				$defaultAddress = $record;
-			}
-		}
 		if(count($addressList) == 0){
 			$this->redirect('Cart/address');
 		}
+		$addressList = $this->convertCountryCode($addressList);
 		$this->assign('addressList', $addressList);
 		$this->display();
 	}

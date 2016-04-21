@@ -6,6 +6,8 @@ class PaymentController extends BaseController {
 	public function index(){
 		$this->commonProcess();
 		$addressInfo = D('ShippingAddress', 'Logic')->findExsitingAddress(I('addressId'));
+		$countryList = C('COUNTRY_LIST');
+		$addressInfo['country'] = L($countryList[$addressInfo['country']]);
 		$this->assign('addressInfo', $addressInfo);
 		$this->assign('orderNumber', I('orderNumber'));
 		$this->display();

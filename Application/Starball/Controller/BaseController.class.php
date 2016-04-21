@@ -325,4 +325,17 @@ class BaseController extends Controller {
 			.',itemImage:'.$value['itemImage'].',itemColor:'.$value['itemColor'].',sizeDescription:'.$value['sizeDescription'].',price:'.$value['price'].',quantity:'.$value['quantity']);
 		}		
 	}
+	
+	protected function convertCountryCode($addressList){
+		$countryList = C('COUNTRY_LIST');
+		$i=0;
+		foreach($addressList as $record){
+			if($record['country'] != ''){
+				$record['country'] = L($countryList[$record['country']]);
+				$addressList[$i] = $record;
+			}
+			$i++;
+		}
+		return $addressList;
+	}
 }
