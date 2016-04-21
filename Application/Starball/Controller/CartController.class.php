@@ -48,6 +48,12 @@ class CartController extends BaseController {
 			$orderLogic->updateOrder($orderUpdate, $order['orderId']);
 			$this->redirect('Cart/delivery');
 		}
+		$countryArray = array();
+		foreach(C('COUNTRY_LIST') as $key=>$value){
+			$tmpArray = array('code'=>$key, 'display'=>L($value));
+			array_push($countryArray, $tmpArray);
+		}
+		$this->assign('countryList', $countryArray);
 		$this->display();
 	}
 	
@@ -81,7 +87,7 @@ class CartController extends BaseController {
 			$shipppingAddress = D("ShippingAddress", "Logic");
 			$shipppingAddress->unsetDefault($this->getCurrentUserId());
 			$shipppingAddress->setDefault($this->getCurrentUserId(), $addressId);
-			$this->redirect('Payment/index', array('orderNumber' => $orderNumber));
+			$this->redirect('Payment/index', array('orderNumber' => $orderNumber, 'addressId'=>$addressId));
 		}
 	}
 

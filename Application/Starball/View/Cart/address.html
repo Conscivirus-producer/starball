@@ -33,6 +33,14 @@
 					<input name="city" value="{$data.city}"  class="am-form-field" placeholder="城镇／城市＊" />
 				</div>
 				<div style="margin-bottom: 10px">
+					<select data-am-selected="{btnWidth: '100%', btnSize: 'sm'}" name="country">
+						<option value="none" selected>国家*</option>
+						<volist name="countryList" id="vo">
+						  	<option value="{$vo.code}">{$vo.display}</option>
+						</volist>
+					</select>
+				</div>				
+				<div style="margin-bottom: 10px">
 					<input name="phone" value="{$data.phone}" class="am-form-field" placeholder="Mobile＊" />
 				</div>
 				<textarea name="moreDetails" value="{$data.moreDetails}" placeholder="更多细节"></textarea>

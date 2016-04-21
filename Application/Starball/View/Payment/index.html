@@ -5,18 +5,65 @@
 </block>
 <block name="main">
 	<include file="Public/cartcommon" />
-	
-	<div class="am-g">
-  <div class="am-u-sm-3"></div>
-  <div class="am-u-sm-9">
-  	<div>订单已经生成,订单号为  <strong>{$orderNumber}</strong>  请您选择支付渠道</div>
-  </br>
-  	<div>
-  		<input type="hidden" value="{$orderNumber}" id="orderNumber"/>
-	<button type="button" class="am-btn am-btn-default" id="wxPay" onclick="">微信</button>
-  	</div>
-</div>
-</div>
+	<form role="form" method="post" action="submitOrder">
+	<div class="yu-cart-content am-kai">
+		<div class="cart-items am-u-md-8  am-padding-0">
+			<div class="am-panel am-panel-default">
+				<div class="am-panel-hd">配送和支付信息</div>
+				<div class="am-panel-bd">
+						<div class="address">
+							<h3>收货地址</h3>
+							<div style="width:100%; padding: 0px 0px 0px 0px"><span>{$addressInfo.addressName}</span></div>
+							<div style="width:100%; padding: 0px 15px 0px 0px"><span>{$addressInfo.contactName}</span></div>
+							<div style="width:100%; padding: 0px 15px 0px 0px"><span>{$addressInfo.address}</span></div>
+							<div style="width:100%; padding: 0px 15px 0px 0px"><span>{$addressInfo.postCode} {$vo.city}</span></div>
+							<div style="width:100%; padding: 0px 15px 0px 0px"><span>{$addressInfo.country}</span></div>
+						</div>
+				</div>
+			</div>
+			<div class="am-panel am-panel-default">
+				<div class="am-panel-hd">付款方式</div>
+				<div class="am-panel-bd">
+  					<input type="hidden" value="{$orderNumber}" id="orderNumber"/>
+					<button type="button" class="am-btn am-btn-default" id="wxPay" onclick="">微信</button>
+					<button type="button" class="am-btn am-btn-default" id="aliPay" onclick="">支付宝</button>
+				</div>
+			</div>
+		</div>
+		<div class="cart-others am-u-md-4" style="margin-top: 10px">
+			<div class="am-panel am-panel-default">
+				<div class="am-panel-hd">购物车({$shoppingList.totalItemCount})</div>
+				<div class="am-panel-bd am-padding-0" style="font-size: 13px;">
+					<div style="background-color:#F8F8F8;">
+						<div style="width:100%; padding: 15px 15px 0px 15px"><span>我的购买记录</span><span style="float: right">{$priceSymbol}{$shoppingList.totalAmount}</span></div>
+						<div style="width:100%; padding: 5px 15px 5px 15px"><span>运费</span><span style="float: right">0</span></div>
+						<div style="width:100%; padding: 5px 15px 5px 15px"><span>礼品包装费用</span><span style="float: right">0</span></div>
+						<div style="width:100%; padding: 0px 15px 15px 15px"><span>我的订单总额</span><span style="float: right">{$priceSymbol}{$shoppingList.totalAmount}</span></div>
+					</div>
+					<div style="width:100%; border-top: 1px solid #CECECE; border-bottom: 1px solid #CECECE;padding: 15px"><span style="font-size: 14px">支付总额</span><span style="font-size: 14px;float:right">{$priceSymbol}{$shoppingList.totalAmount}</span></div>
+					<div style="width:100%;text-align: center;background-color:#F8F8F8">
+						<button type="submit" style="width: 90%; height: 40px;margin:10px; background-color:black; color: white;border: 0;">提交订单</button>
+					</div>
+					<div style="clear: both"></div>
+				</div>
+			</div>
+			<div class="am-panel am-panel-default" style="margin-top:15px">
+				<div class="am-panel-hd"><icon class="am-icon-info"></icon> 关税</div>
+				<div class="am-panel-bd" style="font-size: 13px">
+					当您收取货物时，没有任何额外费用！
+				</div>
+			</div>
+			<div class="am-panel am-panel-default" style="margin-top:15px">
+				<div class="am-panel-hd">需要帮助吗？</div>
+				<div class="am-panel-bd" style="font-size: 13px">
+					<span class="am-icon-clock-o">查看我们的配送时间</span><br/>
+					<span class="am-icon-black-tie">查看我们的退货政策</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	</form>
+	<div style="clear: both;"></div>
 </block>
 <block name="customizedJavascript">
 	<script>

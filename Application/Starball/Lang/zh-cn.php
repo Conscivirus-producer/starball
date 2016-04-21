@@ -25,4 +25,8 @@ return array(
     'size'=>'大小',
     'recentShoppingList'=>'最近加入的宝贝',
     'totalAmount'=>'总金额',
+    
+	//国家/地区名字
+	'china'=>'中国',
+	'hk'=>'香港'
 );

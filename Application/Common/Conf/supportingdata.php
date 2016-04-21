@@ -51,7 +51,7 @@ return array(
 		'order' => array('url'=>'User/index', 'params'=>array('tab' => 'order')),
 		'coupon' => array('url'=>'User/index', 'params'=>array('tab' => 'coupon')),
 		'giftcard' => array('url'=>'User/index', 'params'=>array('tab' => 'giftcard')),
-		'shoppinglist' => array('url'=>'Cart/delivery', 'params'=>array()),
+		'shoppinglist' => array('url'=>'Cart/index', 'params'=>array()),
 		'home' => array('url'=>'Home/index', 'params'=>array()),
 	),
 	//默认语言汇率设置
@@ -62,5 +62,10 @@ return array(
 	'SESSION_KEYS' => array(
 		'userName' => 'starballkids_userName',
 		'userId' => 'starballkids_userId',
+	),
+	'COUNTRY_LIST' => array(
+		//代码,语言key
+		'cn'=>'china',
+		'hk'=>'hk'
 	)
 );
