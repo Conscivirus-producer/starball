@@ -1,535 +1,589 @@
 <header class="am-topbar yu-no-border" id="headerArea">
-	<div class="yu-header-container">
-		<!-- small screen left button -->
-		<button class="yu-offcanvas am-show-sm-only am-icon-bars am-btn am-btn-default" data-am-offcanvas="{target: '#left-offcanvas', effect: 'push'}"></button>
-		<div id="left-offcanvas" class="am-offcanvas">
-			<div class="am-offcanvas-bar">
-				<div class="am-offcanvas-content am-kai yu-offcanvas-content-adjustor">
-					<div >
-						<ul class="am-padding-0 yu-top-margin-039">
-							<i class="am-icon-shopping-bag am-icon-defeault am-text-xs"></i>&nbsp; <a href="##"> {$Think.lang.myshoppinglist} </a>
-						</ul>
-						<ul class="am-padding-0">
-							<i class="am-icon-user am-icon-defeault am-text-xs"></i>&nbsp;&nbsp; <a href="##"> {$Think.lang.myaccount} </a>
-						</ul>
-						<ul class="am-padding-0">
-							<i class="am-icon-heart am-icon-defeault am-text-xs"></i>&nbsp; <a href="##"> {$Think.lang.myfavorite} </a>
-						</ul>
-					</div>
-					<hr data-am-widget="divider"  class="am-divider am-divider-default am-no-layout">
-					<div>
-						<ul class="am-padding-0 yu-top-margin-039">
-							&nbsp; <a href="##"> {$Think.lang.home} </a>
-						</ul>
-						<ul class="am-padding-0">
-							&nbsp; <a href="##" data-am-collapse="{target: '#collapse-list-new'}"> {$Think.lang.newseries} <i class="am-icon-angle-right" style="float:right"></i> </a>
-							<ul id="collapse-list-new" class="am-collapse">
-								<li style="list-style-type:none;">
-									<a href="{:U('Starball/List/showList','by=time&byValue=7')}">{$Think.lang.lastsevenday}</a>
-								</li>
-								<li style="list-style-type:none;">
-									<a href="{:U('Starball/List/showList','by=time&byValue=28')}">{$Think.lang.lastfourweek}</a>
-								</li>
-								<li style="list-style-type:none;">
-									<a href="{:U('Starball/List/showList','by=time&byValue=180')}">{$Think.lang.commingsoon}</a>
-								</li>
-							</ul>
-						</ul>
-						<ul class="am-padding-0">
-							&nbsp; <a href="##" data-am-collapse="{target: '#collapse-list-brand'}"> {$Think.lang.brand} <i class="am-icon-angle-right" style="float:right"></i></a>
-							<ul id="collapse-list-brand" class="am-collapse">
-								<volist name="brandList" id="vo">
-									<li style="list-style-type: none;">
-										<a href="{:U('Starball/List/showList',array('by'=>'brand','byValue'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
-									</li>
-								</volist>
-							</ul>
-						</ul>
-						<ul class="am-padding-0">
-							&nbsp; <a href="##"> {$Think.lang.baby} </a>
-						</ul>
-						<ul class="am-padding-0">
-							&nbsp; <a href="##"> {$Think.lang.girl} </a>
-						</ul>
-						<ul class="am-padding-0">
-							&nbsp; <a href="##"> {$Think.lang.boy} </a>
-						</ul>
-						<ul class="am-padding-0">
-							&nbsp; <a href="##"> {$Think.lang.sales} </a>
-						</ul>
-						<ul class="am-padding-0">
-							&nbsp; <a href="##"> {$Think.lang.featured} </a>
-						</ul>
-						<ul class="am-padding-0">
-							&nbsp; <a href="##"> {$Think.lang.clothingmatch} </a>
-						</ul>
-						<hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-l ayout">
-					</div>
-				</div>
-			</div>
-		</div>
-		<!--small screen logo -->
-			<div class="am-show-sm-only">
-				<div class="am-u-sm-8 am-u-sm-push-1">
-					<img class="am-img-responsive yu-margin-left30" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/starballlogo2.jpeg">
-				</div>
-			</div>
-		<!--small screen right button -->
-		<button class="yu-right-menubutton am-show-sm-only am-icon-shopping-bag am-btn am-btn-default am-margin-right-0" data-am-offcanvas="{target: '#right-offcanvas', effect: 'pull'}"></button>
-		<div id="right-offcanvas" class="am-offcanvas">
-			<div class="am-offcanvas-bar am-offcanvas-bar-flip">
-				test
-			</div>
-		</div>	
-		<div class="am-g">
-			<!-- gloablozation in mdup screen -->
-			<div class="am-u-md-4 am-show-md-up am-padding-0">
-				<ol class="am-breadcrumb am-kai yu-left yu-mduplefttop-adjustor">
-					<li class="am-dropdown" data-am-dropdown="">
-						<a class="am-dropdown-toggle am-text-xs yu-text-black" data-am-dropdown-toggle="" href="javascript:;"style="padding-left:15px;" >
-						<if condition="strtolower(cookie('think_language')) == 'zh-tw'">
-							繁体中文
-							<else/>
-							简体中文
-						</if></a>
-						<ul class="am-dropdown-content">
-							<li>
-								<a href="?l=zh-cn">简体中文</a>
-							</li>
-							<li>
-								<a href="?l=zh-tw">繁体中文</a>
-							</li>
-						</ul>
-					</li>
-					<li class="am-dropdown" data-am-dropdown="">
-						<a class="am-dropdown-toggle am-text-xs yu-text-black" data-am-dropdown-toggle="" href="javascript:;"style="padding-left:15px;" >
-						<if condition="cookie('preferred_currency') == 'CNY'">
-							CNY
-							<else/>
-							HKD
-						</if></a>
-						<ul class="am-dropdown-content">
-							<li>
-								<a href="?currency=CNY">CNY</a>
-							</li>
-							<li>
-								<a href="?currency=HKD">HKD</a>
-							</li>
-						</ul>
-					</li>
-				</ol>
-			</div>
-			
-			<!-- login dropdowns -->
-			<div class="am-u-md-5 am-show-md-up am-padding-right-0 yu-mduprighttop-adjustor">
-				<ol class="am-breadcrumb am-kai am-margin-bottom-0">
-					<li class="am-dropdown" data-am-dropdown="">
-						<!-- dropdown button -->
-						<a class="am-dropdown-toggle am-text-xs yu-text-black" id="myAccountLnk" href="javascript:;">
-							<if condition="session('starballkids_userName') != ''">
-								<?php echo session('starballkids_userName');?>
-								<else />
-								{$Think.lang.myaccount}
-							</if>
-						</a>
-						<!-- dropdown content 1 -->
-						<ul id="myAccountWindow" class="am-dropdown-content am-padding-bottom-0">
-							<if condition="session('starballkids_userName') != ''">
-								<else />
-								<button type="button" id="loginBtn" class="am-btn am-btn-default yu-login-button-adjustor">
-									登录
-								</button>
-								<a class="am-btn am-btn-link yu-newaccount" id="registerLnk" href="#">新客户创建一个账户</a>
-								<li class="am-divider"></li>
-							</if>
-							<li>
-								<a href="{:U('Starball/User/index', array('tab'=>'account'))}">{$Think.lang.myaccount}</a>
-							</li>
-							<li class="am-divider"></li>
-							<li>
-								<a href="{:U('Starball/User/index', array('tab'=>'order'))}">我的订单</a>
-							</li>
-							<li class="am-divider"></li>
-							<li>
-								<a href="{:U('Starball/User/index', array('tab'=>'order'))}">退货</a>
-							</li>
-							<li class="am-divider"></li>
-							<li>
-								<a href="{:U('Starball/User/index', array('tab'=>'coupon'))}">我的优惠券</a>
-							</li>
-							<li class="am-divider"></li>
-							<li>
-								<a href="{:U('Starball/User/index', array('tab'=>'giftcard'))}">我的礼品卡</a>
-							</li>
-							<if condition="session('starballkids_userName') != ''">
-								<form class="am-form am-form-horizontal" role="form" method="post">
-									<input type="hidden" name="method" value="logout">
-									<button type="submit" class="am-btn am-btn-default yu-login-button-adjustor">
-										退出
-									</button>
-								</form>
-							</if>
-						</ul>
-						<!-- dropdown content2 -->
-						<ul class="am-dropdown-content" id="loginWindow" style="display: none">
-							<p class="yu-login-title">
-								登录
-							</p>
-							<form class="am-form am-form-horizontal" role="form" method="post">
-								<input type="hidden" name="method" value="login">
-								<div class="am-form-group yu-margin-0612" >
-									<input name="userName" class="yu-font-12 am-form-field yu-input-sm" placeholder="用户名/电子邮件">
-								</div>
+    <div class="yu-header-container">
+        <!-- small screen left button -->
+        <button class="yu-offcanvas am-show-sm-only am-icon-bars am-btn am-btn-default" data-am-offcanvas="{target: '#left-offcanvas', effect: 'push'}"></button>
+        <div id="left-offcanvas" class="am-offcanvas">
+            <div class="am-offcanvas-bar">
+                <div class="am-offcanvas-content am-kai yu-offcanvas-content-adjustor">
+                    <div >
+                        <ul class="am-padding-0 yu-top-margin-039">
+                            <i class="am-icon-shopping-bag am-icon-defeault am-text-xs"></i>&nbsp; <a href="##"> {$Think.lang.myshoppinglist} </a>
+                        </ul>
+                        <ul class="am-padding-0">
+                            <i class="am-icon-user am-icon-defeault am-text-xs"></i>&nbsp;&nbsp; <a href="##"> {$Think.lang.myaccount} </a>
+                        </ul>
+                        <ul class="am-padding-0">
+                            <i class="am-icon-heart am-icon-defeault am-text-xs"></i>&nbsp; <a href="##"> {$Think.lang.myfavorite} </a>
+                        </ul>
+                    </div>
+                    <hr data-am-widget="divider"  class="am-divider am-divider-default am-no-layout">
+                    <div>
+                        <ul class="am-padding-0 yu-top-margin-039">
+                            &nbsp; <a href="##"> {$Think.lang.home} </a>
+                        </ul>
+                        <ul class="am-padding-0">
+                            &nbsp; <a href="##" data-am-collapse="{target: '#collapse-list-new'}"> {$Think.lang.newseries} <i class="am-icon-angle-right" style="float:right"></i> </a>
+                            <ul id="collapse-list-new" class="am-collapse">
+                                <li style="list-style-type:none;">
+                                    <a href="{:U('Starball/List/showList','by=time&byValue=7')}">{$Think.lang.lastsevenday}</a>
+                                </li>
+                                <li style="list-style-type:none;">
+                                    <a href="{:U('Starball/List/showList','by=time&byValue=28')}">{$Think.lang.lastfourweek}</a>
+                                </li>
+                                <li style="list-style-type:none;">
+                                    <a href="{:U('Starball/List/showList','by=time&byValue=180')}">{$Think.lang.commingsoon}</a>
+                                </li>
+                            </ul>
+                        </ul>
+                        <ul class="am-padding-0">
+                            &nbsp; <a href="##" data-am-collapse="{target: '#collapse-list-brand'}"> {$Think.lang.brand} <i class="am-icon-angle-right" style="float:right"></i></a>
+                            <ul id="collapse-list-brand" class="am-collapse">
+                                <volist name="brandList" id="vo">
+                                    <li style="list-style-type: none;">
+                                        <a href="{:U('Starball/List/showList',array('by'=>'brand','byValue'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
+                                    </li>
+                                </volist>
+                            </ul>
+                        </ul>
+                        <ul class="am-padding-0">
+                            &nbsp; <a href="##"> {$Think.lang.baby} </a>
+                        </ul>
+                        <ul class="am-padding-0">
+                            &nbsp; <a href="##"> {$Think.lang.girl} </a>
+                        </ul>
+                        <ul class="am-padding-0">
+                            &nbsp; <a href="##"> {$Think.lang.boy} </a>
+                        </ul>
+                        <ul class="am-padding-0">
+                            &nbsp; <a href="##"> {$Think.lang.sales} </a>
+                        </ul>
+                        <ul class="am-padding-0">
+                            &nbsp; <a href="##"> {$Think.lang.featured} </a>
+                        </ul>
+                        <ul class="am-padding-0">
+                            &nbsp; <a href="##"> {$Think.lang.clothingmatch} </a>
+                        </ul>
+                        <hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-l ayout">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--small screen logo -->
+        <div class="am-show-sm-only">
+            <div class="am-u-sm-8 am-u-sm-push-1">
+                <img class="am-img-responsive yu-margin-left30" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/starballlogo2.jpeg">
+            </div>
+        </div>
+        <!--small screen right button -->
+        <button class="yu-right-menubutton am-show-sm-only am-icon-shopping-bag am-btn am-btn-default am-margin-right-0" data-am-offcanvas="{target: '#right-offcanvas', effect: 'pull'}"></button>
+        <div id="right-offcanvas" class="am-offcanvas">
+            <div class="am-offcanvas-bar am-offcanvas-bar-flip">
+                test
+            </div>
+        </div>
+        <div class="am-g">
+            <!-- gloablozation in mdup screen -->
+            <div class="am-u-md-4 am-show-md-up am-padding-0">
+                <ol class="am-breadcrumb am-kai yu-left yu-mduplefttop-adjustor">
+                    <li class="am-dropdown" data-am-dropdown="">
+                        <a class="am-dropdown-toggle am-text-xs yu-text-black" data-am-dropdown-toggle="" href="javascript:;"style="padding-left:15px;" >
+                        <if condition="strtolower(cookie('think_language')) == 'zh-tw'">
+                            繁体中文
+                            <else/>
+                            简体中文
+                        </if></a>
+                        <ul class="am-dropdown-content">
+                            <li>
+                                <a href="?l=zh-cn">简体中文</a>
+                            </li>
+                            <li>
+                                <a href="?l=zh-tw">繁体中文</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="am-dropdown" data-am-dropdown="">
+                        <a class="am-dropdown-toggle am-text-xs yu-text-black" data-am-dropdown-toggle="" href="javascript:;"style="padding-left:15px;" >
+                        <if condition="cookie('preferred_currency') == 'CNY'">
+                            CNY
+                            <else/>
+                            HKD
+                        </if></a>
+                        <ul class="am-dropdown-content">
+                            <li>
+                                <a href="?currency=CNY">CNY</a>
+                            </li>
+                            <li>
+                                <a href="?currency=HKD">HKD</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
 
-								<div class="am-form-group yu-margin-0612">
-									<input type="password" name="password" class="yu-font-12 am-form-field yu-input-sm" placeholder="密码">
-								</div>
+            <!-- login dropdowns -->
+            <div class="am-u-md-5 am-show-md-up am-padding-right-0 yu-mduprighttop-adjustor">
+                <ol class="am-breadcrumb am-kai am-margin-bottom-0">
+                    <li class="am-dropdown" data-am-dropdown="">
+                        <!-- dropdown button -->
+                        <a class="am-dropdown-toggle am-text-xs yu-text-black" id="myAccountLnk" href="javascript:;">
+                        <if condition="session('starballkids_userName') != ''">
+                            <?php echo session('starballkids_userName');?>
+                            <else />
+                            {$Think.lang.myaccount}
+                        </if> </a>
+                        <!-- dropdown content 1 -->
+                        <ul id="myAccountWindow" class="am-dropdown-content am-padding-bottom-0">
+                            <if condition="session('starballkids_userName') != ''">
+                                <else />
+                                <button type="button" id="loginBtn" class="am-btn am-btn-default yu-login-button-adjustor">
+                                    登录
+                                </button>
+                                <a class="am-btn am-btn-link yu-newaccount" id="registerLnk" href="#">新客户创建一个账户</a>
+                                <li class="am-divider"></li>
+                            </if>
+                            <li>
+                                <a href="{:U('Starball/User/index', array('tab'=>'account'))}">{$Think.lang.myaccount}</a>
+                            </li>
+                            <li class="am-divider"></li>
+                            <li>
+                                <a href="{:U('Starball/User/index', array('tab'=>'order'))}">我的订单</a>
+                            </li>
+                            <li class="am-divider"></li>
+                            <li>
+                                <a href="{:U('Starball/User/index', array('tab'=>'order'))}">退货</a>
+                            </li>
+                            <li class="am-divider"></li>
+                            <li>
+                                <a href="{:U('Starball/User/index', array('tab'=>'coupon'))}">我的优惠券</a>
+                            </li>
+                            <li class="am-divider"></li>
+                            <li>
+                                <a href="{:U('Starball/User/index', array('tab'=>'giftcard'))}">我的礼品卡</a>
+                            </li>
+                            <if condition="session('starballkids_userName') != ''">
+                                <form class="am-form am-form-horizontal" role="form" method="post">
+                                    <input type="hidden" name="method" value="logout">
+                                    <button type="submit" class="am-btn am-btn-default yu-login-button-adjustor">
+                                        退出
+                                    </button>
+                                </form>
+                            </if>
+                        </ul>
+                        <!-- dropdown content2 -->
+                        <ul class="am-dropdown-content" id="loginWindow" style="display: none">
+                            <p class="yu-login-title">
+                                登录
+                            </p>
+                            <form class="am-form am-form-horizontal" role="form" method="post">
+                                <input type="hidden" name="method" value="login">
+                                <div class="am-form-group yu-margin-0612" >
+                                    <input name="userName" class="yu-font-12 am-form-field yu-input-sm" placeholder="用户名/电子邮件">
+                                </div>
 
-								<a class="am-btn am-btn-link yu-forget-pwd">忘记密码？</a>
-								<div class="am-checkbox yu-rm-me">
-									<label class="yu-font-12">
-										<input type="checkbox"  style="margin-top:4.2px;">
-										记住我 </label>
-								</div>
+                                <div class="am-form-group yu-margin-0612">
+                                    <input type="password" name="password" class="yu-font-12 am-form-field yu-input-sm" placeholder="密码">
+                                </div>
 
-								<button type="submit" class="am-btn am-btn-default yu-login-button-adjustor">
-									登录
-								</button>
+                                <a class="am-btn am-btn-link yu-forget-pwd">忘记密码？</a>
+                                <div class="am-checkbox yu-rm-me">
+                                    <label class="yu-font-12">
+                                        <input type="checkbox"  style="margin-top:4.2px;">
+                                        记住我 </label>
+                                </div>
+
+                                <button type="submit" class="am-btn am-btn-default yu-login-button-adjustor">
+                                    登录
+                                </button>
                                 <div class="yu-otherlogin yu-margin-126">
                                     <span class="yu-seperate"></span>
                                     <span class="yu-text-or">或</span>
                                 </div>
-								<a class="am-btn am-btn-link yu-newaccount-1" id="registerLnkFromLogin"  href="##">新客户创建一个账户</a>
+                                <a class="am-btn am-btn-link yu-newaccount-1" id="registerLnkFromLogin"  href="##">新客户创建一个账户</a>
 
-							</form>
-						</ul>
-						
-						<!-- dropdown content3 -->
-						<ul id="registerWindow" style="display: none" class="am-dropdown-content">
-							<p class="yu-login-title">
-								创建一个账户
-							</p>
-							<form class="am-form am-form-horizontal" role="form" method="post" >
-								<input type="hidden" name="method" value="register">
-								<div class="am-form-group yu-margin-0612">
-									<input type="email" name="email" style="font-size:12px;" class="am-form-field yu-input-sm" placeholder="电子邮件*">
-								</div>
-								<div class="am-form-group yu-margin-0612">
-									<input type="password" name="password" class="am-form-field yu-input-sm" placeholder="密码*">
-								</div>
-								<div class="am-form-group yu-margin-0612">
-									<input type="password" class="am-form-field yu-input-sm" placeholder="确认您的密码*">
-								</div>
-								<div class="am-form-group yu-margin-0612">
+                            </form>
+                        </ul>
+
+                        <!-- dropdown content3 -->
+                        <ul id="registerWindow" style="display: none" class="am-dropdown-content">
+                            <p class="yu-login-title">
+                                创建一个账户
+                            </p>
+                            <form class="am-form am-form-horizontal" role="form" method="post" >
+                                <input type="hidden" name="method" value="register">
+                                <div class="am-form-group yu-margin-0612">
+                                    <input type="email" name="email" style="font-size:12px;" class="am-form-field yu-input-sm" placeholder="电子邮件*">
+                                </div>
+                                <div class="am-form-group yu-margin-0612">
+                                    <input type="password" name="password" class="am-form-field yu-input-sm" placeholder="密码*">
+                                </div>
+                                <div class="am-form-group yu-margin-0612">
+                                    <input type="password" class="am-form-field yu-input-sm" placeholder="确认您的密码*">
+                                </div>
+                                <div class="am-form-group yu-margin-0612">
                                     <input type="text" name="userName" class="am-form-field yu-input-sm" placeholder="昵称">
                                 </div>
-								<div class="am-form-group yu-margin-0612">
-									<input type="text" name="mobile" class="am-form-field yu-input-sm" placeholder="联络号码">
-								</div>
-								<div class="am-checkbox yu-checkbox-adjustor">
-									<label style="font-size:12px;">
-										<input type="checkbox" style="margin-top:4.2px;">
-										我希望订阅starball新闻咨询和特价优惠信息 </label>
-								</div>
+                                <div class="am-form-group yu-margin-0612">
+                                    <input type="text" name="mobile" class="am-form-field yu-input-sm" placeholder="联络号码">
+                                </div>
+                                <div class="am-checkbox yu-checkbox-adjustor">
+                                    <label style="font-size:12px;">
+                                        <input type="checkbox" style="margin-top:4.2px;">
+                                        我希望订阅starball新闻咨询和特价优惠信息 </label>
+                                </div>
 
-								<button type="submit" class="am-btn am-btn-default yu-login-button-adjustor">
-									立即注册
-								</button>
-								<div class="yu-otherlogin yu-margin-126">
+                                <button type="submit" class="am-btn am-btn-default yu-login-button-adjustor">
+                                    立即注册
+                                </button>
+                                <div class="yu-otherlogin yu-margin-126">
                                     <span class="yu-seperate"></span>
                                     <span class="yu-text-or">或</span>
                                 </div>
-							</form>
-						</ul>
-					</li>
-					
-					<!-- myfavorite dropdown -->
-					<li class="am-dropdown"data-am-dropdown="">
-						<a class="am-dropdown-toggle am-text-xs yu-text-black" data-am-dropdown-toggle href="javascript:"style="padding-left:6px">{$Think.lang.myfavorite}</a>
-						<ul class="am-dropdown-content yu-dropdown-content-contanier">
-							<li>
-								<a href="#" class="item-panier">
-									<img alt="Mini Me Choupette猫咪印图T恤" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/karl-lagerfeld-kids-t-1446712438-p_l_157397_A.jpg" class="item-photo-adjustor" >
-									<span class="content-item-panier"><span class="title-item-panier">Karl Lagerfeld Kids</span><span class="subtitle-item-panier">Mini Me Choupette猫咪印图T恤 </span></span> 
-								</a>
-							</li>
-							<li class="am-divider"></li>
-							<button type="button" class="am-btn am-btn-default yu-check-button-adjustor">
-								查看我的收藏
-							</button>
-						</ul>
-					</li>
-					
-					<!-- myshoppingcart dropdown  -->
-					<li class="am-dropdown" data-am-dropdown="">
-						<a id="myShoppingListLnk" class="am-dropdown-toggle am-icon-shopping-bag am-text-xs yu-text-black" data-am-dropdown-toggle href="javascript:"style="padding-left:6px">{$Think.lang.myshoppinglist}</a>
-						<ul class="am-dropdown-content yu-dropdown-content-contanier" id="ulMyShoppingList">
-							<eq name="shoppingListCount" value="0">
-								<div class="empty-list">
-								<div style="margin-top: 25px;">您的购物袋为空</div>
-								</div>
-							<else/>
-								<div class="scroll-item-list">
-									<strong>{$Think.lang.recentShoppingList}</strong>
-								</div>
-								<li class="am-divider"></li>
-								<volist name="shoppingListItems" id="vo" offset="0" length='3'>
-									<gt name="vo['quantity']" value="0">
-									<li>
-										<a href="{:U('Starball/Item/index','itemId='.$vo['itemId'])}" class="item-panier"> <img alt="{$vo.itemName}" src="{$vo.itemImage}?imageView2/1/w/100/h/100/q/100" class="item-photo-adjustor"> 
-											<span class="content-item-panier"> <span class="title-item-panier">{$vo.brandName}</span> <span class="subtitle-item-panier">{$vo.itemName}</span> 
-											<span class="yu-size-container"> <span class="" style="text-transform: none;"> 尺码： <span class="am-sans-serif"style="font-weight:bold;">{$vo.sizeDescription}</span> </span> <span class="" style="float:right"> 数量： <span class="">{$vo.quantity}</span> </span> <span class="am-sans-serif yu-item-price"> <span> {$priceSymbol}&nbsp;{$vo.price} </span> </span> </span> </span> </a>
-									</li>
-									<li class="am-divider"></li>
-									</gt>
-								</volist>
-								
-								<li style="margin:0;">
-									<div id="" class="yu-total-price-panier">
-										<span class="">总金额： </span>
-										<span class="am-sans-serif value-total-price" >{$priceSymbol}&nbsp; {$shoppingList.totalAmount}</span>
-									</div>
-								</li>
-								<li class="am-divider"></li>
-								<button  id="myShoppingCart" type="button" class="am-btn am-btn-default yu-button-333 yu-check-button-adjustor" onclick="window.location.href='{:U('Starball/Cart/index')}'">
-									查看我的购物袋
-								</button>
-							</eq>
-						</ul>
-					</li>
-				</ol>
-			</div>
-		</div>
-		
-		<!-- logo and mdup search and ScrollSpyNav -->
-		<div class="am-g am-show-md-up yu-header">
-			<div class="am-u-md-3 am-u-lg-3 yu-mduplogo-adjustor">
-				<a href="{:U('Home/index')}" class="login-img"></a>
-			</div>
-			<div class="am-u-md-4 am-kai yu-mdupsearch-adjustor">
-				<div class="am-input-group am-input-group-sm">
-					<input type="text" class="am-form-field" placeholder="搜索">
-					<span class="am-input-group-btn">
-						<button class="am-btn am-btn-default" type="button">
-							<span class="am-icon-search"></span>
-						</button> 
-					</span>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- menu -->
-		<div id="subMenuListDiv" class="am-g yu-menu-list">
-			<nav class="yu-nav  am-u-lg-12 am-u-md-12 am-show-md-up am-kai scrollspy-nav" data-am-scrollspy-nav="{offsetTop: 45}" data-am-sticky>
-				<div class="yu-scroll-bg">
-					<div class="yu-menu-adj">
-						<ul class="am-avg-md-7 am-show-md-up yu-menu-content">
-							<li>
-								<a class="yu-menu yu-text-black" id="new" style="margin-right: 21px;">{$Think.lang.newseries}</a>
-							</li>
-							<li>
-								<a class="yu-menu yu-text-black" id="brand"  style=" margin: 0 21px;">{$Think.lang.brand}</a>
-							</li>
-							<li>
-								<a class="yu-menu yu-text-black" id="baby" style=" margin: 0 21px;">{$Think.lang.baby}</a>
-							</li>
-							<li>
-								<a class="yu-menu yu-text-black" id="girl" style=" margin: 0 21px;">{$Think.lang.girl}</a>
-							</li>
-							<li style="text-align: center;">
-								<a class="yu-menu yu-text-black" id="boy" style="margin-right:30px;">{$Think.lang.boy}</a>
-							</li>
-							<li style="text-align: center;">
-								<a class="yu-menu yu-text-black" id="selected" style="margin: 0 21px;">{$Think.lang.featured}</a>
-							</li>
-							<li style="text-align:right;">
-								<a class="yu-menu yu-text-black" id="special">{$Think.lang.clothingmatch}</a>
-							</li>
-						</ul>
-						<!--sub menus -->
-						<div  class="yu-sub-menu am-kai am-u-md-12 new">
-							<div class="am-u-md-3 am-u-md-offset-1 yu-sub-menu-list">
-								<div class="am-u-md-12 am-margin-0 am-padding-0">
-									{$Think.lang.bytime}
-								</div>
-								<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
-								<div class="am-u-md-12 am-icon-angle-right am-margin-0 am-padding-0">
-									<a href="{:U('Starball/List/showList','by=time&byValue=7')}">{$Think.lang.lastsevenday}</a>
-								</div>
-								<div class="am-u-md-12 am-icon-angle-right am-margin-0 am-padding-0">
-									<a href="{:U('Starball/List/showList','by=time&byValue=28')}">{$Think.lang.lastfourweek}</a>
-								</div>
-								<div class="am-u-md-12 am-icon-angle-right am-margin-0 am-padding-0">
-									<a href="{:U('Starball/List/showList','by=time&byValue=180')}">{$Think.lang.commingsoon}</a>
-								</div>
-							</div>
-							<div class="am-u-md-7 am-u-end">
-								<img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/sub-menu-img.jpg" />
-								<div class="yu-sub-menu-img-title am-text-center">
-									新系列<br/>ARMANI JUNIOR 2016
-								</div>
-							</div>
-						</div>
-						<div  class="yu-sub-menu am-kai am-u-md-12 brand">
-							<div class="am-u-md-3 am-u-md-offset-1 yu-sub-menu-list">
-								<div class="am-u-md-12 am-margin-0 am-padding-0">
-									{$Think.lang.brand}
-								</div>
-								<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
-								<ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
-									<volist name="brandList" id="vo">
-										<li class="">
-											<a href="{:U('Starball/List/showList',array('by'=>'brand','byValue'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
-										</li>
-									</volist>
-								</ul>
-							</div>
-							<div class="am-u-md-7 am-u-end">
-								<img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/sub-menu-img.jpg" />
-								<div class="yu-sub-menu-img-title am-text-center">
-									新系列<br/>ARMANI JUNIOR 2016
-								</div>
-							</div>
-						</div>
-						
-						<div  class="yu-sub-menu am-kai am-u-md-12 baby">
-							<div class="am-u-md-3 am-u-md-offset-1 yu-sub-menu-list">
-								<div class="am-u-md-5 menu-sub-block am-margin-0 am-padding-0">
-									<div class="am-u-md-12 am-margin-0 am-padding-0">
-										{$Think.lang.brand}
-									</div>
-									<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
-									<ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
-										<volist name="babyMenuBrand" id="vo">
-											<li class="">
-												<a href="{:U('Starball/List/showList',array('by'=>'baby', 'byValue'=>'brand', 'brands'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
-											</li>
-										</volist>
-									</ul>
-								</div>
-								<div class="am-u-md-5 menu-sub-block am-margin-0 am-padding-0 am-u-md-offset-1">
-									<div class="am-u-md-12 am-margin-0 am-padding-0">
-										{$Think.lang.category}
-									</div>
-									<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
-									<ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
-										<volist name="babyMenuCategory" id="vo">
-											<li class="">
-												<a href="{:U('Starball/List/showList',array('by'=>'baby', 'byValue'=>'category', 'categories'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
-											</li>
-										</volist>
-									</ul>
-								</div>
-							</div>
-							<div class="am-u-md-7 am-u-end">
-								<img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/sub-menu-img.jpg" />
-								<div class="yu-sub-menu-img-title am-text-center">
-									新系列<br/>ARMANI JUNIOR 2016
-								</div>
-							</div>
-						</div>
-						
-						<div  class="yu-sub-menu am-kai am-u-md-12 girl">
-							<div class="am-u-md-3 am-u-md-offset-1 yu-sub-menu-list">
-								<div class="am-u-md-5 menu-sub-block am-margin-0 am-padding-0">
-									<div class="am-u-md-12 am-margin-0 am-padding-0">
-										{$Think.lang.brand}
-									</div>
-									<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
-									<ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
-										<volist name="girlMenuBrand" id="vo">
-											<li class="">
-												<a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>'brand', 'brands'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
-											</li>
-										</volist>
-									</ul>
-								</div>
-								<div class="am-u-md-5 menu-sub-block am-margin-0 am-padding-0 am-u-md-offset-1">
-									<div class="am-u-md-12 am-margin-0 am-padding-0">
-										{$Think.lang.category}
-									</div>
-									<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
-									<ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
-										<volist name="girlMenuCategory" id="vo">
-											<li class="">
-												<a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>'category', 'categories'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
-											</li>
-										</volist>
-									</ul>
-								</div>
-							</div>
-							<div class="am-u-md-7 am-u-end">
-								<img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/sub-menu-img.jpg" />
-								<div class="yu-sub-menu-img-title am-text-center">
-									新系列<br/>ARMANI JUNIOR 2016
-								</div>
-							</div>
-						</div>
-						
-						<div  class="yu-sub-menu am-kai am-u-md-12 boy">
-							<div class="am-u-md-3 am-u-md-offset-1 yu-sub-menu-list">
-								<div class="am-u-md-5 menu-sub-block am-margin-0 am-padding-0">
-									<div class="am-u-md-12 am-margin-0 am-padding-0">
-										{$Think.lang.brand}
-									</div>
-									<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
-									<ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
-										<volist name="boyMenuBrand" id="vo">
-											<li class="">
-												<a href="{:U('Starball/List/showList',array('by'=>'boy', 'byValue'=>'brand', 'brands'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
-											</li>
-										</volist>
-									</ul>
-								</div>
-								<div class="am-u-md-5 menu-sub-block am-margin-0 am-padding-0 am-u-md-offset-1">
-									<div class="am-u-md-12 am-margin-0 am-padding-0">
-										{$Think.lang.category}
-									</div>
-									<hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
-									<ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
-										<volist name="boyMenuCategory" id="vo">
-											<li class="">
-												<a href="{:U('Starball/List/showList',array('by'=>'boy', 'byValue'=>'category', 'categories'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
-											</li>
-										</volist>
-									</ul>
-								</div>
-							</div>
-							<div class="am-u-md-7 am-u-end">
-								<img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/sub-menu-img.jpg" />
-								<div class="yu-sub-menu-img-title am-text-center">
-									新系列<br/>ARMANI JUNIOR 2016
-								</div>
-							</div>
-						</div>
-						
-						<div  class="yu-sub-menu am-kai am-u-md-12 selected">
-						test6
-						</div>
-						
-						<div  class="yu-sub-menu am-kai am-u-md-12 special am-u-end">
-						test7
-						</div>
-						<!-- ******************************************************************************** -->
-					</div>
-				</div>
-			</nav>
-		</div>
-		<!-- ******************************************************************************** -->
+                            </form>
+                        </ul>
+                    </li>
+
+                    <!-- myfavorite dropdown -->
+                    <li class="am-dropdown"data-am-dropdown="">
+                        <a class="am-dropdown-toggle am-text-xs yu-text-black" data-am-dropdown-toggle href="javascript:"style="padding-left:6px">{$Think.lang.myfavorite}</a>
+                        <ul class="am-dropdown-content yu-dropdown-content-contanier">
+                            <li>
+                                <a href="#" class="item-panier"> <img alt="Mini Me Choupette猫咪印图T恤" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/karl-lagerfeld-kids-t-1446712438-p_l_157397_A.jpg" class="item-photo-adjustor" > <span class="content-item-panier"><span class="title-item-panier">Karl Lagerfeld Kids</span><span class="subtitle-item-panier">Mini Me Choupette猫咪印图T恤 </span></span> </a>
+                            </li>
+                            <li class="am-divider"></li>
+                            <button type="button" class="am-btn am-btn-default yu-check-button-adjustor">
+                                查看我的收藏
+                            </button>
+                        </ul>
+                    </li>
+
+                    <!-- myshoppingcart dropdown  -->
+                    <li class="am-dropdown" data-am-dropdown="">
+                        <a id="myShoppingListLnk" class="am-dropdown-toggle am-icon-shopping-bag am-text-xs yu-text-black" data-am-dropdown-toggle href="javascript:"style="padding-left:6px">{$Think.lang.myshoppinglist}</a>
+                        <ul class="am-dropdown-content yu-dropdown-content-contanier" id="ulMyShoppingList">
+                            <eq name="shoppingListCount" value="0">
+                                <div class="empty-list">
+                                    <div style="margin-top: 25px;">
+                                        您的购物袋为空
+                                    </div>
+                                </div>
+                                <else/>
+                                <div class="scroll-item-list">
+                                    <strong>{$Think.lang.recentShoppingList}</strong>
+                                </div>
+                                <li class="am-divider"></li>
+                                <volist name="shoppingListItems" id="vo" offset="0" length='3'>
+                                    <gt name="vo['quantity']" value="0">
+                                        <li>
+                                            <a href="{:U('Starball/Item/index','itemId='.$vo['itemId'])}" class="item-panier"> <img alt="{$vo.itemName}" src="{$vo.itemImage}?imageView2/1/w/100/h/100/q/100" class="item-photo-adjustor"> <span class="content-item-panier"> <span class="title-item-panier">{$vo.brandName}</span> <span class="subtitle-item-panier">{$vo.itemName}</span> <span class="yu-size-container"> <span class="" style="text-transform: none;"> 尺码： <span class="am-sans-serif"style="font-weight:bold;">{$vo.sizeDescription}</span> </span> <span class="" style="float:right"> 数量： <span class="">{$vo.quantity}</span> </span> <span class="am-sans-serif yu-item-price"> <span> {$priceSymbol}&nbsp;{$vo.price} </span> </span> </span> </span> </a>
+                                        </li>
+                                        <li class="am-divider"></li>
+                                    </gt>
+                                </volist>
+
+                                <li style="margin:0;">
+                                    <div id="" class="yu-total-price-panier">
+                                        <span class="">总金额： </span>
+                                        <span class="am-sans-serif value-total-price" >{$priceSymbol}&nbsp; {$shoppingList.totalAmount}</span>
+                                    </div>
+                                </li>
+                                <li class="am-divider"></li>
+                                <button  id="myShoppingCart" type="button" class="am-btn am-btn-default yu-button-333 yu-check-button-adjustor" onclick="window.location.href='{:U('Starball/Cart/index')}'">
+                                    查看我的购物袋
+                                </button>
+                            </eq>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- logo and mdup search and ScrollSpyNav -->
+        <div class="am-g am-show-md-up yu-header">
+            <div class="am-u-md-3 am-u-lg-3 yu-mduplogo-adjustor">
+                <a href="{:U('Home/index')}" class="login-img"></a>
+            </div>
+            <div class="am-u-md-4 am-kai yu-mdupsearch-adjustor">
+                <div class="am-input-group am-input-group-sm">
+                    <input type="text" class="am-form-field" placeholder="搜索">
+                    <span class="am-input-group-btn">
+                        <button class="am-btn am-btn-default" type="button">
+                            <span class="am-icon-search"></span>
+                        </button> </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- menu -->
+    <div id="subMenuListDiv" class="am-g yu-menu-list">
+        <nav class="yu-nav  am-u-lg-12 am-u-md-12 am-show-md-up am-kai scrollspy-nav" data-am-scrollspy-nav="{offsetTop: 45}" data-am-sticky>
+            <div class="yu-scroll-bg">
+                <div class="yu-menu-adj">
+                    <ul class="am-avg-md-7 am-show-md-up yu-menu-content">
+                        <li>
+                            <a class="yu-menu yu-text-black" id="new" style="margin-right: 21px;">{$Think.lang.newseries}</a>
+                        </li>
+                        <li>
+                            <a class="yu-menu yu-text-black" id="brand"  style=" margin: 0 21px;">{$Think.lang.brand}</a>
+                        </li>
+                        <li>
+                            <a class="yu-menu yu-text-black" id="baby" style=" margin: 0 21px;">{$Think.lang.baby}</a>
+                        </li>
+                        <li>
+                            <a class="yu-menu yu-text-black" id="girl" style=" margin: 0 21px;">{$Think.lang.girl}</a>
+                        </li>
+                        <li style="text-align: center;">
+                            <a class="yu-menu yu-text-black" id="boy" style="margin-right:30px;">{$Think.lang.boy}</a>
+                        </li>
+                        <li style="text-align: center;">
+                            <a class="yu-menu yu-text-black" id="selected" style="margin: 0 21px;">{$Think.lang.featured}</a>
+                        </li>
+                        <li style="text-align:right;">
+                            <a class="yu-menu yu-text-black" id="special">{$Think.lang.clothingmatch}</a>
+                        </li>
+                    </ul>
+                    <!--sub menus -->
+                    <div  class="yu-sub-menu am-kai am-u-md-12 new">
+                        <div class="am-u-md-3 am-u-md-offset-1 yu-sub-menu-list">
+                            <div class="am-u-md-12 am-margin-0 am-padding-0">
+                                {$Think.lang.bytime}
+                            </div>
+                            <hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
+                            <div class="am-u-md-12 am-icon-angle-right am-margin-0 am-padding-0">
+                                <a href="{:U('Starball/List/showList','by=time&byValue=7')}">{$Think.lang.lastsevenday}</a>
+                            </div>
+                            <div class="am-u-md-12 am-icon-angle-right am-margin-0 am-padding-0">
+                                <a href="{:U('Starball/List/showList','by=time&byValue=28')}">{$Think.lang.lastfourweek}</a>
+                            </div>
+                            <div class="am-u-md-12 am-icon-angle-right am-margin-0 am-padding-0">
+                                <a href="{:U('Starball/List/showList','by=time&byValue=180')}">{$Think.lang.commingsoon}</a>
+                            </div>
+                        </div>
+                        <div class="am-u-md-7 am-u-end">
+                            <img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/sub-menu-img.jpg" />
+                            <div class="yu-sub-menu-img-title am-text-center">
+                                新系列
+                                <br/>
+                                ARMANI JUNIOR 2016
+                            </div>
+                        </div>
+                    </div>
+                    <div  class="yu-sub-menu am-kai am-u-md-12 brand">
+                        <div class="am-u-md-3 am-u-md-offset-1 yu-sub-menu-list">
+                            <div class="am-u-md-12 am-margin-0 am-padding-0">
+                                {$Think.lang.brand}
+                            </div>
+                            <hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
+                            <ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
+                                <volist name="brandList" id="vo">
+                                    <li class="">
+                                        <a href="{:U('Starball/List/showList',array('by'=>'brand','byValue'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
+                                    </li>
+                                </volist>
+                            </ul>
+                        </div>
+                        <div class="am-u-md-7 am-u-end">
+                            <img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/sub-menu-img.jpg" />
+                            <div class="yu-sub-menu-img-title am-text-center">
+                                新系列
+                                <br/>
+                                ARMANI JUNIOR 2016
+                            </div>
+                        </div>
+                    </div>
+
+                    <div  class="yu-sub-menu am-kai am-u-md-12 baby">
+                        <div class="am-u-md-3 am-u-md-offset-1 yu-sub-menu-list">
+                            <div class="am-u-md-5 menu-sub-block am-margin-0 am-padding-0">
+                                <div class="am-u-md-12 am-margin-0 am-padding-0">
+                                    {$Think.lang.brand}
+                                </div>
+                                <hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
+                                <ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
+                                    <volist name="babyMenuBrand" id="vo">
+                                        <li class="">
+                                            <a href="{:U('Starball/List/showList',array('by'=>'baby', 'byValue'=>'brand', 'brands'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
+                                        </li>
+                                    </volist>
+                                </ul>
+                            </div>
+                            <div class="am-u-md-5 menu-sub-block am-margin-0 am-padding-0 am-u-md-offset-1">
+                                <div class="am-u-md-12 am-margin-0 am-padding-0">
+                                    {$Think.lang.category}
+                                </div>
+                                <hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
+                                <ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
+                                    <volist name="babyMenuCategory" id="vo">
+                                        <li class="">
+                                            <a href="{:U('Starball/List/showList',array('by'=>'baby', 'byValue'=>'category', 'categories'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
+                                        </li>
+                                    </volist>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="am-u-md-7 am-u-end">
+                            <img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/sub-menu-img.jpg" />
+                            <div class="yu-sub-menu-img-title am-text-center">
+                                新系列
+                                <br/>
+                                ARMANI JUNIOR 2016
+                            </div>
+                        </div>
+                    </div>
+
+                    <div  class="yu-sub-menu am-kai am-u-md-12 girl">
+                        <div class="am-u-md-3 am-u-md-offset-1 yu-sub-menu-list">
+                            <div class="am-u-md-5 menu-sub-block am-margin-0 am-padding-0">
+                                <div class="am-u-md-12 am-margin-0 am-padding-0">
+                                    {$Think.lang.brand}
+                                </div>
+                                <hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
+                                <ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
+                                    <volist name="girlMenuBrand" id="vo">
+                                        <li class="">
+                                            <a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>'brand', 'brands'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
+                                        </li>
+                                    </volist>
+                                </ul>
+                            </div>
+                            <div class="am-u-md-5 menu-sub-block am-margin-0 am-padding-0 am-u-md-offset-1">
+                                <div class="am-u-md-12 am-margin-0 am-padding-0">
+                                    {$Think.lang.category}
+                                </div>
+                                <hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
+                                <ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
+                                    <volist name="girlMenuCategory" id="vo">
+                                        <li class="">
+                                            <a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>'category', 'categories'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
+                                        </li>
+                                    </volist>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="am-u-md-7 am-u-end">
+                            <img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/sub-menu-img.jpg" />
+                            <div class="yu-sub-menu-img-title am-text-center">
+                                新系列
+                                <br/>
+                                ARMANI JUNIOR 2016
+                            </div>
+                        </div>
+                    </div>
+
+                    <div  class="yu-sub-menu am-kai am-u-md-12 boy">
+                        <div class="am-u-md-3 am-u-md-offset-1 yu-sub-menu-list">
+                            <div class="am-u-md-5 menu-sub-block am-margin-0 am-padding-0">
+                                <div class="am-u-md-12 am-margin-0 am-padding-0">
+                                    {$Think.lang.brand}
+                                </div>
+                                <hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
+                                <ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
+                                    <volist name="boyMenuBrand" id="vo">
+                                        <li class="">
+                                            <a href="{:U('Starball/List/showList',array('by'=>'boy', 'byValue'=>'brand', 'brands'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
+                                        </li>
+                                    </volist>
+                                </ul>
+                            </div>
+                            <div class="am-u-md-5 menu-sub-block am-margin-0 am-padding-0 am-u-md-offset-1">
+                                <div class="am-u-md-12 am-margin-0 am-padding-0">
+                                    {$Think.lang.category}
+                                </div>
+                                <hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
+                                <ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
+                                    <volist name="boyMenuCategory" id="vo">
+                                        <li class="">
+                                            <a href="{:U('Starball/List/showList',array('by'=>'boy', 'byValue'=>'category', 'categories'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
+                                        </li>
+                                    </volist>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="am-u-md-7 am-u-end">
+                            <img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/sub-menu-img.jpg" />
+                            <div class="yu-sub-menu-img-title am-text-center">
+                                新系列
+                                <br/>
+                                ARMANI JUNIOR 2016
+                            </div>
+                        </div>
+                    </div>
+                    <div  class="yu-sub-menu am-u-md-12 selected">
+                        <div class="am-kai am-u-md-10 am-u-md-offset-1">
+                            <div class="am-u-lg-4 am-u-md-4 am-u-sm-12 yu-boutique-spacefixer">
+                                <div class="am-thumbnail am-padding-0">
+                                    <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/gucci-405-spring-summer-2016.jpg" alt="" class="yu-boutiqueimg-fixer">
+                                    <div class="am-thumbnail-caption am-kai am-text-center am-padding-bottom-0 am-padding-top-0">
+                                        <p class="yu-home-title">
+                                            GUCCI
+                                        </p>
+                                        <p class="yu-home-subtitle">
+                                            单宁世界
+                                        </p>
+                                        <p class="am-margin-0">
+                                            <a href="##" class="yu-home-button"> 〉立即购买 </a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="am-u-lg-4 am-u-md-4 am-u-sm-12 yu-boutique-spacefixer">
+                                <div class="am-thumbnail am-padding-0">
+                                    <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/gucci-405-spring-summer-2016.jpg" alt="" class="yu-boutiqueimg-fixer">
+                                    <div class="am-thumbnail-caption am-kai am-text-center am-padding-bottom-0 am-padding-top-0">
+                                        <p class="yu-home-title">
+                                            GUCCI
+                                        </p>
+                                        <p class="yu-home-subtitle">
+                                            单宁世界
+                                        </p>
+                                        <p class="am-margin-0">
+                                            <a href="##" class="yu-home-button"> 〉立即购买 </a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="am-u-lg-4 am-u-md-4 am-u-sm-12 yu-boutique-spacefixer">
+                                <div class="am-thumbnail am-padding-0">
+                                    <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/gucci-405-spring-summer-2016.jpg" alt="" class="yu-boutiqueimg-fixer">
+                                    <div class="am-thumbnail-caption am-kai am-text-center am-padding-bottom-0 am-padding-top-0">
+                                        <p class="yu-home-title">
+                                            GUCCI
+                                        </p>
+                                        <p class="yu-home-subtitle">
+                                            单宁世界
+                                        </p>
+                                        <p class="am-margin-0">
+                                            <a href="##" class="yu-home-button"> 〉立即购买 </a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="yu-boutique-button">
+                                <a class="yu-boutique-more am-kai">〉查看全部精选</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div  class="yu-sub-menu am-kai am-u-md-12 special am-u-end">
+                        test7
+                    </div>
+                    <!-- ******************************************************************************** -->
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!-- ******************************************************************************** -->
 </header>
 
 <!-- ####################################################################################### -->
 <!-- small only search -->
 <form class="am-topbar-form am-topbar-left am-form-inline am-show-sm-only am-kai" role="search">
-	<div class="am-form-field am-form-icon yu-smsearch-adjustor">
-		<i class="am-icon-search"></i>
-		<input type="text" class="am-form-field yu-border-btmonly" placeholder="&nbsp{$Think.lang.search}">
-	</div>
+    <div class="am-form-field am-form-icon yu-smsearch-adjustor">
+        <i class="am-icon-search"></i>
+        <input type="text" class="am-form-field yu-border-btmonly" placeholder="&nbsp{$Think.lang.search}">
+    </div>
 </form>
 
 <div data-am-widget="gotop" class="am-gotop am-gotop-fixed" >
-	<a href="#top" title="回到顶部"> <span class="am-gotop-title">回到顶部</span> <i class="am-gotop-icon am-icon-chevron-up"></i> </a>
+    <a href="#top" title="回到顶部"> <span class="am-gotop-title">回到顶部</span> <i class="am-gotop-icon am-icon-chevron-up"></i> </a>
 </div>
 <!-- ####################################################################################### -->
-
 
