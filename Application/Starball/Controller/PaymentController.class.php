@@ -57,6 +57,9 @@ class PaymentController extends BaseController {
 
 	public function paysuccess(){
 		$this->commonProcess();
+		//send mail
+		$mailContent = D("Order", "Logic")->getOrderInformationByOrderNumber(I('orderNumber'));
+		sendMail($mailContent, "payment");
 		$this->assign('orderNumber', I('orderNumber'));
 		$this->display();
 	}

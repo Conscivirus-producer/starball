@@ -90,6 +90,25 @@
 			}
 			return $information;
 		}
+		
+		public function getOrderInformationByOrderNumber($orderNumber) {
+			$map["orderNumber"] = $orderNumber;	
+			$orderId = $this->where($map)->getField("orderId");
+			$orderItemLogic = D("OrderItem", "Logic");
+			$shippingAddressLogic = D("ShippingAddress", "Logic");
+			$orderBillLogic = D("OrderBill", "Logic");
+			$information = current($this->where($map)->select());
+			$information["orderItems"] = $orderItemLogic->getOrderItemsByOrdeId($orderId);
+			$shippingAddressId = $information["shippingAddress"];
+			if ($shippingAddressId == "0") {
+				$information["shippingAddress"] = "";
+			} else {
+				$information["shippingAddress"] = current($shippingAddressLogic->findExsitingAddress($shippingAddressId));
+			}
+			$orderBillMap["orderNumber"] = $orderNumber;
+			$information["orderBills"] = $orderBillLogic->queryBill($orderBillMap);
+			return $information;
+		}
 
 	}
 
