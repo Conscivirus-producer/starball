@@ -254,7 +254,7 @@ class ItemController extends Controller {
         $this->display();
     }
 
-    function deleteOneItemByItemId() {
+    public function deleteOneItemByItemId() {
         $itemLogic = D("Item", "Logic");
         $itemId = I("get.deleteItemId", "");
         $res["status"] = "0";
@@ -262,5 +262,16 @@ class ItemController extends Controller {
             $res["status"] = "1";
         }
         echo json_encode($res);
+    }
+
+    public function mainPageSetting() {
+        $data = array();
+        $hotItemLogic = D("HotItem", "Logic");
+        $categories = array("H", "MLH", "MLF", "MR", "F");
+        for($i = 0; $i < count($categories); $i++) {
+            $data[$categories[$i]] = $hotItemLogic->getHotItems($categories[$i]);
+        }
+        $this->assign("data", $data);
+        $this->display();
     }
 }

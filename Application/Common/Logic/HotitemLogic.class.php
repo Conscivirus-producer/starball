@@ -8,7 +8,12 @@
 			$data = $this->where($map)->order('sequence')->select();
 			return $data;
 		}
-		
+
+		public function getHotItems($type) {
+			$map["type"] = array('eq',$type);
+			$data = $this->where($map)->order('sequence')->select();
+			return $data;
+		}
 	}
 
 
