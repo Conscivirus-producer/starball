@@ -72,115 +72,142 @@
     <div class="admin-content">
         <div class="am-g">
             <div class="am-u-sm-12">
-                <!-- H area -->
-                <div class="am-panel am-panel-secondary">
-                    <div class="am-panel-hd">H</div>
-                    <div class="am-panel-bd">
-                        <ul class="am-avg-sm-5 am-thumbnails">
-                            <volist name="data.H" id="vo">
-                                <li>
-                                    <ul class="am-list am-list-static">
-                                        <li>标题: {$vo.title}</li>
-                                        <li>次标题: {$vo.subtitle}</li>
-                                        <li>点击后跳转链接: {$vo.targetItemLink}</li>
-                                        <li>最后更新时间: {$vo.lastUpdatedDate}</li>
-                                        <li>顺序: {$vo.sequence}</li>
-                                        <li>是否有效: {$vo.active}</li>
-                                        <li><img class="am-thumbnail" src="{$vo.image}" /></li>
-                                    </ul>
-                                </li>
-                            </volist>
-                        </ul>
-                    </div>
-                </div>
+                <div class="am-tabs" data-am-tabs>
+                    <ul class="am-tabs-nav am-nav am-nav-tabs">
+                        <li class="am-active"><a href="#tab1">H</a></li>
+                        <li><a href="#tab2">MLH</a></li>
+                        <li><a href="#tab3">MLF</a></li>
+                        <li><a href="#tab4">MR</a></li>
+                        <li><a href="#tab5">F</a></li>
+                    </ul>
 
-                <!-- MLH area -->
-                <div class="am-panel am-panel-secondary">
-                    <div class="am-panel-hd">MLH</div>
-                    <div class="am-panel-bd">
-                        <ul class="am-avg-sm-5 am-thumbnails">
-                            <volist name="data.MLH" id="vo">
-                                <li>
-                                    <ul class="am-list am-list-static">
-                                        <li>标题: {$vo.title}</li>
-                                        <li>次标题: {$vo.subtitle}</li>
-                                        <li>点击后跳转链接: {$vo.targetItemLink}</li>
-                                        <li>最后更新时间: {$vo.lastUpdatedDate}</li>
-                                        <li>顺序: {$vo.sequence}</li>
-                                        <li>是否有效: {$vo.active}</li>
-                                        <li><img class="am-thumbnail" src="{$vo.image}" /></li>
+                    <div class="am-tabs-bd">
+                        <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                            <!-- H area -->
+                            <div class="am-panel am-panel-secondary">
+                                <div class="am-panel-hd">H</div>
+                                <div class="am-panel-bd">
+                                    <ul class="am-avg-sm-5 am-thumbnails">
+                                        <volist name="data.H" id="vo">
+                                            <li>
+                                                <ul class="am-list am-list-static">
+                                                    <li>标题: {$vo.title}</li>
+                                                    <li>次标题: {$vo.subtitle}</li>
+                                                    <li>点击后跳转链接: {$vo.targetItemLink}</li>
+                                                    <li>最后更新时间: {$vo.lastUpdatedDate}</li>
+                                                    <li>顺序: {$vo.sequence}</li>
+                                                    <li>是否有效: {$vo.active}</li>
+                                                    <li><img class="am-thumbnail" src="{$vo.image}" /></li>
+                                                </ul>
+                                            </li>
+                                        </volist>
                                     </ul>
-                                </li>
-                            </volist>
-                        </ul>
-                    </div>
-                </div>
+                                </div>
+                            </div>
+                        </div>
 
-                <!-- MLf area -->
-                <div class="am-panel am-panel-secondary">
-                    <div class="am-panel-hd">MLF</div>
-                    <div class="am-panel-bd">
-                        <ul class="am-avg-sm-5 am-thumbnails">
-                            <volist name="data.MLF" id="vo">
-                                <li>
-                                    <ul class="am-list am-list-static">
-                                        <li>标题: {$vo.title}</li>
-                                        <li>次标题: {$vo.subtitle}</li>
-                                        <li>点击后跳转链接: {$vo.targetItemLink}</li>
-                                        <li>最后更新时间: {$vo.lastUpdatedDate}</li>
-                                        <li>顺序: {$vo.sequence}</li>
-                                        <li>是否有效: {$vo.active}</li>
-                                        <li><img class="am-thumbnail" src="{$vo.image}" /></li>
-                                    </ul>
-                                </li>
-                            </volist>
-                        </ul>
-                    </div>
-                </div>
+                        <div class="am-tab-panel am-fade am-in am-active" id="tab2">
 
-                <!-- MR area -->
-                <div class="am-panel am-panel-secondary">
-                    <div class="am-panel-hd">MR</div>
-                    <div class="am-panel-bd">
-                        <ul class="am-avg-sm-5 am-thumbnails">
-                            <volist name="data.MR" id="vo">
-                                <li>
-                                    <ul class="am-list am-list-static">
-                                        <li>标题: {$vo.title}</li>
-                                        <li>次标题: {$vo.subtitle}</li>
-                                        <li>点击后跳转链接: {$vo.targetItemLink}</li>
-                                        <li>最后更新时间: {$vo.lastUpdatedDate}</li>
-                                        <li>顺序: {$vo.sequence}</li>
-                                        <li>是否有效: {$vo.active}</li>
-                                        <li><img class="am-thumbnail" src="{$vo.image}" /></li>
+                            <!-- MLH area -->
+                            <div class="am-panel am-panel-secondary">
+                                <div class="am-panel-hd">MLH</div>
+                                <div class="am-panel-bd">
+                                    <ul class="am-avg-sm-5 am-thumbnails">
+                                        <volist name="data.MLH" id="vo">
+                                            <li>
+                                                <ul class="am-list am-list-static">
+                                                    <li>标题: {$vo.title}</li>
+                                                    <li>次标题: {$vo.subtitle}</li>
+                                                    <li>点击后跳转链接: {$vo.targetItemLink}</li>
+                                                    <li>最后更新时间: {$vo.lastUpdatedDate}</li>
+                                                    <li>顺序: {$vo.sequence}</li>
+                                                    <li>是否有效: {$vo.active}</li>
+                                                    <li><img class="am-thumbnail" src="{$vo.image}" /></li>
+                                                </ul>
+                                            </li>
+                                        </volist>
                                     </ul>
-                                </li>
-                            </volist>
-                        </ul>
-                    </div>
-                </div>
+                                </div>
+                            </div>
 
-                <!-- F area -->
-                <div class="am-panel am-panel-secondary">
-                    <div class="am-panel-hd">F</div>
-                    <div class="am-panel-bd">
-                        <ul class="am-avg-sm-5 am-thumbnails">
-                            <volist name="data.F" id="vo">
-                                <li>
-                                    <ul class="am-list am-list-static">
-                                        <li>标题: {$vo.title}</li>
-                                        <li>次标题: {$vo.subtitle}</li>
-                                        <li>点击后跳转链接: {$vo.targetItemLink}</li>
-                                        <li>最后更新时间: {$vo.lastUpdatedDate}</li>
-                                        <li>顺序: {$vo.sequence}</li>
-                                        <li>是否有效: {$vo.active}</li>
-                                        <li><img class="am-thumbnail" src="{$vo.image}" /></li>
+                        </div>
+
+                        <div class="am-tab-panel am-fade am-in am-active" id="tab3">
+                            <!-- MLf area -->
+                            <div class="am-panel am-panel-secondary">
+                                <div class="am-panel-hd">MLF</div>
+                                <div class="am-panel-bd">
+                                    <ul class="am-avg-sm-5 am-thumbnails">
+                                        <volist name="data.MLF" id="vo">
+                                            <li>
+                                                <ul class="am-list am-list-static">
+                                                    <li>标题: {$vo.title}</li>
+                                                    <li>次标题: {$vo.subtitle}</li>
+                                                    <li>点击后跳转链接: {$vo.targetItemLink}</li>
+                                                    <li>最后更新时间: {$vo.lastUpdatedDate}</li>
+                                                    <li>顺序: {$vo.sequence}</li>
+                                                    <li>是否有效: {$vo.active}</li>
+                                                    <li><img class="am-thumbnail" src="{$vo.image}" /></li>
+                                                </ul>
+                                            </li>
+                                        </volist>
                                     </ul>
-                                </li>
-                            </volist>
-                        </ul>
-                    </div>
-                </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="am-tab-panel am-fade am-in am-active" id="tab4">
+
+                            <!-- MR area -->
+                            <div class="am-panel am-panel-secondary">
+                                <div class="am-panel-hd">MR</div>
+                                <div class="am-panel-bd">
+                                    <ul class="am-avg-sm-5 am-thumbnails">
+                                        <volist name="data.MR" id="vo">
+                                            <li>
+                                                <ul class="am-list am-list-static">
+                                                    <li>标题: {$vo.title}</li>
+                                                    <li>次标题: {$vo.subtitle}</li>
+                                                    <li>点击后跳转链接: {$vo.targetItemLink}</li>
+                                                    <li>最后更新时间: {$vo.lastUpdatedDate}</li>
+                                                    <li>顺序: {$vo.sequence}</li>
+                                                    <li>是否有效: {$vo.active}</li>
+                                                    <li><img class="am-thumbnail" src="{$vo.image}" /></li>
+                                                </ul>
+                                            </li>
+                                        </volist>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="am-tab-panel am-fade am-in am-active" id="tab5">
+
+                            <!-- F area -->
+                            <div class="am-panel am-panel-secondary">
+                                <div class="am-panel-hd">F</div>
+                                <div class="am-panel-bd">
+                                    <ul class="am-avg-sm-5 am-thumbnails">
+                                        <volist name="data.F" id="vo">
+                                            <li>
+                                                <ul class="am-list am-list-static">
+                                                    <li>标题: {$vo.title}</li>
+                                                    <li>次标题: {$vo.subtitle}</li>
+                                                    <li>点击后跳转链接: {$vo.targetItemLink}</li>
+                                                    <li>最后更新时间: {$vo.lastUpdatedDate}</li>
+                                                    <li>顺序: {$vo.sequence}</li>
+                                                    <li>是否有效: {$vo.active}</li>
+                                                    <li><img class="am-thumbnail" src="{$vo.image}" /></li>
+                                                </ul>
+                                            </li>
+                                        </volist>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
 
             </div>
 
