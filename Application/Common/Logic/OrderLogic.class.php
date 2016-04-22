@@ -101,9 +101,9 @@
 			$information["orderItems"] = $orderItemLogic->getOrderItemsByOrdeId($orderId);
 			$shippingAddressId = $information["shippingAddress"];
 			if ($shippingAddressId == "0") {
-				$information["shippingAddress"] = "";
+				$information["shippingAddress"] = array();
 			} else {
-				$information["shippingAddress"] = current($shippingAddressLogic->findExsitingAddress($shippingAddressId));
+				$information["shippingAddress"] = $shippingAddressLogic->findExsitingAddress($shippingAddressId);
 			}
 			$orderBillMap["orderNumber"] = $orderNumber;
 			$information["orderBills"] = $orderBillLogic->queryBill($orderBillMap);

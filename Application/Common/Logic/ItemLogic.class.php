@@ -108,10 +108,7 @@
 			$itemPriceLogic = D("ItemPrice", "Logic");
 			$categoryLogic = D("Category", "Logic");
 			$tagLogic = D("Tag", "Logic");
-			$gradeMap = array(
-				"Baby" => "1",
-				"Child" => "2"
-			);
+			$gradeMap = array("Baby" => "1", "Child" => "2", "其它" => "3");
 			$genderMap = array(
 				"男" => "M",
 				"女" => "F"
@@ -128,7 +125,7 @@
 			for ($i = 0; $i < count($rows); $i++) {
 				$columns = split(",", $rows[$i]);
 				// len of fields must match
-				if (count($columns) != 12) {
+				if (count($columns) != 13) {
 					$res["row"] = $currentRow;
 					return $res;
 				}
@@ -149,9 +146,9 @@
 				$priceArray["CNY"] = trim($columns[9]);
 				$product["season"] = trim($columns[10]);
 				$tagString = trim($columns[11]);
+				$product["discount"] = trim($columns[12]);
 				$product["lastUpdatedDate"] = date('y-m-d h:i:s',time());
-				$product["isAvailable"] = "1";
-				$product["discount"] = 100;
+				$product["isAvailable"] = "0";
 				array_push($products, $product);
 				array_push($priceArrays, $priceArray);
 				array_push($tagStringArrays, $tagString);
