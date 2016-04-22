@@ -190,6 +190,11 @@
                         </div>
                         <!-- product status -->
 
+                        <!-- product discount-->
+                        <div class="am-form-group">
+                            <label for="item-discount">商品折扣</label>
+                            <input type="text" class="" name="discount" id="item-discount" placeholder="输入商品折扣" value="100">
+                        </div>
 
 
                         <!-- tags -->
@@ -290,18 +295,6 @@
                 </div>
             </div>
 
-            <!-- product status and  inventory conflict-->
-            <div class="am-modal am-modal-alert" tabindex="-1" id="conflict-modal">
-                <div class="am-modal-dialog">
-                    <div class="am-modal-hd">商品状态与库存冲突</div>
-                    <div class="am-modal-bd">
-                        商品状态与库存冲突
-                    </div>
-                    <div class="am-modal-footer">
-                        <span class="am-modal-btn">确定</span>
-                    </div>
-                </div>
-            </div>
 
         </div>
     </div>
@@ -545,7 +538,9 @@
             return false;
         } else if ($("#item-priceCNY").val().trim() == "" || !$.isNumeric($("#item-priceCNY").val().trim())) {
             return false;
-        }else if ($("#item-season").val().trim() == "") {
+        } else if ($("#item-season").val().trim() == "") {
+            return false;
+        } else if ($("#item-discount").val().trim() == "" || !$.isNumeric($("#item-discount").val().trim())) {
             return false;
         } else if ($("#item-images-array").val().trim() == "") {
             return false;
