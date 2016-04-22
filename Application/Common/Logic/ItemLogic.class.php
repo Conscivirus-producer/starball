@@ -28,11 +28,6 @@
 			unset($newData["tag"]);
 			unset($newData["inventory"]);
 			$newData["lastUpdatedDate"] = date('y-m-d h:i:s',time());
-			// set isAvailable
-			$newData["isAvailable"] = "1";
-			if (count($inventoryArray) == 0) {
-				$newData["isAvailable"] = "2";
-			}
 			$newData["discount"] = 100;
 			$index = $this->add($newData);
 			if($index === false) {
@@ -97,7 +92,6 @@
 			unset($newData["inventory"]);
 			$lastUpdatedDate = date('y-m-d h:i:s',time());
 			$newData["lastUpdatedDate"] = $lastUpdatedDate;
-			$newData["isAvailable"] = "1";
 			$newData["discount"] = 100;
 			if ($this->save($newData) == false) {
 				return false;

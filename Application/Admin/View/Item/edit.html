@@ -159,6 +159,21 @@
                         <input type="text" name="inventory-div-count" id="inventoryDivCount" style="display:none">
                         <!-- inventory -->
 
+                        <!-- product status -->
+                        <div class="am-form-group">
+                            <label>商品状态</label>
+                            <label class="am-radio-inline">
+                                <input type="radio"  value="0" class="item-isAvailable" name="isAvailable"> 没货
+                            </label>
+                            <label class="am-radio-inline">
+                                <input type="radio" value="1" class="item-isAvailable" name="isAvailable"> 有货
+                            </label>
+                            <label class="am-radio-inline">
+                                <input type="radio" value="2" class="item-isAvailable" name="isAvailable"> 即将上新
+                            </label>
+                        </div>
+                        <!-- product status -->
+
                         <!-- add tags-->
                         <div class="am-form-group">
                             <label for="item-tag">商品标签</label>
@@ -197,9 +212,9 @@
             <!-- 内容填写不完整报错框 -->
             <div class="am-modal am-modal-alert" tabindex="-1" id="single-input-alert">
                 <div class="am-modal-dialog">
-                    <div class="am-modal-hd">请把内容填写完整</div>
+                    <div class="am-modal-hd">请把内容填写正确</div>
                     <div class="am-modal-bd">
-                        请把内容填写完整
+                        请把内容填写正确
                     </div>
                     <div class="am-modal-footer">
                         <span class="am-modal-btn">确定</span>
@@ -283,6 +298,12 @@
             });
             $("#item-brandId").val(itemInformation.brandId);
         });
+        // isAvailable
+        $(".item-isAvailable").each(function(){
+            if ($(this).val() == itemInformation.isAvailable) {
+                $(this).attr("checked","checked");
+            }
+        });
         $("#item-grade").val(itemInformation.grade);
         $("#item-gender").val(itemInformation.gender);
         $.each(itemInformation.inventory, function( index, inventoryValue ) {
@@ -363,12 +384,27 @@
             return false;
         } else if ($("#item-images-array").val().trim() == "") {
             return false;
-        } else if ($(".inventory-number").length > 0) {
-            if ($(".inventory-number").val().trim() == "" || !$.isNumeric($(".inventory-number").val().trim())) {
-                return false;
-            }
+        } else if ($(".inventory-number").length > 0 && ($(".inventory-number").val().trim() == "" || !$.isNumeric($(".inventory-number").val().trim()))) {
+            return false;
+        }
+        // isAvailable must be set, should not be conflict with inventory
+        else if (isAvailableValue() == "-1") {
+            return false;
+        }
+        else if (isAvailableValue() != "1" && $(".inventory-number").length > 0) {
+            return false;
+        }
+        else if (isAvailableValue() == "1" && $(".inventory-number").length == 0) {
+            return false;
         }
         return true;
+    }
+    // isAvailable check function
+    function isAvailableValue() {
+        if ($(".item-isAvailable:checked").length > 0) {
+            return $(".item-isAvailable:checked").eq(0).val();
+        }
+        return "-1";
     }
     $("#update-single-item").click(function(){
         if (validateFields() == true) {

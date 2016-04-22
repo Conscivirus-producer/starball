@@ -82,6 +82,7 @@ class ItemController extends Controller {
             "priceHKD",
             "priceCNY",
             "season",
+            "isAvailable",
             "tag",
             "images_array"
         );
@@ -166,6 +167,7 @@ class ItemController extends Controller {
             "priceHKD",
             "priceCNY",
             "season",
+            "isAvailable",
             "tag",
             "images_array"
         );
