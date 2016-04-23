@@ -51,12 +51,13 @@
     <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
         <div class="am-offcanvas-bar admin-offcanvas-bar">
             <ul class="am-list admin-sidebar-list">
-                <li><a href="admin-index.html"><span class="am-icon-home"></span> 订单管理</a></li>
+                <li><a href="../Order" target="_blank"><span class="am-icon-home"></span> 订单管理</a></li>
                 <li class="admin-parent">
                     <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 商品管理 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
                     <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
                         <li><a href="./Item/upload" class="am-cf" target="_blank"><span class="am-icon-upload"></span> 商品上新</a></li>
                         <li><a href="./Item/search" target="_blank"><span class="am-icon-search"></span> 商品搜索</a></li>
+                        <li><a href="./Item/mainPageSetting" target="_blank"><span class="am-icon-search"></span> 首页上新</a></li>
                     </ul>
                 </li>
                 <li><a href="#"><span class="am-icon-sign-out"></span> 注销</a></li>
@@ -70,7 +71,7 @@
         <div class="am-g">
             <!-- order detailed information showing area -->
             <div class="am-u-sm-12">
-                <div class="am-panel am-panel-default">
+                <div class="am-panel am-panel-primary">
                     <div class="am-panel-hd">订单基本信息</div>
                     <div class="am-panel-bd">
                         <ul class="am-list am-list-static">
@@ -99,10 +100,39 @@
                                     <case value="1"><span class="am-text-success">需要</span></case>
                                 </switch>
                             </li>
+                            <li>
+                                邮寄地址信息:
+                                <table class="am-table am-table-bordered am-table-striped am-table-compact">
+                                    <thead>
+                                    <tr>
+                                        <th>国家</th>
+                                        <th>城市</th>
+                                        <th>地址</th>
+                                        <th>邮编</th>
+                                        <th>收件人姓名</th>
+                                        <th>收件人性别</th>
+                                        <th>收件人联系方式</th>
+                                        <th>更多细节</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>{$information.shippingAddress.country}</td>
+                                        <td>{$information.shippingAddress.city}</td>
+                                        <td>{$information.shippingAddress.address}</td>
+                                        <td>{$information.shippingAddress.postCode}</td>
+                                        <td>{$information.shippingAddress.contactName}</td>
+                                        <td>{$information.shippingAddress.contactGender}</td>
+                                        <td>{$information.shippingAddress.phone}</td>
+                                        <td>{$information.shippingAddress.moreDetails}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </li>
                         </ul>
                     </div>
                 </div>
-                <div class="am-panel am-panel-default">
+                <div class="am-panel am-panel-secondary">
                     <div class="am-panel-hd">用户购买商品</div>
                     <div class="am-panel-bd">
                         <ul class="am-avg-sm-4 am-thumbnails">
@@ -123,7 +153,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="am-panel am-panel-default">
+                <div class="am-panel am-panel-success">
                     <div class="am-panel-hd">用户支付信息</div>
                     <div class="am-panel-bd">
                         <ul class="am-avg-sm-4 am-thumbnails">
@@ -135,8 +165,21 @@
                                         <li>账单名称: {$vo.title}</li>
                                         <li>支付总额: {$vo.totalAmount}</li>
                                         <li>支付通道: {$vo.channel} {$vo.subChannel}</li>
-                                        <li>支付类型: {$vo.type}</li>
-                                        <li>状态: {$vo.status}</li>
+                                        <li>
+                                            支付类型:
+                                            <switch name="vo.type">
+                                                <case value="PAY"><span class="am-text-primary">支付</span></case>
+                                                <case value="REFUND"><span class="am-text-secondary">退款</span></case>
+                                            </switch>
+                                        </li>
+                                        <li>
+                                            状态:
+                                            <switch name="vo.status">
+                                                <case value="N"><span class="am-text-primary">新</span></case>
+                                                <case value="S"><span class="am-text-secondary">成功</span></case>
+                                                <case value="F"><span class="am-text-warning">失败</span></case>
+                                            </switch>
+                                        </li>
                                         <li>最后更新日期: {$vo.lastUpdatedDate}</li>
                                     </ul>
                                 </li>

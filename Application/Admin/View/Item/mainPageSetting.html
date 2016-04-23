@@ -1,0 +1,244 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>首页上新</title>
+    <meta name="description" content="首页上新页面">
+    <meta name="keywords" content="help">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" href="__PUBLIC__/AmazeUI-2.5.2/assets/i/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="__PUBLIC__/AmazeUI-2.5.2/assets/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="stylesheet" href="__PUBLIC__/AmazeUI-2.5.2/assets/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="__PUBLIC__/AmazeUI-2.5.2/assets/css/admin.css">
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+    以获得更好的体验！</p>
+<![endif]-->
+<!-- 七牛token -->
+<input type="text" id="qiniuToken" name="qiniuToken" value="{$qiniuToken}" style="display: none">
+<header class="am-topbar admin-header">
+    <div class="am-topbar-brand">
+        <strong>StarBall</strong> <small>后台管理</small>
+    </div>
+
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+            <li><a href="javascript:;"><span class="am-icon-envelope-o"></span> 收件箱 <span class="am-badge am-badge-warning">5</span></a></li>
+            <li class="am-dropdown" data-am-dropdown>
+                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                    <span class="am-icon-users"></span> 管理员 <span class="am-icon-caret-down"></span>
+                </a>
+                <ul class="am-dropdown-content">
+                    <li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
+                    <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
+                    <li><a href="#"><span class="am-icon-power-off"></span> 退出</a></li>
+                </ul>
+            </li>
+            <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><span class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
+        </ul>
+    </div>
+</header>
+
+<div class="am-cf admin-main">
+    <!-- sidebar start -->
+    <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+        <div class="am-offcanvas-bar admin-offcanvas-bar">
+            <ul class="am-list admin-sidebar-list">
+                <li><a href="../Order" target="_blank"><span class="am-icon-home"></span> 订单管理</a></li>
+                <li class="admin-parent">
+                    <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 商品管理 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+                        <li><a href="./upload" class="am-cf" target="_blank"><span class="am-icon-upload"></span> 商品上新</a></li>
+                        <li><a href="./search" target="_blank"><span class="am-icon-search"></span> 商品搜索</a></li>
+                        <li><a href="./mainPageSetting" target="_blank"><span class="am-icon-level-up"></span> 首页上新</a></li>
+                    </ul>
+                </li>
+                <li><a href="#"><span class="am-icon-sign-out"></span> 注销</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- sidebar end -->
+
+    <!-- content start -->
+    <div class="admin-content">
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                <div class="am-tabs" data-am-tabs>
+                    <ul class="am-tabs-nav am-nav am-nav-tabs">
+                        <li class="am-active"><a href="#tab1">H</a></li>
+                        <li><a href="#tab2">MLH</a></li>
+                        <li><a href="#tab3">MLF</a></li>
+                        <li><a href="#tab4">MR</a></li>
+                        <li><a href="#tab5">F</a></li>
+                    </ul>
+
+                    <div class="am-tabs-bd">
+                        <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                            <!-- H area -->
+                            <div class="am-panel am-panel-secondary">
+                                <div class="am-panel-hd">H</div>
+                                <div class="am-panel-bd">
+                                    <ul class="am-avg-sm-5 am-thumbnails">
+                                        <volist name="data.H" id="vo">
+                                            <li>
+                                                <ul class="am-list am-list-static">
+                                                    <li>标题: {$vo.title}</li>
+                                                    <li>次标题: {$vo.subtitle}</li>
+                                                    <li>点击后跳转链接: {$vo.targetItemLink}</li>
+                                                    <li>最后更新时间: {$vo.lastUpdatedDate}</li>
+                                                    <li>顺序: {$vo.sequence}</li>
+                                                    <li>是否有效: {$vo.active}</li>
+                                                    <li><img class="am-thumbnail" src="{$vo.image}" /></li>
+                                                </ul>
+                                            </li>
+                                        </volist>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="am-tab-panel am-fade am-in am-active" id="tab2">
+
+                            <!-- MLH area -->
+                            <div class="am-panel am-panel-secondary">
+                                <div class="am-panel-hd">MLH</div>
+                                <div class="am-panel-bd">
+                                    <ul class="am-avg-sm-5 am-thumbnails">
+                                        <volist name="data.MLH" id="vo">
+                                            <li>
+                                                <ul class="am-list am-list-static">
+                                                    <li>标题: {$vo.title}</li>
+                                                    <li>次标题: {$vo.subtitle}</li>
+                                                    <li>点击后跳转链接: {$vo.targetItemLink}</li>
+                                                    <li>最后更新时间: {$vo.lastUpdatedDate}</li>
+                                                    <li>顺序: {$vo.sequence}</li>
+                                                    <li>是否有效: {$vo.active}</li>
+                                                    <li><img class="am-thumbnail" src="{$vo.image}" /></li>
+                                                </ul>
+                                            </li>
+                                        </volist>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="am-tab-panel am-fade am-in am-active" id="tab3">
+                            <!-- MLf area -->
+                            <div class="am-panel am-panel-secondary">
+                                <div class="am-panel-hd">MLF</div>
+                                <div class="am-panel-bd">
+                                    <ul class="am-avg-sm-5 am-thumbnails">
+                                        <volist name="data.MLF" id="vo">
+                                            <li>
+                                                <ul class="am-list am-list-static">
+                                                    <li>标题: {$vo.title}</li>
+                                                    <li>次标题: {$vo.subtitle}</li>
+                                                    <li>点击后跳转链接: {$vo.targetItemLink}</li>
+                                                    <li>最后更新时间: {$vo.lastUpdatedDate}</li>
+                                                    <li>顺序: {$vo.sequence}</li>
+                                                    <li>是否有效: {$vo.active}</li>
+                                                    <li><img class="am-thumbnail" src="{$vo.image}" /></li>
+                                                </ul>
+                                            </li>
+                                        </volist>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="am-tab-panel am-fade am-in am-active" id="tab4">
+
+                            <!-- MR area -->
+                            <div class="am-panel am-panel-secondary">
+                                <div class="am-panel-hd">MR</div>
+                                <div class="am-panel-bd">
+                                    <ul class="am-avg-sm-5 am-thumbnails">
+                                        <volist name="data.MR" id="vo">
+                                            <li>
+                                                <ul class="am-list am-list-static">
+                                                    <li>标题: {$vo.title}</li>
+                                                    <li>次标题: {$vo.subtitle}</li>
+                                                    <li>点击后跳转链接: {$vo.targetItemLink}</li>
+                                                    <li>最后更新时间: {$vo.lastUpdatedDate}</li>
+                                                    <li>顺序: {$vo.sequence}</li>
+                                                    <li>是否有效: {$vo.active}</li>
+                                                    <li><img class="am-thumbnail" src="{$vo.image}" /></li>
+                                                </ul>
+                                            </li>
+                                        </volist>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="am-tab-panel am-fade am-in am-active" id="tab5">
+
+                            <!-- F area -->
+                            <div class="am-panel am-panel-secondary">
+                                <div class="am-panel-hd">F</div>
+                                <div class="am-panel-bd">
+                                    <ul class="am-avg-sm-5 am-thumbnails">
+                                        <volist name="data.F" id="vo">
+                                            <li>
+                                                <ul class="am-list am-list-static">
+                                                    <li>标题: {$vo.title}</li>
+                                                    <li>次标题: {$vo.subtitle}</li>
+                                                    <li>点击后跳转链接: {$vo.targetItemLink}</li>
+                                                    <li>最后更新时间: {$vo.lastUpdatedDate}</li>
+                                                    <li>顺序: {$vo.sequence}</li>
+                                                    <li>是否有效: {$vo.active}</li>
+                                                    <li><img class="am-thumbnail" src="{$vo.image}" /></li>
+                                                </ul>
+                                            </li>
+                                        </volist>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- content end -->
+
+</div>
+
+<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+<footer>
+    <hr>
+    <p class="am-padding-left">© 2016 UltraBravo Inc.</p>
+</footer>
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="__PUBLIC__/AmazeUI-2.5.2/assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="__PUBLIC__/AmazeUI-2.5.2/assets/js/amazeui.min.js"></script>
+<script src="__PUBLIC__/AmazeUI-2.5.2/assets/js/app.js"></script>
+<script src="__PUBLIC__/starball/js/jquery.form.js"></script>
+<!-- 自己的JS代码-->
+<script>
+
+</script>
+</body>
+</html>
