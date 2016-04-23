@@ -1,4 +1,7 @@
 <extend name="Public/base" />
+<block name="customizedCss">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/starball/css/test2.css">
+</block>
 <block name="title"><title>产品列表</title></block>
 <block name="main">
 <div class="am-g yu-main-container">
@@ -158,6 +161,10 @@
 </block>
 <block name="customizedJavascript">
 <script>
+$("div.yu-sub-menu-list").removeClass("am-u-md-3 am-u-md-offset-1");
+$("div.yu-sub-menu-list").addClass("am-u-md-5 am-margin-0 am-padding-0");
+$("div.yu-sub-menu-selected").removeClass("am-u-md-10 am-u-md-offset-1");
+$("div.yu-sub-menu-selected").addClass("am-u-md-12");
 $(document).ready(function(){
 	if({:$brandsChecked} != null){
 		applychecks("brand",{:$brandsChecked});
