@@ -15,7 +15,8 @@
                       <if condition="$by eq 'girl'"><span class="yu-listpage-title">女孩</span></if>
                       <if condition="$by eq 'boy'"><span class="yu-listpage-title">男孩</span></if>
                 </div>
-                <if condition="$by eq 'time'"><div class="filterings">最近{$byValue}天</div></if>
+                <if condition="$by eq 'time' and $byValue neq 'commingsoon'"><div class="filterings">最近{$byValue}天</div></if>
+                <if condition="$by eq 'time' and $byValue eq 'commingsoon'"><div class="filterings">即将有货</div></if>
 	            <if condition="$by eq 'brand'"><div class="filterings">{$brand[0].brandName}</div></if>
 	            <if condition="$byValue eq 'brand'"><div class="filterings">{$brand[0].brandName}</div></if>
 	            <if condition="$byValue eq 'category'"><div class="filterings">{$category[0].categoryName}</div></if>

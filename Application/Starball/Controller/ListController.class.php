@@ -14,9 +14,15 @@ class ListController extends BaseController {
 		$colors = I('get.colors');
 		$seasons = I('get.seasons');
 		
+		//check inventory availability
+		$map["isAvailable"] = array('NEQ', "0");
 		//check page entry
 		if($by == "time"){
-			$map["DateDiff(now(),lastUpdatedDate)"] = array('ELT', $byValue); 
+			if($byValue == "commingsoon"){
+				$map["isAvailable"] = array('EQ', "2");
+			}else{
+				$map["DateDiff(now(),lastUpdatedDate)"] = array('ELT', $byValue); 
+			}
 		}elseif($by == "brand"){
 			$map["t_item.brandId"] = array('EQ', $byValue);
 		}elseif($by == "baby"){
