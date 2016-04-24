@@ -106,8 +106,10 @@ class BaseController extends Controller {
 		$backlogOrder = $orderLogic->getOrderByUserId($this->getCurrentUserId(), 'N');
 		if(count($backlogOrder) == 0){
 			//之前没有任何订单记录
+			$data['shippingFee'] = $this->calculateShippingFee();
 			$data['totalItemCount'] = $shoppingList['totalItemCount']; 
 			$data['totalAmount'] = $shoppingList['totalAmount'];
+			$data['totalFee'] = $data['totalAmount'] + $this->calculateShippingFee();
 			$data['userId'] = $this->getCurrentUserId(); 
 			$data['status'] = 'N';
 			$data['currency'] = $this->getCurrency();
@@ -168,6 +170,7 @@ class BaseController extends Controller {
 		}
 		
 		$orderData['totalAmount'] = $order['totalAmount'] + $newTotalPrice;
+		$orderData['totalFee'] = $orderData['totalAmount'] + $order['giftPackageFee'] + $this->calculateShippingFee();
 		$orderData['totalItemCount'] = $order['totalItemCount'] + $newTotalCount;
 		$orderData['currency'] = $this->getCurrency();
 		$orderLogic->updateOrder($orderData, $order['orderId']);
@@ -337,5 +340,10 @@ class BaseController extends Controller {
 			$i++;
 		}
 		return $addressList;
+	}
+
+	protected function calculateShippingFee(){
+		//TBC, 需要考虑汇率,按照当前用户的默认送货地址计算价格
+		return 0;	
 	}
 }

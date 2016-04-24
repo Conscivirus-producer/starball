@@ -13,6 +13,17 @@
 			$data = $this->where($map)->select();
 			return getSizeDescriptionByAge($data[0]['age']);
 		}
+		
+		public function updateInventory($inventoryId, $changedQuantity){
+			/*$map['inventoryId'] = $inventoryId;
+			$result = $this->where($map)->find();
+			
+			$data['inventoryId'] = $inventoryId;
+			$data['inventory'] = $result['inventory'] + $changedQuantity;
+			$this->where($map)->save($data);*/
+			
+			$this->execute("update t_inventory set inventory = inventory + ".$changedQuantity." where inventoryId = ".$inventoryId);
+		}
 
 		public function insertInventoriesforOneItem($itemId, $inventoryArray){
 			for ($i = 0; $i < count($inventoryArray); $i++) {

@@ -11,6 +11,22 @@ class CartController extends BaseController {
 		if(!$this->isLogin()){
 			$this->redirect('Home/register', array('fromAction' => 'shoppinglist'));
 		}
+		if(I('isGiftPackage') == true){
+			//如果需要礼品包装,把包装费用加到总费用里
+			$orderLogic = D('Order', 'Logic');
+			$order = $orderLogic->getCurrentOutstandingOrder($this->getCurrentUserId(), 'N');
+			$data['giftPackageFee'] = D('SupportingData', 'Logic')->getValueByKey('GIFT_PACKAGE_PRICE_'.$this->getCurrency());
+			$data['totalFee'] = $order['totalFee'] + $data['giftPackageFee'];
+			$orderLogic->updateOrder($data, $order['orderId']);
+			
+		}else{
+			//如果不需要礼品包装,则把包装费用去掉
+			$orderLogic = D('Order', 'Logic');
+			$order = $orderLogic->getCurrentOutstandingOrder($this->getCurrentUserId(), 'N');
+			$data['giftPackageFee'] = 0;
+			$data['totalFee'] = $order['totalAmount'] + $order['shippingFee'];
+			$orderLogic->updateOrder($data, $order['orderId']);			
+		}
 		$this->commonProcess();
 		$shipppingAddress = D("ShippingAddress", "Logic");
 		$addressList = $shipppingAddress->getAllAddress($this->getCurrentUserId());
@@ -75,14 +91,20 @@ class CartController extends BaseController {
 				$orderNumber = $order['orderNumber'];
 			}
 			
-			//更新订单地址信息
-			$data['shippingAddress'] = $addressId;
-			$orderLogic->updateOrder($data, $order['orderId']);
-			
 			//更新用户默认地址
 			$shipppingAddress = D("ShippingAddress", "Logic");
 			$shipppingAddress->unsetDefault($this->getCurrentUserId());
 			$shipppingAddress->setDefault($this->getCurrentUserId(), $addressId);
+
+			//计算运费
+			$shippingFee = $this->calculateShippingFee();
+						
+			//更新订单信息,运费,总费用,地址
+			$data['shippingAddress'] = $addressId;
+			$data['shippingFee'] = $shippingFee;
+			$data['totalFee'] = $order['totalAmount'] + $order['giftPackageFee'] + $shippingFee;
+			$orderLogic->updateOrder($data, $order['orderId']);
+			
 			$this->redirect('Payment/index', array('orderNumber' => $orderNumber, 'addressId'=>$addressId));
 		}
 	}

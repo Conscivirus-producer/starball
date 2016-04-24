@@ -14,7 +14,8 @@
 		}
 		
 		public function getOrderItemsByOrdeId($orderId){
-			return $this->where('orderId='.$orderId)->order('updatedDate desc')->select();
+			$map['orderId'] = $orderId;
+			return $this->where($map)->order('updatedDate desc')->select();
 		}
 		
 		public function updateOrderItem($data, $id){
