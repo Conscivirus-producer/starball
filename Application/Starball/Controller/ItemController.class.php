@@ -77,6 +77,8 @@ class ItemController extends BaseController {
 		if(count($backlogOrder) == 0){
 			$data['totalItemCount'] = 1; 
 			$data['totalAmount'] = I('currentPrice');
+			$data['shippingFee'] = $this->calculateShippingFee();
+			$data['totalFee'] = $data['totalAmount'] + $data['shippingFee'];
 			$data['userId'] = $userId; 
 			$data['status'] = 'N';
 			$data['currency'] = $this->getCurrency();
@@ -86,8 +88,10 @@ class ItemController extends BaseController {
 			$this->updateOrderItem($orderId);
 		} else{
 			$order = $backlogOrder[0];
+			$data['shippingFee'] = $this->calculateShippingFee();
 			$data['totalItemCount'] = $order['totalItemCount'] + 1;
 			$data['totalAmount'] = $order['totalAmount'] + I('currentPrice');
+			$data['totalFee'] = $data['totalAmount'] + $data['shippingFee'] + $order['giftPackageFee'];
 			$orderLogic->updateOrder($data, $order['orderId']);
 			
 			$this->updateOrderItem($order['orderId']);
