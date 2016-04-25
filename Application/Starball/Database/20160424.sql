@@ -51,3 +51,5 @@ INSERT INTO `t_supportingdata` (`key`, `value`, `remark`) VALUES
 
 ALTER TABLE  `t_order` ADD  `giftPackageFee` VARCHAR( 50 ) NOT NULL COMMENT  '礼品包装费用' AFTER  `shippingFee`;
 ALTER TABLE `t_order` DROP `isGiftPackage`;
+ALTER TABLE  `t_itemprice` ADD  `inventoryId` INT( 32 ) NOT NULL COMMENT  '参考t_inventory->inventoryId,对应尺码' AFTER  `itemId` ,
+ADD INDEX (  `inventoryId` );
