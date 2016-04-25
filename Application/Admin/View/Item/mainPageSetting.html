@@ -53,7 +53,7 @@
         <div class="am-offcanvas-bar admin-offcanvas-bar">
             <ul class="am-list admin-sidebar-list">
                 <li><a href="../Order" target="_blank"><span class="am-icon-home"></span> 订单管理</a></li>
-                <li><a href="./Brand" target="_blank"><span class="am-icon-square"></span> 品牌管理</a></li>
+                <li><a href="../Brand" target="_blank"><span class="am-icon-square"></span> 品牌管理</a></li>
                 <li class="admin-parent">
                     <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 商品管理 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
                     <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
@@ -79,6 +79,8 @@
                         <li><a href="#tab3">MLF</a></li>
                         <li><a href="#tab4">MR</a></li>
                         <li><a href="#tab5">F</a></li>
+                        <li><a href="#tab6">S</a></li>
+                        <li><a href="#tab7">添加</a></li>
                     </ul>
 
                     <div class="am-tabs-bd">
@@ -102,58 +104,6 @@
                                                 </ul>
                                             </li>
                                         </volist>
-                                        <!-- add button area-->
-                                        <li>
-                                            <ul class="am-list am-list-static" id="H-add-button-ul">
-                                                <li><button type="button" class="am-btn am-btn-primary" id="add-H">添加</button></li>
-                                            </ul>
-                                        </li>
-                                        <!-- add button area -->
-
-                                        <!-- new adding area -->
-                                        <li style="display: none" id="H-add-form">
-                                            <ul class="am-list am-list-static">
-                                                <li>
-                                                    <label for="title">标题</label>
-                                                    <input type="text" class="am-form-field" id="title" name="title" placeholder="输入标题">
-                                                </li>
-                                                <li>
-                                                    <label for="subtitle">次标题</label>
-                                                    <input type="text" class="am-form-field" id="subtitle" name="subtitle" placeholder="输入次标题">
-                                                </li>
-                                                <li>
-                                                    <label for="targetItemLink">点击后跳转链接</label>
-                                                    <input type="text" class="am-form-field" id="targetItemLink" name="targetItemLink" placeholder="输入点击后跳转链接">
-                                                </li>
-                                                <li>
-                                                    <label for="additionalLink">额外链接</label>
-                                                    <input type="text" class="am-form-field" id="additionalLink" name="additionalLink" placeholder="输入额外链接">
-                                                </li>
-                                                <li>
-                                                    <label class="am-checkbox">
-                                                        <input type="checkbox" value="1" name="active" id="active" data-am-ucheck> 即时生效
-                                                    </label>
-                                                </li>
-                                                <li>
-                                                    <div class="am-form-group am-form-file">
-                                                        <button type="button" class="am-btn am-btn-success">
-                                                            <i class="am-icon-cloud-upload"></i> 选择要上传的商品图片
-                                                        </button>
-                                                        <input id="image" type="file" name="image" >
-                                                    </div>
-                                                </li>
-                                                <li id="image-li">
-
-                                                </li>
-                                                <li>
-                                                    <button type="button" class="am-close" id="close-H-add-form">&times;</button>
-                                                </li>
-                                                <li>
-                                                    <button type="button" id="submit-button" class="am-btn am-btn-default">提交</button>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <!-- new adding area -->
                                     </ul>
                                 </div>
                             </div>
@@ -264,6 +214,84 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="am-tab-panel am-fade am-in am-active" id="tab6">
+
+                            <!-- F area -->
+                            <div class="am-panel am-panel-secondary">
+                                <div class="am-panel-hd">S</div>
+                                <div class="am-panel-bd">
+                                    <ul class="am-avg-sm-5 am-thumbnails">
+                                        <volist name="data.S" id="vo">
+                                            <li>
+                                                <ul class="am-list am-list-static">
+                                                    <li>标题: {$vo.title}</li>
+                                                    <li>次标题: {$vo.subtitle}</li>
+                                                    <li><a href="{$vo.targetItemLink}" target="_blank">点击后跳转链接</a></li>
+                                                    <li>最后更新时间: {$vo.lastUpdatedDate}</li>
+                                                    <li>顺序: {$vo.sequence}</li>
+                                                    <li>是否有效: {$vo.active}</li>
+                                                    <li><img class="am-thumbnail" src="{$vo.image}" /></li>
+                                                    <li><a class="am-btn am-btn-success" href="./editMainPageSetting?hotId={$vo.hotId}" target="_blank">修改</a></li>
+                                                </ul>
+                                            </li>
+                                        </volist>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="am-tab-panel am-fade am-in am-active" id="tab7">
+                            <form class="am-form" id="category-upload-form" action="" method="post">
+                                <fieldset>
+                                    <legend>添加首页上新/精选</legend>
+                                    <div class="am-form-group">
+                                        <label for="title">标题</label>
+                                        <input type="text" class="am-form-field" id="title" name="title" placeholder="输入标题">
+                                    </div>
+                                    <div class="am-form-group">
+                                        <label for="subtitle">次标题</label>
+                                        <input type="text" class="am-form-field" id="subtitle" name="subtitle" placeholder="输入次标题">
+                                    </div>
+                                    <div class="am-form-group">
+                                        <label for="targetItemLink">点击后跳转链接</label>
+                                        <input type="text" class="am-form-field" id="targetItemLink" name="targetItemLink" placeholder="输入点击后跳转链接">
+                                    </div>
+                                    <div class="am-form-group">
+                                        <label for="additionalLink">额外链接</label>
+                                        <input type="text" class="am-form-field" id="additionalLink" name="additionalLink" placeholder="输入额外链接">
+                                    </div>
+                                    <div class="am-form-group">
+                                        <label class="am-checkbox">
+                                            <input type="checkbox" value="1" name="active" id="active" data-am-ucheck> 即时生效
+                                        </label>
+                                    </div>
+                                    <div class="am-form-group">
+                                        <label for="type">类别</label>
+                                        <select name="type" id="type">
+                                            <option value="H">H</option>
+                                            <option value="MLH">MLH</option>
+                                            <option value="MLF">MLF</option>
+                                            <option value="MR">MR</option>
+                                            <option value="F">F</option>
+                                            <option value="S">精选</option>
+                                        </select>
+                                        <span class="am-form-caret"></span>
+                                    </div>
+                                    <div class="am-form-group am-form-file">
+                                        <button type="button" class="am-btn am-btn-success">
+                                            <i class="am-icon-cloud-upload"></i> 选择要上传的商品图片
+                                        </button>
+                                        <input id="image" type="file" name="image" >
+                                    </div>
+                                    <ul class="am-avg-sm-4 am-thumbnails" id="images-gallery">
+
+                                    </ul>
+                                    <p><button type="button" id="submit-button" class="am-btn am-btn-default">提交</button></p>
+                                </fieldset>
+                            </form>
+                        </div>
+
                     </div>
                     <!-- 图片上传报错框 -->
                     <div class="am-modal am-modal-alert" tabindex="-1" id="single-pic-alert">
@@ -332,16 +360,9 @@
 <script>
     var qiniuToken = $("#qiniuToken").val();
     var Qiniu_UploadUrl = "http://up.qiniu.com";
-    $("#add-H").click(function(){
-        $("#H-add-form").show();
-    });
-    $("#close-H-add-form").click(function(){
-        $("#H-add-form").hide();
-    });
-    var imageKey;
-    var imageUrl;
-    var isImageUploaded = false;
-    var isDeletingImage = false;
+    var imageKey = "";
+    var imageUrl = "";
+    var isUploadingImage = false;
     // qiniu upload
     $("#image").change(function() {
         var Qiniu_upload = function(f, token, key) {
@@ -353,42 +374,41 @@
             formData.append('token', token);
             formData.append('file', f);
             xhr.onreadystatechange = function(response) {
+                isUploadingImage = false;
                 if (xhr.readyState == 4 && xhr.status == 200 && xhr.responseText != "") {
-                    $("#image-li").empty();
+                    $("#images-gallery").empty();
                     imageUrl = "http://7xp6oq.com2.z0.glb.qiniucdn.com/" + key;
-                    $("#image-li").append('<img class="am-thumbnail" src="http://7xp6oq.com2.z0.glb.qiniucdn.com/' + key +'" />');
-                    isImageUploaded = true;
-                    var $button = $('<button type="button" name="' + key + '" class="am-close">&times;</button>');
-                    $button.click(function() {
-                        // set true if deleting image
-                        isDeletingImage = true;
-                        var currentKey = $(this).attr("name");
-                        $.getJSON("./deleteImageByQiniuKey?qiniuKey=" + currentKey,function(result){
-                            if (result.status == "1") {
-                                isImageUploaded = false;
-                                isDeletingImage = false;
-                                $("#image-li").empty();
-                                // clear the image input file
-                                $("#image").val("");
-                            }
-                        });
-                    });
-                    $("#image-li").append($button);
+                    $("#images-gallery").append('<li><img class="am-thumbnail" src="http://7xp6oq.com2.z0.glb.qiniucdn.com/' + key +'" /></li>');
                 } else if (xhr.status != 200 && xhr.responseText) {
-                    isImageUploaded = false;
                     $('#single-pic-alert').modal('open');
                 }
             };
             xhr.send(formData);
         };
         if ($("#image")[0].files.length > 0 && qiniuToken != "") {
-            var startDate = new Date().getTime();
-            imageKey = "item_image_" + startDate;
-            $("#image-li").append('<img class="am-thumbnail" src="http://7xoh2x.com1.z0.glb.clouddn.com/loading.gif" />');
-            Qiniu_upload($("#image")[0].files[0], qiniuToken, imageKey);
+            isUploadingImage = true;
+            if (imageKey != "") {
+                $.getJSON("./deleteImageByQiniuKey?qiniuKey=" + imageKey,function(result){
+                    if (result.status == "1") {
+                        var startDate = new Date().getTime();
+                        imageKey = "item_image_" + startDate;
+                        $("#images-gallery").empty();
+                        $("#images-gallery").append('<img class="am-thumbnail" src="http://7xoh2x.com1.z0.glb.clouddn.com/loading.gif" />');
+                        imageUrl = "";
+                        Qiniu_upload($("#image")[0].files[0], qiniuToken, imageKey);
+                    }
+                });
+            } else {
+                var startDate = new Date().getTime();
+                imageKey = "item_image_" + startDate;
+                $("#images-gallery").empty();
+                $("#images-gallery").append('<img class="am-thumbnail" src="http://7xoh2x.com1.z0.glb.clouddn.com/loading.gif" />');
+                imageUrl = "";
+                Qiniu_upload($("#image")[0].files[0], qiniuToken, imageKey);
+            }
         } else {
+            isUploadingImage = false;
             $('#single-pic-alert').modal('open');
-            isImageUploaded = false;
         }
     });
     $("#submit-button").click(function(){
@@ -401,9 +421,8 @@
             data["targetItemLink"] = $("#targetItemLink").val().trim();
             data["additionalLink"] = $("#additionalLink").val().trim();
             data["active"] = ($("#active").is(':checked')) ? 1 : 0;
-            data["type"] = "H";
+            data["type"] = $("#type").val();
             data["image"] = imageUrl;
-            data["sequence"] = parseInt($("#H-add-button-ul").parent().prev().children(".am-list.am-list-static").children().eq(4).text().split(":")[1]) + 1;
             $.post("./addOneMainPageSetting", data, function(result){
                 if ($.parseJSON(result).status == "1") {
                     window.location.reload();
@@ -414,13 +433,13 @@
         }
     });
     function validateFields() {
+        if (imageUrl == "") {
+            return false;
+        }
         if ($("#targetItemLink").val().trim() == "") {
             return false;
         }
-        if (isImageUploaded == false) {
-            return false;
-        }
-        if (isDeletingImage == true) {
+        if (isUploadingImage == true) {
             return false;
         }
         return true;

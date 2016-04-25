@@ -16,6 +16,10 @@
 		}
 
 		public function insertOneHotItem($data) {
+			$map["type"] = $data["type"];
+			$sequence = (int)current($this->where($map)->order("sequence desc")->select())["sequence"] + 1;
+			$sequence = "".$sequence;
+			$data["sequence"] = $sequence;
 			$data["lastUpdatedDate"] = date('y-m-d h:i:s',time());
 			return ($this->add($data) !== false);
 		}
