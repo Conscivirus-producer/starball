@@ -13,10 +13,17 @@ class ListController extends BaseController {
 		$ages = I('get.ages');
 		$colors = I('get.colors');
 		$seasons = I('get.seasons');
+		$tag = I('get.tags');
 		
+		//check inventory availability
+		$map["isAvailable"] = array('NEQ', "0");
 		//check page entry
 		if($by == "time"){
-			$map["DateDiff(now(),lastUpdatedDate)"] = array('ELT', $byValue); 
+			if($byValue == "commingsoon"){
+				$map["isAvailable"] = array('EQ', "2");
+			}else{
+				$map["DateDiff(now(),lastUpdatedDate)"] = array('ELT', $byValue); 
+			}
 		}elseif($by == "brand"){
 			$map["t_item.brandId"] = array('EQ', $byValue);
 		}elseif($by == "baby"){
@@ -54,13 +61,24 @@ class ListController extends BaseController {
 		}
 		
 		//get item list and paging
-		$itemList = D('Item')->field('t_item.*, img.image, price.price')
+		if($tag == ""){
+			$itemList = D('Item')->field('t_item.*, img.image, price.price')
 							 ->where($map)
 							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.currency = '".$this->getCurrency()."'")
 							 ->order('brandId desc,categoryId desc, t_item.itemId desc')
 							 ->page($p.',12')
 							 ->select();
+		}else{
+			$itemList = D('Item')->field('t_item.*, img.image, price.price')
+							 ->where($map)
+							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
+							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.currency = '".$this->getCurrency()."'")
+							 ->join("t_tag tg ON tg.itemId = t_item.itemId AND tg.tagName ='".$tag."'")
+							 ->order('brandId desc,categoryId desc, t_item.itemId desc')
+							 ->page($p.',12')
+							 ->select();
+		}
 		$count = D('Item')->where($map)->count();
 		$Page = new \Think\Page($count,12);
 		$show = $Page->show();					 
