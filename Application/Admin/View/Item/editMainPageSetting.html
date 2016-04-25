@@ -1,0 +1,293 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>修改首页上新</title>
+    <meta name="description" content="修改首页上新页面">
+    <meta name="keywords" content="help">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" href="__PUBLIC__/AmazeUI-2.5.2/assets/i/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="__PUBLIC__/AmazeUI-2.5.2/assets/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="stylesheet" href="__PUBLIC__/AmazeUI-2.5.2/assets/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="__PUBLIC__/AmazeUI-2.5.2/assets/css/admin.css">
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+    以获得更好的体验！</p>
+<![endif]-->
+<!-- 七牛token -->
+<input type="text" id="qiniuToken" name="qiniuToken" value="{$qiniuToken}" style="display: none">
+<header class="am-topbar admin-header">
+    <div class="am-topbar-brand">
+        <strong>StarBall</strong> <small>后台管理</small>
+    </div>
+
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+            <li><a href="javascript:;"><span class="am-icon-envelope-o"></span> 收件箱 <span class="am-badge am-badge-warning">5</span></a></li>
+            <li class="am-dropdown" data-am-dropdown>
+                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                    <span class="am-icon-users"></span> 管理员 <span class="am-icon-caret-down"></span>
+                </a>
+                <ul class="am-dropdown-content">
+                    <li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
+                    <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
+                    <li><a href="#"><span class="am-icon-power-off"></span> 退出</a></li>
+                </ul>
+            </li>
+            <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><span class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
+        </ul>
+    </div>
+</header>
+
+<div class="am-cf admin-main">
+    <!-- sidebar start -->
+    <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+        <div class="am-offcanvas-bar admin-offcanvas-bar">
+            <ul class="am-list admin-sidebar-list">
+                <li><a href="../Order" target="_blank"><span class="am-icon-home"></span> 订单管理</a></li>
+                <li class="admin-parent">
+                    <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 商品管理 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+                        <li><a href="./upload" class="am-cf" target="_blank"><span class="am-icon-upload"></span> 商品上新</a></li>
+                        <li><a href="./search" target="_blank"><span class="am-icon-search"></span> 商品搜索</a></li>
+                        <li><a href="./mainPageSetting" target="_blank"><span class="am-icon-level-up"></span> 首页上新</a></li>
+                    </ul>
+                </li>
+                <li><a href="#"><span class="am-icon-sign-out"></span> 注销</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- sidebar end -->
+
+    <!-- content start -->
+    <div class="admin-content">
+        <div class="am-g">
+            <!-- main page setting editting area -->
+            <div class="am-u-sm-12">
+                <form class="am-form" id="single-hot-item-form" method="post" enctype="multipart/form-data">
+                    <fieldset>
+                        <legend>更新首页上新</legend>
+                        <div class="am-form-group">
+                            <label >类型: {$data.type}</label>
+                        </div>
+                        <div class="am-form-group">
+                            <label >顺序: {$data.sequence}</label>
+                        </div>
+                        <div class="am-form-group">
+                            <label for="title">标题</label>
+                            <input type="text" class="" name="title" id="title" placeholder="输入标题" value="{$data.title}">
+                        </div>
+                        <div class="am-form-group">
+                            <label for="subtitle">次标题</label>
+                            <input type="text" class="" name="subtitle" id="subtitle" placeholder="输入次标题" value="{$data.subtitle}">
+                        </div>
+                        <div class="am-form-group">
+                            <label for="targetItemLink">点击后跳转链接</label>
+                            <input type="text" class="" name="targetItemLink" id="targetItemLink" placeholder="输入点击后跳转链接" value="{$data.targetItemLink}">
+                        </div>
+                        <div class="am-form-group">
+                            <label for="additionalLink">额外链接</label>
+                            <input type="text" class="" name="additionalLink" id="additionalLink" placeholder="输入额外链接" value="{$data.additionalLink}">
+                        </div>
+                        <div class="am-form-group">
+                            <label >是否即时生效</label>
+                            <label class="am-checkbox">
+                                <input type="checkbox" value="1" name="active" id="active" data-am-ucheck> 即时生效
+                            </label>
+                        </div>
+                    </fieldset>
+                </form>
+                <fieldset>
+                    <!-- 放到form外面去 -->
+                    <div class="am-form-group am-form-file">
+                        <button type="button" class="am-btn am-btn-success am-btn-sm">
+                            <i class="am-icon-cloud-upload"></i> 选择要上传的商品图片
+                        </button>
+                        <input id="image" type="file" name="image" >
+                    </div>
+                    <ul class="am-avg-sm-4 am-thumbnails" id="images-gallery">
+
+                    </ul>
+                    <p><button type="button" id="update-single-hot-item" class="am-btn am-btn-default">提交</button></p>
+                </fieldset>
+            </div>
+            <!-- 图片上传报错框 -->
+            <div class="am-modal am-modal-alert" tabindex="-1" id="single-pic-alert">
+                <div class="am-modal-dialog">
+                    <div class="am-modal-hd">图片上传错误</div>
+                    <div class="am-modal-bd">
+                        请重新上传图片
+                    </div>
+                    <div class="am-modal-footer">
+                        <span class="am-modal-btn">确定</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 内容填写不完整报错框 -->
+            <div class="am-modal am-modal-alert" tabindex="-1" id="single-input-alert">
+                <div class="am-modal-dialog">
+                    <div class="am-modal-hd">请把内容填写正确</div>
+                    <div class="am-modal-bd">
+                        请把内容填写正确
+                    </div>
+                    <div class="am-modal-footer">
+                        <span class="am-modal-btn">确定</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 内容填写不完整报错框 -->
+            <div class="am-modal am-modal-alert" tabindex="-1" id="main-setting-update-fail">
+                <div class="am-modal-dialog">
+                    <div class="am-modal-hd">更新失败</div>
+                    <div class="am-modal-bd">
+                        更新失败
+                    </div>
+                    <div class="am-modal-footer">
+                        <span class="am-modal-btn">确定</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- content end -->
+
+</div>
+
+<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+<footer>
+    <hr>
+    <p class="am-padding-left">© 2016 UltraBravo Inc.</p>
+</footer>
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="__PUBLIC__/AmazeUI-2.5.2/assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="__PUBLIC__/AmazeUI-2.5.2/assets/js/amazeui.min.js"></script>
+<script src="__PUBLIC__/AmazeUI-2.5.2/assets/js/app.js"></script>
+<script src="__PUBLIC__/starball/js/jquery.form.js"></script>
+<!-- 自己的JS代码-->
+<script>
+    var qiniuToken = $("#qiniuToken").val();
+    var Qiniu_UploadUrl = "http://up.qiniu.com";
+    var data = {$dataJSON};
+    var hotId = data.hotId;
+    if (data.active == "1") {
+        $("#active").attr("checked", true);;
+    }
+    var imageKey = "";
+    var imageUrl = data.image;
+    var imageChanged = "0";
+    var isUploadingImage = false;
+    if (imageUrl != "") {
+        var $li = $("<li></li>");
+        var $img = $('<img class="am-thumbnail" src="' + imageUrl + '" />');
+        $img.appendTo($li);
+        $li.appendTo($("#images-gallery"));
+    }
+    $("#image").change(function() {
+        var Qiniu_upload = function(f, token, key) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', Qiniu_UploadUrl, true);
+            var formData;
+            formData = new FormData();
+            if (key !== null && key !== undefined) formData.append('key', key);
+            formData.append('token', token);
+            formData.append('file', f);
+            xhr.onreadystatechange = function(response) {
+                isUploadingImage = false;
+                if (xhr.readyState == 4 && xhr.status == 200 && xhr.responseText != "") {
+                    $("#images-gallery").empty();
+                    imageUrl = "http://7xp6oq.com2.z0.glb.qiniucdn.com/" + key;
+                    $("#images-gallery").append('<li><img class="am-thumbnail" src="http://7xp6oq.com2.z0.glb.qiniucdn.com/' + key +'" /></li>');
+                    imageChanged = "1";
+                } else if (xhr.status != 200 && xhr.responseText) {
+                    $('#single-pic-alert').modal('open');
+                }
+            };
+            xhr.send(formData);
+        };
+        if ($("#image")[0].files.length > 0 && qiniuToken != "") {
+            isUploadingImage = true;
+            if (imageKey != "") {
+                $.getJSON("./deleteImageByQiniuKey?qiniuKey=" + imageKey,function(result){
+                    if (result.status == "1") {
+                        var startDate = new Date().getTime();
+                        imageKey = "item_image_" + startDate;
+                        $("#images-gallery").empty();
+                        $("#images-gallery").append('<img class="am-thumbnail" src="http://7xoh2x.com1.z0.glb.clouddn.com/loading.gif" />');
+                        imageUrl = "";
+                        Qiniu_upload($("#image")[0].files[0], qiniuToken, imageKey);
+                    }
+                });
+            } else {
+                var startDate = new Date().getTime();
+                imageKey = "item_image_" + startDate;
+                $("#images-gallery").empty();
+                $("#images-gallery").append('<img class="am-thumbnail" src="http://7xoh2x.com1.z0.glb.clouddn.com/loading.gif" />');
+                imageUrl = "";
+                Qiniu_upload($("#image")[0].files[0], qiniuToken, imageKey);
+            }
+        } else {
+            isUploadingImage = false;
+            $('#single-pic-alert').modal('open');
+        }
+    });
+    $("#update-single-hot-item").click(function(){
+
+    });
+    function validateFields() {
+        if (imageUrl == "") {
+            return false;
+        }
+        if ($("#targetItemLink").val().trim() == "") {
+            return false;
+        }
+        if (isUploadingImage == true) {
+            return false;
+        }
+        return true;
+    };
+    $("#update-single-hot-item").click(function(){
+        if (validateFields() == false) {
+            $("#single-input-alert").modal("open");
+        } else {
+            var postData = {};
+            postData["hotId"] = hotId;
+            postData["title"] = $("#title").val().trim();
+            postData["subtitle"] = $("#subtitle").val().trim();
+            postData["targetItemLink"] = $("#targetItemLink").val().trim();
+            postData["additionalLink"] = $("#additionalLink").val().trim();
+            postData["active"] = ($("#active").is(':checked')) ? 1 : 0;
+            postData["image"] = imageUrl;
+            postData["imageChanged"] = imageChanged;
+            $.post("./updateMainPageSetting", postData, function(result){
+                if ($.parseJSON(result).status == "1") {
+                    window.location.reload();
+                } else {
+                    $("#main-setting-update-fail").modal('open');
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

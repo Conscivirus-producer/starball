@@ -271,7 +271,83 @@ class ItemController extends Controller {
         for($i = 0; $i < count($categories); $i++) {
             $data[$categories[$i]] = $hotItemLogic->getHotItems($categories[$i]);
         }
+        vendor("qiniusdk.autoload");
+        $accessKey = 'k7HBysPt-HoUz4dwPT6SZpjyiuTdgmiWQE-7qkJ4';
+        $secretKey = 'BuaBzxTxNsNUBSy1ZvFUAfUbj8GommyWbfJ0eQ2R';
+        $auth = new Auth($accessKey, $secretKey);
+        $bucket = 'image';
+        $token = $auth->uploadToken($bucket,null,3600,null,true);
+        $this->assign('qiniuToken',$token);
         $this->assign("data", $data);
         $this->display();
     }
+
+    public function addOneMainPageSetting() {
+        $res = array(
+            "status" => "0"
+        );
+        $hotItemLogic = D("HotItem", "Logic");
+        $fields = array(
+            "title",
+            "subtitle",
+            "targetItemLink",
+            "additionalLink",
+            "active",
+            "type",
+            "image",
+            "sequence"
+        );
+        $data = array();
+        for ($i = 0; $i < count($fields); $i++) {
+            $data[$fields[$i]] = I("post.".$fields[$i]);
+        }
+        if ($hotItemLogic->insertOneHotItem($data) !== false) {
+            $res["status"] = "1";
+        }
+        echo json_encode($res);
+    }
+
+    public function editMainPageSetting() {
+        $hotItemLogic = D("HotItem", "Logic");
+        $hotId = I("get.hotId", "");
+        if ($hotId == "") {
+            die("错误操作");
+        }
+        vendor("qiniusdk.autoload");
+        $accessKey = 'k7HBysPt-HoUz4dwPT6SZpjyiuTdgmiWQE-7qkJ4';
+        $secretKey = 'BuaBzxTxNsNUBSy1ZvFUAfUbj8GommyWbfJ0eQ2R';
+        $auth = new Auth($accessKey, $secretKey);
+        $bucket = 'image';
+        $token = $auth->uploadToken($bucket,null,3600,null,true);
+        $this->assign('qiniuToken', $token);
+        $this->assign('data', $hotItemLogic->getHotItemInformationById($hotId));
+        $this->assign('dataJSON', json_encode($hotItemLogic->getHotItemInformationById($hotId)));
+        $this->display();
+    }
+
+    public function updateMainPageSetting() {
+        $res = array(
+            "status" => "0"
+        );
+        $hotItemLogic = D("HotItem", "Logic");
+        $fields = array(
+            "hotId",
+            "title",
+            "subtitle",
+            "targetItemLink",
+            "additionalLink",
+            "active",
+            "image",
+            "imageChanged"
+        );
+        $data = array();
+        for ($i = 0; $i < count($fields); $i++) {
+            $data[$fields[$i]] = I("post.".$fields[$i]);
+        }
+        if ($hotItemLogic->updateOneHotItem($data) !== false) {
+            $res["status"] = "1";
+        }
+        echo json_encode($res);
+    }
+
 }
