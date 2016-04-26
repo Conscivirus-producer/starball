@@ -61,13 +61,17 @@ class ItemController extends Controller {
         $inventory = array();
         for ($i = 0; $i <= $inventoryCount; $i++) {
             $inventorySizeStart = I("post.inventory-size-start".$i, "");
-            if ($inventorySizeStart == "") {
-                continue;
-            }
             $inventorySizeEnd = I("post.inventory-size-end".$i, "");
             $inventoryNumber = I("post.inventory-number".$i, "");
+            $inventoryPriceCNY = I("post.inventory-price-CNY".$i, "");
+            $inventoryPriceHKD = I("post.inventory-price-HKD".$i, "");
+            if ($inventorySizeStart == "" || $inventorySizeEnd == "" || $inventoryNumber == "" || $inventoryPriceCNY == "" || $inventoryPriceHKD == "") {
+                continue;
+            }
             $inventory["age"] = $inventorySizeStart.",".$inventorySizeEnd;
             $inventory["inventory"] = $inventoryNumber;
+            $inventory["priceCNY"] = $inventoryPriceCNY;
+            $inventory["priceHKD"] = $inventoryPriceHKD;
             array_push($inventoryArray, $inventory);
         }
         $fields = array(
@@ -79,9 +83,9 @@ class ItemController extends Controller {
             "categoryId",
             "grade",
             "gender",
-            "priceHKD",
-            "priceCNY",
             "season",
+            "isAvailable",
+            "discount",
             "tag",
             "images_array"
         );
@@ -96,6 +100,8 @@ class ItemController extends Controller {
             if ($fields[$i] != "tag") {
                 if ($data[$fields[$i]] == "") {
                     echo json_encode($result);
+                    // stop if meets empty value
+                    return;
                 }
             }
         }
@@ -142,13 +148,17 @@ class ItemController extends Controller {
         $inventory = array();
         for ($i = 0; $i <= $inventoryCount; $i++) {
             $inventorySizeStart = I("post.inventory-size-start".$i, "");
-            if ($inventorySizeStart == "") {
-                continue;
-            }
             $inventorySizeEnd = I("post.inventory-size-end".$i, "");
             $inventoryNumber = I("post.inventory-number".$i, "");
+            $inventoryPriceCNY = I("post.inventory-price-CNY".$i, "");
+            $inventoryPriceHKD = I("post.inventory-price-HKD".$i, "");
+            if ($inventorySizeStart == "" || $inventorySizeEnd == "" || $inventoryNumber == "" || $inventoryPriceCNY == "" || $inventoryPriceHKD == "") {
+                continue;
+            }
             $inventory["age"] = $inventorySizeStart.",".$inventorySizeEnd;
             $inventory["inventory"] = $inventoryNumber;
+            $inventory["priceCNY"] = $inventoryPriceCNY;
+            $inventory["priceHKD"] = $inventoryPriceHKD;
             array_push($inventoryArray, $inventory);
         }
         $fields = array(
@@ -161,9 +171,9 @@ class ItemController extends Controller {
             "categoryId",
             "grade",
             "gender",
-            "priceHKD",
-            "priceCNY",
             "season",
+            "isAvailable",
+            "discount",
             "tag",
             "images_array"
         );
@@ -248,7 +258,7 @@ class ItemController extends Controller {
         $this->display();
     }
 
-    function deleteOneItemByItemId() {
+    public function deleteOneItemByItemId() {
         $itemLogic = D("Item", "Logic");
         $itemId = I("get.deleteItemId", "");
         $res["status"] = "0";
@@ -257,4 +267,90 @@ class ItemController extends Controller {
         }
         echo json_encode($res);
     }
+
+    public function mainPageSetting() {
+        $data = array();
+        $hotItemLogic = D("HotItem", "Logic");
+        $categories = array("H", "MLH", "MLF", "MR", "F", "S");
+        for($i = 0; $i < count($categories); $i++) {
+            $data[$categories[$i]] = $hotItemLogic->getHotItems($categories[$i]);
+        }
+        vendor("qiniusdk.autoload");
+        $accessKey = 'k7HBysPt-HoUz4dwPT6SZpjyiuTdgmiWQE-7qkJ4';
+        $secretKey = 'BuaBzxTxNsNUBSy1ZvFUAfUbj8GommyWbfJ0eQ2R';
+        $auth = new Auth($accessKey, $secretKey);
+        $bucket = 'image';
+        $token = $auth->uploadToken($bucket,null,3600,null,true);
+        $this->assign('qiniuToken',$token);
+        $this->assign("data", $data);
+        $this->display();
+    }
+
+    public function addOneMainPageSetting() {
+        $res = array(
+            "status" => "0"
+        );
+        $hotItemLogic = D("HotItem", "Logic");
+        $fields = array(
+            "title",
+            "subtitle",
+            "targetItemLink",
+            "additionalLink",
+            "active",
+            "type",
+            "image",
+        );
+        $data = array();
+        for ($i = 0; $i < count($fields); $i++) {
+            $data[$fields[$i]] = I("post.".$fields[$i]);
+        }
+        if ($hotItemLogic->insertOneHotItem($data) !== false) {
+            $res["status"] = "1";
+        }
+        echo json_encode($res);
+    }
+
+    public function editMainPageSetting() {
+        $hotItemLogic = D("HotItem", "Logic");
+        $hotId = I("get.hotId", "");
+        if ($hotId == "") {
+            die("错误操作");
+        }
+        vendor("qiniusdk.autoload");
+        $accessKey = 'k7HBysPt-HoUz4dwPT6SZpjyiuTdgmiWQE-7qkJ4';
+        $secretKey = 'BuaBzxTxNsNUBSy1ZvFUAfUbj8GommyWbfJ0eQ2R';
+        $auth = new Auth($accessKey, $secretKey);
+        $bucket = 'image';
+        $token = $auth->uploadToken($bucket,null,3600,null,true);
+        $this->assign('qiniuToken', $token);
+        $this->assign('data', $hotItemLogic->getHotItemInformationById($hotId));
+        $this->assign('dataJSON', json_encode($hotItemLogic->getHotItemInformationById($hotId)));
+        $this->display();
+    }
+
+    public function updateMainPageSetting() {
+        $res = array(
+            "status" => "0"
+        );
+        $hotItemLogic = D("HotItem", "Logic");
+        $fields = array(
+            "hotId",
+            "title",
+            "subtitle",
+            "targetItemLink",
+            "additionalLink",
+            "active",
+            "image",
+            "imageChanged"
+        );
+        $data = array();
+        for ($i = 0; $i < count($fields); $i++) {
+            $data[$fields[$i]] = I("post.".$fields[$i]);
+        }
+        if ($hotItemLogic->updateOneHotItem($data) !== false) {
+            $res["status"] = "1";
+        }
+        echo json_encode($res);
+    }
+
 }

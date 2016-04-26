@@ -34,7 +34,7 @@ class PaymentController extends BaseController {
 		$data["timestamp"] = time() * 1000;
 		$data["app_sign"] = md5($data["app_id"] . $data["timestamp"] . $appSecret);
 		$data["channel"] = "WX_NATIVE";
-		$data["total_fee"] =  intval($order['totalAmount'] * 100);
+		$data["total_fee"] =  intval($order['totalFee'] * 100);
 		$data["bill_no"] = $orderNumber.$data["timestamp"];
 		//$data["bill_no"] = "bcdemo" . "static";
 		$data["title"] = "StarBall.Kids订单".$orderNumber;
@@ -122,13 +122,21 @@ class PaymentController extends BaseController {
 		//更新订单状态
 		$orderData['status'] = 'P';
 		D('Order', 'Logic')->updateOrderByNumber($orderData, $bill['orderNumber']);
-		
+		$this->deduceInventoryByOrder($bill['orderNumber']);
 		$data = array(
 		    'message'=>'处理成功',
 		);
 		$vo = $data;
 		$vo['status'] = 1;
 		$this->ajaxReturn($vo, "json");
+	}
+	
+	private function deduceInventoryByOrder($orderNumber){
+		$order = D('Order', 'Logic')->findByOrderNumber($orderNumber);
+		$orderItems = D('OrderItem', 'Logic')->getOrderItemsByOrdeId($order['orderId']);
+		foreach($orderItems as $record){
+			D('Inventory', 'Logic')->updateInventory($record['itemSize'], -$record['quantity']);
+		}
 	}
 	
 	public function webhook(){
@@ -175,7 +183,6 @@ class PaymentController extends BaseController {
 					}
 					$bill = $record[0];
 					if($bill['totalAmount'] != $msg->transaction_fee / 100){
-						echo '1';
 						//确认金额确实为业务产生的金额
 						logWarn('Payment Webhook:Total Fee not matched, msg:'.$jsonStr);
 						break;
@@ -189,6 +196,8 @@ class PaymentController extends BaseController {
 					if($result){
 						$orderData['status'] = 'P';
 						D('Order', 'Logic')->updateOrderByNumber($orderData, $bill['orderNumber']);
+						//更新库存
+						$this->deduceInventoryByOrder($bill['orderNumber']);
 					}
 		            break;
 		        case "ALI":

@@ -45,7 +45,7 @@
 					</volist>
 					<div class="am-panel am-panel-default" style="margin-top:15px">
 						<div class="am-panel-hd" style="font-size: 13px">
-							<input type="checkbox" name="gift-card" value="" /><span style="margin-left: 10px">礼品包装与礼品卡信息</span><span style="float: right">{$priceSymbol}35</span><br/>
+							<input type="checkbox" id="gift-card" value="" /><span style="margin-left: 10px">礼品包装与礼品卡信息</span><span style="float: right">{$priceSymbol}35</span><br/>
 							
 						</div>
 						<div class="am-panel-bd" style="font-size: 12px">
@@ -94,7 +94,7 @@
 		$(".cart-step1").addClass("step-on");
 		$("#cartlnk1").attr('href', "{:U('Starball/Cart/index')}");
 		$(".submit").click(function(){
-			window.location.href="{:U('Starball/Cart/delivery')}";
+			window.location.href="{:U('Starball/Cart/delivery')}?isGiftPackage="+$('#gift-card')[0].checked;
 		});
 	</script>
 </block>

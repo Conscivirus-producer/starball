@@ -2,24 +2,25 @@
 	namespace Common\Logic;
 	use Common\Model\ItemPriceModel;
 	class ItemPriceLogic extends ItemPriceModel{
-		public function getPriceByItemId($itemId){
-			$map['itemId'] = $itemId;
-			$data = $this->where($map)->select();
-			return $data;
-		}
 		
-		public function getPriceMap($itemId){
-			$result = $this->getPriceByItemId($itemId);
+		public function getPriceMap($itemId, $currency){
+			$map['itemId'] = $itemId;
+			$map['currency'] = $currency;
+			$result = $this->where($map)->select();
 			$data = array();
 			foreach($result as $record){
-				$data[$record['currency']] = $record['price'];
+				$data[$record['inventoryId']] = $record['price'];
 			}
 			return $data;
 		}
 
-		public function insertItemPrices($itemId, $priceArray) {
+
+		// related with inventory ID
+		public function insertItemPrices($itemId, $inventoryId, $priceArray) {
 			$data = array();
 			$data["itemId"] = $itemId;
+			$data["inventoryId"] = $inventoryId;
+			$data["updatedDate"] = date('y-m-d h:i:s',time());
 			foreach ($priceArray as $key => $value) {
 				$data["price"] = $value;
 				$data["currency"] = $key;
@@ -65,6 +66,15 @@
 			} else {
 				return false;
 			}
+		}
+
+		public function getClassifiedItemPricesByInventoryId($inventoryId) {
+			$map["inventoryId"] = $inventoryId;
+			$data = $this->where($map)->select();
+			for ($i = 0; $i < count($data); $i++) {
+				$result[$data[$i]["currency"]] = $data[$i];
+			}
+			return $result;
 		}
 	}
 

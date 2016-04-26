@@ -292,6 +292,9 @@ nav.yu-nav{
 a.yu-menu{
 	margin-bottom:0px;
 }
+a.yu-menu{
+	margin-bottom:0px;
+}
 a.yu-text-black{
 	color:#000000 !important;
 }
@@ -360,7 +363,7 @@ div.yu-header-container{
  	max-width:100%;
  	margin:0 auto;
  	padding:0 10px;
- 	border-bottom: 2px solid black;
+ 	/*border-bottom: 2px solid black;*/
  }
  
  div.yu-layout-container{
@@ -515,6 +518,58 @@ dl.yu-accordion-list{
 }
 dt.yu-bottomborder-none{
 	border-bottom:none!important;
+}
+span.current{
+	border: 1px solid #CECECE;
+	width: 25px;
+	margin-right: 5px;
+	display: inline-block;
+	color:black;
+	background:#ececec;
+}
+a.num{
+	border: 1px solid #CECECE;
+	width: 25px;
+	margin-right: 5px;
+	display: inline-block;
+	color: #CECECE;
+}
+
+a.next{
+	width: 25px;
+	margin-right: 5px;
+	display: inline-block;
+	color: black;
+}
+a.prev{
+	width: 25px;
+	margin-right: 5px;
+	display: inline-block;
+	color: #CECECE;
+	border: 1px solid #CECECE;
+}
+
+a.next{
+	width: 25px;
+	margin-right: 5px;
+	display: inline-block;
+	color: #CECECE;
+	border: 1px solid #CECECE;
+	
+}
+a.first{
+	width: 25px;
+	margin-right: 5px;
+	display: inline-block;
+	color: #CECECE;
+	border: 1px solid #CECECE;
+}
+a.last{
+	width: 25px;
+	margin-right: 5px;
+	display: inline-block;
+	color: #CECECE;
+	border: 1px solid #CECECE;
 }
 
 /*footer*/

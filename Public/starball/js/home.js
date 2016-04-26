@@ -25,6 +25,13 @@ $("div.yu-sub-menu.am-u-md-12").mouseleave(function(){
 	$(this).fadeOut();
 });
 
+$("a.yu-menu-link").mouseenter(function(){
+	$(this).css("border-bottom", "4px solid black");
+});
+$("a.yu-menu-link").mouseleave(function(){
+	$(this).css("border-bottom", "");
+});
+
 $(document).ready(function(){
 	$("#yu-spynav").scrollspynav(
 		options={active:"am-active",

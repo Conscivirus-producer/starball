@@ -69,7 +69,7 @@
 			if ($this->deleteImageByQiniuKey($key) === false) {
 				return false;
 			} else {
-				if ($this->where($map)->delete() != false) {
+				if ($this->where($map)->delete() !== false) {
 					return true;
 				}
 				return false;

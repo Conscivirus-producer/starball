@@ -4,37 +4,34 @@
 	class ItemLogic extends ItemModel{
 		public function getItemById($itemId){
 			$map['itemId'] = $itemId;
-			$data = $this->field('t_brand.brandName, t_item.*')->where($map)->join('t_brand on t_item.brandId = t_brand.brandId')->select();
+			$data = $this->field('t_brand.brandName, t_item.*')->where($map)->join('t_brand on t_item.brandId = t_brand.brandId')->find();
 			return $data;
 		}
 
 		public function insertOneItem($data) {
-			$itemPriceLogic = D("ItemPrice", "Logic");
 			// add the inventory
 			$inventoryLogic = D("Inventory", "Logic");
 			$inventoryArray = $data["inventory"];
 			// add the tag
 			$tagLogic = D("Tag", "Logic");
 			$tagString = $data["tag"];
-			$priceArray = array();
-			$priceArray["CNY"] = $data["priceCNY"];
-			$priceArray["HKD"] = $data["priceHKD"];
+			//$priceArray = array();
+			//$priceArray["CNY"] = $data["priceCNY"];
+			//$priceArray["HKD"] = $data["priceHKD"];
 			$imageLogic = D("Image", "Logic");
 			$imageArray = split(",",$data["images_array"]);
 			$newData = $data;
 			unset($newData["images_array"]);
-			unset($newData["priceCNY"]);
-			unset($newData["priceHKD"]);
+			//unset($newData["priceCNY"]);
+			//unset($newData["priceHKD"]);
 			unset($newData["tag"]);
 			unset($newData["inventory"]);
 			$newData["lastUpdatedDate"] = date('y-m-d h:i:s',time());
-			$newData["isAvailable"] = "1";
-			$newData["discount"] = 100;
 			$index = $this->add($newData);
 			if($index === false) {
 				return false;
 			} else {
-				$res = ($imageLogic->insertMultipleImages($index, $imageArray)) & ($itemPriceLogic->insertItemPrices($index, $priceArray) & $tagLogic->insertTagsForOneItem($index, $tagString) & $inventoryLogic->insertInventoriesforOneItem($index, $inventoryArray));
+				$res = ($imageLogic->insertMultipleImages($index, $imageArray)) & ($tagLogic->insertTagsForOneItem($index, $tagString)) & ($inventoryLogic->insertInventoriesforOneItem($index, $inventoryArray));
 				return $res;
 			}
 		}
@@ -57,16 +54,16 @@
 			return $data;
 		}
 
-		//拿取所有信息:基本信息,价格,图片
+		// 拿取所有信息:基本信息,价格,图片
+		// 价格必须根据库存来拿
 		public function getItemInformationById($itemId) {
-			$itemPriceLogic = D("ItemPrice", "Logic");
+			//$itemPriceLogic = D("ItemPrice", "Logic");
 			$imageLogic = D("Image", "Logic");
 			$tagLogic = D("Tag", "Logic");
 			$inventoryLogic = D("Inventory", "Logic");
 			$itemMap["itemId"] = $itemId;
 			$basicInformation = $this->where($itemMap)->select();
 			$result = current($basicInformation);
-			$result["itemPrice"] = $itemPriceLogic->getClassifiedPriceByItemId($itemId);
 			$result["images"] = $imageLogic->getImageById($itemId);
 			$result["tag"] = $tagLogic->getTagStringByItemId($itemId);
 			$result["inventory"] = $inventoryLogic->getInventoryByItemId($itemId);
@@ -75,30 +72,22 @@
 
 		public function updateOneItem($data) {
 			$itemId = ''.$data["itemId"];
-			$itemPriceLogic = D("ItemPrice", "Logic");
 			$inventoryLogic = D("Inventory", "Logic");
 			$inventoryArray = $data["inventory"];
 			$tagLogic = D("Tag", "Logic");
-			$priceArray = array();
-			$priceArray["CNY"] = $data["priceCNY"];
-			$priceArray["HKD"] = $data["priceHKD"];
 			$tagString = $data["tag"];
 			$imageLogic = D("Image", "Logic");
 			$imageArray = split(",",$data["images_array"]);
 			$newData = $data;
 			unset($newData["images_array"]);
-			unset($newData["priceCNY"]);
-			unset($newData["priceHKD"]);
 			unset($newData["tag"]);
 			unset($newData["inventory"]);
 			$lastUpdatedDate = date('y-m-d h:i:s',time());
 			$newData["lastUpdatedDate"] = $lastUpdatedDate;
-			$newData["isAvailable"] = "1";
-			$newData["discount"] = 100;
 			if ($this->save($newData) == false) {
 				return false;
 			} else {
-				$res = ($itemPriceLogic->updateItemPrices($itemId, $priceArray, $lastUpdatedDate)) & ($imageLogic->updateOneItemImages($itemId, $imageArray)) & ($tagLogic->updateTagsForOneItem($itemId, $tagString) & ($inventoryLogic->updateInventoriresForOneItem($itemId, $inventoryArray)));
+				$res = ($imageLogic->updateOneItemImages($itemId, $imageArray)) & ($tagLogic->updateTagsForOneItem($itemId, $tagString)) & ($inventoryLogic->updateInventoriresForOneItem($itemId, $inventoryArray));
 				return $res;
 			}
 		}
@@ -112,10 +101,7 @@
 			$itemPriceLogic = D("ItemPrice", "Logic");
 			$categoryLogic = D("Category", "Logic");
 			$tagLogic = D("Tag", "Logic");
-			$gradeMap = array(
-				"Baby" => "1",
-				"Child" => "2"
-			);
+			$gradeMap = array("Baby" => "1", "Child" => "2", "其它" => "3");
 			$genderMap = array(
 				"男" => "M",
 				"女" => "F"
@@ -132,7 +118,7 @@
 			for ($i = 0; $i < count($rows); $i++) {
 				$columns = split(",", $rows[$i]);
 				// len of fields must match
-				if (count($columns) != 12) {
+				if (count($columns) != 13) {
 					$res["row"] = $currentRow;
 					return $res;
 				}
@@ -153,9 +139,9 @@
 				$priceArray["CNY"] = trim($columns[9]);
 				$product["season"] = trim($columns[10]);
 				$tagString = trim($columns[11]);
+				$product["discount"] = trim($columns[12]);
 				$product["lastUpdatedDate"] = date('y-m-d h:i:s',time());
-				$product["isAvailable"] = "1";
-				$product["discount"] = 100;
+				$product["isAvailable"] = "0";
 				array_push($products, $product);
 				array_push($priceArrays, $priceArray);
 				array_push($tagStringArrays, $tagString);

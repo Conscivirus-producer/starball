@@ -52,12 +52,14 @@
     <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
         <div class="am-offcanvas-bar admin-offcanvas-bar">
             <ul class="am-list admin-sidebar-list">
-                <li><a href="admin-index.html"><span class="am-icon-home"></span> 订单管理</a></li>
+                <li><a href="../Order" target="_blank"><span class="am-icon-home"></span> 订单管理</a></li>
+                <li><a href="../Brand" target="_blank"><span class="am-icon-square"></span> 品牌管理</a></li>
                 <li class="admin-parent">
                     <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 商品管理 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
                     <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
                         <li><a href="./upload" class="am-cf" target="_blank"><span class="am-icon-upload"></span> 商品上新</a></li>
                         <li><a href="./search" target="_blank"><span class="am-icon-search"></span> 商品搜索</a></li>
+                        <li><a href="./mainPageSetting" target="_blank"><span class="am-icon-level-up"></span> 首页上新</a></li>
                     </ul>
                 </li>
                 <li><a href="#"><span class="am-icon-sign-out"></span> 注销</a></li>
@@ -88,7 +90,7 @@
             </div>
             <!-- single uploading area -->
             <div class="am-u-sm-12">
-                <form class="am-form" id="single-item-form">
+                <form class="am-form" id="single-item-form" method="post" enctype="multipart/form-data">
                     <fieldset>
                         <legend>上传单个商品</legend>
 
@@ -145,6 +147,7 @@
                             <span class="am-form-caret"></span>
                         </div>
 
+                        <!-- disable original price
                         <div class="am-form-group">
                             <label for="item-priceHKD">商品港币价格</label>
                             <div class="am-input-group">
@@ -160,6 +163,7 @@
                                 <span class="am-input-group-label">人民币</span>
                             </div>
                         </div>
+                        -->
 
                         <div class="am-form-group">
                             <label for="item-season">商品季节</label>
@@ -175,30 +179,59 @@
                         <input type="text" name="inventory-div-count" id="inventoryDivCount" style="display:none">
                         <!-- inventory -->
 
+                        <!-- product status -->
+                        <div class="am-form-group">
+                            <label>商品状态</label>
+                            <label class="am-radio-inline">
+                                <input type="radio"  value="0" class="item-isAvailable" name="isAvailable"> 没货
+                            </label>
+                            <label class="am-radio-inline">
+                                <input type="radio" value="1" class="item-isAvailable" name="isAvailable"> 有货
+                            </label>
+                            <label class="am-radio-inline">
+                                <input type="radio" value="2" class="item-isAvailable" name="isAvailable"> 即将上新
+                            </label>
+                        </div>
+                        <!-- product status -->
+
+                        <!-- product discount-->
+                        <div class="am-form-group">
+                            <label for="item-discount">商品折扣</label>
+                            <input type="text" class="" name="discount" id="item-discount" placeholder="输入商品折扣" value="100">
+                        </div>
+
+
+                        <!-- tags -->
                         <div class="am-form-group">
                             <label for="item-tag">商品标签</label>
                             <input type="text" class="" name="tag" id="item-tag" placeholder="用#分开不同标签">
                         </div>
 
-                        <div class="am-form-group am-form-file">
-                            <button type="button" class="am-btn am-btn-success am-btn-sm">
-                                <i class="am-icon-cloud-upload"></i> 选择要上传的商品图片
-                            </button>
-                            <input id="item-images" type="file" name="item-images" >
-                        </div>
 
-                        <ul class="am-avg-sm-4 am-thumbnails" id="images-gallery">
-
-                        </ul>
 
                         <div class="am-form-group" style="display:none">
                             <label for="item-images-array">商品图片数组</label>
                             <textarea class="" rows="4" name="images_array" id="item-images-array" placeholder="商品图片数组"></textarea>
                         </div>
-
-                        <p><button type="button" id="upload-single-item" class="am-btn am-btn-default">提交</button></p>
                     </fieldset>
                 </form>
+                <fieldset>
+                    <!-- 放到form外面去-->
+                    <div class="am-form-group am-form-file">
+                        <button type="button" class="am-btn am-btn-success am-btn-sm">
+                            <i class="am-icon-cloud-upload"></i> 选择要上传的商品图片
+                        </button>
+                        <input id="item-images" type="file" name="item-images" >
+                    </div>
+
+                    <ul class="am-avg-sm-4 am-thumbnails" id="images-gallery">
+
+                    </ul>
+                    <!-- 放到form外面去-->
+                    <!-- 放到form外面去-->
+                    <p><button type="button" id="upload-single-item" class="am-btn am-btn-default">提交</button></p>
+                    <!-- 放到form外面去-->
+                </fieldset>
             </div>
 
             <!-- 批量上传报错框 -->
@@ -230,9 +263,9 @@
             <!-- 内容填写不完整报错框 -->
             <div class="am-modal am-modal-alert" tabindex="-1" id="single-input-alert">
                 <div class="am-modal-dialog">
-                    <div class="am-modal-hd">请把内容填写完整</div>
+                    <div class="am-modal-hd">请把内容填写正确</div>
                     <div class="am-modal-bd">
-                        请把内容填写完整
+                        请把内容填写正确
                     </div>
                     <div class="am-modal-footer">
                         <span class="am-modal-btn">确定</span>
@@ -265,6 +298,7 @@
                     </div>
                 </div>
             </div>
+
 
         </div>
     </div>
@@ -357,7 +391,7 @@
     $("#item-images").change(function() {
         // uploading starts
         is_uploading_image = true;
-        $(this).prop('disabled', true);
+        //$(this).prop('disabled', true);
         var Qiniu_upload = function(f, token, key) {
             var xhr = new XMLHttpRequest();
             xhr.open('POST', Qiniu_UploadUrl, true);
@@ -368,7 +402,7 @@
             formData.append('file', f);
             xhr.onreadystatechange = function(response) {
                 if (xhr.readyState == 4 && xhr.status == 200 && xhr.responseText != "") {
-                    $("#item-images").prop('disabled', false);
+                    //$("#item-images").prop('disabled', false);
                     $('li:last-child', $("#images-gallery")).remove();
                     var $li = $("<li></li>");
                     $li.append('<img class="am-thumbnail" src="http://7xp6oq.com2.z0.glb.qiniucdn.com/' + key +'" />');
@@ -389,7 +423,7 @@
                     is_uploading_image = false;
                 } else if (xhr.status != 200 && xhr.responseText) {
                     $('#single-pic-alert').modal('open');
-                    $("#item-images").prop('disabled', false);
+                    //$("#item-images").prop('disabled', false);
                     // uploading ends
                     is_uploading_image = false;
                 }
@@ -405,7 +439,7 @@
             // uploading ends
             is_uploading_image = false;
             $('#single-pic-alert').modal('open');
-            $("#item-images").prop('disabled', false);
+            //$("#item-images").prop('disabled', false);
         }
     });
     $("#upload-single-item").click(function(){
@@ -444,8 +478,8 @@
         $("#item-color").val("");
         $("#item-detailDescription").val("");
         $("#item-component").val("");
-        $("#item-priceHKD").val("");
-        $("#item-priceCNY").val("");
+        //$("#item-priceHKD").val("");
+        //$("#item-priceCNY").val("");
         $("#item-season").val("");
         $("#item-tag").val("");
         $("#item-images-array").val("");
@@ -481,11 +515,24 @@
             $("#inventoryDiv" + inventoryDeleteId).remove();
         });
         var $input = $('<input type="text" class="inventory-number" name="inventory-number' + count + '" id="" placeholder="输入库存数量">');
+
+        // changed price create
+        var $priceCNYLable = $('<label>人民币价格</label>');
+        var $priceCNYInput = $('<input type="text" class="inventory-price-CNY" name="inventory-price-CNY' + count + '" id="" placeholder="输入人民币价格">');
+        var $priceHKDLabel = $('<label>港币价格</label>');
+        var $priceHKDInput = $('<input type="text" class="inventory-price-HKD" name="inventory-price-HKD' + count + '" id="" placeholder="输入港币币价格">');
+        // changed price create
         $labelStart.appendTo($div);
         $selectStart.appendTo($div);
         $labelEnd.appendTo($div);
         $selectEnd.appendTo($div);
         $input.appendTo($div);
+
+        $priceCNYLable.appendTo($div);
+        $priceCNYInput.appendTo($div);
+        $priceHKDLabel.appendTo($div);
+        $priceHKDInput.appendTo($div);
+
         $button.appendTo($div);
         $div.insertAfter($("#inventory-add-section-start"));
         $line.insertAfter($("#inventory-add-section-start"));
@@ -496,24 +543,70 @@
         $("#inventoryDivCount").val(count);
         if (is_uploading_image == true) {
             return false;
-        } else if ($("#item-name").val().trim() == "") {
+        }
+        if ($("#item-name").val().trim() == "") {
             return false;
-        } else if ($("#item-color").val().trim() == "") {
+        }
+        if ($("#item-color").val().trim() == "") {
             return false;
-        } else if ($("#item-detailDescription").val().trim() == "") {
+        }
+        if ($("#item-detailDescription").val().trim() == "") {
             return false;
-        } else if ($("#item-component").val().trim() == "") {
+        }
+        if ($("#item-component").val().trim() == "") {
             return false;
-        } else if ($("#item-priceHKD").val().trim() == "" || !$.isNumeric($("#item-priceHKD").val().trim())) {
+        }
+        if ($("#item-season").val().trim() == "") {
             return false;
-        } else if ($("#item-priceCNY").val().trim() == "" || !$.isNumeric($("#item-priceCNY").val().trim())) {
+        }
+        if ($("#item-discount").val().trim() == "" || !$.isNumeric($("#item-discount").val().trim())) {
             return false;
-        }else if ($("#item-season").val().trim() == "") {
+        }
+        if ($("#item-images-array").val().trim() == "") {
             return false;
-        } else if ($("#item-images-array").val().trim() == "") {
+        }
+        if (checkInventoryFields() == false) {
             return false;
-        } else if ($(".inventory-number").length > 0) {
-            if ($(".inventory-number").val().trim() == "" || !$.isNumeric($(".inventory-number").val().trim())) {
+        }
+        // isAvailable must be set, should not be conflict with inventory
+        if (isAvailableValue() == "-1") {
+            return false;
+        }
+        if (isAvailableValue() != "1" && $(".inventory-number").length > 0) {
+            return false;
+        }
+        if (isAvailableValue() == "1" && $(".inventory-number").length == 0) {
+            return false;
+        }
+        return true;
+    }
+    // isAvailable check function
+    function isAvailableValue() {
+        if ($(".item-isAvailable:checked").length > 0) {
+            return $(".item-isAvailable:checked").eq(0).val();
+        }
+        return "-1";
+    }
+
+    function checkInventoryFields() {
+        // if we have inventory
+        if ($(".inventory-number").length > 0) {
+            if ($(".inventory-number").val().trim() == "") {
+                return false;
+            }
+            if (!$.isNumeric($(".inventory-number").val().trim())) {
+                return false;
+            }
+            if ($(".inventory-price-CNY").val().trim() == "") {
+                return false;
+            }
+            if (!$.isNumeric($(".inventory-price-CNY").val().trim())) {
+                return false;
+            }
+            if ($(".inventory-price-HKD").val().trim() == "") {
+                return false;
+            }
+            if (!$.isNumeric($(".inventory-price-HKD").val().trim())) {
                 return false;
             }
         }
