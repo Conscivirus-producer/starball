@@ -147,6 +147,7 @@
                             <span class="am-form-caret"></span>
                         </div>
 
+                        <!-- disable original price
                         <div class="am-form-group">
                             <label for="item-priceHKD">商品港币价格</label>
                             <div class="am-input-group">
@@ -162,6 +163,7 @@
                                 <span class="am-input-group-label">人民币</span>
                             </div>
                         </div>
+                        -->
 
                         <div class="am-form-group">
                             <label for="item-season">商品季节</label>
@@ -476,8 +478,8 @@
         $("#item-color").val("");
         $("#item-detailDescription").val("");
         $("#item-component").val("");
-        $("#item-priceHKD").val("");
-        $("#item-priceCNY").val("");
+        //$("#item-priceHKD").val("");
+        //$("#item-priceCNY").val("");
         $("#item-season").val("");
         $("#item-tag").val("");
         $("#item-images-array").val("");
@@ -513,11 +515,24 @@
             $("#inventoryDiv" + inventoryDeleteId).remove();
         });
         var $input = $('<input type="text" class="inventory-number" name="inventory-number' + count + '" id="" placeholder="输入库存数量">');
+
+        // changed price create
+        var $priceCNYLable = $('<label>人民币价格</label>');
+        var $priceCNYInput = $('<input type="text" class="inventory-price-CNY" name="inventory-price-CNY' + count + '" id="" placeholder="输入人民币价格">');
+        var $priceHKDLabel = $('<label>港币价格</label>');
+        var $priceHKDInput = $('<input type="text" class="inventory-price-HKD" name="inventory-price-HKD' + count + '" id="" placeholder="输入港币币价格">');
+        // changed price create
         $labelStart.appendTo($div);
         $selectStart.appendTo($div);
         $labelEnd.appendTo($div);
         $selectEnd.appendTo($div);
         $input.appendTo($div);
+
+        $priceCNYLable.appendTo($div);
+        $priceCNYInput.appendTo($div);
+        $priceHKDLabel.appendTo($div);
+        $priceHKDInput.appendTo($div);
+
         $button.appendTo($div);
         $div.insertAfter($("#inventory-add-section-start"));
         $line.insertAfter($("#inventory-add-section-start"));
@@ -528,35 +543,39 @@
         $("#inventoryDivCount").val(count);
         if (is_uploading_image == true) {
             return false;
-        } else if ($("#item-name").val().trim() == "") {
+        }
+        if ($("#item-name").val().trim() == "") {
             return false;
-        } else if ($("#item-color").val().trim() == "") {
+        }
+        if ($("#item-color").val().trim() == "") {
             return false;
-        } else if ($("#item-detailDescription").val().trim() == "") {
+        }
+        if ($("#item-detailDescription").val().trim() == "") {
             return false;
-        } else if ($("#item-component").val().trim() == "") {
+        }
+        if ($("#item-component").val().trim() == "") {
             return false;
-        } else if ($("#item-priceHKD").val().trim() == "" || !$.isNumeric($("#item-priceHKD").val().trim())) {
+        }
+        if ($("#item-season").val().trim() == "") {
             return false;
-        } else if ($("#item-priceCNY").val().trim() == "" || !$.isNumeric($("#item-priceCNY").val().trim())) {
+        }
+        if ($("#item-discount").val().trim() == "" || !$.isNumeric($("#item-discount").val().trim())) {
             return false;
-        } else if ($("#item-season").val().trim() == "") {
+        }
+        if ($("#item-images-array").val().trim() == "") {
             return false;
-        } else if ($("#item-discount").val().trim() == "" || !$.isNumeric($("#item-discount").val().trim())) {
-            return false;
-        } else if ($("#item-images-array").val().trim() == "") {
-            return false;
-        } else if ($(".inventory-number").length > 0 && ($(".inventory-number").val().trim() == "" || !$.isNumeric($(".inventory-number").val().trim()))) {
+        }
+        if (checkInventoryFields() == false) {
             return false;
         }
         // isAvailable must be set, should not be conflict with inventory
-        else if (isAvailableValue() == "-1") {
+        if (isAvailableValue() == "-1") {
             return false;
         }
-        else if (isAvailableValue() != "1" && $(".inventory-number").length > 0) {
+        if (isAvailableValue() != "1" && $(".inventory-number").length > 0) {
             return false;
         }
-        else if (isAvailableValue() == "1" && $(".inventory-number").length == 0) {
+        if (isAvailableValue() == "1" && $(".inventory-number").length == 0) {
             return false;
         }
         return true;
@@ -567,6 +586,31 @@
             return $(".item-isAvailable:checked").eq(0).val();
         }
         return "-1";
+    }
+
+    function checkInventoryFields() {
+        // if we have inventory
+        if ($(".inventory-number").length > 0) {
+            if ($(".inventory-number").val().trim() == "") {
+                return false;
+            }
+            if (!$.isNumeric($(".inventory-number").val().trim())) {
+                return false;
+            }
+            if ($(".inventory-price-CNY").val().trim() == "") {
+                return false;
+            }
+            if (!$.isNumeric($(".inventory-price-CNY").val().trim())) {
+                return false;
+            }
+            if ($(".inventory-price-HKD").val().trim() == "") {
+                return false;
+            }
+            if (!$.isNumeric($(".inventory-price-HKD").val().trim())) {
+                return false;
+            }
+        }
+        return true;
     }
 </script>
 </body>
