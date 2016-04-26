@@ -18,4 +18,13 @@ class CategoryLogic extends CategoryModel{
         $data = $this->where($map)->select();
         return $data[0]["categoryId"];
     }
+
+    public function deleteCategoryById($categoryId) {
+        $map["categoryId"] = $categoryId;
+        return ($this->where($map)->delete() !== false);
+    }
+
+    public function addCategory($data) {
+        return ($this->add($data) !== false);
+    }
 }
