@@ -65,7 +65,7 @@ class ListController extends BaseController {
 			$itemList = D('Item')->field('t_item.*, img.image, price.price')
 							 ->where($map)
 							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
-							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.currency = '".$this->getCurrency()."'")
+							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
 							 ->order('brandId desc,categoryId desc, t_item.itemId desc')
 							 ->page($p.',12')
 							 ->select();

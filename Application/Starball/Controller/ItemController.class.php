@@ -6,24 +6,20 @@ class ItemController extends BaseController {
 		$this->commonProcess();
 		$itemData = D("Item", "Logic")->getItemById($itemId);
 		$imageData = D("Image", "Logic")->getImageById($itemId);
-		$priceData = D("ItemPrice", "Logic")->getPriceByItemId($itemId);
-		$data = $itemData[0];
-		$inventoryResult = D("Inventory", "Logic")->getInventoryByItemId($itemId);
+		$inventoryResult = D("Inventory", "Logic")->getInventoryAndPriceByItemId($itemId, $this->getCurrency());
+		logInfo('fkkk');
 		$inventoryData = array();
+		$currencyArray = C('CURRENCY');
 		foreach($inventoryResult as $inventory){
-			$inventory['description'] = getSizeDescriptionByAge($inventory['age']);
+			$inventory['description'] = getSizeDescriptionAndPriceByAge($inventory['age'], $inventory['price'], $currencyArray[$this->getCurrency()]);
 			array_push($inventoryData, $inventory);
 		}
-		$this->assign('data', $data);
+		$this->assign('data', $itemData);
 		$this->assign('images', $imageData);
+		$inventoryData = array_customized_sort($inventoryData, 'age',SORT_ASC, SORT_NUMERIC);
+		$this->assign('defaultPrice', $inventoryData[0]['price']);
 		$this->assign('inventory', $inventoryData);
-		$this->assign('prices', $priceData);
-		foreach($priceData as $price){
-			if(cookie('preferred_currency') == $price['currency']){
-				$currencyArray = C('CURRENCY');
-				$this->assign('currentPrice', $price['price']);
-			}
-		}
+		$this->assign('inventoryjson', json_encode($inventoryData));
 		$this->display();
 	}
 	
@@ -104,7 +100,7 @@ class ItemController extends BaseController {
 		if(count($orderItem) > 0){
 			//如果记录已经存在，数量+1
 			$orderItem[0]['updatedDate'] = date("Y-m-d H:i:s" ,time());
-			$orderItemLogic->changeQuantity($orderItem[0], 'add');
+			$orderItemLogic->changeQuantity($orderItem[0], 1, I('currentPrice'));
 			return;
 		}
 		
@@ -154,7 +150,7 @@ class ItemController extends BaseController {
 			$shoppingList['totalAmount'] += I('currentPrice');
 			session('shoppingList',$shoppingList);
 		}
-		//$this->testLogShoppingList();
+		$this->testLogShoppingList();
 	}
 
 	protected function testLogShoppingList(){

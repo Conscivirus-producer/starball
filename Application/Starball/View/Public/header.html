@@ -103,18 +103,14 @@
                     </li>
                     <li class="am-dropdown" data-am-dropdown="">
                         <a class="am-dropdown-toggle am-text-xs yu-text-black" data-am-dropdown-toggle="" href="javascript:;"style="padding-left:15px;" >
-                        <if condition="cookie('preferred_currency') == 'CNY'">
-                            CNY
-                            <else/>
-                            HKD
-                        </if></a>
+                        	{$preferred_currency}
+                        </a>
                         <ul class="am-dropdown-content">
-                            <li>
-                                <a href="?currency=CNY">CNY</a>
-                            </li>
-                            <li>
-                                <a href="?currency=HKD">HKD</a>
-                            </li>
+                        	<volist name="currencyArray" id="vo">
+	                            <li>
+	                                <a href="?currency={$vo['currency']}">{$vo.currency}</a>
+	                            </li>
+                        	</volist>
                         </ul>
                     </li>
                 </ol>

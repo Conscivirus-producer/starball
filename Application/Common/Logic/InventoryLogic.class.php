@@ -8,6 +8,13 @@
 			return $data;
 		}
 		
+		public function getInventoryAndPriceByItemId($itemId, $currency){
+			$map['t_inventory.itemId'] = $itemId;
+			$map['price.currency'] = $currency;
+			$data = $this->field('t_inventory.*, price.price')->where($map)->join('t_itemprice price ON price.inventoryId = t_inventory.inventoryId')->select();
+			return $data;
+		}
+		
 		public function getSizeDescriptionById($id){
 			$map['inventoryId'] = $id;
 			$data = $this->where($map)->select();

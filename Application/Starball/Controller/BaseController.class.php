@@ -24,7 +24,13 @@ class BaseController extends Controller {
 			cookie('preferred_currency',I('currency'),3600);
 			$this->updateShoppingListByCurrency();
 		}
-		$this->assign('preferred_currency', cookie('preferred_currency'));		
+		$this->assign('preferred_currency', cookie('preferred_currency'));
+		//把currency列表放在页面上
+		$currencyArray = array();
+		foreach(C('CURRENCY') as $key=>$value){
+			array_push($currencyArray, array('currency'=>$key));
+		}
+		$this->assign('currencyArray', $currencyArray);		
 	}
 	
 	private function updateShoppingListByCurrency(){
@@ -42,8 +48,8 @@ class BaseController extends Controller {
 		$i = 0;
 		foreach($shoppingListItems as $values){
 			//The key is in such format: itemId_itemSize, explode the string to get the value
-			$priceMap = D("ItemPrice", "Logic")->getPriceMap($values['itemId']);
-			$values['price'] = $priceMap[$this->getCurrency()] * $values['quantity'];
+			$priceMap = D("ItemPrice", "Logic")->getPriceMap($values['itemId'], $this->getCurrency());
+			$values['price'] = $priceMap[$values['itemSize']] * $values['quantity'];
 			$shoppingListItems[$i] = $values;
 			$newTotalPrice += $values['price'];
 			$i++;
@@ -73,13 +79,20 @@ class BaseController extends Controller {
 		$newTotalPrice = 0;
 		foreach($orderItems as $record){
 			//更新每个item的记录
-			$priceMap = D("ItemPrice", "Logic")->getPriceMap($record['itemId']);
-			$data['price'] = $priceMap[$this->getCurrency()];
+			$priceMap = D("ItemPrice", "Logic")->getPriceMap($record['itemId'], $this->getCurrency());
+			$data['price'] = $priceMap[$record['itemSize']] * $record['quantity'];
 			$orderItemLogic->updateOrderItem($data, $record['id']);
-			$newTotalPrice += $data['price'] * $record['quantity'];
+			$newTotalPrice += $data['price'];
 		}
 		
 		$orderData['totalAmount'] = $newTotalPrice;
+		/*if($order['giftPackageFee'] != '0'){
+			$supportingData = D('SupportingData', 'Logic');
+			$orderData['giftPackageFee'] = $supportingData->getValueByKey('GIFT_PACKAGE_PRICE_'.$this->getCurrency());
+		}else{
+			$orderData['giftPackageFee'] = '0';
+		}*/
+		$orderData['totalFee'] = $orderData['totalAmount'] + $this->calculateShippingFee();
 		$orderData['currency'] = $this->getCurrency();
 		$orderLogic->updateOrder($orderData, $order['orderId']);
 	}
