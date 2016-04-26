@@ -13,6 +13,8 @@ return array(
     'girl'=>'女孩',
     'boy'=>'男孩',
     'sales'=>'特卖场',
+    'shoes'=>'童鞋',
+    'accessory'=>'配饰',
     'featured'=>'精选',
     'clothingmatch'=>'宝宝搭配',
     'search'=>'搜索',
