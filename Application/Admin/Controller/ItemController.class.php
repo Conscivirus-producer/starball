@@ -61,13 +61,17 @@ class ItemController extends Controller {
         $inventory = array();
         for ($i = 0; $i <= $inventoryCount; $i++) {
             $inventorySizeStart = I("post.inventory-size-start".$i, "");
-            if ($inventorySizeStart == "") {
-                continue;
-            }
             $inventorySizeEnd = I("post.inventory-size-end".$i, "");
             $inventoryNumber = I("post.inventory-number".$i, "");
+            $inventoryPriceCNY = I("post.inventory-price-CNY".$i, "");
+            $inventoryPriceHKD = I("post.inventory-price-HKD".$i, "");
+            if ($inventorySizeStart == "" || $inventorySizeEnd == "" || $inventoryNumber == "" || $inventoryPriceCNY == "" || $inventoryPriceHKD == "") {
+                continue;
+            }
             $inventory["age"] = $inventorySizeStart.",".$inventorySizeEnd;
             $inventory["inventory"] = $inventoryNumber;
+            $inventory["priceCNY"] = $inventoryPriceCNY;
+            $inventory["priceHKD"] = $inventoryPriceHKD;
             array_push($inventoryArray, $inventory);
         }
         $fields = array(
@@ -79,8 +83,6 @@ class ItemController extends Controller {
             "categoryId",
             "grade",
             "gender",
-            "priceHKD",
-            "priceCNY",
             "season",
             "isAvailable",
             "discount",
@@ -146,13 +148,17 @@ class ItemController extends Controller {
         $inventory = array();
         for ($i = 0; $i <= $inventoryCount; $i++) {
             $inventorySizeStart = I("post.inventory-size-start".$i, "");
-            if ($inventorySizeStart == "") {
-                continue;
-            }
             $inventorySizeEnd = I("post.inventory-size-end".$i, "");
             $inventoryNumber = I("post.inventory-number".$i, "");
+            $inventoryPriceCNY = I("post.inventory-price-CNY".$i, "");
+            $inventoryPriceHKD = I("post.inventory-price-HKD".$i, "");
+            if ($inventorySizeStart == "" || $inventorySizeEnd == "" || $inventoryNumber == "" || $inventoryPriceCNY == "" || $inventoryPriceHKD == "") {
+                continue;
+            }
             $inventory["age"] = $inventorySizeStart.",".$inventorySizeEnd;
             $inventory["inventory"] = $inventoryNumber;
+            $inventory["priceCNY"] = $inventoryPriceCNY;
+            $inventory["priceHKD"] = $inventoryPriceHKD;
             array_push($inventoryArray, $inventory);
         }
         $fields = array(
@@ -165,8 +171,6 @@ class ItemController extends Controller {
             "categoryId",
             "grade",
             "gender",
-            "priceHKD",
-            "priceCNY",
             "season",
             "isAvailable",
             "discount",

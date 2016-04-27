@@ -3,8 +3,15 @@
 	use Common\Model\InventoryModel;
 	class InventoryLogic extends InventoryModel{
 		public function getInventoryByItemId($itemId){
+			$itemPriceLogic = D("ItemPrice", "Logic");
 			$map['itemId'] = $itemId;
 			$data = $this->where($map)->select();
+			for ($i = 0; $i < count($data); $i++) {
+				$inventoryId = $data[$i]["inventoryId"];
+				$priceArray = $itemPriceLogic->getClassifiedItemPricesByInventoryId($inventoryId);
+				$data[$i]["priceCNY"] = $priceArray["CNY"];
+				$data[$i]["priceHKD"] = $priceArray["HKD"];
+			}
 			return $data;
 		}
 		
@@ -33,12 +40,22 @@
 		}
 
 		public function insertInventoriesforOneItem($itemId, $inventoryArray){
+			// insert item prices while inserting inventories
+			$itemPriceLogic = D("ItemPrice", "Logic");
+			$priceArray = array();
 			for ($i = 0; $i < count($inventoryArray); $i++) {
 				$data["age"] = $inventoryArray[$i]["age"];
 				$data["inventory"] = $inventoryArray[$i]["inventory"];
 				$data["itemId"] = $itemId;
-				if ($this->add($data) === false) {
+				$priceArray["CNY"] = $inventoryArray[$i]["priceCNY"];
+				$priceArray["HKD"] = $inventoryArray[$i]["priceHKD"];
+				$inventoryId = $this->add($data);
+				if ($inventoryId === false) {
 					return false;
+				} else {
+					if ($itemPriceLogic->insertItemPrices($itemId, $inventoryId, $priceArray) === false) {
+						return false;
+					}
 				}
 			}
 			return true;
@@ -53,9 +70,13 @@
 		}
 
 		public function updateInventoriresForOneItem($itemId, $inventoryArray) {
+			$itemPriceLogic = D("ItemPrice", "Logic");
 			if ($this->deleteInventoriesByItemId($itemId) === false) {
 				return false;
 			} else {
+				if ($itemPriceLogic->deleteItemPricesByItemId($itemId) === false) {
+					return false;
+				}
 				return $this->insertInventoriesforOneItem($itemId, $inventoryArray);
 			}
 		}
