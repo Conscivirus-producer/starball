@@ -17,7 +17,8 @@
 
 		public function insertOneHotItem($data) {
 			$map["type"] = $data["type"];
-			$sequence = (int)current($this->where($map)->order("sequence desc")->select())["sequence"] + 1;
+			$tmp = current($this->where($map)->order("sequence desc")->select());
+			$sequence = (int)$tmp["sequence"] + 1;
 			$sequence = "".$sequence;
 			$data["sequence"] = $sequence;
 			$data["lastUpdatedDate"] = date('y-m-d h:i:s',time());
@@ -37,7 +38,8 @@
 				return ($this->save($data) !== false);
 			} else {
 				$map["hotId"] = $data["hotId"];
-				$imageUrl = current($this->where($map)->select())["image"];
+				$tmp = current($this->where($map)->select());
+				$imageUrl = $tmp["image"];
 				$imageKey = end(split("/", $imageUrl));
 				$imageLogic = D("Image", "Logic");
 				return (($imageLogic->deleteImageByQiniuKey($imageKey) !== false) & ($this->save($data) !== false));
