@@ -172,11 +172,11 @@
                             <form class="am-form am-form-horizontal" role="form" method="post">
                                 <input type="hidden" name="method" value="login">
                                 <div class="am-form-group yu-margin-0612" >
-                                    <input name="userName" class="yu-font-12 am-form-field yu-input-sm" placeholder="用户名/电子邮件">
+                                    <input name="userName" class="yu-font-12 am-form-field yu-input-sm" placeholder="{$Think.lang.useremail}">
                                 </div>
 
                                 <div class="am-form-group yu-margin-0612">
-                                    <input type="password" name="password" class="yu-font-12 am-form-field yu-input-sm" placeholder="密码">
+                                    <input type="password" name="password" class="yu-font-12 am-form-field yu-input-sm" placeholder="{$Think.lang.pwd}">
                                 </div>
 
                                 <a class="am-btn am-btn-link yu-forget-pwd">{$Think.lang.forgetpwd}？</a>
@@ -204,19 +204,19 @@
                             <form class="am-form am-form-horizontal" role="form" method="post" >
                                 <input type="hidden" name="method" value="register">
                                 <div class="am-form-group yu-margin-0612">
-                                    <input type="email" name="email" style="font-size:12px;" class="am-form-field yu-input-sm" placeholder="电子邮件*">
+                                    <input type="email" name="email" style="font-size:12px;" class="am-form-field yu-input-sm" placeholder="{$Think.lang.useremail}*">
                                 </div>
                                 <div class="am-form-group yu-margin-0612">
-                                    <input type="password" name="password" class="am-form-field yu-input-sm" placeholder="密码*">
+                                    <input type="password" name="password" class="am-form-field yu-input-sm" placeholder="{$Think.lang.pwd}*">
                                 </div>
                                 <div class="am-form-group yu-margin-0612">
-                                    <input type="password" class="am-form-field yu-input-sm" placeholder="确认您的密码*">
+                                    <input type="password" class="am-form-field yu-input-sm" placeholder="{$Think.lang.confirmpwd}*">
                                 </div>
                                 <div class="am-form-group yu-margin-0612">
-                                    <input type="text" name="userName" class="am-form-field yu-input-sm" placeholder="昵称">
+                                    <input type="text" name="userName" class="am-form-field yu-input-sm" placeholder="{$Think.lang.nickname}">
                                 </div>
                                 <div class="am-form-group yu-margin-0612">
-                                    <input type="text" name="mobile" class="am-form-field yu-input-sm" placeholder="联络号码">
+                                    <input type="text" name="mobile" class="am-form-field yu-input-sm" placeholder="{$Think.lang.contactnumber}">
                                 </div>
                                 <div class="am-checkbox yu-checkbox-adjustor">
                                     <label style="font-size:12px;">
@@ -273,7 +273,8 @@
                                 <volist name="shoppingListItems" id="vo" offset="0" length='3'>
                                     <gt name="vo['quantity']" value="0">
                                         <li>
-                                            <a href="{:U('Starball/Item/index','itemId='.$vo['itemId'])}" class="item-panier"> <img alt="{$vo.itemName}" src="{$vo.itemImage}?imageView2/1/w/100/h/100/q/100" class="item-photo-adjustor"> <span class="content-item-panier">
+                                            <a href="{:U('Starball/Item/index','itemId='.$vo['itemId'])}" class="item-panier"> <img alt="{$vo.itemName}" src="{$vo.itemImage}?imageView2/1/w/100/h/100/q/100" class="item-photo-adjustor">
+                                                 <span class="content-item-panier">
                                                  <span class="title-item-panier">{$vo.brandName}</span> 
                                                  <span class="subtitle-item-panier">{$vo.itemName}</span>
                                                  <span class="yu-size-container"> 
@@ -317,7 +318,7 @@
             </div>
             <div class="am-u-md-4 am-kai yu-mdupsearch-adjustor">
                 <div class="am-input-group am-input-group-sm">
-                    <input type="text" class="am-form-field" placeholder="搜索">
+                    <input type="text" class="am-form-field" placeholder="{$Think.lang.serach}">
                     <span class="am-input-group-btn">
                         <button class="am-btn am-btn-default" type="button">
                             <span class="am-icon-search"></span>

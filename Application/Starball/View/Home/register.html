@@ -1,6 +1,6 @@
 <extend name="Public/base" />
 <block name="title">
-    <title>注册</title>
+    <title>{$Think.lang.signupnow}</title>
 </block>
 <block name="main">
     <!-- mdup screen -->
@@ -12,10 +12,10 @@
             <form class="am-form am-form-horizontal yu-signin-form" role="form" method="post">
                 <input type="hidden" name="method" value="login">
                 <div class="am-form-group yu-margin-0012">
-                    <input name="userName" class="am-form-field yu-input-sm" placeholder="用户名/电子邮件">
+                    <input name="userName" class="am-form-field yu-input-sm" placeholder="{$Think.lang.useremail}">
                 </div>
                 <div class="am-form-group yu-margin-0012">
-                    <input type="password" name="password" class="am-form-field yu-input-sm" placeholder="密码">
+                    <input type="password" name="password" class="am-form-field yu-input-sm" placeholder="{$Think.lang.pwd}">
                 </div>
                 <a class="am-btn am-btn-link yu-forget-pwd am-padding-left-0" style="text-decoration: underline;">{$Think.lang.forgetpwd}？</a>
                 <div class="am-checkbox yu-rm-me am-margin-right-0">
@@ -39,19 +39,19 @@
             <form class="am-form am-form-horizontal yu-signin-form am-kai" role="form" method="post" >
                 <input type="hidden" name="method" value="register">
                 <div class="am-form-group yu-margin-0012">
-                    <input type="email" name="email" class="am-form-field yu-input-sm" placeholder="电子邮件*">
+                    <input type="email" name="email" class="am-form-field yu-input-sm" placeholder="{$Think.lang.email}*">
                 </div>
                 <div class="am-form-group yu-margin-0012">
-                    <input type="password" name="password" class="am-form-field yu-input-sm" placeholder="密码*">
+                    <input type="password" name="password" class="am-form-field yu-input-sm" placeholder="{$Think.lang.pwd}*">
                 </div>
                 <div class="am-form-group yu-margin-0012">
-                    <input type="password" class="am-form-field yu-input-sm" placeholder="确认您的密码*">
+                    <input type="password" class="am-form-field yu-input-sm" placeholder="{$Think.lang.confirmpwd}*">
                 </div>
                 <div class="am-form-group yu-margin-0012">
-                    <input type="text" name="client_name" class="am-form-field yu-input-sm" placeholder="昵称">
+                    <input type="text" name="client_name" class="am-form-field yu-input-sm" placeholder="{$Think.lang.nickname}">
                 </div>
                 <div class="am-form-group yu-margin-0012">
-                    <input type="text" name="mobile" class="am-form-field yu-input-sm" placeholder="联络号码">
+                    <input type="text" name="mobile" class="am-form-field yu-input-sm" placeholder="{$Think.lang.contactnumber}">
                 </div>
                 <div class="am-checkbox yu-checkbox-adjustor">
                     <label style="font-size:12px;">
@@ -77,10 +77,10 @@
             <form class="am-form am-form-horizontal yu-signin-form" role="form" method="post">
                 <input type="hidden" name="method" value="login">
                 <div class="am-form-group yu-margin-0012">
-                    <input type="email" name="email" class="am-form-field yu-input-sm" placeholder="用户名/电子邮件">
+                    <input type="email" name="email" class="am-form-field yu-input-sm" placeholder="{$Think.lang.useremail}">
                 </div>
                 <div class="am-form-group yu-margin-0012">
-                    <input type="password" name="password" class="am-form-field yu-input-sm" placeholder="密码">
+                    <input type="password" name="password" class="am-form-field yu-input-sm" placeholder="{$Think.lang.pwd}">
                 </div>
                 <a class="am-btn am-btn-link yu-forget-pwd am-padding-left-0" style="text-decoration: underline;">{$Think.lang.forgetpwd}？</a>
                 <div class="am-checkbox yu-rm-me am-margin-right-0">
@@ -104,19 +104,19 @@
             <form class="am-form am-form-horizontal yu-signin-form am-kai" role="form" method="post" >
                 <input type="hidden" name="method" value="register">
                 <div class="am-form-group yu-margin-0012">
-                    <input type="email" name="email" class="am-form-field yu-input-sm" placeholder="电子邮件*">
+                    <input type="email" name="email" class="am-form-field yu-input-sm" placeholder="{$Think.lang.email}*">
                 </div>
                 <div class="am-form-group yu-margin-0012">
-                    <input type="password" name="password" class="am-form-field yu-input-sm" placeholder="密码*">
+                    <input type="password" name="password" class="am-form-field yu-input-sm" placeholder="{$Think.lang.pwd}*">
                 </div>
                 <div class="am-form-group yu-margin-0012">
-                    <input type="password" class="am-form-field yu-input-sm" placeholder="确认您的密码*">
+                    <input type="password" class="am-form-field yu-input-sm" placeholder="{$Think.lang.confirmpwd}*">
                 </div>
                 <div class="am-form-group yu-margin-0012">
-                    <input type="text" name="client_name" class="am-form-field yu-input-sm" placeholder="昵称">
+                    <input type="text" name="client_name" class="am-form-field yu-input-sm" placeholder="{$Think.lang.nickname}">
                 </div>
                 <div class="am-form-group yu-margin-0012">
-                    <input type="text" name="mobile" class="am-form-field yu-input-sm" placeholder="联络号码">
+                    <input type="text" name="mobile" class="am-form-field yu-input-sm" placeholder="{$Think.lang.contactnumber}">
                 </div>
                 <div class="am-checkbox yu-checkbox-adjustor">
                     <label style="font-size:12px;">

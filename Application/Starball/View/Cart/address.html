@@ -1,5 +1,5 @@
 <extend name="Public/base" />
-<block name="title"><title>我的购物袋</title></block>
+<block name="title"><title>{$Think.lang.myshoppinglist}</title></block>
 <block name="customizedCss">
 	<link rel="stylesheet" type="text/css" href="__PUBLIC__/starball/css/cart.css">
 </block>
@@ -7,34 +7,34 @@
 	<include file="Public/cartcommon" />
 	
 	<div class="yu-cart-content">
-		<span style="font-weight: bold;font-size: 13px">创建</span><span style="font-size:13px">我的地址</span>
+		<span style="font-weight: bold;font-size: 13px">{$Think.lang.myshoppinglist}</span><span style="font-size:13px">{$Think.lang.myaddress}</span>
 		<hr style="border-color: black" />
 		<form class="am-form am-form-horizontal" role="form" method="post" style="width:70%; margin-left: 15%;font-size: 12px">
 			<input type="hidden" value="1" name="default"/>
 			<div class="am-form-group">
 			  <label class="am-radio-inline">
-			    <input type="radio" name="contactGender" value="M"> 男
+			    <input type="radio" name="contactGender" value="M"> {$Think.lang.male}
 			  </label>
 			  <label class="am-radio-inline">
-			    <input type="radio" name="contactGender" value="F"> 女
+			    <input type="radio" name="contactGender" value="F"> {$Think.lang.female}
 			  </label>
 			</div>
 			<div class="am-form-group">
 				<div style="margin-bottom: 10px">
-					<input name="contactName" value="{$data.contactName}" class="am-form-field" placeholder="姓名" />
+					<input name="contactName" value="{$data.contactName}" class="am-form-field" placeholder="{$Think.lang.name}" />
 				</div>
 				<div style="margin-bottom: 10px">
-					<input name="address" value="{$data.address}"  class="am-form-field" placeholder="地址＊" />
+					<input name="address" value="{$data.address}"  class="am-form-field" placeholder="{$Think.lang.address}＊" />
 				</div>
 				<div style="margin-bottom: 10px">
-					<input name="postCode" value="{$data.postCode}"  class="am-form-field" placeholder="邮政编码＊" />
+					<input name="postCode" value="{$data.postCode}"  class="am-form-field" placeholder="{$Think.lang.zipcode}" />
 				</div>
 				<div style="margin-bottom: 10px">
-					<input name="city" value="{$data.city}"  class="am-form-field" placeholder="城镇／城市＊" />
+					<input name="city" value="{$data.city}"  class="am-form-field" placeholder="{$Think.lang.citytown}＊" />
 				</div>
 				<div style="margin-bottom: 10px">
 					<select data-am-selected="{btnWidth: '100%', btnSize: 'sm'}" name="country">
-						<option value="none" selected>国家*</option>
+						<option value="none" selected>{$Think.lang.country}*</option>
 						<volist name="countryList" id="vo">
 						  	<option value="{$vo.code}">{$vo.display}</option>
 						</volist>
@@ -43,16 +43,18 @@
 				<div style="margin-bottom: 10px">
 					<input name="phone" value="{$data.phone}" class="am-form-field" placeholder="Mobile＊" />
 				</div>
-				<textarea name="moreDetails" value="{$data.moreDetails}" placeholder="更多细节"></textarea>
+				<textarea name="moreDetails" value="{$data.moreDetails}" placeholder="{$Think.lang.modetai}"></textarea>
 			</div>
 			<div class="am-form-group">
 				<div style="margin-bottom: 10px">
-					请为此地址设定一个名称，以便日后查询*	
+					{$Think.lang.setaddresscheck}*	
 				</div>
 				<div style="margin-bottom: 10px">
-					<input name="addressName" value="{$data.addressName}" class="am-form-field" placeholder="" />
+					<input name="addressName" value="{$data.addressName}" class="am-form-field" placeholder="{$Think.lang.pwd}" />
 				</div>
-				<button id="delivery" type="submit" style="float: right; margin-top: 10px; width: 80px; height: 28px;background-color: black;border:0; color: white">提交</button>
+				<button id="delivery" type="submit" style="float: right; margin-top: 10px; width: 80px; height: 28px;background-color: black;border:0; color: white">
+				    {$Think.lang.submit}
+				</button>
 			</div>
 		</form>
 	</div>

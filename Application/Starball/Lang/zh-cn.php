@@ -72,8 +72,24 @@ return array(
     'needhelp'=>'需要帮助吗？',
     'Cshiptime'=>'查看我们的配送时间',
     'CRpolicy'=>'查看我们的退货政策',
-	
-	
-	
+	'create'=>'创建',
+	'myaddress'=>'我的地址',
+	'male'=>'男',
+	'female'=>'女',
+	'name'=>'姓名',
+	'address'=>'地址',
+    'citytown'=>'城镇／城市',
+    'country'=>'国家',
+    'modetai'=>'更多细节',
+    'submit'=>'提交',
+    'setaddresscheck'=>'请为此地址设定一个名称，以便日后查询',
+    'useremail'=>'用户名/电子邮件',
+    'pwd'=>'密码',
+    'shippingaddress'=>'收货地址',
+    'ADDaddress'=>'添加地址',
+    'email'=>'电子邮件',
+    'confirmpwd'=>'确认您的密码',
+    'nickname'=>'昵称',
+    'contactnumber'=>'联络号码',
 	
 );
