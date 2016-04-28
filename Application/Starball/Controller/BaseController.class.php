@@ -22,6 +22,11 @@ class BaseController extends Controller {
 		//如果货币发生了变化,那么把用户购物车里的金额按照货币转化
 		if(I('currency') != '' && I('currency') != $this->getCurrency()){
 			cookie('preferred_currency',I('currency'),3600);
+			//需要根据汇率重新读取礼物费用
+			$supportingData = D('SupportingData', 'Logic');
+			$giftPackageFee = $supportingData->getValueByKey('GIFT_PACKAGE_PRICE_'.$this->getCurrency());
+			session('giftPackageFee', $giftPackageFee['value']);
+			$this->assign('giftPackageFee', $this->getGiftPackageFee());
 			$this->updateShoppingListByCurrency();
 		}
 		$this->assign('preferred_currency', cookie('preferred_currency'));
@@ -31,6 +36,13 @@ class BaseController extends Controller {
 			array_push($currencyArray, array('currency'=>$key));
 		}
 		$this->assign('currencyArray', $currencyArray);		
+	}
+	
+	protected function prepareSupportingData(){
+		$supportingData = D('SupportingData', 'Logic');
+		$giftPackageFee = $supportingData->getValueByKey('GIFT_PACKAGE_PRICE_'.$this->getCurrency());
+		session('giftPackageFee', $giftPackageFee['value']);
+		$this->assign('giftPackageFee', $this->getGiftPackageFee());
 	}
 	
 	private function updateShoppingListByCurrency(){
@@ -63,6 +75,12 @@ class BaseController extends Controller {
 	private function updateUserShoppingListByCurrency(){
 		$orderLogic = D('Order', 'Logic');
 		$backlogOrder = $orderLogic->getOrderByUserId($this->getCurrentUserId(), 'N');
+		/*if($order['giftPackageFee'] != '0'){
+			$supportingData = D('SupportingData', 'Logic');
+			$orderData['giftPackageFee'] = $supportingData->getValueByKey('GIFT_PACKAGE_PRICE_'.$this->getCurrency());
+		}else{
+			$orderData['giftPackageFee'] = '0';
+		}*/
 		if(count($backlogOrder) == 0){
 			//No order found.
 			return;
@@ -86,13 +104,10 @@ class BaseController extends Controller {
 		}
 		
 		$orderData['totalAmount'] = $newTotalPrice;
-		/*if($order['giftPackageFee'] != '0'){
-			$supportingData = D('SupportingData', 'Logic');
-			$orderData['giftPackageFee'] = $supportingData->getValueByKey('GIFT_PACKAGE_PRICE_'.$this->getCurrency());
-		}else{
-			$orderData['giftPackageFee'] = '0';
-		}*/
-		$orderData['totalFee'] = $orderData['totalAmount'] + $this->calculateShippingFee();
+		//如果现有礼物包装费用为0，则保持0
+		$orderData['giftPackageFee'] = $order['giftPackageFee'] == 0 ? 0 : $this->getGiftPackageFee();
+		$orderData['shippingFee'] = $this->calculateShippingFee();
+		$orderData['totalFee'] = $orderData['totalAmount'] + $orderData['giftPackageFee'] + $orderData['shippingFee'];
 		$orderData['currency'] = $this->getCurrency();
 		$orderLogic->updateOrder($orderData, $order['orderId']);
 	}
@@ -120,9 +135,10 @@ class BaseController extends Controller {
 		if(count($backlogOrder) == 0){
 			//之前没有任何订单记录
 			$data['shippingFee'] = $this->calculateShippingFee();
-			$data['totalItemCount'] = $shoppingList['totalItemCount']; 
+			$data['totalItemCount'] = $shoppingList['totalItemCount'];
+			$data['shippingFee'] = $this->calculateShippingFee();
 			$data['totalAmount'] = $shoppingList['totalAmount'];
-			$data['totalFee'] = $data['totalAmount'] + $this->calculateShippingFee();
+			$data['totalFee'] = $data['totalAmount'] + $data['shippingFee'];
 			$data['userId'] = $this->getCurrentUserId(); 
 			$data['status'] = 'N';
 			$data['currency'] = $this->getCurrency();
@@ -183,7 +199,8 @@ class BaseController extends Controller {
 		}
 		
 		$orderData['totalAmount'] = $order['totalAmount'] + $newTotalPrice;
-		$orderData['totalFee'] = $orderData['totalAmount'] + $order['giftPackageFee'] + $this->calculateShippingFee();
+		$orderData['shippingFee'] = $this->calculateShippingFee();
+		$orderData['totalFee'] = $orderData['totalAmount'] + $order['giftPackageFee'] + $orderData['shippingFee'];
 		$orderData['totalItemCount'] = $order['totalItemCount'] + $newTotalCount;
 		$orderData['currency'] = $this->getCurrency();
 		$orderLogic->updateOrder($orderData, $order['orderId']);
@@ -211,6 +228,9 @@ class BaseController extends Controller {
 		if(!$this->isLogin()){
 			$shoppingList = session('shoppingList');
 			if($shoppingList != ''){
+				$shoppingList['totalFee'] = $shoppingList['totalAmount'];
+				$shoppingList['shippingFee'] = 0;
+				$shoppingList['giftPackageFee'] = 0;
 				$this->assign('shoppingListCount', $shoppingList['totalItemCount']);
 				$shoppingListItems = session('shoppingListItems');
 				$this->assign('shoppingList', $shoppingList);
@@ -253,6 +273,7 @@ class BaseController extends Controller {
 			}
 		}
 		$this->prepareUserSetting();
+		$this->prepareSupportingData();
 		$this->prepareBrandList();
 		$this->prepareUserMenu();
 		$this->prepareShoppingList();
@@ -330,6 +351,11 @@ class BaseController extends Controller {
 	protected function getCurrency(){
 		return cookie('preferred_currency');
 	}
+	
+	protected function getGiftPackageFee(){
+		return session('giftPackageFee');
+	}
+	
 	protected function testLogShoppingList(){
 		$shoppingList = session('shoppingList');
 		logInfo('shoppingList  totalItemCount:'.$shoppingList['totalItemCount'].',totalAmount:'.$shoppingList['totalAmount']);
@@ -357,6 +383,11 @@ class BaseController extends Controller {
 
 	protected function calculateShippingFee(){
 		//TBC, 需要考虑汇率,按照当前用户的默认送货地址计算价格
-		return 0;	
+		if($this->getCurrency() == 'HKD'){
+			return 100;
+		}else if($this->getCurrency() == 'CNY'){
+			return 84;
+		}
+		return 0;
 	}
 }

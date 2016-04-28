@@ -45,7 +45,9 @@
 					</volist>
 					<div class="am-panel am-panel-default" style="margin-top:15px">
 						<div class="am-panel-hd" style="font-size: 13px">
-							<input type="checkbox" id="gift-card" value="" /><span style="margin-left: 10px">{$Think.lang.giftpackage}</span><span style="float: right">{$priceSymbol}35</span><br/>
+							<input type="checkbox" id="gift-card" value="" <gt name="shoppingList['giftPackageFee']" value="0">checked="checked"</gt> onchange="clickGiftPackage();"/>
+								<span style="margin-left: 10px">{$Think.lang.giftpackage}</span><span style="float: right">{$priceSymbol} {$giftPackageFee}</span>
+								<br/>
 							
 						</div>
 						<div class="am-panel-bd" style="font-size: 12px">
@@ -60,12 +62,14 @@
 				<div class="am-panel-hd">{$Think.lang.shoppingcart}({$shoppingList.totalItemCount})</div>
 				<div class="am-panel-bd am-padding-0" style="font-size: 13px;">
 					<div style="background-color:#F8F8F8;">
-						<div style="width:100%; padding: 15px 15px 0px 15px"><span>{$Think.lang.buyrecord}</span><span style="float: right">{$priceSymbol}{$shoppingList.totalAmount}</span></div>
-						<div style="width:100%; padding: 5px 15px 5px 15px"><span>{$Think.lang.shippingfee}</span><span style="float: right">0</span></div>
-						<div style="width:100%; padding: 5px 15px 5px 15px"><span>{$Think.lang.packagefee}</span><span style="float: right">0</span></div>
-						<div style="width:100%; padding: 0px 15px 15px 15px"><span>{$Think.lang.ordertotal}</span><span style="float: right">{$priceSymbol}{$shoppingList.totalAmount}</span></div>
+						<div style="width:100%; padding: 15px 15px 0px 15px"><span>{$Think.lang.buyrecord}</span><span style="float: right">{$priceSymbol} <span id="totalAmount">{$shoppingList.totalAmount}</span></span></div>
+						<div style="width:100%; padding: 5px 15px 5px 15px"><span>{$Think.lang.shippingfee}</span><span style="float: right"><gt name="shoppingList['shippingFee']" value="0">{$priceSymbol}</gt> <span id="shippingFee">{$shoppingList.shippingFee}</span></span></div>
+						<div style="width:100%; padding: 5px 15px 5px 15px"><span>{$Think.lang.packagefee}</span><span style="float: right"><span id="giftPackageFee">{$shoppingList.giftPackageFee}</span></span></div>
+						<div style="width:100%; padding: 0px 15px 15px 15px"><span>{$Think.lang.ordertotal}</span><span style="float: right">{$priceSymbol} <span id="totalFee">{$shoppingList.totalFee}</span></span></div>
 					</div>
-					<div style="width:100%; border-top: 1px solid #CECECE; border-bottom: 1px solid #CECECE;padding: 15px"><span style="font-size: 14px">{$Think.lang.totalpay}</span><span style="font-size: 14px;float:right">{$priceSymbol}{$shoppingList.totalAmount}</span></div>
+					<div style="width:100%; border-top: 1px solid #CECECE; border-bottom: 1px solid #CECECE;padding: 15px">
+							<span style="font-size: 14px">{$Think.lang.totalpay}</span><span style="font-size: 14px;float:right">{$priceSymbol}<span id="totalPay">{$shoppingList.totalFee}</span></span>
+					</div>
 					<div style="width:100%;text-align: center;background-color:#F8F8F8"><button class="submit"  style="width: 90%; height: 40px;margin:10px; background-color:black; color: white;border: 0;">{$Think.lang.submitorder}</button></div>
 					<div style="clear: both"></div>
 				</div>
@@ -96,5 +100,18 @@
 		$(".submit").click(function(){
 			window.location.href="{:U('Starball/Cart/delivery')}?isGiftPackage="+$('#gift-card')[0].checked;
 		});
+		function clickGiftPackage(){
+			giftPackageFee = {$giftPackageFee};
+			priceSymbol = '{$priceSymbol}';
+			if($('#gift-card')[0].checked){
+				$('#giftPackageFee').html(priceSymbol + ' ' + giftPackageFee);	
+				$('#totalFee').html(parseFloat($('#totalFee')[0].innerText) + parseFloat(giftPackageFee));
+				$('#totalPay').html($('#totalFee')[0].innerText);
+			}else{
+				$('#giftPackageFee').html(0);
+				$('#totalFee').html(parseFloat($('#totalAmount')[0].innerText) + parseFloat($('#shippingFee')[0].innerText));
+				$('#totalPay').html($('#totalFee')[0].innerText);
+			}
+		}
 	</script>
 </block>
