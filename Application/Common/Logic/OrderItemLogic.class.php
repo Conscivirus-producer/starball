@@ -95,6 +95,7 @@
 			// payment goes first
 			// if payment fail, return false
 			// else continue
+
 			$map["id"] = $id;
 			$orderItemInformation = current($this->where($map)->select());
 			$status = $orderItemInformation["status"];
@@ -105,6 +106,11 @@
 			$data["status"] = "C2";
 			$data["updatedDate"] = date("Y-m-d H:i:s" ,time());
 			return ($this->save($data) !== false);
+		}
+
+		public function getOrderItemInformationById($id) {
+			$map["id"] = $id;
+			return current($this->where($map)->select());
 		}
 	}
 

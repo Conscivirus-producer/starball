@@ -48,16 +48,13 @@
 			if ($map["createdDateStart"] != "") {
 				$createdDateStart = $map["createdDateStart"];
 			}
-			$createdDateEnd = date("Y-m-d" ,time());
+			$createdDateEnd = date("Y-m-d H:i:s" ,time());
 			if ($map["createdDateEnd"] != "") {
 				$createdDateEnd = $map["createdDateEnd"];
 			}
 			$newMap["createdDate"] = array('between',array($createdDateStart,$createdDateEnd));
 			if ($map["status"] != "nothing") {
 				$newMap["status"] = $map["status"];
-			}
-			if ($map["isGiftPackage"] != "nothing") {
-				$newMap["isGiftPackage"] = $map["isGiftPackage"];
 			}
 			$userLogic = D("User", "Logic");
 			$data = $this->where($newMap)->order('createdDate desc')->select();
@@ -139,6 +136,8 @@
 			$updateData["orderId"] = $orderId;
 			$updateData["updatedDate"] = $lastUpdatedDate;
 			$updateData["status"] = "D";
+			$updateData["shippingMethod"] = $data["expressName"];
+			$updateData["shippingOrderNumber"] = $data["expressNumber"];
 			if ($this->save($updateData) === false) {
 				return false;
 			}
@@ -185,6 +184,12 @@
 			$updateData["updatedDate"] = $lastUpdatedDate;
 			$updateData["status"] = "C2";
 			return ($this->save($updateData) !== false);
+		}
+
+		public function getOrderIdByOrderNumber($orderNumber) {
+			$map["orderNumber"] = $orderNumber;
+			$orderInformation = current($this->where($map)->select());
+			return $orderInformation["orderId"];
 		}
 
 	}

@@ -119,4 +119,84 @@ class OrderController extends Controller {
         }
         echo json_encode($res);
     }
+
+    public function cancel() {
+        $orderCancelLogic = D("OrderCancel", "Logic");
+        $fields = array(
+            "status",
+            "createdDateStart",
+            "createdDateEnd"
+        );
+        $conditions = array();
+        for ($i = 0; $i < count($fields); $i++) {
+            if ($fields[$i] == "status") {
+                $conditions[$fields[$i]] = I("post.".$fields[$i], "nothing");
+            } else {
+                $conditions[$fields[$i]] = I("post.".$fields[$i], "");
+            }
+        }
+        $orderCancelInformation = $orderCancelLogic->getCancelOrdersByConditions($conditions);
+        $this->assign("data", $orderCancelInformation);
+        $this->assign("conditions", $conditions);
+        $this->assign("conditionsJSON", json_encode($conditions));
+        $this->display();
+    }
+
+    public function cancelDetailedInformation() {
+        $orderCancelLogic = D("OrderCancel", "Logic");
+        $cancelId = I("get.cancelId", "");
+        if ($cancelId == "") {
+            die("错误操作");
+        }
+        $this->assign("information", $orderCancelLogic->getCancelOrderDetailedInformation($cancelId));
+        $this->display();
+    }
+
+    public function agreeCancelOrder() {
+        $orderCancelLogic = D("OrderCancel", "Logic");
+        $res = array(
+            "status" => "0"
+        );
+        $cancelId = I("post.cancelId", "");
+        if ($orderCancelLogic->agreeCancelOrder($cancelId) !== false) {
+            $res["status"] = "1";
+        }
+        echo json_encode($res);
+    }
+
+    public function disagreeCancelOrder() {
+        $orderCancelLogic = D("OrderCancel", "Logic");
+        $res = array(
+            "status" => "0"
+        );
+        $cancelId = I("post.cancelId", "");
+        if ($orderCancelLogic->disagreeCancelOrder($cancelId) !== false) {
+            $res["status"] = "1";
+        }
+        echo json_encode($res);
+    }
+
+    public function cancelOrderVerifyReceive() {
+        $orderCancelLogic = D("OrderCancel", "Logic");
+        $res = array(
+            "status" => "0"
+        );
+        $cancelId = I("post.cancelId", "");
+        if ($orderCancelLogic->cancelOrderVerifyReceive($cancelId) !== false) {
+            $res["status"] = "1";
+        }
+        echo json_encode($res);
+    }
+
+    public function cancelOrderRefund() {
+        $orderCancelLogic = D("OrderCancel", "Logic");
+        $res = array(
+            "status" => "0"
+        );
+        $cancelId = I("post.cancelId", "");
+        if ($orderCancelLogic->cancelOrderRefund($cancelId) !== false) {
+            $res["status"] = "1";
+        }
+        echo json_encode($res);
+    }
 }
