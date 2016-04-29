@@ -27,7 +27,7 @@ function sendMail($mailContent, $type){
 	//$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
 	$mail->isHTML(true);                                  // Set email format to HTML
 	
-	if($type="payment"){
+	if($type == "payment"){
 		$mail->Subject = 'Here is the subject';
 		$template = '下单成功！</br>
 				     订单号: '.$mailContent["orderNumber"].'</br>';
@@ -37,8 +37,14 @@ function sendMail($mailContent, $type){
 		$template = $template.'总价: '.$mailContent["totalAmount"].$mailContent["currency"];	
 	    $mail->Body    = $template;
 		$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-	}elseif($type="delivered"){
+	}elseif($type == "delivered"){
 		//TODO
+		//$mail->addAddress('1415609649@qq.com', '丁俊南');
+		$mail->Subject = 'Here is the subject';
+		//$template = '下单成功！</br>';
+		$mail->Body    = $mailContent;
+		$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
 	}
 	
 	if(!$mail->send()) {
@@ -47,6 +53,57 @@ function sendMail($mailContent, $type){
 	} else {
 	    logInfo(json_encode($mailContent));
 		logInfo($type);
+	}
+}
+
+function sendMailNewVersion($mailContent, $type, $userInfo){
+	$mail = new \PHPMailer;
+
+	//$mail->SMTPDebug = 3;                               // Enable verbose debug output
+
+	$mail->CharSet = 'UTF-8';                             // Set CharSet to UTF-8
+	$mail->isSMTP();                                      // Set mailer to use SMTP
+	$mail->Host = 'smtp.ym.163.com';  // Specify main and backup SMTP servers
+	$mail->SMTPAuth = true;                               // Enable SMTP authentication
+	$mail->Username = 'test@starballkids.com';                 // SMTP username
+	$mail->Password = 'test123456';                           // SMTP password
+	$mail->Port = 25;                                     // TCP port to connect to
+
+	$mail->setFrom('test@starballkids.com', 'test');
+	$mail->addAddress($userInfo["email"], $userInfo["userName"]);     // Add a recipient
+	//$mail->addAddress('ellen@example.com');               // Name is optional
+	//$mail->addReplyTo('info@example.com', 'Information');
+	//$mail->addCC('cc@example.com');
+	//$mail->addBCC('bcc@example.com');
+
+	//$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
+	//$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+	$mail->isHTML(true);                                  // Set email format to HTML
+
+	if($type == "payment"){
+		$mail->Subject = 'Here is the subject';
+		$template = '下单成功！</br>
+				     订单号: '.$mailContent["orderNumber"].'</br>';
+		for ($i=0; $i < count($mailContent["orderItems"]); $i++) {
+			$template = $template."商品: ".$mailContent["orderItems"][$i]["itemName"]."价格: ".$mailContent["orderItems"][$i]["price"].$mailContent["currency"]."<br/>";
+		}
+		$template = $template.'总价: '.$mailContent["totalAmount"].$mailContent["currency"];
+		$mail->Body    = $template;
+		$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+	}elseif($type == "delivered"){
+		$mail->Subject = 'StarballKids发货通知';
+		$mail->Body    = "您购买的商品订单号".$mailContent["orderNumber"]."已发货, 快递公司为".$mailContent["expressName"].", 快递号为".$mailContent["expressNumber"].", 请您注意查收.";
+		$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+	}
+
+	if(!$mail->send()) {
+		//echo 'Message could not be sent.';
+		//echo 'Mailer Error: ' . $mail->ErrorInfo;
+		return false;
+	} else {
+		logInfo(json_encode($mailContent));
+		logInfo($type);
+		return true;
 	}
 }
 function logInfo($msg){
