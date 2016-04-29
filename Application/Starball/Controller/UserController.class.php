@@ -23,6 +23,7 @@ class UserController extends BaseController {
 		$i = 0;
 		foreach($result as $record){
 			$record['statusDescription'] = $orderStatus[$record['status']];
+			$record['orderDate'] = substr($record['orderDate'], 0,10);
 			$result[$i] = $record;
 			$i++;
 		}
@@ -37,9 +38,10 @@ class UserController extends BaseController {
 		$orderBill = D('OrderBill', 'Logic')->findOrderSuccessPayBill($orderId);
 		$orderStatus = C('ORDERSTATUS');
 		$order['statusDescription'] = $orderStatus[$order['status']];
+		$order['orderDate'] = substr($order['orderDate'], 0,10);
 		$this->assign('order', $order);
 		$this->assign('orderItems', $ordeItems);
-		$this->assign('orderPayBill', $$orderBill);
+		$this->assign('orderBill', $orderBill);
 		$this->display();
 	}
 }

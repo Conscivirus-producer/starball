@@ -38,6 +38,8 @@
 		
 		public function updateOrderItemStatusByOrder($orderNumber, $status){
 			$map['orderNumber'] = $orderNumber;
+			$data['status'] = $status;
+			$this->where($map)->save($data);
 		}
 		
 	}

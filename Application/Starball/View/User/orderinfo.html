@@ -10,13 +10,13 @@
                 <th class="am-text-middle yu-thead-taller" colspan="4">订单号{$order.orderNumber}</th>
             </tr>
             <tr>
-                <td class="am-text-left am-text-sm">物流方式</td>
+                <td class="am-text-left am-text-sm">物流方式<br>{$order.shippingMethod}</td>
                 <td class="am-text-left am-text-sm">支付方式
                 <br>
-                支付宝</td>
+                {$orderBill.channel}</td>
                 <td class="am-text-left am-text-sm">日期
                 <br>
-                {$order.updatedDate}</td>
+                {$order.orderDate}</td>
                 <td class="am-text-left am-text-sm">金额
                 <br>
                 {$priceSymbol} {$order.totalFee}</td>

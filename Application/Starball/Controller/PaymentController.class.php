@@ -122,7 +122,7 @@ class PaymentController extends BaseController {
 		//更新订单状态
 		$orderData['status'] = 'P';
 		D('Order', 'Logic')->updateOrderByNumber($orderData, $bill['orderNumber']);
-		d('OrderItem', 'Logic')->updateOrderItemStatusByOrder($bill['orderNumber'], 'P');
+		D('OrderItem', 'Logic')->updateOrderItemStatusByOrder($bill['orderNumber'], 'P');
 		$this->deduceInventoryByOrder($bill['orderNumber']);
 		$data = array(
 		    'message'=>'处理成功',
