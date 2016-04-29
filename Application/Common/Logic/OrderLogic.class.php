@@ -13,6 +13,12 @@
 			$map['orderNumber'] = $orderNumber;
 			return $this->where($map)->find();
 		}
+		
+		public function findByOrderId($orderId){
+			$map['orderId'] = $orderId;
+			return $this->where($map)->find();			
+		}
+		
 		public function getCurrentOutstandingOrder($userId, $status){
 			$map['userId'] = $userId;
 			$map['status'] = $status;

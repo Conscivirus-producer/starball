@@ -11,14 +11,16 @@ class CartController extends BaseController {
 		if(!$this->isLogin()){
 			$this->redirect('Home/register', array('fromAction' => 'shoppinglist'));
 		}
-		$this->commonProcess();
 		//如果需要礼品包装,把包装费用加到总费用里
 		$orderLogic = D('Order', 'Logic');
 		$order = $orderLogic->getCurrentOutstandingOrder($this->getCurrentUserId(), 'N');
-		$data['giftPackageFee'] = I('isGiftPackage') == 'true' ? $this->getGiftPackageFee() : 0;
-		$data['totalFee'] = $order['totalAmount'] + $order['shippingFee'] + $data['giftPackageFee'];
-		$orderLogic->updateOrder($data, $order['orderId']);
-			
+		if(I('isGiftPackage') != ''){
+			$data['giftPackageFee'] = I('isGiftPackage') == 'true' ? $this->getGiftPackageFee() : 0;
+			$data['totalFee'] = $order['totalAmount'] + $order['shippingFee'] + $data['giftPackageFee'];
+			$orderLogic->updateOrder($data, $order['orderId']);
+		}
+		
+		$this->commonProcess();	
 		$shipppingAddress = D("ShippingAddress", "Logic");
 		$addressList = $shipppingAddress->getAllAddress($this->getCurrentUserId());
 		if(count($addressList) == 0){
@@ -81,7 +83,7 @@ class CartController extends BaseController {
 			}else{
 				$orderNumber = $order['orderNumber'];
 			}
-			
+			$orderLogic->updateOrder($data, $order['orderId']);
 			$this->redirect('Payment/index', array('orderNumber' => $orderNumber));
 		}
 	}

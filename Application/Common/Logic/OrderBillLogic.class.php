@@ -19,6 +19,13 @@ class OrderBillLogic extends OrderBillModel{
 		$this->where('billId='.$data['billId'])->save($data);
 	}
 	
+	public function findOrderSuccessPayBill($orderId){
+		$map['orderId'] = $orderId;
+		$map['type'] = 'PAY';
+		$map['status'] = 'S';
+		return $this->where($map)->order('createdDate desc')->find();
+	}
+	
 	public function queryBill($map){
 		return $this->where($map)->order('createdDate desc')->select();
 	}

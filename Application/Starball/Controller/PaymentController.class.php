@@ -5,7 +5,7 @@ class PaymentController extends BaseController {
 	
 	public function index(){
 		$this->commonProcess();
-		$addressInfo = D('ShippingAddress', 'Logic')->findExsitingAddress(I('addressId'));
+		$addressInfo = D('ShippingAddress', 'Logic')->getDefaultAddress($this->getCurrentUserId());
 		$countryList = C('COUNTRY_LIST');
 		$addressInfo['country'] = L($countryList[$addressInfo['country']]);
 		$this->assign('addressInfo', $addressInfo);
@@ -122,6 +122,7 @@ class PaymentController extends BaseController {
 		//更新订单状态
 		$orderData['status'] = 'P';
 		D('Order', 'Logic')->updateOrderByNumber($orderData, $bill['orderNumber']);
+		d('OrderItem', 'Logic')->updateOrderItemStatusByOrder($bill['orderNumber'], 'P');
 		$this->deduceInventoryByOrder($bill['orderNumber']);
 		$data = array(
 		    'message'=>'处理成功',

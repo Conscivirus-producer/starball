@@ -4,10 +4,10 @@
 </block>
 <block name="main">
     <div class="yu-account-container" style="margin-top: 39px;">
-        <a class="yu-backto-order am-kai am-margin-bottom-3" href="##">返回我的订单 〉</a>
+        <a class="yu-backto-order am-kai am-margin-bottom-3" href="{:U('Starball/User/index', array('tab'=>'order'))}">返回我的订单 〉</a>
         <table class="am-table am-table-bordered am-table-centered am-kai">
             <tr class="yu-thead-bg">
-                <th class="am-text-middle yu-thead-taller" colspan="4">订单号MJ2526640</th>
+                <th class="am-text-middle yu-thead-taller" colspan="4">订单号{$order.orderNumber}</th>
             </tr>
             <tr>
                 <td class="am-text-left am-text-sm">物流方式</td>
@@ -16,10 +16,10 @@
                 支付宝</td>
                 <td class="am-text-left am-text-sm">日期
                 <br>
-                10/04/2016</td>
+                {$order.updatedDate}</td>
                 <td class="am-text-left am-text-sm">金额
                 <br>
-                $3,010.80</td>
+                {$priceSymbol} {$order.totalFee}</td>
             </tr>
             <tr>
                 <td class="am-text-left am-text-sm" colspan="2">收件地址：
@@ -27,19 +27,25 @@
                 深圳市南山区讯美科技广场3栋1521B</td>
                 <td class="am-text-left am-text-sm" colspan="2">状态：
                 <br>
-                超时</td>
+                	{$order.statusDescription}</td>
             </tr>
             <tr>
                 <td class="am-text-left am-text-sm" style="border-right: none;" colspan="2">商品总计</td>
-                <td class="am-text-right am-text-sm" style="border-left: none;" colspan="2">$2,176</td>
+                <td class="am-text-right am-text-sm" style="border-left: none;" colspan="2">{$priceSymbol} {$order.totalAmount}</td>
             </tr>
             <tr>
                 <td class="am-text-left am-text-sm" style="border-right: none;" colspan="2">邮费</td>
-                <td class="am-text-right am-text-sm" style="border-left: none;" colspan="2">$86</td>
+                <td class="am-text-right am-text-sm" style="border-left: none;" colspan="2">{$priceSymbol} {$order.shippingFee}</td>
             </tr>
+            <gt name="order['giftPackageFee']" value="0">
+	            <tr>
+	                <td class="am-text-left am-text-sm" style="border-right: none;" colspan="2">礼品包装费用</td>
+	                <td class="am-text-right am-text-sm" style="border-left: none;" colspan="2">{$priceSymbol} {$order.giftPackageFee}</td>
+	            </tr>
+            </gt>
             <tr class="yu-thead-bg">
                 <td class="am-text-left am-text-sm" style="border-right: none;" colspan="2">总计</td>
-                <td class="am-text-right am-text-sm" style="border-left: none;" colspan="2">$2,262</td>
+                <td class="am-text-right am-text-sm" style="border-left: none;" colspan="2">{$priceSymbol} {$order.totalFee}</td>
             </tr>
             <tr>
                 <td class="am-text-left" colspan="4">
@@ -47,26 +53,26 @@
                     <h6 class="am-margin-bottom-0">选择您需要退货的商品</h6>
                     <span class="am-text-sm">请阐明您的退货理由。</span>
                 </div>
-                <div class="yu-item-styler am-g">
-                    <div class="yu-image-styler am-u-sm-2">
-                        <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/karl-lagerfeld-kids-t-1446712438-p_l_157397_A.jpg" style="width:100px;">
-                    </div>
-                    <div class="yu-product-description am-u-sm-10 am-padding-0">
-                        <p class="yu-product-list">
-                            <span class="yu-product-title">Karl Lagerfeld Kids</span>
-                            <span class="yu-product-subtitle">Mini Me Choupette猫咪印图T恤</span>
-                            <span class="yu-product-fronttitle"><span class="yu-product-order-content">尺码 :</span> 4岁 (99 - 104 cm)</span>
-                            <span class="yu-product-fronttitle"><span class="yu-product-order-content">参考编号 :</span> Z15001-A34</span>
-                            <span class="yu-product-fronttitle">
-                                <span class="yu-product-order-content">数量 :</span> 1
-                                <button type="submit" class="am-btn am-btn-default yu-black-button">
-                                    申请退款
-                                </button>
-                            </span>
-                            <span class="yu-product-fronttitle"> <span class="yu-product-order-content">总金额 :</span> Ұ&nbsp;358 </span>
-                        </p>
-                    </div>
-                </div></td>
+                <volist name="orderItems" id="vo">
+	                <div class="yu-item-styler am-g">
+	                    <div class="yu-image-styler am-u-sm-2">
+	                        <img src="{$vo.itemImage}?imageView2/1/w/100/h/100/q/100" style="width:100px;">
+	                    </div>
+	                    <div class="yu-product-description am-u-sm-10 am-padding-0">
+	                        <p class="yu-product-list">
+	                            <span class="yu-product-title">{$vo.brandName}</span>
+	                            <span class="yu-product-subtitle">{$vo.itemName}</span>
+	                            <span class="yu-product-fronttitle"><span class="yu-product-order-content">尺码 :</span> {$vo.sizeDescription}</span>
+	                            <span class="yu-product-fronttitle">
+	                                <span class="yu-product-order-content">数量 :</span> {$vo.quantity}
+	                                <eq name="vo['status']" value="P"><button type="submit" class="am-btn am-btn-default yu-black-button">申请退款</button></eq>
+	                            </span>
+	                            <span class="yu-product-fronttitle"> <span class="yu-product-order-content">总金额 :</span> {$priceSymbol} {$vo.price} </span>
+	                        </p>
+	                    </div>
+	                </div>
+                </volist>
+                </td>
             </tr>
         </table>
 </block>

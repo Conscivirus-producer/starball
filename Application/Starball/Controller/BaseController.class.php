@@ -206,24 +206,6 @@ class BaseController extends Controller {
 		$orderLogic->updateOrder($orderData, $order['orderId']);
 	}
 
-	protected function prepareOrderList(){
-		if(!$this->isLogin()){
-			return;	
-		}
-		$orderLogic = D('Order', 'Logic');
-		$map['userId'] = $this->getCurrentUserId();
-		$map['status'] <> 'N';
-		$result = $orderLogic->queryOrder($map);
-		$orderStatus = C('ORDERSTATUS');
-		$i = 0;
-		foreach($result as $record){
-			$record['statusDescription'] = $orderStatus[$record['status']];
-			$result[$i] = $record;
-			$i++;
-		}
-		$this->assign('data', $result);
-	}
-
 	protected function prepareShoppingList(){
 		if(!$this->isLogin()){
 			$shoppingList = session('shoppingList');
@@ -277,7 +259,6 @@ class BaseController extends Controller {
 		$this->prepareBrandList();
 		$this->prepareUserMenu();
 		$this->prepareShoppingList();
-		$this->prepareOrderList();
 	}
 	
 	//abstract protected function pageDisplay();	
@@ -386,7 +367,7 @@ class BaseController extends Controller {
 		if($this->getCurrency() == 'HKD'){
 			return 100;
 		}else if($this->getCurrency() == 'CNY'){
-			return 84;
+			return 89;
 		}
 		return 0;
 	}

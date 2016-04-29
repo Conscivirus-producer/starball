@@ -36,6 +36,10 @@
 			$this->updateOrderItem($data, $record['id']);
 		}
 		
+		public function updateOrderItemStatusByOrder($orderNumber, $status){
+			$map['orderNumber'] = $orderNumber;
+		}
+		
 	}
 
 ?>

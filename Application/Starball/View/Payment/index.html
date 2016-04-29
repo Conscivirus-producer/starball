@@ -35,12 +35,16 @@
 				<div class="am-panel-hd">购物车({$shoppingList.totalItemCount})</div>
 				<div class="am-panel-bd am-padding-0" style="font-size: 13px;">
 					<div style="background-color:#F8F8F8;">
-						<div style="width:100%; padding: 15px 15px 0px 15px"><span>我的购买记录</span><span style="float: right">{$priceSymbol}{$shoppingList.totalAmount}</span></div>
-						<div style="width:100%; padding: 5px 15px 5px 15px"><span>运费</span><span style="float: right">0</span></div>
-						<div style="width:100%; padding: 5px 15px 5px 15px"><span>礼品包装费用</span><span style="float: right">0</span></div>
-						<div style="width:100%; padding: 0px 15px 15px 15px"><span>我的订单总额</span><span style="float: right">{$priceSymbol}{$shoppingList.totalAmount}</span></div>
+						<div style="width:100%; padding: 15px 15px 0px 15px"><span>我的购买记录</span><span style="float: right">{$priceSymbol} {$shoppingList.totalAmount}</span></div>
+						<div style="width:100%; padding: 5px 15px 5px 15px">
+							<span>运费</span><span style="float: right">{$priceSymbol} <span id="shippingFee">{$shoppingList.shippingFee}</span></span>
+						</div>
+						<div style="width:100%; padding: 5px 15px 5px 15px"><span>礼品包装费用</span>
+							<span style="float: right"><gt name="shoppingList['giftPackageFee']" value="0">{$priceSymbol}</gt> {$shoppingList.giftPackageFee}</span>
+						</div>
+						<div style="width:100%; padding: 0px 15px 15px 15px"><span>我的订单总额</span><span style="float: right">{$priceSymbol} <span id="totalFee">{$shoppingList.totalFee}</span></span></div>
 					</div>
-					<div style="width:100%; border-top: 1px solid #CECECE; border-bottom: 1px solid #CECECE;padding: 15px"><span style="font-size: 14px">支付总额</span><span style="font-size: 14px;float:right">{$priceSymbol}{$shoppingList.totalAmount}</span></div>
+					<div style="width:100%; border-top: 1px solid #CECECE; border-bottom: 1px solid #CECECE;padding: 15px"><span style="font-size: 14px">支付总额</span><span style="font-size: 14px;float:right">{$priceSymbol} {$shoppingList.totalFee}</span></div>
 					<div style="clear: both"></div>
 				</div>
 			</div>
