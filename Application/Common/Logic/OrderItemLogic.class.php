@@ -9,8 +9,9 @@
 			$this->add($data);	
 		}
 		
-		public function getOrderItemsById($id){
-			return $this->where('id='.$id)->order('updatedDate desc')->select();
+		public function getOrderItemById($id){
+			 $map['id'] = $id;
+			 return $this->where($map)->find();
 		}
 		
 		public function getOrderItemsByOrdeId($orderId){

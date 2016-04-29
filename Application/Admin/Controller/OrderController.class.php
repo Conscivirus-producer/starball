@@ -104,22 +104,6 @@ class OrderController extends Controller {
         echo json_encode($res);
     }
 
-    public function cancelSingleOrderItem() {
-        $orderItemLogic = D("OrderItem", "Logic");
-        $res = array(
-            "status" => "0"
-        );
-        $id = I("post.cancelId", "");
-        if ($id == "") {
-            echo json_encode($res);
-            return;
-        }
-        if ($orderItemLogic->cancelSingleOrderItem($id) !== false) {
-            $res["status"] = "1";
-        }
-        echo json_encode($res);
-    }
-
     public function cancel() {
         $orderCancelLogic = D("OrderCancel", "Logic");
         $fields = array(

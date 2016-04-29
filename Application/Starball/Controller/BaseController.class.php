@@ -365,9 +365,9 @@ class BaseController extends Controller {
 	protected function calculateShippingFee(){
 		//TBC, 需要考虑汇率,按照当前用户的默认送货地址计算价格
 		if($this->getCurrency() == 'HKD'){
-			return 100;
+			return 0.01;
 		}else if($this->getCurrency() == 'CNY'){
-			return 89;
+			return 0.01;
 		}
 		return 0;
 	}

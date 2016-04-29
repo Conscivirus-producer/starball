@@ -352,7 +352,7 @@
         var id = $(this).attr("name").replace("single-item-refund", "");
         var data = {};
         data["cancelId"] = id;
-        $.post("./cancelSingleOrderItem",data,function(result){
+        $.post('{:U("Payment/cancelSingleOrderItem")}',data,function(result){
             if ($.parseJSON(result).status == "1") {
                 $("#success-prompt").modal("open");
             } else {

@@ -65,7 +65,19 @@
 	                            <span class="yu-product-fronttitle"><span class="yu-product-order-content">尺码 :</span> {$vo.sizeDescription}</span>
 	                            <span class="yu-product-fronttitle">
 	                                <span class="yu-product-order-content">数量 :</span> {$vo.quantity}
-	                                <eq name="vo['status']" value="P"><button type="submit" class="am-btn am-btn-default yu-black-button">申请退款</button></eq>
+	                                <form class="am-form am-form-horizontal" role="form" method="post">
+	                                	<input type="hidden" name="orderItemId" value="{$vo.id}">
+		                                <eq name="vo['status']" value="P">
+		                                	<input type="hidden" name="method" value="returnFund">
+		                                	<button type="submit" class="am-btn am-btn-default yu-black-button">申请退款</button>
+	                                	</eq>
+		                                <eq name="vo['status']" value="V">
+		                                	<input type="hidden" name="method" value="returnGood">
+		                                	<button type="submit" class="am-btn am-btn-default yu-black-button">申请退款</button>
+	                                	</eq>
+	                                </form>
+	                                <span style="font-size: 14px;float:right"><eq name="vo['status']" value="C1">等待退款</eq></span>
+	                                <span style="font-size: 14px;float:right"><eq name="vo['status']" value="C2">退款成功</eq></span>
 	                            </span>
 	                            <span class="yu-product-fronttitle"> <span class="yu-product-order-content">总金额 :</span> {$priceSymbol} {$vo.price} </span>
 	                        </p>

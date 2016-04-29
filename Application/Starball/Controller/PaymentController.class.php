@@ -55,6 +55,41 @@ class PaymentController extends BaseController {
 		$this->display();
 	}
 
+	//退款单个item
+    public function cancelSingleOrderItem() {
+        $orderItemLogic = D("OrderItem", "Logic");
+        $res = array(
+            "status" => "0"
+        );
+        $id = I("post.cancelId", "");
+        if ($id == "") {
+            echo json_encode($res);
+            return;
+        }
+		
+		$orderItem = D('OrderItem', 'Logic')->getOrderItemById($id);
+		$order = D('Order', 'Logic')->findByOrderId($orderItem['orderId']);
+		
+		//创建退款参考单
+		$timestamp = time() * 1000;
+		$billData['orderNumber'] =  $order['orderNumber'];
+		$billData['billNumber'] = $order['orderNumber'].$timestamp;
+		$billData['title'] = "StarBall.Kids退款单".$orderNumber;
+		$billData['totalAmount'] = $orderItem['price'];
+		$billData['channel'] = '';
+		$billData['subChannel'] = '';
+		$billData['type'] = 'REFUND';
+		$billData['status'] = 'N';
+		if(D('OrderBill', 'Logic')->createBill($billData)){
+			$res["status"] = "1";
+		}
+		
+        /*if ($orderItemLogic->cancelSingleOrderItem($id) !== false) {
+            $res["status"] = "1";
+        }*/
+        echo json_encode($res);
+    }
+
 	public function paysuccess(){
 		$this->commonProcess();
 		//send mail
@@ -141,6 +176,7 @@ class PaymentController extends BaseController {
 	}
 	
 	public function webhook(){
+		logInfo('ReturnJson:'.$jsonStr);
 		header("Content-type: text/html; charset=utf-8");
 		$appId = "045c259d-9ceb-4320-84e6-64d463c01a2d";
 		$appSecret = "b3842787-3442-49eb-914a-5ec86e0b2e74";
