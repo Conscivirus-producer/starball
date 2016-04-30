@@ -416,15 +416,13 @@
             return false;
         }
         // isAvailable must be set, should not be conflict with inventory
+        // Huahua@20160430: remove the inventory restriction with the isavailable option according to requirement
         if (isAvailableValue() == "-1") {
             return false;
         }
-        if (isAvailableValue() != "1" && $(".inventory-number").length > 0) {
+        /*if (isAvailableValue() != "0" && $(".inventory-number").length == 0) {
             return false;
-        }
-        if (isAvailableValue() == "1" && $(".inventory-number").length == 0) {
-            return false;
-        }
+        }*/
         return true;
     }
     // isAvailable check function

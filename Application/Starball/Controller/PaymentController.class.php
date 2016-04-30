@@ -176,11 +176,11 @@ class PaymentController extends BaseController {
 	}
 	
 	public function webhook(){
-		logInfo('ReturnJson:'.$jsonStr);
 		header("Content-type: text/html; charset=utf-8");
 		$appId = "045c259d-9ceb-4320-84e6-64d463c01a2d";
 		$appSecret = "b3842787-3442-49eb-914a-5ec86e0b2e74";
 		$jsonStr = file_get_contents("php://input");
+		logInfo('ReturnJson:'.$jsonStr);
 		//$jsonStr = file_get_contents(dirname(__FILE__)."/pay_json.txt");
 		$msg = json_decode($jsonStr);
 		// webhook字段文档: http://beecloud.cn/doc/php.php#webhook
@@ -233,6 +233,7 @@ class PaymentController extends BaseController {
 					if($result){
 						$orderData['status'] = 'P';
 						D('Order', 'Logic')->updateOrderByNumber($orderData, $bill['orderNumber']);
+						D('OrderItem', 'Logic')->updateOrderItemStatusByOrder($bill['orderNumber'], 'P');
 						//更新库存
 						$this->deduceInventoryByOrder($bill['orderNumber']);
 					}

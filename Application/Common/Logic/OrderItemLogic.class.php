@@ -38,7 +38,8 @@
 		}
 		
 		public function updateOrderItemStatusByOrder($orderNumber, $status){
-			$map['orderNumber'] = $orderNumber;
+			$order = D('Order', 'Logic')->findByOrderNumber($orderNumber);
+			$map['orderId'] = $order['orderId'];
 			$data['status'] = $status;
 			$this->where($map)->save($data);
 		}
