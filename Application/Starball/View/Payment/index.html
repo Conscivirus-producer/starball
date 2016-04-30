@@ -1,5 +1,5 @@
 <extend name="Public/base" />
-<block name="title"><title>我的购物袋</title></block>
+<block name="title"><title>{$Think.lang.myshoppinglist}  </title></block>
 <block name="customizedCss">
 	<link rel="stylesheet" type="text/css" href="__PUBLIC__/starball/css/cart.css">
 </block>
@@ -9,10 +9,10 @@
 	<div class="yu-cart-content am-kai">
 		<div class="cart-items am-u-md-8  am-padding-0">
 			<div class="am-panel am-panel-default">
-				<div class="am-panel-hd">配送和支付信息</div>
+				<div class="am-panel-hd">{$Think.lang.shippayinfo}</div>
 				<div class="am-panel-bd">
 						<div class="address">
-							<h3>收货地址</h3>
+							<h3>{$Think.lang.shippingaddress}</h3>
 							<div style="width:100%; padding: 0px 0px 0px 0px"><span>{$addressInfo.addressName}</span></div>
 							<div style="width:100%; padding: 0px 15px 0px 0px"><span>{$addressInfo.contactName}</span></div>
 							<div style="width:100%; padding: 0px 15px 0px 0px"><span>{$addressInfo.address}</span></div>
@@ -22,41 +22,41 @@
 				</div>
 			</div>
 			<div class="am-panel am-panel-default">
-				<div class="am-panel-hd">付款方式</div>
+				<div class="am-panel-hd">{$addressInfo.paymode}</div>
 				<div class="am-panel-bd">
   					<input type="hidden" value="{$orderNumber}" id="orderNumber"/>
-					<button type="button" class="am-btn am-btn-default" id="wxPay" onclick="">微信</button>
-					<button type="button" class="am-btn am-btn-default" id="aliPay" onclick="">支付宝</button>
+					<button type="button" class="am-btn am-btn-default" id="wxPay" onclick="">{$Think.lang.wechat}</button>
+					<button type="button" class="am-btn am-btn-default" id="aliPay" onclick="">{$Think.lang.alipay}</button>
 				</div>
 			</div>
 		</div>
 		<div class="cart-others am-u-md-4" style="margin-top: 10px">
 			<div class="am-panel am-panel-default">
-				<div class="am-panel-hd">购物车({$shoppingList.totalItemCount})</div>
+				<div class="am-panel-hd">{$Think.lang.shoppingcart}({$shoppingList.totalItemCount})</div>
 				<div class="am-panel-bd am-padding-0" style="font-size: 13px;">
 					<div style="background-color:#F8F8F8;">
-						<div style="width:100%; padding: 15px 15px 0px 15px"><span>我的购买记录</span><span style="float: right">{$priceSymbol}{$shoppingList.totalAmount}</span></div>
-						<div style="width:100%; padding: 5px 15px 5px 15px"><span>运费</span><span style="float: right">0</span></div>
-						<div style="width:100%; padding: 5px 15px 5px 15px"><span>礼品包装费用</span><span style="float: right">0</span></div>
-						<div style="width:100%; padding: 0px 15px 15px 15px"><span>我的订单总额</span><span style="float: right">{$priceSymbol}{$shoppingList.totalAmount}</span></div>
-					</div>
-					<div style="width:100%; border-top: 1px solid #CECECE; border-bottom: 1px solid #CECECE;padding: 15px"><span style="font-size: 14px">支付总额</span><span style="font-size: 14px;float:right">{$priceSymbol}{$shoppingList.totalAmount}</span></div>
+                        <div style="width:100%; padding: 15px 15px 0px 15px"><span>{$Think.lang.buyrecord}</span><span style="float: right">{$priceSymbol} <span id="totalAmount">{$shoppingList.totalAmount}</span></span></div>
+                        <div style="width:100%; padding: 5px 15px 5px 15px"><span>{$Think.lang.shippingfee}</span><span style="float: right"><gt name="shoppingList['shippingFee']" value="0">{$priceSymbol}</gt> <span id="shippingFee">{$shoppingList.shippingFee}</span></span></div>
+                        <div style="width:100%; padding: 5px 15px 5px 15px"><span>{$Think.lang.packagefee}</span><span style="float: right"><span id="giftPackageFee">{$shoppingList.giftPackageFee}</span></span></div>
+                        <div style="width:100%; padding: 0px 15px 15px 15px"><span>{$Think.lang.ordertotal}</span><span style="float: right">{$priceSymbol} <span id="totalFee">{$shoppingList.totalFee}</span></span></div>
+                    </div>
+					<div style="width:100%; border-top: 1px solid #CECECE; border-bottom: 1px solid #CECECE;padding: 15px"><span style="font-size: 14px">{$Think.lang.totalpay}</span><span style="font-size: 14px;float:right">{$priceSymbol}{$shoppingList.totalAmount}</span></div>
 					<div style="clear: both"></div>
 				</div>
 			</div>
 			<div class="am-panel am-panel-default" style="margin-top:15px">
-				<div class="am-panel-hd"><icon class="am-icon-info"></icon> 关税</div>
+				<div class="am-panel-hd"><icon class="am-icon-info"></icon>{$Think.lang.tax}</div>
 				<div class="am-panel-bd" style="font-size: 13px">
-					当您收取货物时，没有任何额外费用！
+					{$Think.lang.noextra}
 				</div>
 			</div>
 			<div class="am-panel am-panel-default" style="margin-top:15px">
-				<div class="am-panel-hd">需要帮助吗？</div>
-				<div class="am-panel-bd" style="font-size: 13px">
-					<span class="am-icon-clock-o">查看我们的配送时间</span><br/>
-					<span class="am-icon-black-tie">查看我们的退货政策</span>
-				</div>
-			</div>
+                <div class="am-panel-hd">{$Think.lang.needhelp}</div>
+                <div class="am-panel-bd" style="font-size: 13px">
+                    <span class="am-icon-clock-o">{$Think.lang.Cshiptime}</span><br/>
+                    <span class="am-icon-black-tie">{$Think.lang.CRpolicy}</span>
+                </div>
+            </div>
 		</div>
 	</div>
 	</form>

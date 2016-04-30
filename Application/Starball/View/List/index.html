@@ -9,14 +9,14 @@
 		<ol class="am-breadcrumb am-breadcrumb-slash am-kai am-margin-bottom-15 am-text-center">
 			    <div class="yu-listpage-header">
                       <span class="yu-listpage-seperate"></span>
-                      <if condition="$by eq 'time'"><span class="yu-listpage-title">新系列</span></if>
-                      <if condition="$by eq 'brand'"><span class="yu-listpage-title">品牌</span></if>
-                      <if condition="$by eq 'baby'"><span class="yu-listpage-title">婴儿</span></if>
-                      <if condition="$by eq 'girl'"><span class="yu-listpage-title">女孩</span></if>
-                      <if condition="$by eq 'boy'"><span class="yu-listpage-title">男孩</span></if>
+                      <if condition="$by eq 'time'"><span class="yu-listpage-title">{$Think.lang.newseries}</span></if>
+                      <if condition="$by eq 'brand'"><span class="yu-listpage-title">{$Think.lang.brand}</span></if>
+                      <if condition="$by eq 'baby'"><span class="yu-listpage-title">{$Think.lang.baby}</span></if>
+                      <if condition="$by eq 'girl'"><span class="yu-listpage-title">{$Think.lang.girl}</span></if>
+                      <if condition="$by eq 'boy'"><span class="yu-listpage-title">{$Think.lang.boy}</span></if>
                 </div>
                 <if condition="$by eq 'time' and $byValue neq 'commingsoon'"><div class="filterings">最近{$byValue}天</div></if>
-                <if condition="$by eq 'time' and $byValue eq 'commingsoon'"><div class="filterings">即将有货</div></if>
+                <if condition="$by eq 'time' and $byValue eq 'commingsoon'"><div class="filterings">{$Think.lang.commingsoon}</div></if>
 	            <if condition="$by eq 'brand'"><div class="filterings">{$brand[0].brandName}</div></if>
 	            <if condition="$byValue eq 'brand'"><div class="filterings">{$brand[0].brandName}</div></if>
 	            <if condition="$byValue eq 'category'"><div class="filterings">{$category[0].categoryName}</div></if>
@@ -25,14 +25,14 @@
 		<div data-am-widget="gotop" class="am-gotop am-gotop-fixed" >
 			<a href="#top" title="回到顶部"> <span class="am-gotop-title">回到顶部</span> <i class="am-gotop-icon am-icon-chevron-up"></i> </a>
 		</div>
-		<span><a href="#" class="am-kai yu-filter-button" style="font-size:12px;color:#A9A9A9;margin-bottom:1%;">筛选<i class="am-icon-eye"></i></a></span>
+		<span><a href="javascript:void(0)" class="am-kai yu-filter-button" style="font-size:12px;color:#A9A9A9;margin-bottom:1%;">{$Think.lang.filter}<i class="am-icon-eye"></i></a></span>
 		<div class="am-g" style="margin-top:15px;">
 			<div class=" am-u-md-3 am-u-lg-3 am-kai" style="font-size:15px; ">
 				<section data-am-widget="accordion" class="am-accordion am-accordion-gapped am-margin-0 am-show-md-up" data-am-accordion='{ "multiple": true }'>
                     <if condition="$by neq 'brand'">
                         <dl class="am-accordion-item am-margin-0 brand">
                             <dt class="am-accordion-title yu-bottomborder-none">
-                                品牌
+                                {$Think.lang.brand}
                             </dt>
                             <dd class="am-accordion-bd am-collapse ">
                                 <div class="am-accordion-content">
@@ -49,7 +49,7 @@
                     <if condition="$by neq 'boy' and $by neq 'girl'">
                         <dl class="am-accordion-item yu-accordion-list gender">
                             <dt class="am-accordion-title yu-bottomborder-none">
-                                性别
+                                {$Think.lang.sex}
                             </dt>
                             <dd class="am-accordion-bd am-collapse ">
                                 <div class="am-accordion-content">
@@ -66,7 +66,7 @@
                     <if condition="$by neq 'baby'">
                         <dl class="am-accordion-item yu-accordion-list age">
                             <dt class="am-accordion-title yu-bottomborder-none">
-                                年龄
+                                {$Think.lang.age}
                             </dt>
                             <dd class="am-accordion-bd am-collapse ">
                                 <div class="am-accordion-content">
@@ -82,7 +82,7 @@
                     </if>
                     <dl class="am-accordion-item yu-accordion-list color">
                         <dt class="am-accordion-title yu-bottomborder-none">
-                            颜色
+                            {$Think.lang.color}
                         </dt>
                         <dd class="am-accordion-bd am-collapse ">
                             <div class="am-accordion-content">
@@ -97,7 +97,7 @@
                     </dl>
                     <dl class="am-accordion-item yu-accordion-list season">
                         <dt class="am-accordion-title yu-bottomborder-none">
-                            季节                      
+                            {$Think.lang.season}                     
                         </dt>
                         <dd class="am-accordion-bd am-collapse ">
                             <div class="am-accordion-content">
@@ -112,7 +112,7 @@
                     </dl>
                     <dl class="am-accordion-item yu-accordion-list category">
                         <dt class="am-accordion-title">
-                            类别
+                             {$Think.lang.class} 
                         </dt>
                         <dd class="am-accordion-bd am-collapse ">
                             <div class="am-accordion-content">
