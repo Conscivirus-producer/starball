@@ -1,0 +1,237 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>退单详情</title>
+    <meta name="description" content="退单详情页面">
+    <meta name="keywords" content="help">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" href="__PUBLIC__/AmazeUI-2.5.2/assets/i/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="__PUBLIC__/AmazeUI-2.5.2/assets/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="stylesheet" href="__PUBLIC__/AmazeUI-2.5.2/assets/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="__PUBLIC__/AmazeUI-2.5.2/assets/css/admin.css">
+</head>
+<body>
+<input type="text" id="orderCancelId" name="orderCancelId" style="display:none" value="{$information.cancelId}">
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+    以获得更好的体验！</p>
+<![endif]-->
+<header class="am-topbar admin-header">
+    <div class="am-topbar-brand">
+        <strong>StarBall</strong> <small>后台管理</small>
+    </div>
+
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+            <li><a href="javascript:;"><span class="am-icon-envelope-o"></span> 收件箱 <span class="am-badge am-badge-warning">5</span></a></li>
+            <li class="am-dropdown" data-am-dropdown>
+                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                    <span class="am-icon-users"></span> 管理员 <span class="am-icon-caret-down"></span>
+                </a>
+                <ul class="am-dropdown-content">
+                    <li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
+                    <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
+                    <li><a href="#"><span class="am-icon-power-off"></span> 退出</a></li>
+                </ul>
+            </li>
+            <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><span class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
+        </ul>
+    </div>
+</header>
+
+<div class="am-cf admin-main">
+    <!-- sidebar start -->
+    <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+        <div class="am-offcanvas-bar admin-offcanvas-bar">
+            <ul class="am-list admin-sidebar-list">
+                <li><a href="../Order" target="_blank"><span class="am-icon-home"></span> 订单管理</a></li>
+                <li><a href="../Order/cancel" target="_blank"><span class="am-icon-home"></span> 退单管理</a></li>
+                <li><a href="../Brand" target="_blank"><span class="am-icon-square"></span> 品牌管理</a></li>
+                <li class="admin-parent">
+                    <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 商品管理 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+                        <li><a href="../Item/upload" class="am-cf" target="_blank"><span class="am-icon-upload"></span> 商品上新</a></li>
+                        <li><a href="../Item/search" target="_blank"><span class="am-icon-search"></span> 商品搜索</a></li>
+                        <li><a href="../Item/mainPageSetting" target="_blank"><span class="am-icon-search"></span> 首页上新</a></li>
+                    </ul>
+                </li>
+                <li><a href="#"><span class="am-icon-sign-out"></span> 注销</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- sidebar end -->
+
+    <!-- content start -->
+    <div class="admin-content">
+        <div class="am-g">
+            <!--  search condition area-->
+            <div class="am-u-sm-12">
+                <div class="am-panel am-panel-primary">
+                    <div class="am-panel-hd">退单详情</div>
+                    <div class="am-panel-bd">
+                        <ul class="am-list am-list-static">
+                            <li>订单号: {$information.orderNumber}</li>
+                            <li>退货数量: {$information.quantity}</li>
+                            <li>退货总价格: {$information.amount}</li>
+                            <li>
+                                状态:
+                                <switch name="information.status">
+                                    <case value="N"><span class="am-text-secondary">新退单</span></case>
+                                    <case value="A"><span class="am-text-warning">同意退货</span></case>
+                                    <case value="V"><span class="am-text-danger">已收到退货</span></case>
+                                    <case value="D"><span class="">已退款</span></case>
+                                    <case value="C"><span class="am-text-danger">不同意退货</span></case>
+                                </switch>
+                            </li>
+                            <switch name="information.status">
+                                <case value="N">
+                                    <li>
+                                        <button type="button" class="am-btn am-btn-primary" id="agree-cancel-order" name="agree-cancel-order">同意退货</button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="am-btn am-btn-primary" id="disagree-cancel-order" name="disagree-cancel-order"name="">取消退货</button>
+                                    </li>
+                                </case>
+                                <case value="A">
+                                    <li>
+                                        <button type="button" class="am-btn am-btn-primary" id="verify-receive" name="verify-receive">确认收到退货</button>
+                                    </li>
+                                </case>
+                                <case value="V">
+                                    <li>
+                                        <button type="button" class="am-btn am-btn-primary" id="refund" name="refund">退款</button>
+                                    </li>
+                                </case>
+                            </switch>
+                            <li>创建日期: {$information.createdDate}</li>
+                            <li>最近更新日期: {$information.lastUpdatedDate}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="am-panel am-panel-primary">
+                    <div class="am-panel-hd">退单商品详情</div>
+                    <div class="am-panel-bd">
+                        <ul class="am-avg-sm-4 am-thumbnails">
+                            <li>
+                                <ul class="am-list am-list-static">
+                                    <li>品牌: {$information.orderItemInformation.brandName}</li>
+                                    <li>商品名: {$information.orderItemInformation.itemName}</li>
+                                    <li>颜色: {$information.orderItemInformation.itemColor}</li>
+                                    <li>大小: {$information.orderItemInformation.itemSize}</li>
+                                    <li>大小描述: {$information.orderItemInformation.sizeDescription}</li>
+                                    <li>单价: {$information.orderItemInformation.price}</li>
+                                    <li><img class="am-thumbnail" src="{$information.orderItemInformation.itemImage}" /></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="am-modal am-modal-alert" tabindex="-1" id="success-prompt">
+                <div class="am-modal-dialog">
+                    <div class="am-modal-hd">操作成功</div>
+                    <div class="am-modal-bd">
+                        操作成功
+                    </div>
+                    <div class="am-modal-footer">
+                        <span class="am-modal-btn">确定</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="am-modal am-modal-alert" tabindex="-1" id="fail-prompt">
+                <div class="am-modal-dialog">
+                    <div class="am-modal-hd">操作失败</div>
+                    <div class="am-modal-bd">
+                        操作失败,请刷险页面重试
+                    </div>
+                    <div class="am-modal-footer">
+                        <span class="am-modal-btn">确定</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- content end -->
+
+</div>
+
+<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+<footer>
+    <hr>
+    <p class="am-padding-left">© 2016 UltraBravo Inc.</p>
+</footer>
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="__PUBLIC__/AmazeUI-2.5.2/assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="__PUBLIC__/AmazeUI-2.5.2/assets/js/amazeui.min.js"></script>
+<script src="__PUBLIC__/AmazeUI-2.5.2/assets/js/app.js"></script>
+<script src="__PUBLIC__/starball/js/jquery.form.js"></script>
+<!-- 自己的JS代码-->
+<script>
+    var cancelId = $("#orderCancelId").val();
+    $("#agree-cancel-order").click(function(){
+        var data = {};
+        data["cancelId"] = cancelId;
+        $.post("./agreeCancelOrder",data,function(result){
+            if ($.parseJSON(result).status == "1") {
+                $("#success-prompt").modal("open");
+            } else {
+                $("#fail-prompt").modal("open");
+            }
+        });
+    });
+    $("#disagree-cancel-order").click(function(){
+        var data = {};
+        data["cancelId"] = cancelId;
+        $.post("./disagreeCancelOrder",data,function(result){
+            if ($.parseJSON(result).status == "1") {
+                $("#success-prompt").modal("open");
+            } else {
+                $("#fail-prompt").modal("open");
+            }
+        });
+    });
+    $("#verify-receive").click(function(){
+        var data = {};
+        data["cancelId"] = cancelId;
+        $.post("./cancelOrderVerifyReceive",data,function(result){
+            if ($.parseJSON(result).status == "1") {
+                $("#success-prompt").modal("open");
+            } else {
+                $("#fail-prompt").modal("open");
+            }
+        });
+    });
+    $("#refund").click(function(){
+        var data = {};
+        data["cancelId"] = cancelId;
+        $.post("./cancelOrderRefund",data,function(result){
+            if ($.parseJSON(result).status == "1") {
+                $("#success-prompt").modal("open");
+            } else {
+                $("#fail-prompt").modal("open");
+            }
+        });
+    });
+</script>
+</body>
+</html>

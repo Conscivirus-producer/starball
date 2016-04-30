@@ -206,24 +206,6 @@ class BaseController extends Controller {
 		$orderLogic->updateOrder($orderData, $order['orderId']);
 	}
 
-	protected function prepareOrderList(){
-		if(!$this->isLogin()){
-			return;	
-		}
-		$orderLogic = D('Order', 'Logic');
-		$map['userId'] = $this->getCurrentUserId();
-		$map['status'] <> 'N';
-		$result = $orderLogic->queryOrder($map);
-		$orderStatus = C('ORDERSTATUS');
-		$i = 0;
-		foreach($result as $record){
-			$record['statusDescription'] = $orderStatus[$record['status']];
-			$result[$i] = $record;
-			$i++;
-		}
-		$this->assign('data', $result);
-	}
-
 	protected function prepareShoppingList(){
 		if(!$this->isLogin()){
 			$shoppingList = session('shoppingList');
@@ -277,7 +259,6 @@ class BaseController extends Controller {
 		$this->prepareBrandList();
 		$this->prepareUserMenu();
 		$this->prepareShoppingList();
-		$this->prepareOrderList();
 	}
 	
 	//abstract protected function pageDisplay();	
@@ -384,9 +365,9 @@ class BaseController extends Controller {
 	protected function calculateShippingFee(){
 		//TBC, 需要考虑汇率,按照当前用户的默认送货地址计算价格
 		if($this->getCurrency() == 'HKD'){
-			return 100;
+			return 0.01;
 		}else if($this->getCurrency() == 'CNY'){
-			return 84;
+			return 0.01;
 		}
 		return 0;
 	}

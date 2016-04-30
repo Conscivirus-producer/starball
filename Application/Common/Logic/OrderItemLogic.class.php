@@ -9,8 +9,9 @@
 			$this->add($data);	
 		}
 		
-		public function getOrderItemsById($id){
-			return $this->where('id='.$id)->order('updatedDate desc')->select();
+		public function getOrderItemById($id){
+			 $map['id'] = $id;
+			 return $this->where($map)->find();
 		}
 		
 		public function getOrderItemsByOrdeId($orderId){
@@ -36,6 +37,82 @@
 			$this->updateOrderItem($data, $record['id']);
 		}
 		
+		public function updateOrderItemStatusByOrder($orderNumber, $status){
+			$map['orderNumber'] = $orderNumber;
+			$data['status'] = $status;
+			$this->where($map)->save($data);
+		}
+
+		public function confirmDelivery($orderId, $updatedDate) {
+			$map["orderId"] = $orderId;
+			$items = $this->where($map)->select();
+			for ($i = 0; $i < count($items); $i++) {
+				$id = $items[$i]["id"];
+				if ($items[$i]["status"] == "p") {
+					$data["id"] = $id;
+					$data["status"] = "D";
+					$data["updatedDate"] = $updatedDate;
+					if ($this->save($data) === false) {
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+
+		public function confirmReceive($orderId, $updatedDate) {
+			$map["orderId"] = $orderId;
+			$items = $this->where($map)->select();
+			for ($i = 0; $i < count($items); $i++) {
+				$id = $items[$i]["id"];
+				if ($items[$i]["status"] == "D") {
+					$data["id"] = $id;
+					$data["status"] = "V";
+					$data["updatedDate"] = $updatedDate;
+					if ($this->save($data) === false) {
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+
+		public function cancelEntireOrder($orderId, $updatedDate) {
+			$map["orderId"] = $orderId;
+			$items = $this->where($map)->select();
+			for ($i = 0; $i < count($items); $i++) {
+				$id = $items[$i]["id"];
+				$data["id"] = $id;
+				$data["status"] = "C2";
+				$data["updatedDate"] = $updatedDate;
+				if ($this->save($data) === false) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		public function cancelSingleOrderItem($id) {
+			// payment goes first
+			// if payment fail, return false
+			// else continue
+
+			$map["id"] = $id;
+			$orderItemInformation = current($this->where($map)->select());
+			$status = $orderItemInformation["status"];
+			if ($status != "C1") {
+				return false;
+			}
+			$data["id"] = $id;
+			$data["status"] = "C2";
+			$data["updatedDate"] = date("Y-m-d H:i:s" ,time());
+			return ($this->save($data) !== false);
+		}
+
+		public function getOrderItemInformationById($id) {
+			$map["id"] = $id;
+			return current($this->where($map)->select());
+		}
 	}
 
 ?>

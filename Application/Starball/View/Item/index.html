@@ -166,7 +166,7 @@
 				alert("请选择尺码");
 				return;
 			}
-		    $.post('__URL__/addToShoppingList',{'itemId':$('#itemId').val(), 
+		    $.post('{:U("Item/addToShoppingList")}',{'itemId':$('#itemId').val(), 
 		    									'currentPrice':$('#currentPrice')[0].innerHTML,
 		    									'itemImage':$('#itemImage').val(), 
 		    									'brandName':$('#brandName')[0].innerText, 

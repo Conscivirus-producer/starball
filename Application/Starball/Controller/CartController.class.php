@@ -11,14 +11,16 @@ class CartController extends BaseController {
 		if(!$this->isLogin()){
 			$this->redirect('Home/register', array('fromAction' => 'shoppinglist'));
 		}
-		$this->commonProcess();
 		//如果需要礼品包装,把包装费用加到总费用里
 		$orderLogic = D('Order', 'Logic');
 		$order = $orderLogic->getCurrentOutstandingOrder($this->getCurrentUserId(), 'N');
-		$data['giftPackageFee'] = I('isGiftPackage') == 'true' ? $this->getGiftPackageFee() : 0;
-		$data['totalFee'] = $order['totalAmount'] + $order['shippingFee'] + $data['giftPackageFee'];
-		$orderLogic->updateOrder($data, $order['orderId']);
-			
+		if(I('isGiftPackage') != ''){
+			$data['giftPackageFee'] = I('isGiftPackage') == 'true' ? $this->getGiftPackageFee() : 0;
+			$data['totalFee'] = $order['totalAmount'] + $order['shippingFee'] + $data['giftPackageFee'];
+			$orderLogic->updateOrder($data, $order['orderId']);
+		}
+		
+		$this->commonProcess();	
 		$shipppingAddress = D("ShippingAddress", "Logic");
 		$addressList = $shipppingAddress->getAllAddress($this->getCurrentUserId());
 		if(count($addressList) == 0){
@@ -74,14 +76,15 @@ class CartController extends BaseController {
 		if(count($backlogOrder) > 0){
 			$order = $backlogOrder[0];
 			if($order['orderNumber'] == ''){
-				//生成订单号,规则: 数字8(1位) + 年份最后1位，如2016最后一位6(1位) + 月份，如04(2位) + 日期，如12(2位) + 当前秒数,如59(2位) + 用户ID后2位,如87(4位) + 随机数(2位) 
+				//生成订单号,规则: 数字8(1位) + 年份最后1位，如2016最后一位6(1位) + 月份，如04(2位) + 日期，如12(2位) + 当前秒数,如59(2位) + 用户ID后2位,如87(2位) + 随机数(2位) 
 				$strUtil = new \Org\Util\String();
 				$orderNumber = '8'.substr(date("Ymds"), 3).substr($userId, -2).$strUtil->randString(2,1);
 				$data['orderNumber'] = $orderNumber;
 			}else{
 				$orderNumber = $order['orderNumber'];
 			}
-			
+			$data['orderDate'] = date("Y-m-d H:i:s" ,time());
+			$orderLogic->updateOrder($data, $order['orderId']);
 			$this->redirect('Payment/index', array('orderNumber' => $orderNumber));
 		}
 	}
