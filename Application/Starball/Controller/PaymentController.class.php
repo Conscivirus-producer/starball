@@ -29,14 +29,15 @@ class PaymentController extends BaseController {
 		Vendor("beecloud.autoload");
 		
 		$data = array();
-		$appSecret = "b3842787-3442-49eb-914a-5ec86e0b2e74";
-		$data["app_id"] = "045c259d-9ceb-4320-84e6-64d463c01a2d";
+		$appSecret = C('APP_SECRET');
+		$data["app_id"] = C('APP_ID');
 		$data["timestamp"] = time() * 1000;
 		$data["app_sign"] = md5($data["app_id"] . $data["timestamp"] . $appSecret);
 		$data["channel"] = "WX_NATIVE";
 		$data["total_fee"] =  intval($order['totalFee'] * 100);
+		//商户订单号, 8到32位数字和/或字母组合，请自行确保在商户系统中唯一，同一订单号不可重复提交，否则会造成订单重复.
+		//这里直接在订单号后面加上时间戳作为付款的订单号
 		$data["bill_no"] = $orderNumber.$data["timestamp"];
-		//$data["bill_no"] = "bcdemo" . "static";
 		$data["title"] = "StarBall.Kids订单".$orderNumber;
 		$this->createOrderBill($data, $orderNumber, 'WX', 'PAY');
 	    $result = \beecloud\rest\api::bill($data);
@@ -69,24 +70,52 @@ class PaymentController extends BaseController {
 		
 		$orderItem = D('OrderItem', 'Logic')->getOrderItemById($id);
 		$order = D('Order', 'Logic')->findByOrderId($orderItem['orderId']);
+		$orderNumber = $order['orderNumber'];
+		$orderBill = D('OrderBill', 'Logic')->findOrderSuccessPayBill($orderNumber);
 		
-		//创建退款参考单
-		$timestamp = time() * 1000;
-		$billData['orderNumber'] =  $order['orderNumber'];
-		$billData['billNumber'] = $order['orderNumber'].$timestamp;
-		$billData['title'] = "StarBall.Kids退款单".$orderNumber;
-		$billData['totalAmount'] = $orderItem['price'];
-		$billData['channel'] = '';
-		$billData['subChannel'] = '';
+		//向第三方支付发起退款请求
+		$data = array();
+		$appSecret = C('APP_SECRET');
+		$data["app_id"] = C('APP_ID');
+		logInfo('APP_ID:'.C('APP_ID'));
+		$data["timestamp"] = time() * 1000;
+		$data["app_sign"] = md5($data["app_id"] . $data["timestamp"] . $appSecret);
+		//bill_no为支付成功的支付单号
+		$data["bill_no"] = $orderBill['billNumber'];
+		//商户退款单号,格式为:退款日期(8位) + 流水号(3~24 位)。请自行确保在商户系统中唯一，且退款日期必须是发起退款的当天日期,同一退款单号不可重复提交，否则会造成退款单重复。流水号可以接受数字或英文字符，建议使用数字，但不可接受“000”
+		$data["refund_no"] = date("Ymd").$data["timestamp"];
+		$data["refund_fee"] = intval($orderItem['price'] * 100);
+		//选择渠道类型(WX、WX_APP、WX_NATIVE、WX_JSAPI、ALI、ALI_APP、ALI_WEB、ALI_QRCODE、UN、UN_APP、UN_WEB)
+		$data["channel"] = $orderBill['channel'];
+		//选填 optional
+		$data["optional"] = json_decode(json_encode(array("tag"=>"msgtoreturn")));
+		
+		//创建退款的数据库记录,t_orderbill
+		$billData['orderNumber'] =  $orderNumber;
+		$billData['billNumber'] = $data["bill_no"];
+		$billData['refundNumber'] = $data["refund_no"];
+		$billData['orderItemId'] =  $orderItem['id'];
+		$billData['totalAmount'] = $data["refund_fee"] / 100;
+		$billData['channel'] = $data["channel"];
 		$billData['type'] = 'REFUND';
 		$billData['status'] = 'N';
-		if(D('OrderBill', 'Logic')->createBill($billData)){
-			$res["status"] = "1";
-		}
+		D('OrderBill', 'Logic')->createBill($billData);
+		//$this->createOrderBill($data, $orderNumber, $data["channel"], 'REFUND');
 		
-        /*if ($orderItemLogic->cancelSingleOrderItem($id) !== false) {
-            $res["status"] = "1";
-        }*/
+		if(C('IS_DEV') == 'false'){
+			//本地测试不用向第三方发送请求
+			Vendor("beecloud.autoload");
+		    $result = \beecloud\rest\api::refund($data);
+			logInfo('resultCode:'.$result->result_code.", resultMsg:".$result->result_msg);
+		    if ($result->result_code != 0 || $result->result_msg != "OK") {
+		        echo json_encode($result->err_detail);
+				logInfo('errorDetail:'.$result->err_detail);
+		        exit();
+		    }
+		}
+		D('OrderItem', 'Logic')->cancelSingleOrderItem($id);
+		$res["status"] = "1";
+		
         echo json_encode($res);
     }
 
@@ -102,10 +131,10 @@ class PaymentController extends BaseController {
 	private function createOrderBill($data, $orderNumber, $channel, $type){
 		$billData['orderNumber'] =  $orderNumber;
 		$billData['billNumber'] = $data["bill_no"];
-		$billData['title'] = $data["title"];
 		$billData['totalAmount'] = $data["total_fee"] / 100;
-		$billData['channel'] = $channel;
+		$billData['title'] = $data["title"];
 		$billData['subChannel'] = $data["channel"];
+		$billData['channel'] = $channel;
 		$billData['type'] = $type;
 		$billData['status'] = 'N';
 		D('OrderBill', 'Logic')->createBill($billData);
@@ -144,6 +173,9 @@ class PaymentController extends BaseController {
 	}
 	
 	public function testFinishPayment(){
+        $res = array(
+            "status" => "0"
+        );
 		//更新bill状态
 		$billLogic = D('OrderBill', 'Logic');
 		$map['billNumber'] = I('bill_no');
@@ -159,6 +191,31 @@ class PaymentController extends BaseController {
 		D('Order', 'Logic')->updateOrderByNumber($orderData, $bill['orderNumber']);
 		D('OrderItem', 'Logic')->updateOrderItemStatusByOrder($bill['orderNumber'], 'P');
 		$this->deduceInventoryByOrder($bill['orderNumber']);
+		$res["status"] = "1";
+		echo json_encode($res);
+	}
+
+	public function testFinishRefund(){
+		$orderItemId = I('cancelId');
+		$billLogic = D('OrderBill', 'Logic');
+		$map['orderItemId'] = $orderItemId;
+		$map['type'] = 'REFUND';
+		$record = $billLogic->queryBill($map);
+		$bill = $record[0];
+		
+		//更新bill状态
+		$data['status'] = 'S';
+		$data['billId'] = $bill['billId'];
+		$billLogic->update($data);
+		
+		//更新orderitem状态
+		$orderItemData['status'] = 'C3';
+		D('OrderItem', 'Logic')->updateOrderItem($orderItemData, $orderItemId);
+		
+		//更新库存,之前预留的库存释放
+		$orderItem = D('OrderItem', 'Logic')->getOrderItemById($orderItemId);
+		D('Inventory', 'Logic')->updateInventory($orderItem['itemSize'], $orderItem['quantity']);
+		
 		$data = array(
 		    'message'=>'处理成功',
 		);
@@ -211,17 +268,17 @@ class PaymentController extends BaseController {
 		        case "WX":
 					
 					$billLogic = D('OrderBill', 'Logic');
-					$map['billNumber'] = $msg->transaction_id;
+					$map['billNumber'] = $msg->transactionId;
 					$map['type'] = 'PAY';
 					$record = $billLogic->queryBill($map);
 					if(count($record) == 0){
-						logWarn('Payment Webhook:cannot find matched bill record, msg:'.$jsonStr);
+						logWarn('Payment Webhook:cannot find matched bill pay record.');
 						break;						
 					}
 					$bill = $record[0];
-					if($bill['totalAmount'] != $msg->transaction_fee / 100){
+					if($bill['totalAmount'] != $msg->transactionFee / 100){
 						//确认金额确实为业务产生的金额
-						logWarn('Payment Webhook:Total Fee not matched, msg:'.$jsonStr);
+						logWarn('Payment Webhook:Pay total Fee not matched.');
 						break;
 					}
 					//如果支付成功，则更新状态为SUCCESS,否则为FAILED
@@ -244,7 +301,33 @@ class PaymentController extends BaseController {
 		            break;
 		    }
 		} else if ($msg->transactionType == "REFUND") {
-		
+		    //付款信息
+		    //支付状态是否变为支付成功
+		    $result = $msg->tradeSuccess;
+			$map['refundNumber'] = $msg->transactionId;
+			$map['type'] = 'REFUND';
+			$billLogic = D('OrderBill', 'Logic');
+			$record = $billLogic->queryBill($map);
+			if(count($record) == 0){
+				logWarn('Payment Webhook:cannot find matched bill refund record.');
+				break;						
+			}
+			$bill = $record[0];
+			if($bill['totalAmount'] != $msg->transactionFee / 100){
+				//确认金额确实为业务产生的金额
+				logWarn('Payment Webhook:Refund total Fee not matched.');
+				break;
+			}
+			
+			//如果支付成功，则更新状态为SUCCESS,否则为FAILED
+			$data['status'] = $result ? 'S' : 'F';
+			$data['billId'] = $bill['billId'];
+			$billLogic->update($data);
+			//如果退款成功,更新orderitem状态
+			if($result){
+				$orderItemData['status'] = 'C3';
+				D('OrderItem', 'Logic')->updateOrderItem($orderItemData, $bill['orderItemId']);
+			}
 		}
 		//处理消息成功,不需要持续通知此消息返回success 
 		echo 'success';

@@ -42,7 +42,7 @@ class UserController extends BaseController {
 		$this->commonProcess();
 		$order = D('Order', 'Logic')->findByOrderId($orderId);
 		$ordeItems = D('OrderItem', 'Logic')->getOrderItemsByOrdeId($orderId);
-		$orderBill = D('OrderBill', 'Logic')->findOrderSuccessPayBill($orderId);
+		$orderBill = D('OrderBill', 'Logic')->findOrderSuccessPayBill($order['orderNumber']);
 		$orderStatus = C('ORDERSTATUS');
 		$order['statusDescription'] = $orderStatus[$order['status']];
 		$order['orderDate'] = substr($order['orderDate'], 0,10);

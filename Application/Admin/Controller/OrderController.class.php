@@ -41,6 +41,7 @@ class OrderController extends Controller {
         if ($orderId == "") {
             die("错误操作");
         }
+		$this->assign('is_dev', C('IS_DEV'));
         $this->assign("information", $orderLogic->getOrderInformationByOrderId($orderId));
         $this->display();
     }
