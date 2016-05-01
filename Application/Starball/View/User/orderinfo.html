@@ -27,7 +27,17 @@
                 深圳市南山区讯美科技广场3栋1521B</td>
                 <td class="am-text-left am-text-sm" colspan="2">状态：
                 <br>
-                	{$order.statusDescription}</td>
+                	{$order.statusDescription}
+                	<switch name="order.status">
+                		<case value="P">
+		                	<form class="am-form am-form-horizontal" role="form" method="post">
+								<input type="hidden" name="method" value="returnFund">
+								<input type="hidden" name="orderId" value="{$order.orderId}">
+			                	<button type="submit" class="am-btn am-btn-default yu-black-button">取消订单</button>
+		                	</form>
+	                	</case>
+                	</switch>
+            	</td>
             </tr>
             <tr>
                 <td class="am-text-left am-text-sm" style="border-right: none;" colspan="2">商品总计</td>
@@ -67,17 +77,26 @@
 	                                <span class="yu-product-order-content">数量 :</span> {$vo.quantity}
 	                                <form class="am-form am-form-horizontal" role="form" method="post">
 	                                	<input type="hidden" name="orderItemId" value="{$vo.id}">
-		                                <eq name="vo['status']" value="P">
-		                                	<input type="hidden" name="method" value="returnFund">
-		                                	<button type="submit" class="am-btn am-btn-default yu-black-button">申请退款</button>
-	                                	</eq>
-		                                <eq name="vo['status']" value="V">
-		                                	<input type="hidden" name="method" value="returnGood">
-		                                	<button type="submit" class="am-btn am-btn-default yu-black-button">申请退款</button>
-	                                	</eq>
+	                                	<switch name="vo.status">
+	                                		<case value="P">
+			                                	<input type="hidden" name="method" value="returnFund">
+			                                	<button type="submit" class="am-btn am-btn-default yu-black-button">取消商品</button>
+                                			</case>
+                                			<case value="C1">
+                                				<span style="font-size: 14px;float:right">等待退款</span>			
+                            				</case>
+                                			<case value="C2">
+                                				<span style="font-size: 14px;float:right">等待退款</span>			
+                            				</case>
+                                			<case value="C3">
+                                				<span style="font-size: 14px;float:right">退款成功</span>			
+                            				</case>
+	                                		<case value="V">
+			                                	<input type="hidden" name="method" value="returnGood">
+			                                	<button type="submit" class="am-btn am-btn-default yu-black-button">申请退款</button>
+                                			</case>
+	                                	</switch>
 	                                </form>
-	                                <span style="font-size: 14px;float:right"><eq name="vo['status']" value="C1">等待退款</eq></span>
-	                                <span style="font-size: 14px;float:right"><eq name="vo['status']" value="C2">退款成功</eq></span>
 	                            </span>
 	                            <span class="yu-product-fronttitle"> <span class="yu-product-order-content">总金额 :</span> {$priceSymbol} {$vo.price} </span>
 	                        </p>

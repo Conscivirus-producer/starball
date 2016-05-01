@@ -56,6 +56,10 @@ class UserController extends BaseController {
 		$orderItemId = I('orderItemId');
 		$orderItemLogic = D('OrderItem', 'Logic');
 		$orderItem = $orderItemLogic->getOrderItemById($orderItemId);
+		if($orderItem['status'] != 'P'){
+			//Can't refund in non-paid status, can also prevent the resubmit case.
+			return;
+		}
 		
 		$data['status'] = 'C1';
 		$orderItemLogic->updateOrderItem($data, $orderItemId);
@@ -65,6 +69,10 @@ class UserController extends BaseController {
 	private function returnGood(){
 		$orderItemId = I('orderItemId');
 		$orderItem = D('OrderItem', 'Logic')->getOrderItemById($orderItemId);
+		if($orderItem['status' != 'V']){
+			//Can't return good at non-verify status
+			return;
+		}
 		
 		$orderCancelLogic = D('OrderCancel', 'Logic');
 		$data['userId'] = $this->getCurrentUserId();

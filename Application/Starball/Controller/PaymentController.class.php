@@ -38,7 +38,11 @@ class PaymentController extends BaseController {
 		//商户订单号, 8到32位数字和/或字母组合，请自行确保在商户系统中唯一，同一订单号不可重复提交，否则会造成订单重复.
 		//这里直接在订单号后面加上时间戳作为付款的订单号
 		$data["bill_no"] = $orderNumber.$data["timestamp"];
-		$data["title"] = "StarBall.Kids订单".$orderNumber;
+		if(C('IS_DEV') == 'true'){
+			$data["title"] = "Testing开发测试订单".$orderNumber;	
+		}else{
+			$data["title"] = "StarBall.Kids订单".$orderNumber;
+		}
 		$this->createOrderBill($data, $orderNumber, 'WX', 'PAY');
 	    $result = \beecloud\rest\api::bill($data);
 	    if ($result->result_code != 0) {
@@ -77,7 +81,6 @@ class PaymentController extends BaseController {
 		$data = array();
 		$appSecret = C('APP_SECRET');
 		$data["app_id"] = C('APP_ID');
-		logInfo('APP_ID:'.C('APP_ID'));
 		$data["timestamp"] = time() * 1000;
 		$data["app_sign"] = md5($data["app_id"] . $data["timestamp"] . $appSecret);
 		//bill_no为支付成功的支付单号
@@ -196,6 +199,9 @@ class PaymentController extends BaseController {
 	}
 
 	public function testFinishRefund(){
+        $res = array(
+            "status" => "0"
+        );
 		$orderItemId = I('cancelId');
 		$billLogic = D('OrderBill', 'Logic');
 		$map['orderItemId'] = $orderItemId;
@@ -212,16 +218,17 @@ class PaymentController extends BaseController {
 		$orderItemData['status'] = 'C3';
 		D('OrderItem', 'Logic')->updateOrderItem($orderItemData, $orderItemId);
 		
+		//更新库存
+		$this->increaceInventory($orderItemId);
+		
+		$res["status"] = "1";
+		echo json_encode($res);
+	}
+	
+	private function increaceInventory($orderItemId){
 		//更新库存,之前预留的库存释放
 		$orderItem = D('OrderItem', 'Logic')->getOrderItemById($orderItemId);
 		D('Inventory', 'Logic')->updateInventory($orderItem['itemSize'], $orderItem['quantity']);
-		
-		$data = array(
-		    'message'=>'处理成功',
-		);
-		$vo = $data;
-		$vo['status'] = 1;
-		$this->ajaxReturn($vo, "json");
 	}
 	
 	private function deduceInventoryByOrder($orderNumber){
@@ -273,13 +280,15 @@ class PaymentController extends BaseController {
 					$record = $billLogic->queryBill($map);
 					if(count($record) == 0){
 						logWarn('Payment Webhook:cannot find matched bill pay record.');
-						break;						
+						echo 'success';
+						return;						
 					}
 					$bill = $record[0];
 					if($bill['totalAmount'] != $msg->transactionFee / 100){
 						//确认金额确实为业务产生的金额
 						logWarn('Payment Webhook:Pay total Fee not matched.');
-						break;
+						echo 'success';
+						return;
 					}
 					//如果支付成功，则更新状态为SUCCESS,否则为FAILED
 					$data['status'] = $result ? 'S' : 'F';
@@ -310,13 +319,15 @@ class PaymentController extends BaseController {
 			$record = $billLogic->queryBill($map);
 			if(count($record) == 0){
 				logWarn('Payment Webhook:cannot find matched bill refund record.');
-				break;						
+				echo 'success';
+				return;		
 			}
 			$bill = $record[0];
 			if($bill['totalAmount'] != $msg->transactionFee / 100){
 				//确认金额确实为业务产生的金额
 				logWarn('Payment Webhook:Refund total Fee not matched.');
-				break;
+				echo 'success';
+				return;
 			}
 			
 			//如果支付成功，则更新状态为SUCCESS,否则为FAILED
@@ -324,9 +335,17 @@ class PaymentController extends BaseController {
 			$data['billId'] = $bill['billId'];
 			$billLogic->update($data);
 			//如果退款成功,更新orderitem状态
+			$orderItem = D('OrderItem', 'Logic')->getOrderItemById($bill['orderItemId']);
+			if($orderItem['status'] != 'C22'){
+				logWarn('Payment Webhook:Order Item status not C2, return.');
+				echo 'success';
+				return;
+			}
 			if($result){
 				$orderItemData['status'] = 'C3';
 				D('OrderItem', 'Logic')->updateOrderItem($orderItemData, $bill['orderItemId']);
+				//更新库存
+				$this->increaceInventory($bill['orderItemId']);
 			}
 		}
 		//处理消息成功,不需要持续通知此消息返回success 
