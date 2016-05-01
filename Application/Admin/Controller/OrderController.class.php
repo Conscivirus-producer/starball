@@ -99,9 +99,120 @@ class OrderController extends Controller {
             echo json_encode($res);
             return;
         }
-        if ($orderLogic->cancelEntireOrder($orderId) !== false) {
+		
+		//找到支付成功的bill记录
+		$order = D('Order', 'Logic')->findByOrderId($orderId);
+		$orderNumber = $order['orderNumber'];
+		$orderBill = D('OrderBill', 'Logic')->findOrderSuccessPayBill($orderNumber);
+		
+		//向第三方支付发起退款请求
+		$data = array();
+		$appSecret = C('APP_SECRET');
+		$data["app_id"] = C('APP_ID');
+		$data["timestamp"] = time() * 1000;
+		$data["app_sign"] = md5($data["app_id"] . $data["timestamp"] . $appSecret);
+		//bill_no为支付成功的支付单号
+		$data["bill_no"] = $orderBill['billNumber'];
+		//商户退款单号,格式为:退款日期(8位) + 流水号(3~24 位)。请自行确保在商户系统中唯一，且退款日期必须是发起退款的当天日期,同一退款单号不可重复提交，否则会造成退款单重复。流水号可以接受数字或英文字符，建议使用数字，但不可接受“000”
+		$data["refund_no"] = date("Ymd").$data["timestamp"];
+		//退款费用要去除之前已经单个申请退款的商品. 未退款的商品+运费+
+		$excludedFee = D('OrderItem', 'Logic')->calculateExcludedItemsFee($orderId);
+		$data["refund_fee"] =  intval(($order['totalFee'] - $excludedFee) * 100);
+		//选择渠道类型(WX、WX_APP、WX_NATIVE、WX_JSAPI、ALI、ALI_APP、ALI_WEB、ALI_QRCODE、UN、UN_APP、UN_WEB)
+		$data["channel"] = $orderBill['channel'];
+		//选填 optional
+		$data["optional"] = json_decode(json_encode(array("tag"=>"msgtoreturn")));
+		
+		//创建退款的数据库记录,t_orderbill
+		$billData['orderNumber'] =  $orderNumber;
+		$billData['billNumber'] = $data["bill_no"];
+		$billData['refundNumber'] = $data["refund_no"];
+		$billData['totalAmount'] = $data["refund_fee"] / 100;
+		$billData['channel'] = $data["channel"];
+		$billData['type'] = 'REFUND';
+		$billData['status'] = 'N';
+		D('OrderBill', 'Logic')->createBill($billData);
+		//$this->createOrderBill($data, $orderNumber, $data["channel"], 'REFUND');
+		
+		if(C('IS_DEV') == 'false'){
+			//本地测试不用向第三方发送请求
+			Vendor("beecloud.autoload");
+		    $result = \beecloud\rest\api::refund($data);
+			logInfo('resultCode:'.$result->result_code.", resultMsg:".$result->result_msg);
+		    if ($result->result_code != 0 || $result->result_msg != "OK") {
+		        echo json_encode($result->err_detail);
+				logInfo('errorDetail:'.$result->err_detail);
+		        exit();
+		    }
+		}
+		
+        if ($orderLogic->updateOrderStatus($orderId, 'C1', 'C2') !== false) {
             $res["status"] = "1";
         }
+        echo json_encode($res);
+    }
+	
+	//退款单个item
+    public function cancelSingleOrderItem() {
+        $orderItemLogic = D("OrderItem", "Logic");
+        $res = array(
+            "status" => "0"
+        );
+        $id = I("post.cancelId", "");
+        if ($id == "") {
+            echo json_encode($res);
+            return;
+        }
+		
+		//找到支付成功的bill记录
+		$orderItem = D('OrderItem', 'Logic')->getOrderItemById($id);
+		$order = D('Order', 'Logic')->findByOrderId($orderItem['orderId']);
+		$orderNumber = $order['orderNumber'];
+		$orderBill = D('OrderBill', 'Logic')->findOrderSuccessPayBill($orderNumber);
+		
+		//向第三方支付发起退款请求
+		$data = array();
+		$appSecret = C('APP_SECRET');
+		$data["app_id"] = C('APP_ID');
+		$data["timestamp"] = time() * 1000;
+		$data["app_sign"] = md5($data["app_id"] . $data["timestamp"] . $appSecret);
+		//bill_no为支付成功的支付单号
+		$data["bill_no"] = $orderBill['billNumber'];
+		//商户退款单号,格式为:退款日期(8位) + 流水号(3~24 位)。请自行确保在商户系统中唯一，且退款日期必须是发起退款的当天日期,同一退款单号不可重复提交，否则会造成退款单重复。流水号可以接受数字或英文字符，建议使用数字，但不可接受“000”
+		$data["refund_no"] = date("Ymd").$data["timestamp"];
+		$data["refund_fee"] = intval($orderItem['price'] * 100);
+		//选择渠道类型(WX、WX_APP、WX_NATIVE、WX_JSAPI、ALI、ALI_APP、ALI_WEB、ALI_QRCODE、UN、UN_APP、UN_WEB)
+		$data["channel"] = $orderBill['channel'];
+		//选填 optional
+		$data["optional"] = json_decode(json_encode(array("tag"=>"msgtoreturn")));
+		
+		//创建退款的数据库记录,t_orderbill
+		$billData['orderNumber'] =  $orderNumber;
+		$billData['billNumber'] = $data["bill_no"];
+		$billData['refundNumber'] = $data["refund_no"];
+		//只有退单个商品时才有值 
+		$billData['orderItemId'] =  $orderItem['id'];
+		$billData['totalAmount'] = $data["refund_fee"] / 100;
+		$billData['channel'] = $data["channel"];
+		$billData['type'] = 'REFUND';
+		$billData['status'] = 'N';
+		D('OrderBill', 'Logic')->createBill($billData);
+		//$this->createOrderBill($data, $orderNumber, $data["channel"], 'REFUND');
+		
+		if(C('IS_DEV') == 'false'){
+			//本地测试不用向第三方发送请求
+			Vendor("beecloud.autoload");
+		    $result = \beecloud\rest\api::refund($data);
+			logInfo('resultCode:'.$result->result_code.", resultMsg:".$result->result_msg);
+		    if ($result->result_code != 0 || $result->result_msg != "OK") {
+		        echo json_encode($result->err_detail);
+				logInfo('errorDetail:'.$result->err_detail);
+		        exit();
+		    }
+		}
+		D('OrderItem', 'Logic')->cancelSingleOrderItem($id);
+		$res["status"] = "1";
+		
         echo json_encode($res);
     }
 

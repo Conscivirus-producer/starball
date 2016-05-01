@@ -94,8 +94,9 @@
                                 <switch name="information.status">
                                     <case value="N"><span class="am-text-secondary">新订单</span></case>
                                     <case value="P"><span class="am-text-warning">已支付</span></case>
-                                    <case value="C1"><span class="am-text-danger">用户申请退款</span></case>
-                                    <case value="C2"><span class="">订单已取消</span></case>
+                                    <case value="C1"><span class="am-text-danger">用户申请取消订单</span></case>
+                                    <case value="C2"><span class="">已同意取消订单</span></case>
+                                    <case value="C3"><span class="">订单已取消</span></case>
                                     <case value="D"><span class="am-text-danger">已发货</span></case>
                                     <case value="V"><span class="am-text-success">已收货</span></case>
                                 </switch>
@@ -115,6 +116,13 @@
                                     <li>
                                         <button type="button" id="refund" class="am-btn am-btn-primary">退款</button>
                                     </li>
+                                </case>
+                                <case value="C2">
+                                	<eq name="is_dev" value="true">
+	                                    <li>
+	                                        <button type="button" id="manual-refund" class="am-btn am-btn-primary">手动退款成功</button>
+	                                    </li>
+                                   </eq>
                                 </case>
                             </switch>
                             <li>
@@ -344,9 +352,23 @@
         // loading
         var data = {};
         data["orderId"] = orderId;
-        $.post("./cancelEntireOrder",data,function(result){
+        $.post('{:U("Order/cancelEntireOrder")}',data,function(result){
             if ($.parseJSON(result).status == "1") {
 
+                $("#success-prompt").modal("open");
+            } else {
+
+                $("#fail-prompt").modal("open");
+            }
+        });
+    });
+    //Manual refund the order fee in development environment.
+    $("#manual-refund").click(function() {
+        // loading
+        var data = {};
+        data["orderId"] = orderId;
+        $.post('{:U("Starball/Payment/testFinishRefundOrder")}',data,function(result){
+            if ($.parseJSON(result).status == "1") {
                 $("#success-prompt").modal("open");
             } else {
 
@@ -358,7 +380,7 @@
         var id = $(this).attr("name").replace("single-item-refund", "");
         var data = {};
         data["cancelId"] = id;
-        $.post('{:U("Starball/Payment/cancelSingleOrderItem")}',data,function(result){
+        $.post('{:U("Order/cancelSingleOrderItem")}',data,function(result){
             if ($.parseJSON(result).status == "1") {
                 $("#success-prompt").modal("open");
             } else {
@@ -371,7 +393,7 @@
         var id = $(this).attr("name").replace("single-item-manualrefund", "");
         var data = {};
         data["cancelId"] = id;
-        $.post('{:U("Starball/Payment/testFinishRefund")}',data,function(result){
+        $.post('{:U("Starball/Payment/testFinishRefundSingleItem")}',data,function(result){
             if ($.parseJSON(result).status == "1") {
                 $("#success-prompt").modal("open");
             } else {

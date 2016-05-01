@@ -37,11 +37,16 @@
 			$this->updateOrderItem($data, $record['id']);
 		}
 		
-		public function updateOrderItemStatusByOrder($orderNumber, $status){
-			$order = D('Order', 'Logic')->findByOrderNumber($orderNumber);
-			$map['orderId'] = $order['orderId'];
-			$data['status'] = $status;
-			$this->where($map)->save($data);
+		public function calculateExcludedItemsFee($orderId){
+			$map["orderId"] = $orderId;
+			//商品处于已支付，或者已申请退款，但商户尚未同意.非这二种状态的商品要被去掉
+			$map['status'] = array('NOT IN',array('P', 'C1'));
+			$items = $this->where($map)->select();
+			$excludedFee = 0;
+			foreach($items as $item){
+				$excludedFee += $item['price'];
+			}
+			return $excludedFee;
 		}
 
 		public function confirmDelivery($orderId, $updatedDate) {
@@ -77,15 +82,18 @@
 			}
 			return true;
 		}
-
-		public function cancelEntireOrder($orderId, $updatedDate) {
+		
+		public function updateOrderItemsStatus($orderId, $fromStatus, $toStatus, $lastUpdatedDate) {
 			$map["orderId"] = $orderId;
 			$items = $this->where($map)->select();
 			for ($i = 0; $i < count($items); $i++) {
+				if($items[$i]['status'] != $fromStatus){
+					continue;
+				}
 				$id = $items[$i]["id"];
 				$data["id"] = $id;
-				$data["status"] = "C2";
-				$data["updatedDate"] = $updatedDate;
+				$data["status"] = $toStatus;
+				$data["updatedDate"] = $lastUpdatedDate;
 				if ($this->save($data) === false) {
 					return false;
 				}

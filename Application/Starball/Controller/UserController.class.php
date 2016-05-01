@@ -32,6 +32,9 @@ class UserController extends BaseController {
 	
 	public function orderinfo($orderId){
 		if(IS_POST){
+			if(I('method') == 'cancelOrder'){
+				$this->cancelOrder();
+			}
 			if(I('method') == 'returnFund'){
 				$this->returnFund();
 			}
@@ -52,6 +55,10 @@ class UserController extends BaseController {
 		$this->display();
 	}
 	
+	private function cancelOrder(){
+		$order = D('Order', 'Logic')->updateOrderStatus(I('orderId'), 'P', 'C1');
+	}
+	
 	private function returnFund(){
 		$orderItemId = I('orderItemId');
 		$orderItemLogic = D('OrderItem', 'Logic');
@@ -63,7 +70,6 @@ class UserController extends BaseController {
 		
 		$data['status'] = 'C1';
 		$orderItemLogic->updateOrderItem($data, $orderItemId);
-		logInfo('$orderItemId:'.$orderItemId);
 	}
 	
 	private function returnGood(){

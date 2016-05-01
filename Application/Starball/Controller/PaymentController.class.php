@@ -60,68 +60,6 @@ class PaymentController extends BaseController {
 		$this->display();
 	}
 
-	//退款单个item
-    public function cancelSingleOrderItem() {
-        $orderItemLogic = D("OrderItem", "Logic");
-        $res = array(
-            "status" => "0"
-        );
-        $id = I("post.cancelId", "");
-        if ($id == "") {
-            echo json_encode($res);
-            return;
-        }
-		
-		$orderItem = D('OrderItem', 'Logic')->getOrderItemById($id);
-		$order = D('Order', 'Logic')->findByOrderId($orderItem['orderId']);
-		$orderNumber = $order['orderNumber'];
-		$orderBill = D('OrderBill', 'Logic')->findOrderSuccessPayBill($orderNumber);
-		
-		//向第三方支付发起退款请求
-		$data = array();
-		$appSecret = C('APP_SECRET');
-		$data["app_id"] = C('APP_ID');
-		$data["timestamp"] = time() * 1000;
-		$data["app_sign"] = md5($data["app_id"] . $data["timestamp"] . $appSecret);
-		//bill_no为支付成功的支付单号
-		$data["bill_no"] = $orderBill['billNumber'];
-		//商户退款单号,格式为:退款日期(8位) + 流水号(3~24 位)。请自行确保在商户系统中唯一，且退款日期必须是发起退款的当天日期,同一退款单号不可重复提交，否则会造成退款单重复。流水号可以接受数字或英文字符，建议使用数字，但不可接受“000”
-		$data["refund_no"] = date("Ymd").$data["timestamp"];
-		$data["refund_fee"] = intval($orderItem['price'] * 100);
-		//选择渠道类型(WX、WX_APP、WX_NATIVE、WX_JSAPI、ALI、ALI_APP、ALI_WEB、ALI_QRCODE、UN、UN_APP、UN_WEB)
-		$data["channel"] = $orderBill['channel'];
-		//选填 optional
-		$data["optional"] = json_decode(json_encode(array("tag"=>"msgtoreturn")));
-		
-		//创建退款的数据库记录,t_orderbill
-		$billData['orderNumber'] =  $orderNumber;
-		$billData['billNumber'] = $data["bill_no"];
-		$billData['refundNumber'] = $data["refund_no"];
-		$billData['orderItemId'] =  $orderItem['id'];
-		$billData['totalAmount'] = $data["refund_fee"] / 100;
-		$billData['channel'] = $data["channel"];
-		$billData['type'] = 'REFUND';
-		$billData['status'] = 'N';
-		D('OrderBill', 'Logic')->createBill($billData);
-		//$this->createOrderBill($data, $orderNumber, $data["channel"], 'REFUND');
-		
-		if(C('IS_DEV') == 'false'){
-			//本地测试不用向第三方发送请求
-			Vendor("beecloud.autoload");
-		    $result = \beecloud\rest\api::refund($data);
-			logInfo('resultCode:'.$result->result_code.", resultMsg:".$result->result_msg);
-		    if ($result->result_code != 0 || $result->result_msg != "OK") {
-		        echo json_encode($result->err_detail);
-				logInfo('errorDetail:'.$result->err_detail);
-		        exit();
-		    }
-		}
-		D('OrderItem', 'Logic')->cancelSingleOrderItem($id);
-		$res["status"] = "1";
-		
-        echo json_encode($res);
-    }
-
 	public function paysuccess(){
 		$this->commonProcess();
 		//send mail
@@ -175,6 +113,7 @@ class PaymentController extends BaseController {
 		print json_encode($vo);
 	}
 	
+	
 	public function testFinishPayment(){
         $res = array(
             "status" => "0"
@@ -190,18 +129,57 @@ class PaymentController extends BaseController {
 		$billLogic->update($data);
 		
 		//更新订单状态
-		$orderData['status'] = 'P';
-		D('Order', 'Logic')->updateOrderByNumber($orderData, $bill['orderNumber']);
-		D('OrderItem', 'Logic')->updateOrderItemStatusByOrder($bill['orderNumber'], 'P');
-		$this->deduceInventoryByOrder($bill['orderNumber']);
+		$orderLogic = D('Order', 'Logic');
+        if ($orderLogic->updateOrderStatus($orderId, 'N', 'P') !== false) {
+            $res["status"] = "1";
+        }
+		$orderLogic = D('Order', 'Logic');
+		$order = $orderLogic->findByOrderNumber($bill['orderNumber']);
+		
+        if ($orderLogic->updateOrderStatus($order['orderId'], 'N', 'P') !== false) {
+			$this->deduceInventoryByOrder($bill['orderNumber']);
+            $res["status"] = "1";
+        }
+		
+		echo json_encode($res);
+	}
+	
+	public function testFinishRefundOrder(){
+		logInfo('fk1111');
+        $res = array(
+            "status" => "0"
+        );
+		$orderId = I('orderId');
+		$orderLogic = D('Order', 'Logic');
+		$order = $orderLogic->findByOrderId($orderId);
+		$map['type'] = 'REFUND';
+		$map['orderItemId'] = 0;
+		$map['orderNumber'] = $order['orderNumber'];
+		$billLogic = D('OrderBill', 'Logic');
+		$record = $billLogic->queryBill($map);
+		$bill = $record[0];
+		
+		//更新bill状态
+		$data['status'] = 'S';
+		$data['billId'] = $bill['billId'];
+		$billLogic->update($data);
+		
+		//更新库存,在更新状态之前操作
+		$this->increaseInventoryByOrder($orderId);
+		
+		//更新order状态
+		$orderLogic->updateOrderStatus($orderId, 'C2', 'C3');
+		
+		
 		$res["status"] = "1";
 		echo json_encode($res);
 	}
 
-	public function testFinishRefund(){
+	public function testFinishRefundSingleItem(){
         $res = array(
             "status" => "0"
         );
+		
 		$orderItemId = I('cancelId');
 		$billLogic = D('OrderBill', 'Logic');
 		$map['orderItemId'] = $orderItemId;
@@ -214,21 +192,32 @@ class PaymentController extends BaseController {
 		$data['billId'] = $bill['billId'];
 		$billLogic->update($data);
 		
+		//更新库存,在更新状态之前操作
+		$this->increaseInventoryByOrderItem($orderItemId);
+		
 		//更新orderitem状态
 		$orderItemData['status'] = 'C3';
 		D('OrderItem', 'Logic')->updateOrderItem($orderItemData, $orderItemId);
 		
-		//更新库存
-		$this->increaceInventory($orderItemId);
 		
 		$res["status"] = "1";
 		echo json_encode($res);
 	}
 	
-	private function increaceInventory($orderItemId){
+	private function increaseInventoryByOrderItem($orderItemId){
 		//更新库存,之前预留的库存释放
 		$orderItem = D('OrderItem', 'Logic')->getOrderItemById($orderItemId);
 		D('Inventory', 'Logic')->updateInventory($orderItem['itemSize'], $orderItem['quantity']);
+	}
+	
+	private function increaseInventoryByOrder($orderId){
+		$orderItems = D('OrderItem', 'Logic')->getOrderItemsByOrdeId($orderId);
+		foreach($orderItems as $orderItem){
+			//处于等待退款状态下的商品库存才变回来
+			if($orderItem['status'] == 'C2'){
+				D('Inventory', 'Logic')->updateInventory($orderItem['itemSize'], $orderItem['quantity']);
+			}
+		}
 	}
 	
 	private function deduceInventoryByOrder($orderNumber){
@@ -297,9 +286,10 @@ class PaymentController extends BaseController {
 					
 					//如果支付成功,更新订单状态为PAID
 					if($result){
-						$orderData['status'] = 'P';
-						D('Order', 'Logic')->updateOrderByNumber($orderData, $bill['orderNumber']);
-						D('OrderItem', 'Logic')->updateOrderItemStatusByOrder($bill['orderNumber'], 'P');
+						$orderLogic = D('Order', 'Logic');
+						$order = $orderLogic->findByOrderNumber($bill['orderNumber']);
+				        $orderLogic->updateOrderStatus($order['orderId'], 'N', 'P');
+						
 						//更新库存
 						$this->deduceInventoryByOrder($bill['orderNumber']);
 					}
@@ -345,7 +335,7 @@ class PaymentController extends BaseController {
 				$orderItemData['status'] = 'C3';
 				D('OrderItem', 'Logic')->updateOrderItem($orderItemData, $bill['orderItemId']);
 				//更新库存
-				$this->increaceInventory($bill['orderItemId']);
+				$this->increaseInventoryByOrderItem($bill['orderItemId']);
 			}
 		}
 		//处理消息成功,不需要持续通知此消息返回success 
