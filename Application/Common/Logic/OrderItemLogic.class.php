@@ -54,7 +54,7 @@
 			$items = $this->where($map)->select();
 			for ($i = 0; $i < count($items); $i++) {
 				$id = $items[$i]["id"];
-				if ($items[$i]["status"] == "p") {
+				if ($items[$i]["status"] == "P") {
 					$data["id"] = $id;
 					$data["status"] = "D";
 					$data["updatedDate"] = $updatedDate;

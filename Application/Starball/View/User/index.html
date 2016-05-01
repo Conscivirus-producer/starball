@@ -230,6 +230,7 @@
 	                                        <td class="am-text-right am-text-xs">
 	                                        	<eq name="vo['status']" value="N"><a href="{:U('Payment/index', array('orderNumber'=>$vo['orderNumber']))}">继续支付 〉</a></eq>
 	                                        	<eq name="vo['status']" value="P"><a href="{:U('User/orderinfo', array('orderId'=>$vo['orderId']))}">申请退款 〉</a></eq>
+	                                        	<eq name="vo['status']" value="D"><a href="{:U('User/orderinfo', array('orderId'=>$vo['orderId']))}">确认收货 〉</a></eq>
                                         	</td>
 	                            			<td><a class="yu-account-detailinfo" href="{:U('User/orderinfo', array('orderId'=>$vo['orderId']))}">详细信息 〉</a></td>
 	                                    </tr>

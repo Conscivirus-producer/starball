@@ -36,10 +36,13 @@ class UserController extends BaseController {
 				$this->cancelOrder();
 			}
 			if(I('method') == 'returnFund'){
-				$this->returnFund();
+				$this->refundItem('P');
 			}
 			if(I('method') == 'returnGood'){
-				$this->returnGood();
+				$this->refundItem('V');
+			}
+			if(I('method') == 'confirmDelivery'){
+				$this->confirmDelivery();
 			}
 		}
 		$this->commonProcess();
@@ -55,15 +58,19 @@ class UserController extends BaseController {
 		$this->display();
 	}
 	
-	private function cancelOrder(){
-		$order = D('Order', 'Logic')->updateOrderStatus(I('orderId'), 'P', 'C1');
+	private function confirmDelivery(){
+		D('Order', 'Logic')->updateOrderStatus(I('orderId'), 'D', 'V');
 	}
 	
-	private function returnFund(){
+	private function cancelOrder(){
+		D('Order', 'Logic')->updateOrderStatus(I('orderId'), 'P', 'C1');
+	}
+	
+	private function refundItem($startingStatus){
 		$orderItemId = I('orderItemId');
 		$orderItemLogic = D('OrderItem', 'Logic');
 		$orderItem = $orderItemLogic->getOrderItemById($orderItemId);
-		if($orderItem['status'] != 'P'){
+		if($orderItem['status'] != $startingStatus){
 			//Can't refund in non-paid status, can also prevent the resubmit case.
 			return;
 		}
@@ -72,15 +79,9 @@ class UserController extends BaseController {
 		$orderItemLogic->updateOrderItem($data, $orderItemId);
 	}
 	
+	//No-used function
 	private function returnGood(){
-		$orderItemId = I('orderItemId');
-		$orderItem = D('OrderItem', 'Logic')->getOrderItemById($orderItemId);
-		if($orderItem['status' != 'V']){
-			//Can't return good at non-verify status
-			return;
-		}
-		
-		$orderCancelLogic = D('OrderCancel', 'Logic');
+		/*$orderCancelLogic = D('OrderCancel', 'Logic');
 		$data['userId'] = $this->getCurrentUserId();
 		$data['orderNumber'] = '';//生成退单号
 		$data['orderItemId'] = $orderItemId;
@@ -88,8 +89,7 @@ class UserController extends BaseController {
 		$data['amount'] = round(($orderItem['price']/$orderItem['quantity']) * $data['quantity'], 2);
 		$data['status'] = 'N';
 		$orderLogic->create($data);
-		$cancelId = $orderLogic->add();
+		$cancelId = $orderLogic->add();*/
 		
-		echo $orderItemId;
 	}
 }
