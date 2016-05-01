@@ -336,7 +336,7 @@ class PaymentController extends BaseController {
 			$billLogic->update($data);
 			//如果退款成功,更新orderitem状态
 			$orderItem = D('OrderItem', 'Logic')->getOrderItemById($bill['orderItemId']);
-			if($orderItem['status'] != 'C22'){
+			if($orderItem['status'] != 'C2'){
 				logWarn('Payment Webhook:Order Item status not C2, return.');
 				echo 'success';
 				return;
