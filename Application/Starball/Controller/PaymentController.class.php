@@ -324,18 +324,35 @@ class PaymentController extends BaseController {
 			$data['status'] = $result ? 'S' : 'F';
 			$data['billId'] = $bill['billId'];
 			$billLogic->update($data);
-			//如果退款成功,更新orderitem状态
-			$orderItem = D('OrderItem', 'Logic')->getOrderItemById($bill['orderItemId']);
-			if($orderItem['status'] != 'C2'){
-				logWarn('Payment Webhook:Order Item status not C2, return.');
-				echo 'success';
-				return;
-			}
-			if($result){
-				$orderItemData['status'] = 'C3';
-				D('OrderItem', 'Logic')->updateOrderItem($orderItemData, $bill['orderItemId']);
-				//更新库存
-				$this->increaseInventoryByOrderItem($bill['orderItemId']);
+			
+			if($bill['orderItemId'] == 0){
+				if($result){
+					//Entire order refund
+					$orderLogic = D('Order', 'Logic');
+					$order = $orderLogic->findByOrderNumber($bill['orderNumber']);
+			        if ($orderLogic->updateOrderStatus($order['orderId'], 'C2', 'C3') == false) {
+			            logWarn('Payment Webhook:Order/Order item status not match.');
+						echo 'success';
+						return;
+			        }
+					//update inventory
+					$this->increaseInventoryByOrder($order['orderId']);
+				}
+			}else{
+				//Single order item refund
+				//如果退款成功,更新orderitem状态
+				$orderItem = D('OrderItem', 'Logic')->getOrderItemById($bill['orderItemId']);
+				if($orderItem['status'] != 'C2'){
+					logWarn('Payment Webhook:Order Item status not C2, return.');
+					echo 'success';
+					return;
+				}
+				if($result){
+					$orderItemData['status'] = 'C3';
+					D('OrderItem', 'Logic')->updateOrderItem($orderItemData, $bill['orderItemId']);
+					//更新库存
+					$this->increaseInventoryByOrderItem($bill['orderItemId']);
+				}
 			}
 		}
 		//处理消息成功,不需要持续通知此消息返回success 
