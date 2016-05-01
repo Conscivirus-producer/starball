@@ -234,7 +234,7 @@ class PaymentController extends BaseController {
 		$appSecret = "b3842787-3442-49eb-914a-5ec86e0b2e74";
 		$jsonStr = file_get_contents("php://input");
 		logInfo('ReturnJson:'.$jsonStr);
-		//$jsonStr = file_get_contents(dirname(__FILE__)."/pay_json.txt");
+		//$jsonStr = file_get_contents(dirname(__FILE__)."/refund_json111.txt");
 		$msg = json_decode($jsonStr);
 		// webhook字段文档: http://beecloud.cn/doc/php.php#webhook
 		
@@ -330,13 +330,13 @@ class PaymentController extends BaseController {
 					//Entire order refund
 					$orderLogic = D('Order', 'Logic');
 					$order = $orderLogic->findByOrderNumber($bill['orderNumber']);
+					//update inventory
+					$this->increaseInventoryByOrder($order['orderId']);
 			        if ($orderLogic->updateOrderStatus($order['orderId'], 'C2', 'C3') == false) {
 			            logWarn('Payment Webhook:Order/Order item status not match.');
 						echo 'success';
 						return;
 			        }
-					//update inventory
-					$this->increaseInventoryByOrder($order['orderId']);
 				}
 			}else{
 				//Single order item refund
