@@ -162,6 +162,7 @@
                     <div class="am-panel-bd">
                         <ul class="am-avg-sm-4 am-thumbnails">
                             <volist name="information.orderItems" id="vo">
+                            	<gt name="vo['quantity']" value="0">
                                 <li>
                                 <ul class="am-list am-list-static">
                                     <li>品牌: {$vo.brandName}</li>
@@ -196,6 +197,7 @@
                                     <li><img class="am-thumbnail" src="{$vo.itemImage}" /></li>
                                 </ul>
                                 </li>
+                               </gt>
                             </volist>
                         </ul>
                     </div>

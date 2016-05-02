@@ -10,7 +10,7 @@
                 <th class="am-text-middle yu-thead-taller" colspan="4">订单号{$order.orderNumber}</th>
             </tr>
             <tr>
-                <td class="am-text-left am-text-sm">物流方式<br>{$order.shippingMethod}</td>
+                <td class="am-text-left am-text-sm">物流方式<br>{$order.shippingMethod} {$order.shippingOrderNumber}</td>
                 <td class="am-text-left am-text-sm">支付方式
                 <br>
                 {$orderBill.channel}</td>
@@ -71,6 +71,7 @@
                     <span class="am-text-sm">请阐明您的退货理由。</span>
                 </div>
                 <volist name="orderItems" id="vo">
+                	<gt name="vo['quantity']" value="0">
 	                <div class="yu-item-styler am-g">
 	                    <div class="yu-image-styler am-u-sm-2">
 	                        <img src="{$vo.itemImage}?imageView2/1/w/100/h/100/q/100" style="width:100px;">
@@ -112,6 +113,7 @@
 	                        </p>
 	                    </div>
 	                </div>
+	                </gt>
                 </volist>
                 </td>
             </tr>

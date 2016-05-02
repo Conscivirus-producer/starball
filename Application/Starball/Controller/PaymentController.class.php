@@ -334,7 +334,6 @@ class PaymentController extends BaseController {
 					$this->increaseInventoryByOrder($order['orderId']);
 			        if ($orderLogic->updateOrderStatus($order['orderId'], 'C2', 'C3') == false) {
 			            logWarn('Payment Webhook:Order/Order item status not match.');
-						echo 'success';
 						return;
 			        }
 				}
@@ -344,7 +343,6 @@ class PaymentController extends BaseController {
 				$orderItem = D('OrderItem', 'Logic')->getOrderItemById($bill['orderItemId']);
 				if($orderItem['status'] != 'C2'){
 					logWarn('Payment Webhook:Order Item status not C2, return.');
-					echo 'success';
 					return;
 				}
 				if($result){
