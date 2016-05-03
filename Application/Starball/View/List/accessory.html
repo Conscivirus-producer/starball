@@ -1,16 +1,16 @@
 <extend name="Public/base" />
-<block name="title"><title>配饰</title></block>
+<block name="title"><title>{$Think.lang.accessory}</title></block>
 <block name="main">
 <div class="am-g yu-main-container">
     <div class="am-u-sm-12 am-padding-0">
         <ol class="am-breadcrumb am-breadcrumb-slash am-kai am-margin-bottom-15 am-text-center">
                 <div class="yu-listpage-header">
                       <span class="yu-listpage-seperate"></span>
-                      <if condition="$by eq 'time'"><span class="yu-listpage-title">新系列</span></if>
-                      <if condition="$by eq 'brand'"><span class="yu-listpage-title">品牌</span></if>
-                      <if condition="$by eq 'baby'"><span class="yu-listpage-title">婴儿</span></if>
-                      <if condition="$by eq 'girl'"><span class="yu-listpage-title">女孩</span></if>
-                      <if condition="$by eq 'boy'"><span class="yu-listpage-title">男孩</span></if>
+                      <if condition="$by eq 'time'"><span class="yu-listpage-title">{$Think.lang.newseries}</span></if>
+                      <if condition="$by eq 'brand'"><span class="yu-listpage-title">{$Think.lang.brand}</span></if>
+                      <if condition="$by eq 'baby'"><span class="yu-listpage-title">{$Think.lang.baby}</span></if>
+                      <if condition="$by eq 'girl'"><span class="yu-listpage-title">{$Think.lang.girl}</span></if>
+                      <if condition="$by eq 'boy'"><span class="yu-listpage-title">{$Think.lang.boy}</span></if>
                 </div>
                 <if condition="$by eq 'time'"><div class="filterings">最近{$byValue}天</div></if>
                 <if condition="$by eq 'brand'"><div class="filterings">{$brand[0].brandName}</div></if>

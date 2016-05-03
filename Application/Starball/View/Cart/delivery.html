@@ -1,5 +1,5 @@
 <extend name="Public/base" />
-<block name="title"><title>我的购物袋</title></block>
+<block name="title"><title>{$Think.lang.myshoppinglist}</title></block>
 <block name="customizedCss">
 	<link rel="stylesheet" type="text/css" href="__PUBLIC__/starball/css/cart.css">
 </block>
@@ -9,12 +9,12 @@
 	<div class="yu-cart-content am-kai">
 		<div class="cart-items am-u-md-8  am-padding-0">
 			<div class="am-panel am-panel-default">
-				<div class="am-panel-hd">收货地址</div>
+				<div class="am-panel-hd">{$Think.lang.shippingaddress}</div>
 				<div class="am-panel-bd">
 					<volist name="addressList" id="vo">
 						<div class="address">
 							<div style="width:100%; padding: 0px 0px 0px 15px">
-<span><label class="am-radio"><input type="radio" name="addressId" value="{$vo.addressId}" <eq name="vo['default']" value="1">checked</eq> >{$vo.addressName}</label></span>
+<span><label class="am-radio"><input type="radio" name="addressId" onclick="changeAddress($(this).val())" value="{$vo.addressId}" <eq name="vo['default']" value="1">checked</eq> >{$vo.addressName}</label></span>
 							</div>
 							<div style="width:100%; padding: 0px 15px 0px 35px"><span>{$vo.contactName}</span></div>
 							<div style="width:100%; padding: 0px 15px 0px 35px"><span>{$vo.address}</span></div>
@@ -26,39 +26,43 @@
 				<hr data-am-widget="divider"  class="am-divider am-divider-default am-no-layout">
 				<div>
 					<div style="width:100%; padding: 0px 0px 0px 27px">
-						<a href="{:U('Cart/address')}">添加地址</a>
+						<a href="{:U('Cart/address')}">{$Think.lang.ADDaddress}</a>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="cart-others am-u-md-4" style="margin-top: 10px">
 			<div class="am-panel am-panel-default">
-				<div class="am-panel-hd">购物车({$shoppingList.totalItemCount})</div>
+				<div class="am-panel-hd">{$Think.lang.shoppingcart}({$shoppingList.totalItemCount})</div>
 				<div class="am-panel-bd am-padding-0" style="font-size: 13px;">
 					<div style="background-color:#F8F8F8;">
-						<div style="width:100%; padding: 15px 15px 0px 15px"><span>我的购买记录</span><span style="float: right">{$priceSymbol}{$shoppingList.totalAmount}</span></div>
-						<div style="width:100%; padding: 5px 15px 5px 15px"><span>运费</span><span style="float: right">0</span></div>
-						<div style="width:100%; padding: 5px 15px 5px 15px"><span>礼品包装费用</span><span style="float: right">0</span></div>
-						<div style="width:100%; padding: 0px 15px 15px 15px"><span>我的订单总额</span><span style="float: right">{$priceSymbol}{$shoppingList.totalAmount}</span></div>
+						<div style="width:100%; padding: 15px 15px 0px 15px"><span>{$Think.lang.buyrecord}</span><span style="float: right">{$priceSymbol}{$shoppingList.totalAmount}</span></div>
+						<div style="width:100%; padding: 5px 15px 5px 15px">
+							<span>{$Think.lang.shippingfee}</span><span style="float: right">{$priceSymbol} <span id="shippingFee">{$shoppingList.shippingFee}</span></span>
+						</div>
+						<div style="width:100%; padding: 5px 15px 5px 15px"><span>{$Think.lang.packagefee}</span>
+							<span style="float: right"><gt name="shoppingList['giftPackageFee']" value="0">{$priceSymbol}</gt> {$shoppingList.giftPackageFee}</span>
+						</div>
+						<div style="width:100%; padding: 0px 15px 15px 15px"><span>{$Think.lang.ordertotal}</span><span style="float: right">{$priceSymbol} <span id="totalFee">{$shoppingList.totalFee}</span></span></div>
 					</div>
-					<div style="width:100%; border-top: 1px solid #CECECE; border-bottom: 1px solid #CECECE;padding: 15px"><span style="font-size: 14px">支付总额</span><span style="font-size: 14px;float:right">{$priceSymbol}{$shoppingList.totalAmount}</span></div>
+					<div style="width:100%; border-top: 1px solid #CECECE; border-bottom: 1px solid #CECECE;padding: 15px"><span style="font-size: 14px">{$Think.lang.totalpay}</span><span style="font-size: 14px;float:right">{$priceSymbol} {$shoppingList.totalFee}</span></div>
 					<div style="width:100%;text-align: center;background-color:#F8F8F8">
-						<button type="submit" style="width: 90%; height: 40px;margin:10px; background-color:black; color: white;border: 0;">提交订单</button>
+						<button type="submit" style="width: 90%; height: 40px;margin:10px; background-color:black; color: white;border: 0;">{$Think.lang.submitorder}</button>
 					</div>
 					<div style="clear: both"></div>
 				</div>
 			</div>
 			<div class="am-panel am-panel-default" style="margin-top:15px">
-				<div class="am-panel-hd"><icon class="am-icon-info"></icon> 关税</div>
+				<div class="am-panel-hd"><icon class="am-icon-info"></icon>{$Think.lang.tax}</div>
 				<div class="am-panel-bd" style="font-size: 13px">
-					当您收取货物时，没有任何额外费用！
+					{$Think.lang.noextra}
 				</div>
 			</div>
 			<div class="am-panel am-panel-default" style="margin-top:15px">
-				<div class="am-panel-hd">需要帮助吗？</div>
+				<div class="am-panel-hd">{$Think.lang.needhelp}？</div>
 				<div class="am-panel-bd" style="font-size: 13px">
-					<span class="am-icon-clock-o">查看我们的配送时间</span><br/>
-					<span class="am-icon-black-tie">查看我们的退货政策</span>
+					<span class="am-icon-clock-o">{$Think.lang.Cshiptime}</span><br/>
+					<span class="am-icon-black-tie">{$Think.lang.CRpolicy}</span>
 				</div>
 			</div>
 		</div>
@@ -71,5 +75,13 @@
 		$(".cart-step2").addClass("step-on");
 		$("#cartlnk1").attr('href', "{:U('Starball/Cart/index')}");
 		$("#cartlnk2").attr('href', "{:U('Starball/Cart/delivery')}");
+		function changeAddress(addressId){
+			$.post('__URL__/changeAddress',{'addressId':addressId},function(data){
+		    	if(data.status == 1){
+		    		$('#shippingFee').html(data.shippingFee);
+		    		$('#totalFee').html(data.totalFee);
+		    	}
+		    },'json');
+		}
 	</script>
 </block>

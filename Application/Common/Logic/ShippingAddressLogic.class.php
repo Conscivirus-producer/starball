@@ -13,6 +13,12 @@
 			return $this->where($map)->find();
 		}
 		
+		public function getDefaultAddress($userId){
+			$map['userId'] = $userId;
+			$map['default'] = '1';
+			return $this->where($map)->find();
+		}
+		
 		public function getAllAddress($userId){
 			$map['userId'] = $userId;
 			return $this->where($map)->select();

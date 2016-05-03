@@ -11,23 +11,16 @@ class CartController extends BaseController {
 		if(!$this->isLogin()){
 			$this->redirect('Home/register', array('fromAction' => 'shoppinglist'));
 		}
-		if(I('isGiftPackage') == true){
-			//如果需要礼品包装,把包装费用加到总费用里
-			$orderLogic = D('Order', 'Logic');
-			$order = $orderLogic->getCurrentOutstandingOrder($this->getCurrentUserId(), 'N');
-			$data['giftPackageFee'] = D('SupportingData', 'Logic')->getValueByKey('GIFT_PACKAGE_PRICE_'.$this->getCurrency());
-			$data['totalFee'] = $order['totalFee'] + $data['giftPackageFee'];
+		//如果需要礼品包装,把包装费用加到总费用里
+		$orderLogic = D('Order', 'Logic');
+		$order = $orderLogic->getCurrentOutstandingOrder($this->getCurrentUserId(), 'N');
+		if(I('isGiftPackage') != ''){
+			$data['giftPackageFee'] = I('isGiftPackage') == 'true' ? $this->getGiftPackageFee() : 0;
+			$data['totalFee'] = $order['totalAmount'] + $order['shippingFee'] + $data['giftPackageFee'];
 			$orderLogic->updateOrder($data, $order['orderId']);
-			
-		}else{
-			//如果不需要礼品包装,则把包装费用去掉
-			$orderLogic = D('Order', 'Logic');
-			$order = $orderLogic->getCurrentOutstandingOrder($this->getCurrentUserId(), 'N');
-			$data['giftPackageFee'] = 0;
-			$data['totalFee'] = $order['totalAmount'] + $order['shippingFee'];
-			$orderLogic->updateOrder($data, $order['orderId']);			
 		}
-		$this->commonProcess();
+		
+		$this->commonProcess();	
 		$shipppingAddress = D("ShippingAddress", "Logic");
 		$addressList = $shipppingAddress->getAllAddress($this->getCurrentUserId());
 		if(count($addressList) == 0){
@@ -57,6 +50,7 @@ class CartController extends BaseController {
 			//把addressId存入order
 			$data['userId'] = $this->getCurrentUserId();
 			$orderUpdate['shippingAddress'] = $shipppingAddress->add($data);
+			$orderUpdate['shippingFee'] = $this->calculateShippingFee();
 			$orderLogic->updateOrder($orderUpdate, $order['orderId']);
 			$this->redirect('Cart/delivery');
 		}
@@ -76,37 +70,54 @@ class CartController extends BaseController {
 	
 	public function submitOrder(){
 		$this->commonProcess();
-		$addressId = I('addressId');
 		$orderLogic = D('Order', 'Logic');
 		$userId = $this->getCurrentUserId();
 		$backlogOrder = $orderLogic->getOrderByUserId($userId, 'N');
 		if(count($backlogOrder) > 0){
 			$order = $backlogOrder[0];
 			if($order['orderNumber'] == ''){
-				//生成订单号,规则: 数字8(1位) + 年份最后1位，如2016最后一位6(1位) + 月份，如04(2位) + 日期，如12(2位) + 当前秒数,如59(2位) + 用户ID后2位,如87(4位) + 随机数(2位) 
+				//生成订单号,规则: 数字8(1位) + 年份最后1位，如2016最后一位6(1位) + 月份，如04(2位) + 日期，如12(2位) + 当前秒数,如59(2位) + 用户ID后2位,如87(2位) + 随机数(2位) 
 				$strUtil = new \Org\Util\String();
 				$orderNumber = '8'.substr(date("Ymds"), 3).substr($userId, -2).$strUtil->randString(2,1);
 				$data['orderNumber'] = $orderNumber;
 			}else{
 				$orderNumber = $order['orderNumber'];
 			}
-			
-			//更新用户默认地址
-			$shipppingAddress = D("ShippingAddress", "Logic");
-			$shipppingAddress->unsetDefault($this->getCurrentUserId());
-			$shipppingAddress->setDefault($this->getCurrentUserId(), $addressId);
-
-			//计算运费
-			$shippingFee = $this->calculateShippingFee();
-						
-			//更新订单信息,运费,总费用,地址
-			$data['shippingAddress'] = $addressId;
-			$data['shippingFee'] = $shippingFee;
-			$data['totalFee'] = $order['totalAmount'] + $order['giftPackageFee'] + $shippingFee;
+			$data['orderDate'] = date("Y-m-d H:i:s" ,time());
 			$orderLogic->updateOrder($data, $order['orderId']);
-			
-			$this->redirect('Payment/index', array('orderNumber' => $orderNumber, 'addressId'=>$addressId));
+			$this->redirect('Payment/index', array('orderNumber' => $orderNumber));
 		}
+	}
+
+	public function changeAddress(){
+		//Ajax call,改变地址,计算运费,不更新DB,只是给用户参考,用户点击提交订单后才会更新数据库
+		$orderLogic = D('Order', 'Logic');
+		$backlogOrder = $orderLogic->getOrderByUserId($this->getCurrentUserId(), 'N');
+		$order = $backlogOrder[0];
+		logInfo('fk111');
+		$addressId = I('addressId');
+		//更新用户默认地址
+		$shipppingAddress = D("ShippingAddress", "Logic");
+		$shipppingAddress->unsetDefault($this->getCurrentUserId());
+		$shipppingAddress->setDefault($this->getCurrentUserId(), $addressId);
+
+		//计算运费,根据最新的地址
+		$shippingFee = $this->calculateShippingFee();
+					
+		//更新订单信息,运费,总费用,地址
+		$data['shippingAddress'] = $addressId;
+		$data['shippingFee'] = $shippingFee;
+		$data['totalFee'] = $order['totalAmount'] + $order['giftPackageFee'] + $shippingFee;
+		$orderLogic->updateOrder($data, $order['orderId']);
+		
+		$data = array(
+		    'shippingFee'=>$data['shippingFee'],
+		    'totalFee'=>$data['totalFee'],
+		    'message'=>'处理成功',
+		);
+		$vo = $data;
+		$vo['status'] = 1;
+		$this->ajaxReturn($vo, "json");
 	}
 
 	//增加/减少购物车的商品数量
@@ -151,6 +162,8 @@ class CartController extends BaseController {
 		//更新order的数量
 		$data['totalItemCount'] = $order['totalItemCount'] + $changedQuantity;
 		$data['totalAmount'] = round($order['totalAmount'] + $changedPrice, 2);
+		$data['shippingFee'] = $this->calculateShippingFee();
+		$data['totalFee'] = $data['totalAmount'] + $data['shippingFee'] + $order['giftPackageFee'];
 		$orderLogic->updateOrder($data, $order['orderId']);
 		
 		//更新orderitem的数量

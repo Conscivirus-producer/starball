@@ -54,6 +54,7 @@
         <div class="am-offcanvas-bar admin-offcanvas-bar">
             <ul class="am-list admin-sidebar-list">
                 <li><a href="../Order" target="_blank"><span class="am-icon-home"></span> 订单管理</a></li>
+                <li><a href="../Order/cancel" target="_blank"><span class="am-icon-home"></span> 退单管理</a></li>
                 <li><a href="../Brand" target="_blank"><span class="am-icon-square"></span> 品牌管理</a></li>
                 <li class="admin-parent">
                     <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 商品管理 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
@@ -415,15 +416,13 @@
             return false;
         }
         // isAvailable must be set, should not be conflict with inventory
+        // Huahua@20160430: remove the inventory restriction with the isavailable option according to requirement
         if (isAvailableValue() == "-1") {
             return false;
         }
-        if (isAvailableValue() != "1" && $(".inventory-number").length > 0) {
+        /*if (isAvailableValue() != "0" && $(".inventory-number").length == 0) {
             return false;
-        }
-        if (isAvailableValue() == "1" && $(".inventory-number").length == 0) {
-            return false;
-        }
+        }*/
         return true;
     }
     // isAvailable check function

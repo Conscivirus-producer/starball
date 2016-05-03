@@ -51,7 +51,7 @@
 					<div class="am-g" id='itemName'>{$data.name}</div>
 					<div class="am-g">
 						<hr data-am-widget="divider" style="margin-bottom:3px;" class="am-divider am-divider-default" />
-						<span style="font-size: 13px">颜色：</span><span style="font-size: 13px" id="itemColor">{$data.color}</span>
+						<span style="font-size: 13px">{$Think.lang.size}：</span><span style="font-size: 13px" id="itemColor">{$data.color}</span>
 						<hr data-am-widget="divider" style="margin-top:3px;" class="am-divider am-divider-default" />
 					</div>
 					<div class="am-g">
@@ -72,25 +72,25 @@
 						  </volist>
 						</select>
 					</div>
-					<div class="am-g yu-sizetext-styler">尺寸：</div>
+					<div class="am-g yu-sizetext-styler">{$Think.lang.size}：</div>
 					<div class="am-g">
 						<button type="button" class="am-btn am-btn-primary am-btn-block yu-product-buy" onclick="addToShoppingList()">{$Think.lang.addToShoppingList}</button>
 						<button type="button" class="am-btn am-btn-default am-btn-block yu-product-favorite" onclick="addToFavoriteList()">{$Think.lang.addToFavoriteList}</button>
 					</div>
 					<div class="am-g">
 						<hr data-am-widget="divider" style="margin-bottom: 5px;margin-top:10px;" class="am-divider am-divider-default" />
-        					<div class="am-u-sm-2" style="margin-left:38px;"><a href="javascript;" style="margin-bottom: 5px;color:#000000" class="am-icon-twitter"></a></div>	
-        					<div class="am-u-sm-2"><a href="javascript;" style="color:#000000;" class="am-icon-facebook"></a></div>	
-        					<div class="am-u-sm-2"><a href="javascript;" style="color:#000000;" class="am-icon-weibo"></a></div>	
-        					<div class="am-u-sm-2"><a href="javascript;" style="color:#000000;" class="am-icon-wechat"></a></div>
-        					<div class="am-u-sm-2"><a href="javascript;" style="color:#000000;" class="am-icon-instagram"></a></div>
+        					<div class="am-u-sm-2" style="margin-left:38px;"><a href="javascript:void(0);" style="margin-bottom: 5px;color:#000000" class="am-icon-twitter"></a></div>	
+        					<div class="am-u-sm-2"><a href="javascript:void(0);" style="color:#000000;" class="am-icon-facebook"></a></div>	
+        					<div class="am-u-sm-2"><a href="javascript:void(0);" style="color:#000000;" class="am-icon-weibo"></a></div>	
+        					<div class="am-u-sm-2"><a href="javascript:void(0);" style="color:#000000;" class="am-icon-wechat"></a></div>
+        					<div class="am-u-sm-2"><a href="javascript:void(0);" style="color:#000000;" class="am-icon-instagram"></a></div>
 						<hr data-am-widget="divider" style="margin-bottom:0;" class="am-divider am-divider-default" />
 					</div>
 					<div class="am-g">
 						<section data-am-widget="accordion" class="am-accordion am-accordion-gapped" style="margin:0" data-am-accordion='{ "multiple": true }'>
 							<dl class="am-accordion-item yu-accordion-item">
 								<dt class="am-accordion-title yu-accordion-title">
-									详细信息
+									{$Think.lang.details}
 								</dt>
 								<dd class="am-accordion-bd am-collapse ">
 									<!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
@@ -101,7 +101,7 @@
 							</dl>
 							<dl class="am-accordion-item yu-accordion-item">
 								<dt class="am-accordion-title yu-accordion-title">
-									成分
+									{$Think.lang.ingredient}
 								</dt>
 								<dd class="am-accordion-bd am-collapse ">
 									<!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
@@ -112,7 +112,7 @@
 							</dl>
 							<dl class="am-accordion-item yu-accordion-item">
 								<dt class="am-accordion-title yu-accordion-title">
-									退货与送货
+									{$Think.lang.shipreturn}
 								</dt>
 								<dd class="am-accordion-bd am-collapse ">
 									<!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
@@ -123,7 +123,7 @@
 							</dl>
 							<dl class="am-accordion-item yu-accordion-item">
 								<dt class="am-accordion-title yu-accordion-title">
-									联系我们
+									{$Think.lang.contactus}
 								</dt>
 								<dd class="am-accordion-bd am-collapse ">
 									<!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
@@ -166,7 +166,7 @@
 				alert("请选择尺码");
 				return;
 			}
-		    $.post('__URL__/addToShoppingList',{'itemId':$('#itemId').val(), 
+		    $.post('{:U("Item/addToShoppingList")}',{'itemId':$('#itemId').val(), 
 		    									'currentPrice':$('#currentPrice')[0].innerHTML,
 		    									'itemImage':$('#itemImage').val(), 
 		    									'brandName':$('#brandName')[0].innerText, 

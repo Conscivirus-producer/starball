@@ -52,6 +52,7 @@
         <div class="am-offcanvas-bar admin-offcanvas-bar">
             <ul class="am-list admin-sidebar-list">
                 <li><a href="./Order"><span class="am-icon-home"></span> 订单管理</a></li>
+                <li><a href="./Order/cancel" target="_blank"><span class="am-icon-home"></span> 退单管理</a></li>
                 <li><a href="./Brand" target="_blank"><span class="am-icon-square"></span> 品牌管理</a></li>
                 <li class="admin-parent">
                     <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 商品管理 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
@@ -87,15 +88,16 @@
                             <label for="order-status">订单状态</label>
                             <select name="status" id="order-status">
                                 <option value="nothing">请选择</option>
-                                <option value="B">购物车</option>
                                 <option value="N">新订单</option>
                                 <option value="P">已支付</option>
-                                <option value="C">已取消</option>
+                                <option value="C1">用户申请退款</option>
+                                <option value="C1">订单已取消</option>
                                 <option value="D">已发货</option>
                                 <option value="V">已收货</option>
                             </select>
                             <span class="am-form-caret"></span>
                         </div>
+                        <!--
                         <div class="am-form-group">
                             <label for="order-isGiftPackage">是否需要礼品包装</label>
                             <select name="isGiftPackage" id="order-isGiftPackage">
@@ -104,7 +106,7 @@
                                 <option value="0">不需要</option>
                             </select>
                             <span class="am-form-caret"></span>
-                        </div>
+                        </div>-->
                         <div class="am-form-group">
                             <label for="order-userName">用户名</label>
                             <input type="text" class="" name="userName" id="order-userName" placeholder="输入用户名模糊搜索">
@@ -131,12 +133,12 @@
                         <th>商品数量</th>
                         <th>商品总价格</th>
                         <th>运费</th>
+                        <th>礼品包装费用</th>
                         <th>总价格</th>
                         <th>发货地址</th>
                         <th>用户</th>
                         <th>下单时间</th>
                         <th>订单状态</th>
-                        <th>礼品包装</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -146,6 +148,7 @@
                             <td>{$vo.totalItemCount}</td>
                             <td>{$vo.totalAmount}{$vo.currency}</td>
                             <td>{$vo.shippingFee}{$vo.currency}</td>
+                            <td>{$vo.giftPackageFee}{$vo.currency}</td>
                             <td>{$vo.totalFee}{$vo.currency}</td>
                             <td>{$vo.shippingAddress}</td>
                             <td>
@@ -159,15 +162,10 @@
                                     <case value="B"><span class="am-badge am-badge-primary">购物车</span></case>
                                     <case value="N"><span class="am-badge am-badge-secondary">新订单</span></case>
                                     <case value="P"><span class="am-badge am-badge-warning">已支付</span></case>
-                                    <case value="C"><span class="am-badge">已取消</span></case>
+                                    <case value="C1"><span class="am-badge am-badge-danger">用户申请退款</span></case>
+                                    <case value="C2"><span class="am-badge">订单已取消</span></case>
                                     <case value="D"><span class="am-badge am-badge-danger">已发货</span></case>
                                     <case value="V"><span class="am-badge am-badge-success">已收货</span></case>
-                                </switch>
-                            </td>
-                            <td>
-                                <switch name="vo.isGiftPackage">
-                                    <case value="0"><span class="am-badge">不需要</span></case>
-                                    <case value="1"><span class="am-badge am-badge-success">需要</span></case>
                                 </switch>
                             </td>
                         </tr>
@@ -205,7 +203,7 @@
     var conditionsJSON = {$conditionsJSON};
     $(document).ready(function() {
         $("#order-status").val(conditionsJSON.status);
-        $("#order-isGiftPackage").val(conditionsJSON.isGiftPackage);
+        //$("#order-isGiftPackage").val(conditionsJSON.isGiftPackage);
         $("#order-userName").val(conditionsJSON.userName);
         $("#order-userMobile").val(conditionsJSON.mobile);
         $("#order-userEmail").val(conditionsJSON.email);
@@ -217,7 +215,7 @@
         $("#order-createdDateStart").val("");
         $("#order-createdDateEnd").val("");
         $("#order-status").val("nothing");
-        $("#order-isGiftPackage").val("nothing");
+        //$("#order-isGiftPackage").val("nothing");
         $("#order-userName").val("");
         $("#order-userMobile").val("");
         $("#order-userEmail").val("");

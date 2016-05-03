@@ -13,6 +13,12 @@
 			$map['orderNumber'] = $orderNumber;
 			return $this->where($map)->find();
 		}
+		
+		public function findByOrderId($orderId){
+			$map['orderId'] = $orderId;
+			return $this->where($map)->find();			
+		}
+		
 		public function getCurrentOutstandingOrder($userId, $status){
 			$map['userId'] = $userId;
 			$map['status'] = $status;
@@ -30,28 +36,19 @@
 			$this->where($map)->save($data);
 		}
 		
-		public function updateOrderByNumber($data, $orderNumber){
-			$data['updatedDate'] = date("Y-m-d H:i:s" ,time());
-			$map['orderNumber'] = $orderNumber;
-			$this->where($map)->save($data);
-		}
-
 		public function getOrderInformationWithUserInformation($map) {
 			$newMap = array();
 			$createdDateStart = "2014-10-02";
 			if ($map["createdDateStart"] != "") {
 				$createdDateStart = $map["createdDateStart"];
 			}
-			$createdDateEnd = date("Y-m-d" ,time());
+			$createdDateEnd = date("Y-m-d H:i:s" ,time());
 			if ($map["createdDateEnd"] != "") {
 				$createdDateEnd = $map["createdDateEnd"];
 			}
 			$newMap["createdDate"] = array('between',array($createdDateStart,$createdDateEnd));
 			if ($map["status"] != "nothing") {
 				$newMap["status"] = $map["status"];
-			}
-			if ($map["isGiftPackage"] != "nothing") {
-				$newMap["isGiftPackage"] = $map["isGiftPackage"];
 			}
 			$userLogic = D("User", "Logic");
 			$data = $this->where($newMap)->order('createdDate desc')->select();
@@ -76,10 +73,13 @@
 			$orderItemLogic = D("OrderItem", "Logic");
 			$shippingAddressLogic = D("ShippingAddress", "Logic");
 			$orderBillLogic = D("OrderBill", "Logic");
+			$userLogic = D("User", "Logic");
 			$map["orderId"] = $orderId;
 			$information = current($this->where($map)->select());
 			$information["orderItems"] = $orderItemLogic->getOrderItemsByOrdeId($orderId);
 			$shippingAddressId = $information["shippingAddress"];
+			$userId = $information["userId"];
+			$information["userInformation"] = $userLogic->getUserInformationByUserId($userId);
 			if ($shippingAddressId == "0") {
 				$information["shippingAddress"] = "";
 			} else {
@@ -94,9 +94,9 @@
 			}
 			return $information;
 		}
-		
+
 		public function getOrderInformationByOrderNumber($orderNumber) {
-			$map["orderNumber"] = $orderNumber;	
+			$map["orderNumber"] = $orderNumber;
 			$orderId = $this->where($map)->getField("orderId");
 			$orderItemLogic = D("OrderItem", "Logic");
 			$shippingAddressLogic = D("ShippingAddress", "Logic");
@@ -112,6 +112,78 @@
 			$orderBillMap["orderNumber"] = $orderNumber;
 			$information["orderBills"] = $orderBillLogic->queryBill($orderBillMap);
 			return $information;
+		}
+
+		public function confirmDelivery($data) {
+			$orderItemLogic = D("OrderItem", "Logic");
+			$orderId = $data["orderId"];
+			$map["orderId"] = $orderId;
+			$orderInformation = current($this->where($map)->select());
+			$status = $orderInformation["status"];
+			if ($status != "P") {
+				return false;
+			}
+			$lastUpdatedDate = date("Y-m-d H:i:s" ,time());
+			if ($orderItemLogic->confirmDelivery($orderId, $lastUpdatedDate) === false) {
+				return false;
+			}
+			$updateData["orderId"] = $orderId;
+			$updateData["updatedDate"] = $lastUpdatedDate;
+			$updateData["status"] = "D";
+			$updateData["shippingMethod"] = $data["expressName"];
+			$updateData["shippingOrderNumber"] = $data["expressNumber"];
+			if ($this->save($updateData) === false) {
+				return false;
+			}
+			$userInfo["email"] = $data["email"];
+			$userInfo["userName"] = $data["userName"];
+			return (sendMailNewVersion($data, "delivered", $userInfo) !== false);
+		}
+
+		public function confirmReceive($orderId) {
+			$orderItemLogic = D("OrderItem", "Logic");
+			$map["orderId"] = $orderId;
+			$orderInformation = current($this->where($map)->select());
+			$orderStatus = $orderInformation["status"];
+			if ($orderStatus != "D") {
+				return false;
+			}
+			$lastUpdatedDate = date("Y-m-d H:i:s" ,time());
+			if ($orderItemLogic->confirmReceive($orderId, $lastUpdatedDate) === false) {
+				return false;
+			}
+			$updateData["orderId"] = $orderId;
+			$updateData["updatedDate"] = $lastUpdatedDate;
+			$updateData["status"] = "V";
+			return ($this->save($updateData) !== false);
+		}
+
+		public function updateOrderStatus($orderId, $fromStatus, $toStatus) {
+			$orderItemLogic = D("OrderItem", "Logic");
+			$map["orderId"] = $orderId;
+			$orderInformation = current($this->where($map)->select());
+			$orderStatus = $orderInformation["status"];
+			if ($orderStatus != $fromStatus) {
+				return false;
+			}
+			// payment function to be added
+			// payment first
+			// if payment fail, return false
+			// else continue
+			$lastUpdatedDate = date("Y-m-d H:i:s" ,time());
+			if ($orderItemLogic->updateOrderItemsStatus($orderId, $fromStatus, $toStatus, $lastUpdatedDate) === false) {
+				return false;
+			}
+			$updateData["orderId"] = $orderId;
+			$updateData["updatedDate"] = $lastUpdatedDate;
+			$updateData["status"] = $toStatus;
+			return ($this->save($updateData) !== false);
+		}
+
+		public function getOrderIdByOrderNumber($orderNumber) {
+			$map["orderNumber"] = $orderNumber;
+			$orderInformation = current($this->where($map)->select());
+			return $orderInformation["orderId"];
 		}
 
 	}
