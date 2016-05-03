@@ -319,6 +319,8 @@
         $.each(itemInformation.inventory, function( index, inventoryValue ) {
             var $line = $('<hr data-am-widget="divider" style="" id="inventoryLine' +  inventoryCount +  '" class="am-divider am-divider-default inventory-line" />');
             var $div = $('<div class="am-form-group inventory-setting-group" id="inventoryDiv' + inventoryCount +  '"></div>');
+            // input used for identifying already existed inventories
+            var $inventoryIdInput = $('<input type="text" class="inventory-id" name="inventory-id' + inventoryCount + '" id="" style="display: none;" value="' + inventoryValue.inventoryId +  '">');
             var $labelStart = $('<label>大小下限</label>');
             var $selectStart = $('<select class="inventory-size-start" name="inventory-size-start' + inventoryCount + '"></select>');
             $.each(itemSizeData, function( index, value ) {
@@ -339,7 +341,7 @@
             });
             var $input = $('<input type="text" class="inventory-number" name="inventory-number' + inventoryCount + '" id="" placeholder="输入库存数量">');
             // changed price create
-            var $priceCNYLable = $('<label>人民币价格</label>');
+            var $priceCNYLabel = $('<label>人民币价格</label>');
             var $priceCNYInput = $('<input type="text" class="inventory-price-CNY" name="inventory-price-CNY' + inventoryCount + '" id="" placeholder="输入人民币价格">');
             var $priceHKDLabel = $('<label>港币价格</label>');
             var $priceHKDInput = $('<input type="text" class="inventory-price-HKD" name="inventory-price-HKD' + inventoryCount + '" id="" placeholder="输入港币币价格">');
@@ -351,12 +353,13 @@
             $priceCNYInput.val(inventoryValue.priceCNY.price);
             $priceHKDInput.val(inventoryValue.priceHKD.price);
 
+            $inventoryIdInput.appendTo($div);
             $labelStart.appendTo($div);
             $selectStart.appendTo($div);
             $labelEnd.appendTo($div);
             $selectEnd.appendTo($div);
             $input.appendTo($div);
-            $priceCNYLable.appendTo($div);
+            $priceCNYLabel.appendTo($div);
             $priceCNYInput.appendTo($div);
             $priceHKDLabel.appendTo($div);
             $priceHKDInput.appendTo($div);
@@ -416,11 +419,13 @@
             return false;
         }
         // isAvailable must be set, should not be conflict with inventory
-        // Huahua@20160430: remove the inventory restriction with the isavailable option according to requirement
         if (isAvailableValue() == "-1") {
             return false;
         }
-        /*if (isAvailableValue() != "0" && $(".inventory-number").length == 0) {
+        /*if (isAvailableValue() != "1" && $(".inventory-number").length > 0) {
+            return false;
+        }
+        if (isAvailableValue() == "1" && $(".inventory-number").length == 0) {
             return false;
         }*/
         return true;
@@ -561,7 +566,7 @@
         var $input = $('<input type="text" class="inventory-number" name="inventory-number' + inventoryCount + '" id="" placeholder="输入库存数量">');
 
         // changed price create
-        var $priceCNYLable = $('<label>人民币价格</label>');
+        var $priceCNYLabel = $('<label>人民币价格</label>');
         var $priceCNYInput = $('<input type="text" class="inventory-price-CNY" name="inventory-price-CNY' + inventoryCount + '" id="" placeholder="输入人民币价格">');
         var $priceHKDLabel = $('<label>港币价格</label>');
         var $priceHKDInput = $('<input type="text" class="inventory-price-HKD" name="inventory-price-HKD' + inventoryCount + '" id="" placeholder="输入港币币价格">');
@@ -573,7 +578,7 @@
         $selectEnd.appendTo($div);
         $input.appendTo($div);
 
-        $priceCNYLable.appendTo($div);
+        $priceCNYLabel.appendTo($div);
         $priceCNYInput.appendTo($div);
         $priceHKDLabel.appendTo($div);
         $priceHKDInput.appendTo($div);

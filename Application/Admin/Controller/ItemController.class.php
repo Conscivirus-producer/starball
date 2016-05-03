@@ -147,6 +147,7 @@ class ItemController extends Controller {
         $inventoryArray = array();
         $inventory = array();
         for ($i = 0; $i <= $inventoryCount; $i++) {
+            $inventoryId = I("post.inventory-id".$i, "");
             $inventorySizeStart = I("post.inventory-size-start".$i, "");
             $inventorySizeEnd = I("post.inventory-size-end".$i, "");
             $inventoryNumber = I("post.inventory-number".$i, "");
@@ -155,6 +156,7 @@ class ItemController extends Controller {
             if ($inventorySizeStart == "" || $inventorySizeEnd == "" || $inventoryNumber == "" || $inventoryPriceCNY == "" || $inventoryPriceHKD == "") {
                 continue;
             }
+            $inventory["inventoryId"] = $inventoryId;
             $inventory["age"] = $inventorySizeStart.",".$inventorySizeEnd;
             $inventory["inventory"] = $inventoryNumber;
             $inventory["priceCNY"] = $inventoryPriceCNY;
