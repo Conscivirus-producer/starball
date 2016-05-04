@@ -150,7 +150,6 @@ class PaymentController extends BaseController {
 	}
 	
 	public function testFinishRefundOrder(){
-		logInfo('fk1111');
         $res = array(
             "status" => "0"
         );

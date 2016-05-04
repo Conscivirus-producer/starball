@@ -35,14 +35,30 @@
 		}
 		
 		public function updateInventory($inventoryId, $changedQuantity){
-			/*$map['inventoryId'] = $inventoryId;
+			$map['inventoryId'] = $inventoryId;
 			$result = $this->where($map)->find();
 			
 			$data['inventoryId'] = $inventoryId;
 			$data['inventory'] = $result['inventory'] + $changedQuantity;
-			$this->where($map)->save($data);*/
+			$this->where($map)->save($data);
 			
-			$this->execute("update t_inventory set inventory = inventory + ".$changedQuantity." where inventoryId = ".$inventoryId);
+			//Check item inventory available or not, should be consistent with item->isAvailable
+			$newMap['itemId'] = $result['itemId'];
+			$inventoryList = $this->where($newMap)->select();
+			$isInventoryAvailable = '0';
+			foreach($inventoryList as $record){
+				if($record['inventory'] > 0){
+					$isInventoryAvailable = '1';
+					break;
+				}
+			}
+			
+			$item = D('Item', 'Logic')->where($newMap)->find();
+			if($item['isAvailable'] != $isInventoryAvailable){
+				$itemData['isAvailable'] = $isInventoryAvailable;
+				D('Item', 'Logic')->where($newMap)->save($itemData);
+			}
+			//$this->execute("update t_inventory set inventory = inventory + ".$changedQuantity." where inventoryId = ".$inventoryId);
 		}
 
 		public function insertInventoriesforOneItem($itemId, $inventoryArray){
