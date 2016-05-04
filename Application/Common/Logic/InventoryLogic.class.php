@@ -77,14 +77,37 @@
 
 		public function updateInventoriresForOneItem($itemId, $inventoryArray) {
 			$itemPriceLogic = D("ItemPrice", "Logic");
-			if ($this->deleteInventoriesByItemId($itemId) === false) {
+			/*if ($this->deleteInventoriesByItemId($itemId) === false) {
 				return false;
 			} else {
 				if ($itemPriceLogic->deleteItemPricesByItemId($itemId) === false) {
 					return false;
 				}
 				return $this->insertInventoriesforOneItem($itemId, $inventoryArray);
+			}*/
+			$inventoryToInsert = array();
+			for ($i = 0; $i < count($inventoryArray); $i++) {
+				if ($inventoryArray[$i]["inventoryId"] == "") {
+					array_push($inventoryToInsert, $inventoryArray[$i]);
+				} else {
+					$inventoryUpdateData["inventoryId"] = $inventoryArray[$i]["inventoryId"];
+					$inventoryUpdateData["age"] = $inventoryArray[$i]["age"];
+					$inventoryUpdateData["inventory"] = $inventoryArray[$i]["inventory"];
+					if ($this->save($inventoryUpdateData) === false) {
+						return false;
+					}
+					$priceArray["HKD"] = $inventoryArray[$i]["priceHKD"];
+					$priceArray["CNY"] = $inventoryArray[$i]["priceCNY"];
+					$lastUpdatedDate = date('y-m-d h:i:s',time());
+					if ($itemPriceLogic->updateItemPrices($itemId, $priceArray, $lastUpdatedDate, $inventoryArray[$i]["inventoryId"]) === false) {
+						return false;
+					}
+				}
 			}
+			if ($this->insertInventoriesforOneItem($itemId, $inventoryToInsert) === false) {
+				return false;
+			}
+			return true;
 		}
 	}
 
