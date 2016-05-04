@@ -5,7 +5,7 @@
 </block>
 <block name="main">
 <gt name="shoppingListCount" value="0"><include file="Public/cartcommon" /></gt>
-	
+	<input type="hidden" id="addQuantityResult" value="{$addQuantityResult}"/>
 	<div class="yu-cart-content am-kai">
 		<eq name="shoppingListCount" value="0">
 			<div class="empty-cart">
@@ -95,6 +95,10 @@
 </block>
 <block name="customizedJavascript">
 	<script type="text/javascript">
+		var addQuantityResult = $('#addQuantityResult').val();
+		if(addQuantityResult == 'false'){
+			alert("该尺码库存不足");
+		}
 		$(".cart-step1").addClass("step-on");
 		$("#cartlnk1").attr('href', "{:U('Starball/Cart/index')}");
 		$(".submit").click(function(){

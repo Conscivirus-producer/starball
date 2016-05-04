@@ -4,6 +4,8 @@ use Think\Controller;
 class CartController extends BaseController {
 	public function index(){
 		$this->commonProcess();
+		$this->assign('addQuantityResult', session('addQuantityResult'));
+		session('addQuantityResult', 'empty');
 		$this->display();
 	}
 	
@@ -122,11 +124,13 @@ class CartController extends BaseController {
 
 	//增加/减少购物车的商品数量
 	public function changeItemQuantity(){
+		$result = true;
 		if(!$this->isLogin()){
-			$this->changeItemQuantityToSession();
+			$result = $this->changeItemQuantityToSession();
 		}else{
-			$this->changeItemQuantityToUser();
+			$result = $this->changeItemQuantityToUser();
 		}
+		session('addQuantityResult', $result?'true':'false');
 		$this->redirect('Cart/index');
 	}
 	
@@ -139,6 +143,10 @@ class CartController extends BaseController {
 		foreach($shoppingListItems as $record){
 			if($record['itemId'] == I('itemId') && $record['itemSize'] == I('itemSize')){
 				$record['quantity'] += $changedQuantity;
+				if((I('changedQuantity') > 0) && !D('Inventory', 'Logic')->isInventoryAvailable($record['itemSize'], $record['quantity'])){
+					//如果库存不足
+					return false;
+				}
 				$record['price'] += $changedPrice;
 				$shoppingListItems[$i] = $record;
 				break;
@@ -150,6 +158,7 @@ class CartController extends BaseController {
 		$shoppingList['totalAmount'] = round($shoppingList['totalAmount'] + $changedPrice, 2);
 		session('shoppingListItems', $shoppingListItems);
 		session('shoppingList',$shoppingList);
+		return true;
 	}
 	
 	private function changeItemQuantityToUser(){
@@ -159,16 +168,21 @@ class CartController extends BaseController {
 		$orderLogic = D('Order', 'Logic');
 		$backlogOrder = $orderLogic->getOrderByUserId($userId, 'N');
 		$order = $backlogOrder[0];
+		//更新orderitem的数量
+		$orderItemLogic = D('OrderItem', 'Logic');
+		$orderItem = $orderItemLogic->getExistingOrderItem(I('itemId'), I('itemSize'), $order['orderId']);
+		if((I('changedQuantity') > 0) && !D('Inventory', 'Logic')->isInventoryAvailable(I('itemSize'), $orderItem[0]['quantity'] + I('changedQuantity'))){
+			//如果库存不足
+			return false;
+		}
+		$orderItemLogic->changeQuantity($orderItem[0], I('changedQuantity'), I('changedPrice'));
+		
 		//更新order的数量
 		$data['totalItemCount'] = $order['totalItemCount'] + $changedQuantity;
 		$data['totalAmount'] = round($order['totalAmount'] + $changedPrice, 2);
 		$data['shippingFee'] = $this->calculateShippingFee();
 		$data['totalFee'] = $data['totalAmount'] + $data['shippingFee'] + $order['giftPackageFee'];
 		$orderLogic->updateOrder($data, $order['orderId']);
-		
-		//更新orderitem的数量
-		$orderItemLogic = D('OrderItem', 'Logic');
-		$orderItem = $orderItemLogic->getExistingOrderItem(I('itemId'), I('itemSize'), $order['orderId']);
-		$orderItemLogic->changeQuantity($orderItem[0], I('changedQuantity'), I('changedPrice'));
+		return true;
 	}
 }

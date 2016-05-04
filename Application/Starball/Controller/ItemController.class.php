@@ -11,6 +11,9 @@ class ItemController extends BaseController {
 		$inventoryData = array();
 		$currencyArray = C('CURRENCY');
 		foreach($inventoryResult as $inventory){
+			if($inventory['inventory'] <= 0){
+				continue;
+			}
 			$inventory['description'] = getSizeDescriptionAndPriceByAge($inventory['age'], $inventory['price'], $currencyArray[$this->getCurrency()]);
 			array_push($inventoryData, $inventory);
 		}
@@ -24,18 +27,22 @@ class ItemController extends BaseController {
 	}
 	
 	public function addToShoppingList(){
+		$result = true;
 		if(!$this->isLogin()){
-			$this->addShoppingListToSession();
+			$result = $this->addShoppingListToSession();
 		}else{
-			$this->addShoppingListToUser();
+			$result = $this->addShoppingListToUser();
 		}
-		$outputHtml = $this->prepareNewShoppingListHtml();
-		$data = array(
-		    'html'=>$outputHtml,
-		    'message'=>'处理成功',
-		);
-		$vo = $data;
-		$vo['status'] = 1;
+		$vo = array();
+		if($result){
+			$vo['html'] = $this->prepareNewShoppingListHtml();
+			$vo['message'] = '添加成功';
+			$vo['status'] = 1;
+		}else{
+			$vo['html'] = '';
+			$vo['message'] = '该尺码库存不足';
+			$vo['status'] = 0;			
+		}
 		$this->ajaxReturn($vo, "json");
 	}
 	
@@ -71,6 +78,10 @@ class ItemController extends BaseController {
 		$orderLogic = D('Order', 'Logic');
 		$backlogOrder = $orderLogic->getOrderByUserId($userId, 'N');
 		if(count($backlogOrder) == 0){
+			if(!D('Inventory', 'Logic')->isInventoryAvailable(I('itemSize'), 1)){
+				//如果库存不足
+				return false;
+			}
 			$data['totalItemCount'] = 1; 
 			$data['totalAmount'] = I('currentPrice');
 			$data['shippingFee'] = $this->calculateShippingFee();
@@ -84,26 +95,37 @@ class ItemController extends BaseController {
 			$this->updateOrderItem($orderId);
 		} else{
 			$order = $backlogOrder[0];
+			if(!$this->updateOrderItem($order['orderId'])){
+				return false;
+			}
+			
 			$data['shippingFee'] = $this->calculateShippingFee();
 			$data['totalItemCount'] = $order['totalItemCount'] + 1;
 			$data['totalAmount'] = $order['totalAmount'] + I('currentPrice');
 			$data['totalFee'] = $data['totalAmount'] + $data['shippingFee'] + $order['giftPackageFee'];
 			$orderLogic->updateOrder($data, $order['orderId']);
-			
-			$this->updateOrderItem($order['orderId']);
 		}
+		return true;
 	}
 
 	private function updateOrderItem($orderId){
 		$orderItemLogic = D('OrderItem', 'Logic');
 		$orderItem = $orderItemLogic->getExistingOrderItem(I('itemId'), I('itemSize'), $orderId);
 		if(count($orderItem) > 0){
+			if(!D('Inventory', 'Logic')->isInventoryAvailable(I('itemSize'), $orderItem[0]['quantity'] + 1)){
+				//如果库存不足
+				return false;
+			}
 			//如果记录已经存在，数量+1
 			$orderItem[0]['updatedDate'] = date("Y-m-d H:i:s" ,time());
 			$orderItemLogic->changeQuantity($orderItem[0], 1, I('currentPrice'));
-			return;
+			return true;
 		}
 		
+		if(!D('Inventory', 'Logic')->isInventoryAvailable(I('itemSize'), 1)){
+			//如果库存不足
+			return false;
+		}
 		//创建新的记录
 		$itemData['orderId'] = $orderId;
 		$itemData['itemId'] = I('itemId');
@@ -117,10 +139,20 @@ class ItemController extends BaseController {
 		$itemData['quantity'] = 1;
 		$itemData['status'] = 'N';
 		$orderItemLogic->create($itemData);
+		return true;
+	}
+	
+	private function isInventoryAvailable($quantity){
+		$inventoryId = I('itemSize');
+		return D('Inventory', 'Logic')->isInventoryAvailable($inventoryId, $quantity);
 	}
 
 	private function addShoppingListToSession(){
 		if(session('shoppingList') == ''){
+			if(!D('Inventory', 'Logic')->isInventoryAvailable(I('itemSize'), 1)){
+				//如果库存不足
+				return false;
+			}
 			//没有任何item添加到购物车
 			session('shoppingList',array('totalItemCount' => '1', 'totalAmount'=>I('currentPrice')));
 			session('shoppingListItems', array($this->processSingleOrderItemForSession()));
@@ -132,6 +164,10 @@ class ItemController extends BaseController {
 			foreach($shoppingListItems as $record){
 				if($record['itemId'] == I('itemId') && $record['itemSize'] == I('itemSize')){
 					$record['quantity'] += 1;
+					if(!D('Inventory', 'Logic')->isInventoryAvailable($record['itemSize'], $record['quantity'])){
+						//如果库存不足
+						return false;
+					}
 					$record['price'] += I('currentPrice');
 					$record['updatedDate'] = date("Y-m-d H:i:s" ,time());
 					$shoppingListItems[$i] = $record;
@@ -150,7 +186,8 @@ class ItemController extends BaseController {
 			$shoppingList['totalAmount'] += I('currentPrice');
 			session('shoppingList',$shoppingList);
 		}
-		$this->testLogShoppingList();
+		//$this->testLogShoppingList();
+		return true;
 	}
 
 	protected function testLogShoppingList(){
