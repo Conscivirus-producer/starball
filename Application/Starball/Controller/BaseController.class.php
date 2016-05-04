@@ -371,4 +371,16 @@ class BaseController extends Controller {
 		}
 		return 0;
 	}
+	
+	protected function checkOrderItemsInventory($orderId){
+		$orderItemLogic = D('OrderItem', 'Logic');
+		$orderItems = $orderItemLogic->getOrderItemsByOrdeId($orderId);
+		$inadequateInventoryItems = array();
+		foreach($orderItems as $orderItem){
+			if(!D('Inventory', 'Logic')->isInventoryAvailable($orderItem['itemSize'], $orderItem['quantity'])){
+				array_push($inadequateInventoryItems, $orderItem['itemName']);
+			}
+		}
+		return $inadequateInventoryItems;
+	}
 }

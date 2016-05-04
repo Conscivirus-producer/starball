@@ -26,6 +26,11 @@ class PaymentController extends BaseController {
 			exit();
 		}
 		$order = $result[0];
+		$inadequateInventoryItems = $this->checkOrderItemsInventory($order['orderId']);
+		if(count($inadequateInventoryItems) > 0){
+			session('quantityCheckResult', 'addedItemsNoEnoughInventory');
+			$this->redirect('Cart/index');
+		}
 		Vendor("beecloud.autoload");
 		
 		$data = array();
@@ -145,7 +150,6 @@ class PaymentController extends BaseController {
 	}
 	
 	public function testFinishRefundOrder(){
-		logInfo('fk1111');
         $res = array(
             "status" => "0"
         );

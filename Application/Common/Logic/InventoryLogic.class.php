@@ -28,15 +28,37 @@
 			return getSizeDescriptionByAge($data[0]['age']);
 		}
 		
+		public function isInventoryAvailable($inventoryId, $quantity){
+			$map['inventoryId'] = $inventoryId;
+			$inventory = $this->where($map)->find();
+			return $inventory['inventory'] >= $quantity;
+		}
+		
 		public function updateInventory($inventoryId, $changedQuantity){
-			/*$map['inventoryId'] = $inventoryId;
+			$map['inventoryId'] = $inventoryId;
 			$result = $this->where($map)->find();
 			
 			$data['inventoryId'] = $inventoryId;
 			$data['inventory'] = $result['inventory'] + $changedQuantity;
-			$this->where($map)->save($data);*/
+			$this->where($map)->save($data);
 			
-			$this->execute("update t_inventory set inventory = inventory + ".$changedQuantity." where inventoryId = ".$inventoryId);
+			//Check item inventory available or not, should be consistent with item->isAvailable
+			$newMap['itemId'] = $result['itemId'];
+			$inventoryList = $this->where($newMap)->select();
+			$isInventoryAvailable = '0';
+			foreach($inventoryList as $record){
+				if($record['inventory'] > 0){
+					$isInventoryAvailable = '1';
+					break;
+				}
+			}
+			
+			$item = D('Item', 'Logic')->where($newMap)->find();
+			if($item['isAvailable'] != $isInventoryAvailable){
+				$itemData['isAvailable'] = $isInventoryAvailable;
+				D('Item', 'Logic')->where($newMap)->save($itemData);
+			}
+			//$this->execute("update t_inventory set inventory = inventory + ".$changedQuantity." where inventoryId = ".$inventoryId);
 		}
 
 		public function insertInventoriesforOneItem($itemId, $inventoryArray){
@@ -71,14 +93,37 @@
 
 		public function updateInventoriresForOneItem($itemId, $inventoryArray) {
 			$itemPriceLogic = D("ItemPrice", "Logic");
-			if ($this->deleteInventoriesByItemId($itemId) === false) {
+			/*if ($this->deleteInventoriesByItemId($itemId) === false) {
 				return false;
 			} else {
 				if ($itemPriceLogic->deleteItemPricesByItemId($itemId) === false) {
 					return false;
 				}
 				return $this->insertInventoriesforOneItem($itemId, $inventoryArray);
+			}*/
+			$inventoryToInsert = array();
+			for ($i = 0; $i < count($inventoryArray); $i++) {
+				if ($inventoryArray[$i]["inventoryId"] == "") {
+					array_push($inventoryToInsert, $inventoryArray[$i]);
+				} else {
+					$inventoryUpdateData["inventoryId"] = $inventoryArray[$i]["inventoryId"];
+					$inventoryUpdateData["age"] = $inventoryArray[$i]["age"];
+					$inventoryUpdateData["inventory"] = $inventoryArray[$i]["inventory"];
+					if ($this->save($inventoryUpdateData) === false) {
+						return false;
+					}
+					$priceArray["HKD"] = $inventoryArray[$i]["priceHKD"];
+					$priceArray["CNY"] = $inventoryArray[$i]["priceCNY"];
+					$lastUpdatedDate = date('y-m-d h:i:s',time());
+					if ($itemPriceLogic->updateItemPrices($itemId, $priceArray, $lastUpdatedDate, $inventoryArray[$i]["inventoryId"]) === false) {
+						return false;
+					}
+				}
 			}
+			if ($this->insertInventoriesforOneItem($itemId, $inventoryToInsert) === false) {
+				return false;
+			}
+			return true;
 		}
 	}
 
