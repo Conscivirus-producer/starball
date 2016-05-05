@@ -77,8 +77,34 @@
         <!--small screen right button -->
         <button class="yu-right-menubutton am-show-sm-only am-icon-shopping-bag am-btn am-btn-default am-margin-right-0" data-am-offcanvas="{target: '#right-offcanvas', effect: 'pull'}"></button>
         <div id="right-offcanvas" class="am-offcanvas">
-            <div class="am-offcanvas-bar am-offcanvas-bar-flip">
-                test
+            <div class="yu-panier-visuel am-offcanvas-bar am-offcanvas-bar-flip am-kai">
+                <p class="yusm-title">
+                    {$Think.lang.myshoppinglist}
+                </p>
+                <!-- <div class="yu-empty-cart">{$Think.lang.ubagempty}</div>
+                <div class="yu-continue-shop"><button class="yu-white-button">{$Think.lang.continueshopping}</button></div> -->
+                <a href="javascript:void(0);" class="yu-sideitem-panier"> <img alt="##" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/karl-lagerfeld-kids-t-1446712438-p_l_157397_A.jpg" class="sideitem-photo-adjustor">
+                     <span class="yu-sideitem-visuel"> 
+                         <span class="yu-sideitem-title">Karl Lagerfield</span> 
+                         <span class="yu-sideitem-subtitle">猫咪印花体恤</span> 
+                         <span class="yu-sidesize-container"> 
+                             <span class="" style="text-transform: none;">{$Think.lang.size}：
+                                  <span class="am-sans-serif yu-sidesize-content">6个月  (67 - 67cm)</span> 
+                             </span> 
+                             <span class="yu-side-size"> {$Think.lang.quantity}： <span class="yu-sidesize-content am-sans-serif">1</span> </span>
+                             <span class="am-sans-serif yu-sideitem-price"> <span class="yu-sidesize-content"> Ұ&nbsp;676.66 </span> </span>
+                         </span> 
+                      </span>
+                    </a>
+                      <div class="yu-side-total-price">
+                          <span class="title-total-price">金额： </span>
+                          <span class="value-total-price">Ұ&nbsp;676.66</span>
+                      </div>
+                 
+                 <div class="yu-continue-shop">
+                     <button class="yu-white-button">{$Think.lang.Cmybag}</button>
+                     <button class="yu-white-button">{$Think.lang.continueshopping}</button>
+                 </div>
             </div>
         </div>
         <div class="am-g">
@@ -102,15 +128,13 @@
                         </ul>
                     </li>
                     <li class="am-dropdown" data-am-dropdown="">
-                        <a class="am-dropdown-toggle am-text-xs yu-text-black" data-am-dropdown-toggle="" href="javascript:;"style="padding-left:15px;" >
-                        	{$preferred_currency}
-                        </a>
+                        <a class="am-dropdown-toggle am-text-xs yu-text-black" data-am-dropdown-toggle="" href="javascript:;"style="padding-left:15px;" > {$preferred_currency} </a>
                         <ul class="am-dropdown-content">
-                        	<volist name="currencyArray" id="vo">
-	                            <li>
-	                                <a href="?currency={$vo['currency']}">{$vo.currency}</a>
-	                            </li>
-                        	</volist>
+                            <volist name="currencyArray" id="vo">
+                                <li>
+                                    <a href="?currency={$vo['currency']}">{$vo.currency}</a>
+                                </li>
+                            </volist>
                         </ul>
                     </li>
                 </ol>
@@ -187,7 +211,7 @@
                                 </div>
 
                                 <button type="submit" class="am-btn am-btn-default yu-login-button-adjustor">
-                                     {$Think.lang.login}
+                                    {$Think.lang.login}
                                 </button>
                                 <div class="yu-otherlogin yu-margin-126">
                                     <span class="yu-seperate"></span>
@@ -240,13 +264,7 @@
                         <a class="am-dropdown-toggle am-text-xs yu-text-black" data-am-dropdown-toggle href="javascript:"style="padding-left:6px">{$Think.lang.myfavorite}</a>
                         <ul class="am-dropdown-content yu-dropdown-content-contanier">
                             <li>
-                                <a href="#" class="item-panier"> 
-                                    <img alt="Mini Me Choupette猫咪印图T恤" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/karl-lagerfeld-kids-t-1446712438-p_l_157397_A.jpg" class="item-photo-adjustor" > 
-                                    <span class="content-item-panier">
-                                        <span class="title-item-panier">Karl Lagerfeld Kids</span>
-                                        <span class="subtitle-item-panier">Mini Me Choupette猫咪印图T恤 </span>
-                                   </span> 
-                                </a>
+                                <a href="#" class="item-panier"> <img alt="Mini Me Choupette猫咪印图T恤" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/karl-lagerfeld-kids-t-1446712438-p_l_157397_A.jpg" class="item-photo-adjustor" > <span class="content-item-panier"> <span class="title-item-panier">Karl Lagerfeld Kids</span> <span class="subtitle-item-panier">Mini Me Choupette猫咪印图T恤 </span> </span> </a>
                             </li>
                             <li class="am-divider"></li>
                             <button type="button" class="am-btn am-btn-default yu-check-button-adjustor">
@@ -273,22 +291,7 @@
                                 <volist name="shoppingListItems" id="vo" offset="0" length='3'>
                                     <gt name="vo['quantity']" value="0">
                                         <li>
-                                            <a href="{:U('Starball/Item/index','itemId='.$vo['itemId'])}" class="item-panier"> <img alt="{$vo.itemName}" src="{$vo.itemImage}?imageView2/1/w/100/h/100/q/100" class="item-photo-adjustor">
-                                                 <span class="content-item-panier">
-                                                 <span class="title-item-panier">{$vo.brandName}</span> 
-                                                 <span class="subtitle-item-panier">{$vo.itemName}</span>
-                                                 <span class="yu-size-container"> 
-                                                     <span class="" style="text-transform: none;"> {$Think.lang.size}：
-                                                          <span class="am-sans-serif"style="font-weight:bold;">{$vo.sizeDescription}</span>
-                                                     </span> 
-                                                     <span class="" style="float:right"> {$Think.lang.quantity}： 
-                                                         <span class="">{$vo.quantity}</span> 
-                                                     </span> 
-                                                     <span class="am-sans-serif yu-item-price"> 
-                                                         <span> {$priceSymbol}&nbsp;{$vo.price} </span> 
-                                                     </span> 
-                                                 </span>
-                                              </a>
+                                            <a href="{:U('Starball/Item/index','itemId='.$vo['itemId'])}" class="item-panier"> <img alt="{$vo.itemName}" src="{$vo.itemImage}?imageView2/1/w/100/h/100/q/100" class="item-photo-adjustor"> <span class="content-item-panier"> <span class="title-item-panier">{$vo.brandName}</span> <span class="subtitle-item-panier">{$vo.itemName}</span> <span class="yu-size-container"> <span class="" style="text-transform: none;"> {$Think.lang.size}： <span class="am-sans-serif"style="font-weight:bold;">{$vo.sizeDescription}</span> </span> <span class="" style="float:right"> {$Think.lang.quantity}： <span class="">{$vo.quantity}</span> </span> <span class="am-sans-serif yu-item-price"> <span> {$priceSymbol}&nbsp;{$vo.price} </span> </span> </span> </a>
                                         </li>
                                         <li class="am-divider"></li>
                                     </gt>
@@ -349,16 +352,16 @@
                             <a class="yu-menu yu-text-black" href="javascript:void(0)" id="boy" style="padding-left: 6px;">{$Think.lang.boy}</a>
                         </li>
                         <li>
-                            <a class="yu-menu yu-text-black" href="javascript:void(0)" id="selected" style="padding-left: 6px;">{$Think.lang.shoes}</a>
+                            <a class="yu-menu yu-text-black" href="javascript:void(0)" id="shoes" style="padding-left: 6px;">{$Think.lang.shoes}</a>
                         </li>
                         <li>
-                            <a class="yu-menu yu-text-black" href="javascript:void(0)" id="special" style="padding-left: 6px;">{$Think.lang.accessory}</a>
+                            <a class="yu-menu yu-text-black" href="javascript:void(0)" id="accessory" style="padding-left: 6px;">{$Think.lang.accessory}</a>
                         </li>
                         <li>
-                            <a class="yu-menu yu-text-black" href="javascript:void(0)" id="accessory" style="padding-left: 8px;">{$Think.lang.featured}</a>
+                            <a class="yu-menu yu-text-black" href="javascript:void(0)" id="selected" style="padding-left: 8px;">{$Think.lang.featured}</a>
                         </li>
                         <li style="text-align:center;">
-                            <a class="yu-menu yu-text-black" href="javascript:void(0)" id="shoes" style="padding-right:6px;">{$Think.lang.clothingmatch}</a>
+                            <a class="yu-menu yu-text-black" href="javascript:void(0)" id="special" style="padding-right:6px;">{$Think.lang.clothingmatch}</a>
                         </li>
                         <li style="text-align:right;">
                             <a class="yu-menu yu-text-black" href="javascript:void(0)" id="sales">{$Think.lang.sales}</a>
@@ -530,7 +533,7 @@
                             </div>
                         </div>
                     </div>
-                    <div  class="yu-sub-menu am-u-md-12 selected">
+                    <div  class="yu-sub-menu am-u-md-12 am-u-end selected">
                         <div class="am-kai am-u-md-10 am-u-md-offset-1">
                             <div class="am-u-lg-4 am-u-md-4 am-u-sm-12 yu-boutique-spacefixer">
                                 <div class="am-thumbnail am-padding-0">
@@ -584,9 +587,6 @@
                                 <a class="yu-boutique-more am-kai">〉{$Think.lang.Callfeatures}</a>
                             </div>
                         </div>
-                    </div>
-                    <div  class="yu-sub-menu am-kai am-u-md-12 special am-u-end">
-                        test7
                     </div>
                     <!-- ******************************************************************************** -->
                 </div>

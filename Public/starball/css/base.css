@@ -1007,4 +1007,128 @@ img.blog-photo-adjustor{
 a.yu-blog-title{
 	font-size:150%;
 }
-
+p.yusm-title{
+	display: block;
+	color: #fff;
+    padding: 12px 0 10px 15px;
+    text-transform: uppercase;
+    border-bottom: 1px solid #414141;
+    margin: 0;
+    font-size:14px;
+}
+div.yu-panier-visuel{
+	width: calc(100% - 50px);
+    background: #262626;
+    height: 100%;    
+    position: fixed;
+    right: 0;
+    border: 0;
+    display: block;
+}
+div.yu-empty-cart{
+	font-size: 12px;
+    text-transform: uppercase;
+    display: block;
+    text-align: center;
+    padding: 25px 0;
+    color:#fff;
+    margin-bottom:21px;
+}
+div.yu-continue-shop{
+	text-align: center;
+    display: block;
+    padding: 0 10px;
+    margin-bottom: 20px;
+}
+button.yu-white-button{
+	font-size: 12px;
+    color: #8d8d8d;
+    border:1px solid #8d8d8d;
+    padding: 12px 24px;
+    margin-bottom: 10px;
+    width:100%;
+    background-color:#262626;
+}
+a.yu-sideitem-panier{
+	padding: 15px 0 15px 0;
+    border-bottom: 1px solid #414141;
+    display: block;
+    height: 120px;
+    width: 100% !important;
+    margin: 0;
+    box-sizing: border-box;
+}
+span.yu-sideitem-visuel{
+	width: calc(100% - 120px);
+	display: block;
+    float: left;
+    margin: 0;
+    line-height: normal;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    position: relative;
+}
+img.sideitem-photo-adjustor {
+    height: 100px;
+    width: 100px;
+    display: block;
+    float: left;
+    margin: 0 10px;
+}
+span.yu-sideitem-title{
+    text-transform: uppercase;
+    display: block;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 3px;
+}
+span.yu-sideitem-subtitle{
+	font-size: 14px;
+	text-transform: none;
+    color: #cecece;
+    padding: 0;
+    margin: 10px 0;
+    width: 90%;
+    margin-bottom:3px;
+}
+span.yu-sidesize-container{
+    display: block;
+    margin: 3px 0;
+    padding: 2px 10px 2px 0;
+    font-size: 11px;
+}
+span.yu-sidesize-content{
+	font-weight:bold;
+	color:#cecece;
+}
+span.yu-side-size{
+	display: block;
+    margin-top: 3px;
+}
+span.yu-sideitem-price{
+	font-size: 15px;
+    font-weight: bold;
+    display: block;
+    float: left;
+    margin-top: 3px;
+}
+div.yu-side-total-price{
+    display: block;
+    background: 0;
+    color: #fff;
+    border-top: 1px solid #414141;
+    padding: 15px;
+    box-sizing: border-box;
+}
+span.title-total-price{
+	font-size:16px;
+    color: #fff;
+    text-transform: uppercase;
+}
+span.value-total-price{
+	font-size: 16px; 
+    color: #fff;
+    text-transform: uppercase;
+    float: right;
+}
