@@ -50,7 +50,7 @@ class ListController extends BaseController {
 		}
 		if($ages != ""){
 			$agesChecked = explode(",", $ages);
-			$map["t_item.grade"] = array('IN', $ages);
+			// $map["t_item.grade"] = array('IN', $ages);
 		}
 		if($colors != ""){
 			$colorsChecked = explode(",", $colors);
@@ -88,9 +88,7 @@ class ListController extends BaseController {
 		//age list for each item
 		for ($i=0; $i < count($itemList); $i++) {
 			$ageMap["t_inventory.itemId"] = array('EQ', $itemList[$i]["itemId"]); 
-			$ageList[$itemList[$i]["itemId"]] = D('Inventory')->field('distinct t_inventory.age')
-															  ->where($ageMap)
-															  ->select();
+			$ageList[$itemList[$i]["itemId"]] = D('Inventory')->field('distinct t_inventory.age')->where($ageMap)->select();
 		}
 		logInfo(json_encode($ageList));
 		$count = D('Item')->where($map)->count();
@@ -133,22 +131,20 @@ class ListController extends BaseController {
 			$color = D('Item')->field('distinct t_item.color')->where($map)->select();
 		}
 		if(in_array("ages", $filterArray)){
-			$age = D('Item')->field('distinct t_item.grade')->where($map)->select();
-			$itemSize = C('ITEMSIZE');
+			$age = D('Item')->field('distinct inv.age')
+							->where($map)
+							->join('t_inventory inv ON inv.itemId = t_item.itemId')
+							->select();
 			for ($i=0; $i < count($age); $i++) {
-				$age[$i]["gradeName"] = $itemSize[$age[$i]["grade"]][0];
-				if($itemSize[$age[$i]["grade"]][1] != ""){
-					$age[$i]["gradeName"] = $age[$i]["gradeName"]." ".$itemSize[$age[$i]["grade"]][1]."~".$itemSize[$age[$i]["grade"]][2]."cm"; 
-				}
+				$age[$i]["ageName"] = getSizeDescriptionByAge($age[$i]["age"]);
 			}
 		}else{
-			$age = D('Item')->field('distinct t_item.grade')->where($map)->select();
-			$itemSize = C('ITEMSIZE');
+			$age = D('Item')->field('distinct inv.age')
+							->where($map)
+							->join('t_inventory inv ON inv.itemId = t_item.itemId')
+							->select();
 			for ($i=0; $i < count($age); $i++) {
-				$age[$i]["gradeName"] = $itemSize[$age[$i]["grade"]][0];
-				if($itemSize[$age[$i]["grade"]][1] != ""){
-					$age[$i]["gradeName"] = $age[$i]["gradeName"]." ".$itemSize[$age[$i]["grade"]][1]."~".$itemSize[$age[$i]["grade"]][2]."cm"; 
-				}
+				$age[$i]["ageName"] = getSizeDescriptionByAge($age[$i]["age"]);
 			}
 		}
 		if(in_array("seasons", $filterArray)){
