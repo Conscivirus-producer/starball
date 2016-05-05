@@ -73,7 +73,7 @@
                                 <div class="am-accordion-content">
                                     <volist name="age" id="adata">
                                         <label class="am-radio am-secondary">
-                                            <input class="age {$adata.grade} filter" type="checkbox" value="{$adata.age}" data-yu-val="{$adata.ageName}" data-am-ucheck />
+                                            <input class="age {$adata.age} filter" type="checkbox" value="{$adata.age}" data-yu-val="{$adata.ageName}" data-am-ucheck />
                                             {$adata.ageName}
                                         </label>
                                     </volist>
@@ -139,7 +139,7 @@
 			</div>
 			<div class="am-sm-8 am-u-md-9 am-u-lg-9 am-padding-0">
 				<volist name="itemList" id="vo">
-					<div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-end item-caption-adjustor">
+					<div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-end item-caption-adjustor yu-list-item">
 						<a href="{:U('Starball/Item/index','itemId='.$vo['itemId'])}">
 							<div class="am-thumbnail" style="border:none;">
 								<img src="{$vo.image}?imageView2/1/w/232/h/232/q/100" alt=""/>
@@ -151,6 +151,15 @@
 								</div>
 							</div>
 						</a>
+						
+						<a href="{:U('Starball/Item/index','itemId='.$vo['itemId'])}">
+							<span  class="yu-age-list"   style="position: absolute;top: 30%; left: 50%; background-color: rgb(248, 248, 248); font-size: 6px; min-width: 150px;display: none">
+								<volist name="vo['ageList']" id="ageList">
+									<span style="display: inline-block; padding: 5px; border-bottom: 1px solid #CECECE; color: black">{$ageList.age}</span>
+								</volist>
+							</span>
+						</a>
+						
 					</div>
 				</volist>
 			</div>
@@ -284,5 +293,13 @@ if(searchValue != ""){
 	}
 	
 });
+
+$("div.yu-list-item").mouseenter(function(){
+	$(this).find("span.yu-age-list").fadeIn();
+});
+$("div.yu-list-item").mouseleave(function(){
+	$(this).find("span.yu-age-list").fadeOut();
+});
+
 </script>
 </block>
