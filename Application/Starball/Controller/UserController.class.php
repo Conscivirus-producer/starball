@@ -8,9 +8,24 @@ class UserController extends BaseController {
 		if(!$this->isLogin()){
 			$this->redirect('Home/register', array('fromAction' => I('tab')));
 		}
+		$this->prepareUserInformation();
+		$this->prepareUserAddressInformation();
 		$this->prepareOrderList();
 		$this->assign('tab', I('tab'));
 		$this->display();
+	}
+	
+	
+	private function prepareUserInformation(){
+		$userLogic = D('User', 'Logic');
+		$user = $userLogic->getUserInformationByUserId($this->getCurrentUserId());
+		$this->assign('userData', $user);
+	}
+	
+	private function prepareUserAddressInformation(){
+		$shippingAddress = D('ShippingAddress', 'Logic');
+		$addressList = $shippingAddress->getAllAddress($this->getCurrentUserId());
+		$this->assign('addressList', $addressList);
 	}
 	
 	private function prepareOrderList(){
@@ -31,6 +46,9 @@ class UserController extends BaseController {
 	}
 	
 	public function orderinfo($orderId){
+		if(!$this->isLogin()){
+			$this->redirect('Home/register');
+		}
 		if(IS_POST){
 			if(I('method') == 'cancelOrder'){
 				$this->cancelOrder();

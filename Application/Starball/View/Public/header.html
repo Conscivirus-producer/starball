@@ -88,16 +88,16 @@
                     <li class="am-dropdown" data-am-dropdown="">
                         <a class="am-dropdown-toggle am-text-xs yu-text-black" data-am-dropdown-toggle="" href="javascript:;"style="padding-left:15px;" >
                         <if condition="strtolower(cookie('think_language')) == 'zh-tw'">
-                            繁体中文
+                            {$Think.lang.simpleC}
                             <else/>
-                            简体中文
+                            {$Think.lang.traditionalC}
                         </if></a>
                         <ul class="am-dropdown-content">
                             <li>
-                                <a href="?l=zh-cn">简体中文</a>
+                                <a href="?l=zh-cn">{$Think.lang.simpleC}</a>
                             </li>
                             <li>
-                                <a href="?l=zh-tw">繁体中文</a>
+                                <a href="?l=zh-tw">{$Think.lang.traditionalC}</a>
                             </li>
                         </ul>
                     </li>
@@ -131,9 +131,9 @@
                             <if condition="session('starballkids_userName') != ''">
                                 <else />
                                 <button type="button" id="loginBtn" class="am-btn am-btn-default yu-login-button-adjustor">
-                                    登录
+                                    {$Think.lang.login}
                                 </button>
-                                <a class="am-btn am-btn-link yu-newaccount" id="registerLnk" href="javascript:void(0);">新客户创建一个账户</a>
+                                <a class="am-btn am-btn-link yu-newaccount" id="registerLnk" href="#">{$Think.lang.newcuscre}</a>
                                 <li class="am-divider"></li>
                             </if>
                             <li>
@@ -141,25 +141,25 @@
                             </li>
                             <li class="am-divider"></li>
                             <li>
-                                <a href="{:U('Starball/User/index', array('tab'=>'order'))}">我的订单</a>
+                                <a href="{:U('Starball/User/index', array('tab'=>'order'))}">{$Think.lang.myorder}</a>
                             </li>
                             <li class="am-divider"></li>
                             <li>
-                                <a href="{:U('Starball/User/index', array('tab'=>'order'))}">退货</a>
+                                <a href="{:U('Starball/User/index', array('tab'=>'order'))}">{$Think.lang.return}</a>
                             </li>
                             <li class="am-divider"></li>
                             <li>
-                                <a href="{:U('Starball/User/index', array('tab'=>'coupon'))}">我的优惠券</a>
+                                <a href="{:U('Starball/User/index', array('tab'=>'coupon'))}">{$Think.lang.mycoupon}</a>
                             </li>
                             <li class="am-divider"></li>
                             <li>
-                                <a href="{:U('Starball/User/index', array('tab'=>'giftcard'))}">我的礼品卡</a>
+                                <a href="{:U('Starball/User/index', array('tab'=>'giftcard'))}">{$Think.lang.mygiftcard}</a>
                             </li>
                             <if condition="session('starballkids_userName') != ''">
                                 <form class="am-form am-form-horizontal" role="form" method="post">
                                     <input type="hidden" name="method" value="logout">
                                     <button type="submit" class="am-btn am-btn-default yu-login-button-adjustor">
-                                        退出
+                                        {$Think.lang.signout}
                                     </button>
                                 </form>
                             </if>
@@ -167,69 +167,69 @@
                         <!-- dropdown content2 -->
                         <ul class="am-dropdown-content" id="loginWindow" style="display: none">
                             <p class="yu-login-title">
-                                登录
+                                {$Think.lang.login}
                             </p>
                             <form class="am-form am-form-horizontal" role="form" method="post">
                                 <input type="hidden" name="method" value="login">
                                 <div class="am-form-group yu-margin-0612" >
-                                    <input name="userName" class="yu-font-12 am-form-field yu-input-sm" placeholder="用户名/电子邮件">
+                                    <input name="userName" class="yu-font-12 am-form-field yu-input-sm" placeholder="{$Think.lang.useremail}">
                                 </div>
 
                                 <div class="am-form-group yu-margin-0612">
-                                    <input type="password" name="password" class="yu-font-12 am-form-field yu-input-sm" placeholder="密码">
+                                    <input type="password" name="password" class="yu-font-12 am-form-field yu-input-sm" placeholder="{$Think.lang.pwd}">
                                 </div>
 
-                                <a class="am-btn am-btn-link yu-forget-pwd">忘记密码？</a>
+                                <a class="am-btn am-btn-link yu-forget-pwd">{$Think.lang.forgetpwd}？</a>
                                 <div class="am-checkbox yu-rm-me">
                                     <label class="yu-font-12">
                                         <input type="checkbox"  style="margin-top:4.2px;">
-                                        记住我 </label>
+                                        {$Think.lang.rmbme} </label>
                                 </div>
 
                                 <button type="submit" class="am-btn am-btn-default yu-login-button-adjustor">
-                                    登录
+                                     {$Think.lang.login}
                                 </button>
                                 <div class="yu-otherlogin yu-margin-126">
                                     <span class="yu-seperate"></span>
-                                    <span class="yu-text-or">或</span>
+                                    <span class="yu-text-or"> {$Think.lang.or}</span>
                                 </div>
-                                <a class="am-btn am-btn-link yu-newaccount-1" id="registerLnkFromLogin"  href="javascript:void(0);">新客户创建一个账户</a>
+                                <a class="am-btn am-btn-link yu-newaccount-1" id="registerLnkFromLogin"  href="javascript:void(0);">{$Think.lang.newcuscre}</a>
                             </form>
                         </ul>
                         <!-- dropdown content3 -->
                         <ul id="registerWindow" style="display: none" class="am-dropdown-content">
                             <p class="yu-login-title">
-                                创建一个账户
+                                {$Think.lang.createAacct}
                             </p>
                             <form class="am-form am-form-horizontal" role="form" method="post" >
                                 <input type="hidden" name="method" value="register">
                                 <div class="am-form-group yu-margin-0612">
-                                    <input type="email" name="email" style="font-size:12px;" class="am-form-field yu-input-sm" placeholder="电子邮件*">
+                                    <input type="email" name="email" style="font-size:12px;" class="am-form-field yu-input-sm" placeholder="{$Think.lang.email}*">
                                 </div>
                                 <div class="am-form-group yu-margin-0612">
-                                    <input type="password" name="password" class="am-form-field yu-input-sm" placeholder="密码*">
+                                    <input type="password" name="password" class="am-form-field yu-input-sm" placeholder="{$Think.lang.pwd}*">
                                 </div>
                                 <div class="am-form-group yu-margin-0612">
-                                    <input type="password" class="am-form-field yu-input-sm" placeholder="确认您的密码*">
+                                    <input type="password" class="am-form-field yu-input-sm" placeholder="{$Think.lang.confirmpwd}*">
                                 </div>
                                 <div class="am-form-group yu-margin-0612">
-                                    <input type="text" name="userName" class="am-form-field yu-input-sm" placeholder="昵称">
+                                    <input type="text" name="userName" class="am-form-field yu-input-sm" placeholder="{$Think.lang.nickname}">
                                 </div>
                                 <div class="am-form-group yu-margin-0612">
-                                    <input type="text" name="mobile" class="am-form-field yu-input-sm" placeholder="联络号码">
+                                    <input type="text" name="mobile" class="am-form-field yu-input-sm" placeholder="{$Think.lang.contactnumber}">
                                 </div>
                                 <div class="am-checkbox yu-checkbox-adjustor">
                                     <label style="font-size:12px;">
                                         <input type="checkbox" style="margin-top:4.2px;">
-                                        我希望订阅starball新闻咨询和特价优惠信息 </label>
+                                        {$Think.lang.subscribe} </label>
                                 </div>
 
                                 <button type="submit" class="am-btn am-btn-default yu-login-button-adjustor">
-                                    立即注册
+                                    {$Think.lang.signupnow}
                                 </button>
                                 <div class="yu-otherlogin yu-margin-126">
                                     <span class="yu-seperate"></span>
-                                    <span class="yu-text-or">或</span>
+                                    <span class="yu-text-or">{$Think.lang.or}</span>
                                 </div>
                             </form>
                         </ul>
@@ -240,11 +240,17 @@
                         <a class="am-dropdown-toggle am-text-xs yu-text-black" data-am-dropdown-toggle href="javascript:"style="padding-left:6px">{$Think.lang.myfavorite}</a>
                         <ul class="am-dropdown-content yu-dropdown-content-contanier">
                             <li>
-                                <a href="javascript:void(0);" class="item-panier"> <img alt="Mini Me Choupette猫咪印图T恤" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/karl-lagerfeld-kids-t-1446712438-p_l_157397_A.jpg" class="item-photo-adjustor" > <span class="content-item-panier"><span class="title-item-panier">Karl Lagerfeld Kids</span><span class="subtitle-item-panier">Mini Me Choupette猫咪印图T恤 </span></span> </a>
+                                <a href="#" class="item-panier"> 
+                                    <img alt="Mini Me Choupette猫咪印图T恤" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/karl-lagerfeld-kids-t-1446712438-p_l_157397_A.jpg" class="item-photo-adjustor" > 
+                                    <span class="content-item-panier">
+                                        <span class="title-item-panier">Karl Lagerfeld Kids</span>
+                                        <span class="subtitle-item-panier">Mini Me Choupette猫咪印图T恤 </span>
+                                   </span> 
+                                </a>
                             </li>
                             <li class="am-divider"></li>
                             <button type="button" class="am-btn am-btn-default yu-check-button-adjustor">
-                                查看我的收藏
+                                {$Think.lang.Cmyfavorites}
                             </button>
                         </ul>
                     </li>
@@ -256,7 +262,7 @@
                             <eq name="shoppingListCount" value="0">
                                 <div class="empty-list">
                                     <div style="margin-top: 25px;">
-                                        您的购物袋为空
+                                        {$Think.lang.ubagempty}
                                     </div>
                                 </div>
                                 <else/>
@@ -267,7 +273,22 @@
                                 <volist name="shoppingListItems" id="vo" offset="0" length='3'>
                                     <gt name="vo['quantity']" value="0">
                                         <li>
-                                            <a href="{:U('Starball/Item/index','itemId='.$vo['itemId'])}" class="item-panier"> <img alt="{$vo.itemName}" src="{$vo.itemImage}?imageView2/1/w/100/h/100/q/100" class="item-photo-adjustor"> <span class="content-item-panier"> <span class="title-item-panier">{$vo.brandName}</span> <span class="subtitle-item-panier">{$vo.itemName}</span> <span class="yu-size-container"> <span class="" style="text-transform: none;"> 尺码： <span class="am-sans-serif"style="font-weight:bold;">{$vo.sizeDescription}</span> </span> <span class="" style="float:right"> 数量： <span class="">{$vo.quantity}</span> </span> <span class="am-sans-serif yu-item-price"> <span> {$priceSymbol}&nbsp;{$vo.price} </span> </span> </span> </span> </a>
+                                            <a href="{:U('Starball/Item/index','itemId='.$vo['itemId'])}" class="item-panier"> <img alt="{$vo.itemName}" src="{$vo.itemImage}?imageView2/1/w/100/h/100/q/100" class="item-photo-adjustor">
+                                                 <span class="content-item-panier">
+                                                 <span class="title-item-panier">{$vo.brandName}</span> 
+                                                 <span class="subtitle-item-panier">{$vo.itemName}</span>
+                                                 <span class="yu-size-container"> 
+                                                     <span class="" style="text-transform: none;"> {$Think.lang.size}：
+                                                          <span class="am-sans-serif"style="font-weight:bold;">{$vo.sizeDescription}</span>
+                                                     </span> 
+                                                     <span class="" style="float:right"> {$Think.lang.quantity}： 
+                                                         <span class="">{$vo.quantity}</span> 
+                                                     </span> 
+                                                     <span class="am-sans-serif yu-item-price"> 
+                                                         <span> {$priceSymbol}&nbsp;{$vo.price} </span> 
+                                                     </span> 
+                                                 </span>
+                                              </a>
                                         </li>
                                         <li class="am-divider"></li>
                                     </gt>
@@ -275,13 +296,13 @@
 
                                 <li style="margin:0;">
                                     <div id="" class="yu-total-price-panier">
-                                        <span class="">总金额： </span>
+                                        <span class="">{$Think.lang.totalamt}： </span>
                                         <span class="am-sans-serif value-total-price" >{$priceSymbol}&nbsp; {$shoppingList.totalAmount}</span>
                                     </div>
                                 </li>
                                 <li class="am-divider"></li>
                                 <button  id="myShoppingCart" type="button" class="am-btn am-btn-default yu-button-333 yu-check-button-adjustor" onclick="window.location.href='{:U('Starball/Cart/index')}'">
-                                    查看我的购物袋
+                                    {$Think.lang.Cmybag}
                                 </button>
                             </eq>
                         </ul>
@@ -297,9 +318,9 @@
             </div>
             <div class="am-u-md-4 am-kai yu-mdupsearch-adjustor">
                 <div class="am-input-group am-input-group-sm">
-                    <input id="searchValue" type="text" class="am-form-field" placeholder="搜索">
+                    <input type="text" class="am-form-field" placeholder="{$Think.lang.search}">
                     <span class="am-input-group-btn">
-                        <button class="am-btn am-btn-default" id="searchButton" type="button">
+                        <button class="am-btn am-btn-default" type="button">
                             <span class="am-icon-search"></span>
                         </button> </span>
                 </div>
@@ -363,7 +384,7 @@
                         <div class="am-u-md-7 am-u-end">
                             <img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/sub-menu-img.jpg" />
                             <div class="yu-sub-menu-img-title am-text-center">
-                                新系列
+                                {$Think.lang.newseries}
                                 <br/>
                                 ARMANI JUNIOR 2016
                             </div>
@@ -386,7 +407,7 @@
                         <div class="am-u-md-7 am-u-end">
                             <img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/sub-menu-img.jpg" />
                             <div class="yu-sub-menu-img-title am-text-center">
-                                新系列
+                                {$Think.lang.newseries}
                                 <br/>
                                 ARMANI JUNIOR 2016
                             </div>
@@ -425,7 +446,7 @@
                         <div class="am-u-md-7 am-u-end">
                             <img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/sub-menu-img.jpg" />
                             <div class="yu-sub-menu-img-title am-text-center">
-                                新系列
+                                {$Think.lang.newseries}
                                 <br/>
                                 ARMANI JUNIOR 2016
                             </div>
@@ -464,7 +485,7 @@
                         <div class="am-u-md-7 am-u-end">
                             <img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/sub-menu-img.jpg" />
                             <div class="yu-sub-menu-img-title am-text-center">
-                                新系列
+                                {$Think.lang.newseries}
                                 <br/>
                                 ARMANI JUNIOR 2016
                             </div>
@@ -503,7 +524,7 @@
                         <div class="am-u-md-7 am-u-end">
                             <img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/sub-menu-img.jpg" />
                             <div class="yu-sub-menu-img-title am-text-center">
-                                新系列
+                                {$Think.lang.newseries}
                                 <br/>
                                 ARMANI JUNIOR 2016
                             </div>
@@ -522,7 +543,7 @@
                                             单宁世界
                                         </p>
                                         <p class="am-margin-0">
-                                            <a href="javascript:void(0);" class="yu-home-button"> 〉立即购买 </a>
+                                            <a href="javascript:void(0);" class="yu-home-button"> 〉{$Think.lang.buynow} </a>
                                         </p>
                                     </div>
                                 </div>
@@ -538,7 +559,7 @@
                                             单宁世界
                                         </p>
                                         <p class="am-margin-0">
-                                            <a href="javascript:void(0);" class="yu-home-button"> 〉立即购买 </a>
+                                            <a href="javascript:void(0);" class="yu-home-button"> 〉{$Think.lang.buynow} </a>
                                         </p>
                                     </div>
                                 </div>
@@ -554,13 +575,13 @@
                                             单宁世界
                                         </p>
                                         <p class="am-margin-0">
-                                            <a href="javascript:void(0);" class="yu-home-button"> 〉立即购买 </a>
+                                            <a href="javascript:void(0);" class="yu-home-button"> 〉{$Think.lang.buynow} </a>
                                         </p>
                                     </div>
                                 </div>
                             </div>
                             <div class="yu-boutique-button">
-                                <a class="yu-boutique-more am-kai">〉查看全部精选</a>
+                                <a class="yu-boutique-more am-kai">〉{$Think.lang.Callfeatures}</a>
                             </div>
                         </div>
                     </div>
