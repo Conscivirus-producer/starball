@@ -8,13 +8,36 @@ class UserController extends BaseController {
 		if(!$this->isLogin()){
 			$this->redirect('Home/register', array('fromAction' => I('tab')));
 		}
+		if(IS_POST){
+			if(I('method') == 'changeUserInfo'){
+				$data['userName'] = I('userName');
+				$data['mobile'] = I('mobile');
+				$data['userId'] = $this->getCurrentUserId();
+				//D('User')->save($data);
+				D('User', 'Logic')->updateUserInformation($data, $this->getCurrentUserId());
+			}else if(I('method') == 'changePassword'){
+				$currentPwd = md5(I('currentPwd'));
+				$newPwd = md5(I('newPwd'));
+				$newPwdRepeat = md5(I('newPwdRepeat'));
+
+				$userLogic = D('User', 'Logic');
+				$user = $userLogic->getUserInformationByUserId($this->getCurrentUserId());
+				logInfo('fk111111');
+				logInfo('existingpwd:'.$user['password']);
+				logInfo('newPwd:'.$newPwd);
+				if($user['password'] == $currentPwd && $newPwd == $newPwdRepeat && $currentPwd != $newPwd){
+					logInfo('fk222');
+					$data['password'] = $newPwd;
+					D('User', 'Logic')->updateUserInformation($data, $this->getCurrentUserId());
+				}				
+			}
+		}
 		$this->prepareUserInformation();
 		$this->prepareUserAddressInformation();
 		$this->prepareOrderList();
 		$this->assign('tab', I('tab'));
 		$this->display();
 	}
-	
 	
 	private function prepareUserInformation(){
 		$userLogic = D('User', 'Logic');
