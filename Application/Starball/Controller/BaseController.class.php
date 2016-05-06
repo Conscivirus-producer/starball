@@ -274,6 +274,7 @@ class BaseController extends Controller {
 		session('starballkids_userId', $userId);
 		session('starballkids_userName', I('userName'));
 		session('starballkids_email', I('email'));
+		$this->redirect('Home/index');
 	}
 	
 	private function logout(){

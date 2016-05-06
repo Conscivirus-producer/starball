@@ -79,6 +79,9 @@ class CartController extends BaseController {
 	}
 	
 	public function submitOrder(){
+		if(!$this->isLogin()){
+			$this->redirect('Home/register');
+		}
 		$this->commonProcess();
 		$orderLogic = D('Order', 'Logic');
 		$userId = $this->getCurrentUserId();
