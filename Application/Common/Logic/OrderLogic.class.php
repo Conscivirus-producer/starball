@@ -36,12 +36,6 @@
 			$this->where($map)->save($data);
 		}
 		
-		public function updateOrderByNumber($data, $orderNumber){
-			$data['updatedDate'] = date("Y-m-d H:i:s" ,time());
-			$map['orderNumber'] = $orderNumber;
-			$this->where($map)->save($data);
-		}
-
 		public function getOrderInformationWithUserInformation($map) {
 			$newMap = array();
 			$createdDateStart = "2014-10-02";
@@ -164,12 +158,12 @@
 			return ($this->save($updateData) !== false);
 		}
 
-		public function cancelEntireOrder($orderId) {
+		public function updateOrderStatus($orderId, $fromStatus, $toStatus) {
 			$orderItemLogic = D("OrderItem", "Logic");
 			$map["orderId"] = $orderId;
 			$orderInformation = current($this->where($map)->select());
 			$orderStatus = $orderInformation["status"];
-			if ($orderStatus != "C1") {
+			if ($orderStatus != $fromStatus) {
 				return false;
 			}
 			// payment function to be added
@@ -177,12 +171,12 @@
 			// if payment fail, return false
 			// else continue
 			$lastUpdatedDate = date("Y-m-d H:i:s" ,time());
-			if ($orderItemLogic->cancelEntireOrder($orderId, $lastUpdatedDate) === false) {
+			if ($orderItemLogic->updateOrderItemsStatus($orderId, $fromStatus, $toStatus, $lastUpdatedDate) === false) {
 				return false;
 			}
 			$updateData["orderId"] = $orderId;
 			$updateData["updatedDate"] = $lastUpdatedDate;
-			$updateData["status"] = "C2";
+			$updateData["status"] = $toStatus;
 			return ($this->save($updateData) !== false);
 		}
 

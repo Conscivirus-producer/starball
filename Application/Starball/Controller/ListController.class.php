@@ -32,6 +32,11 @@ class ListController extends BaseController {
 			$map["gender"] = array('EQ', 'M');
 		}elseif($by == "girl"){
 			$map["gender"] = array('EQ', 'F');
+		}elseif($by == "search"){
+			$search["_logic"] = "or";
+			$search["t_item.name"] = array('like', "%".$byValue."%");
+			$search["t_item.detailDescription"] = array('like', "%".$byValue."%");
+			$map["_complex"] = $search;
 		}
 		
 		//get filters
@@ -45,7 +50,7 @@ class ListController extends BaseController {
 		}
 		if($ages != ""){
 			$agesChecked = explode(",", $ages);
-			$map["t_item.grade"] = array('IN', $ages);
+			// $map["t_item.grade"] = array('IN', $ages);
 		}
 		if($colors != ""){
 			$colorsChecked = explode(",", $colors);
@@ -62,7 +67,7 @@ class ListController extends BaseController {
 		
 		//get item list and paging
 		if($tag == ""){
-			$itemList = D('Item')->field('t_item.*, img.image, price.price')
+			$itemList = D('Item')->distinct(true)->field('t_item.*, img.image, price.price')
 							 ->where($map)
 							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
@@ -70,7 +75,7 @@ class ListController extends BaseController {
 							 ->page($p.',12')
 							 ->select();
 		}else{
-			$itemList = D('Item')->field('t_item.*, img.image, price.price')
+			$itemList = D('Item')->field('distinct t_item.itemId, t_item.*, img.image, price.price')
 							 ->where($map)
 							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.currency = '".$this->getCurrency()."'")
@@ -79,6 +84,13 @@ class ListController extends BaseController {
 							 ->page($p.',12')
 							 ->select();
 		}
+
+		//age list for each item
+		for ($i=0; $i < count($itemList); $i++) {
+			$ageMap["t_inventory.itemId"] = array('EQ', $itemList[$i]["itemId"]); 
+			$ageList[$itemList[$i]["itemId"]] = D('Inventory')->field('distinct t_inventory.age')->where($ageMap)->select();
+		}
+		logInfo(json_encode($ageList));
 		$count = D('Item')->where($map)->count();
 		$Page = new \Think\Page($count,12);
 		$show = $Page->show();					 
@@ -119,22 +131,20 @@ class ListController extends BaseController {
 			$color = D('Item')->field('distinct t_item.color')->where($map)->select();
 		}
 		if(in_array("ages", $filterArray)){
-			$age = D('Item')->field('distinct t_item.grade')->where($map)->select();
-			$itemSize = C('ITEMSIZE');
+			$age = D('Item')->field('distinct inv.age')
+							->where($map)
+							->join('t_inventory inv ON inv.itemId = t_item.itemId')
+							->select();
 			for ($i=0; $i < count($age); $i++) {
-				$age[$i]["gradeName"] = $itemSize[$age[$i]["grade"]][0];
-				if($itemSize[$age[$i]["grade"]][1] != ""){
-					$age[$i]["gradeName"] = $age[$i]["gradeName"]." ".$itemSize[$age[$i]["grade"]][1]."~".$itemSize[$age[$i]["grade"]][2]."cm"; 
-				}
+				$age[$i]["ageName"] = getSizeDescriptionByAge($age[$i]["age"]);
 			}
 		}else{
-			$age = D('Item')->field('distinct t_item.grade')->where($map)->select();
-			$itemSize = C('ITEMSIZE');
+			$age = D('Item')->field('distinct inv.age')
+							->where($map)
+							->join('t_inventory inv ON inv.itemId = t_item.itemId')
+							->select();
 			for ($i=0; $i < count($age); $i++) {
-				$age[$i]["gradeName"] = $itemSize[$age[$i]["grade"]][0];
-				if($itemSize[$age[$i]["grade"]][1] != ""){
-					$age[$i]["gradeName"] = $age[$i]["gradeName"]." ".$itemSize[$age[$i]["grade"]][1]."~".$itemSize[$age[$i]["grade"]][2]."cm"; 
-				}
+				$age[$i]["ageName"] = getSizeDescriptionByAge($age[$i]["age"]);
 			}
 		}
 		if(in_array("seasons", $filterArray)){

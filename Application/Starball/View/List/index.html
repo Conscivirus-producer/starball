@@ -20,6 +20,7 @@
 	            <if condition="$by eq 'brand'"><div class="filterings">{$brand[0].brandName}</div></if>
 	            <if condition="$byValue eq 'brand'"><div class="filterings">{$brand[0].brandName}</div></if>
 	            <if condition="$byValue eq 'category'"><div class="filterings">{$category[0].categoryName}</div></if>
+	            <if condition="$by eq 'search'"><div class="filterings">搜索条件: {$byValue}</div></if>
 		</ol>
 		<hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
 		<div data-am-widget="gotop" class="am-gotop am-gotop-fixed" >
@@ -72,8 +73,8 @@
                                 <div class="am-accordion-content">
                                     <volist name="age" id="adata">
                                         <label class="am-radio am-secondary">
-                                            <input class="age {$adata.grade} filter" type="checkbox" value="{$adata.grade}" data-yu-val="{$adata.gradeName}" data-am-ucheck />
-                                            {$adata.gradeName}
+                                            <input class="age {$adata.grade} filter" type="checkbox" value="{$adata.age}" data-yu-val="{$adata.ageName}" data-am-ucheck />
+                                            {$adata.ageName}
                                         </label>
                                     </volist>
                                 </div>
@@ -269,6 +270,19 @@ $("input.filter").click(function(){
 
 $("a.yu-filter-button").click(function(){
 	$("section.am-accordion").toggleClass("am-show-md-up");
+});
+
+$("#searchButton").click(function(){
+var searchValue = $("#searchValue")[0].value;
+if(searchValue != ""){
+		var url = "{:U('Starball/List/showList/by/$by/byValue/$byValue')}";
+		url = url.replace("$by", "search");
+		url = url.replace("$byValue", $("#searchValue")[0].value);
+		window.location.href=url;
+	}else{
+		$("#searchValue").attr("placeholder", "请填写搜索条件");
+	}
+	
 });
 </script>
 </block>

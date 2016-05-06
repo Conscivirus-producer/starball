@@ -4,6 +4,8 @@ use Think\Controller;
 class CartController extends BaseController {
 	public function index(){
 		$this->commonProcess();
+		$this->assign('quantityCheckResult', session('quantityCheckResult'));
+		session('quantityCheckResult', 'empty');
 		$this->display();
 	}
 	
@@ -11,9 +13,17 @@ class CartController extends BaseController {
 		if(!$this->isLogin()){
 			$this->redirect('Home/register', array('fromAction' => 'shoppinglist'));
 		}
-		//如果需要礼品包装,把包装费用加到总费用里
+		
 		$orderLogic = D('Order', 'Logic');
 		$order = $orderLogic->getCurrentOutstandingOrder($this->getCurrentUserId(), 'N');
+		//检查库存
+		$inadequateInventoryItems = $this->checkOrderItemsInventory($order['orderId']);
+		if(count($inadequateInventoryItems) > 0){
+			session('quantityCheckResult', 'addedItemsNoEnoughInventory');
+			$this->redirect('Cart/index');
+		}
+		
+		//如果需要礼品包装,把包装费用加到总费用里
 		if(I('isGiftPackage') != ''){
 			$data['giftPackageFee'] = I('isGiftPackage') == 'true' ? $this->getGiftPackageFee() : 0;
 			$data['totalFee'] = $order['totalAmount'] + $order['shippingFee'] + $data['giftPackageFee'];
@@ -75,6 +85,13 @@ class CartController extends BaseController {
 		$backlogOrder = $orderLogic->getOrderByUserId($userId, 'N');
 		if(count($backlogOrder) > 0){
 			$order = $backlogOrder[0];
+			//检查库存
+			$inadequateInventoryItems = $this->checkOrderItemsInventory($order['orderId']);
+			if(count($inadequateInventoryItems) > 0){
+				session('quantityCheckResult', 'addedItemsNoEnoughInventory');
+				$this->redirect('Cart/index');
+			}
+
 			if($order['orderNumber'] == ''){
 				//生成订单号,规则: 数字8(1位) + 年份最后1位，如2016最后一位6(1位) + 月份，如04(2位) + 日期，如12(2位) + 当前秒数,如59(2位) + 用户ID后2位,如87(2位) + 随机数(2位) 
 				$strUtil = new \Org\Util\String();
@@ -122,11 +139,13 @@ class CartController extends BaseController {
 
 	//增加/减少购物车的商品数量
 	public function changeItemQuantity(){
+		$result = true;
 		if(!$this->isLogin()){
-			$this->changeItemQuantityToSession();
+			$result = $this->changeItemQuantityToSession();
 		}else{
-			$this->changeItemQuantityToUser();
+			$result = $this->changeItemQuantityToUser();
 		}
+		session('quantityCheckResult', $result?'':'addQuantityFailed');
 		$this->redirect('Cart/index');
 	}
 	
@@ -139,6 +158,10 @@ class CartController extends BaseController {
 		foreach($shoppingListItems as $record){
 			if($record['itemId'] == I('itemId') && $record['itemSize'] == I('itemSize')){
 				$record['quantity'] += $changedQuantity;
+				if((I('changedQuantity') > 0) && !D('Inventory', 'Logic')->isInventoryAvailable($record['itemSize'], $record['quantity'])){
+					//如果库存不足
+					return false;
+				}
 				$record['price'] += $changedPrice;
 				$shoppingListItems[$i] = $record;
 				break;
@@ -150,6 +173,7 @@ class CartController extends BaseController {
 		$shoppingList['totalAmount'] = round($shoppingList['totalAmount'] + $changedPrice, 2);
 		session('shoppingListItems', $shoppingListItems);
 		session('shoppingList',$shoppingList);
+		return true;
 	}
 	
 	private function changeItemQuantityToUser(){
@@ -159,16 +183,21 @@ class CartController extends BaseController {
 		$orderLogic = D('Order', 'Logic');
 		$backlogOrder = $orderLogic->getOrderByUserId($userId, 'N');
 		$order = $backlogOrder[0];
+		//更新orderitem的数量
+		$orderItemLogic = D('OrderItem', 'Logic');
+		$orderItem = $orderItemLogic->getExistingOrderItem(I('itemId'), I('itemSize'), $order['orderId']);
+		if((I('changedQuantity') > 0) && !D('Inventory', 'Logic')->isInventoryAvailable(I('itemSize'), $orderItem[0]['quantity'] + I('changedQuantity'))){
+			//如果库存不足
+			return false;
+		}
+		$orderItemLogic->changeQuantity($orderItem[0], I('changedQuantity'), I('changedPrice'));
+		
 		//更新order的数量
 		$data['totalItemCount'] = $order['totalItemCount'] + $changedQuantity;
 		$data['totalAmount'] = round($order['totalAmount'] + $changedPrice, 2);
 		$data['shippingFee'] = $this->calculateShippingFee();
 		$data['totalFee'] = $data['totalAmount'] + $data['shippingFee'] + $order['giftPackageFee'];
 		$orderLogic->updateOrder($data, $order['orderId']);
-		
-		//更新orderitem的数量
-		$orderItemLogic = D('OrderItem', 'Logic');
-		$orderItem = $orderItemLogic->getExistingOrderItem(I('itemId'), I('itemSize'), $order['orderId']);
-		$orderItemLogic->changeQuantity($orderItem[0], I('changedQuantity'), I('changedPrice'));
+		return true;
 	}
 }

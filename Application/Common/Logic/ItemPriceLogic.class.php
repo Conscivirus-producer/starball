@@ -43,10 +43,11 @@
 			return $result;
 		}
 
-		public function updateItemPrices($itemId, $priceArray, $lastUpdatedDate) {
+		public function updateItemPrices($itemId, $priceArray, $lastUpdatedDate, $inventoryId) {
 			foreach ($priceArray as $key => $value) {
 				$map["itemId"] = $itemId;
 				$map["currency"] = $key;
+				$map["inventoryId"] = $inventoryId;
 				$data["price"] = $value;
 				$data["updatedDate"] = $lastUpdatedDate;
 				if ($this->where($map)->data($data)->save() === false) {

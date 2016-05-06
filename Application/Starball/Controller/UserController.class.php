@@ -32,17 +32,23 @@ class UserController extends BaseController {
 	
 	public function orderinfo($orderId){
 		if(IS_POST){
+			if(I('method') == 'cancelOrder'){
+				$this->cancelOrder();
+			}
 			if(I('method') == 'returnFund'){
-				$this->returnFund();
+				$this->refundItem('P');
 			}
 			if(I('method') == 'returnGood'){
-				$this->returnGood();
+				$this->refundItem('V');
+			}
+			if(I('method') == 'confirmDelivery'){
+				$this->confirmDelivery();
 			}
 		}
 		$this->commonProcess();
 		$order = D('Order', 'Logic')->findByOrderId($orderId);
 		$ordeItems = D('OrderItem', 'Logic')->getOrderItemsByOrdeId($orderId);
-		$orderBill = D('OrderBill', 'Logic')->findOrderSuccessPayBill($orderId);
+		$orderBill = D('OrderBill', 'Logic')->findOrderSuccessPayBill($order['orderNumber']);
 		$orderStatus = C('ORDERSTATUS');
 		$order['statusDescription'] = $orderStatus[$order['status']];
 		$order['orderDate'] = substr($order['orderDate'], 0,10);
@@ -52,21 +58,30 @@ class UserController extends BaseController {
 		$this->display();
 	}
 	
-	private function returnFund(){
+	private function confirmDelivery(){
+		D('Order', 'Logic')->updateOrderStatus(I('orderId'), 'D', 'V');
+	}
+	
+	private function cancelOrder(){
+		D('Order', 'Logic')->updateOrderStatus(I('orderId'), 'P', 'C1');
+	}
+	
+	private function refundItem($startingStatus){
 		$orderItemId = I('orderItemId');
 		$orderItemLogic = D('OrderItem', 'Logic');
 		$orderItem = $orderItemLogic->getOrderItemById($orderItemId);
+		if($orderItem['status'] != $startingStatus){
+			//Can't refund in non-paid status, can also prevent the resubmit case.
+			return;
+		}
 		
 		$data['status'] = 'C1';
 		$orderItemLogic->updateOrderItem($data, $orderItemId);
-		logInfo('$orderItemId:'.$orderItemId);
 	}
 	
+	//No-used function
 	private function returnGood(){
-		$orderItemId = I('orderItemId');
-		$orderItem = D('OrderItem', 'Logic')->getOrderItemById($orderItemId);
-		
-		$orderCancelLogic = D('OrderCancel', 'Logic');
+		/*$orderCancelLogic = D('OrderCancel', 'Logic');
 		$data['userId'] = $this->getCurrentUserId();
 		$data['orderNumber'] = '';//生成退单号
 		$data['orderItemId'] = $orderItemId;
@@ -74,8 +89,7 @@ class UserController extends BaseController {
 		$data['amount'] = round(($orderItem['price']/$orderItem['quantity']) * $data['quantity'], 2);
 		$data['status'] = 'N';
 		$orderLogic->create($data);
-		$cancelId = $orderLogic->add();
+		$cancelId = $orderLogic->add();*/
 		
-		echo $orderItemId;
 	}
 }
