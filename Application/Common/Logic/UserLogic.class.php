@@ -19,6 +19,12 @@ class UserLogic extends UserModel{
             return false;
         }
     }
+	
+	public function updateUserInformation($data, $userId){
+		$map['userId'] = $userId;
+		$data['lastUpdatedDate'] = date("Y-m-d H:i:s" ,time());
+		$this->where($map)->save($data);
+	}
 }
 
 ?>
