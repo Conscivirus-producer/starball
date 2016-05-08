@@ -428,6 +428,7 @@ p.yu-signin-title{
     text-transform: uppercase;
 }
 form.yu-signin-form{
+	margin-bottom:12px!important;
 	display:block;
 	max-width:300px;
 	width:100%;

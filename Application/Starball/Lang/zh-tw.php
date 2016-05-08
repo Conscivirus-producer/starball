@@ -36,7 +36,7 @@ return array(
 	'or'=>'或',
 	'createaccount'=>'創建我的帳戶',
 	'signupnow'=>'立即註冊',
-	'subscribe'=>'我希望訂閱starball新聞咨詢和特價優惠信息',
+	'subscribe'=>'我希望訂閱starball新聞咨詢和優惠信息。',
 	'simpleC'=>'簡體中文',
 	'traditionalC'=>'繁體中文',
 	'newcuscre'=>'新客戶創建一個賬戶',

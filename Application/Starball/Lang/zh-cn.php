@@ -37,7 +37,7 @@ return array(
 	'or'=>'或',
 	'createaccount'=>'创建我的账户',
 	'signupnow'=>'立即注册',
-	'subscribe'=>'我希望订阅starball新闻咨询和特价优惠信息',
+	'subscribe'=>'我希望订阅starball新闻咨询和优惠信息。',
 	'simpleC'=>'简体中文',
 	'traditionalC'=>'繁体中文',
 	'newcuscre'=>'新客户创建一个账户',
