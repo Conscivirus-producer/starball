@@ -1,0 +1,36 @@
+<div class="am-tab-panel am-fade" id="tab2">
+                    <div class="am-g am-kai" style="margin-top:39px;">
+                        <div class="yu-account-block-100">
+                            <p class="yu-account-title">
+                                我的订单
+                            </p>
+                            <table class="am-table am-text-sm">
+                                <thead>
+                                    <tr>
+                                        <th>订单号</th>
+                                        <th>订单日期</th>
+                                        <th>金额</th>
+                                        <th>状态</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                	<volist name="orderList" id="vo">
+	                                    <tr>
+	                                        <td>{$vo.orderNumber}</td>
+	                                        <td>{$vo.orderDate}</td>
+	                                        <td>{$vo.totalFee}</td>
+	                                        <td>{$vo.statusDescription}</td>
+	                                        <td class="am-text-right am-text-xs">
+	                                        	<eq name="vo['status']" value="N"><a href="{:U('Payment/index', array('orderNumber'=>$vo['orderNumber']))}">继续支付 〉</a></eq>
+	                                        	<eq name="vo['status']" value="P"><a href="{:U('User/orderinfo', array('orderId'=>$vo['orderId']))}">申请退款 〉</a></eq>
+	                                        	<eq name="vo['status']" value="D"><a href="{:U('User/orderinfo', array('orderId'=>$vo['orderId']))}">确认收货 〉</a></eq>
+                                        	</td>
+	                            			<td><a class="yu-account-detailinfo" href="{:U('User/orderinfo', array('orderId'=>$vo['orderId']))}">详细信息 〉</a></td>
+	                                    </tr>
+                                	</volist> 
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
