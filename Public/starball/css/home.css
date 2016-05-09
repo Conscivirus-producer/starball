@@ -1,1 +1,16 @@
-.newClass{}
+ul.yu-menu-content{
+    border-bottom: 0px;
+}
+div.yu-sub-menu{
+	border-top: 2px solid black;
+	width: 128%;
+	left: -14%;
+	padding-top: 20px;
+}
+div.yu-header-container{
+ 	width:970px;
+ 	max-width:100%;
+ 	margin:0 auto;
+ 	padding:0 10px;
+ 	border-bottom: 0;
+ }
