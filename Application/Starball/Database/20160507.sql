@@ -1,0 +1,1 @@
+ALTER TABLE  `t_inventory` CHANGE  `age`  `age` VARCHAR( 200 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT  '参见supportingdata.php->ITEMSIZE的key值';
