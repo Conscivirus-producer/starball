@@ -8,7 +8,7 @@ button.yu-right-menubutton{
 }
 div.yu-offcanvas-content-adjustor{
 	font-size:15px;
-	color:#ffffff
+	color:#ffffff;
 }
 .yu-margin-left30{
 	margin-left: 30%;
@@ -24,6 +24,35 @@ button.yu-offcanvas{
 	z-index: 999;
 	background-color: white;
 	border:none;
+}
+button.yu-leftside-login{
+	font-size: 12px;
+    margin: 6px 6px 3px 6px!important;
+    width: 96%;
+    background-color: #ff9966;
+}
+div.yu-26otherlogin{
+    display: block;
+    max-width: 100%;
+    margin: 20px auto 18px;
+    position: relative;
+    text-align: center;
+}
+span.yu-26text-or{
+	display: inline-block;
+    position: relative;
+    z-index: 2;
+    font-size: 14px;
+    background: #262626;
+    padding: 0 10px;
+    color: #cecece;
+    line-height: 1;
+}
+a.yu-newaccount-26{
+    margin-left: 31%;
+    margin-bottom: 3%;
+    font-size: 11px;
+    text-decoration: underline;
 }
 /*search in small size*/
 input.yu-border-btmonly{
@@ -428,7 +457,7 @@ p.yu-signin-title{
     text-transform: uppercase;
 }
 form.yu-signin-form{
-	margin-bottom:12px!important;
+	margin-bottom:12px;
 	display:block;
 	max-width:300px;
 	width:100%;

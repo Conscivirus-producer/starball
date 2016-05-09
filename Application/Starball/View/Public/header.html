@@ -3,14 +3,48 @@
         <!-- small screen left button -->
         <button class="yu-offcanvas am-show-sm-only am-icon-bars am-btn am-btn-default" data-am-offcanvas="{target: '#left-offcanvas', effect: 'push'}"></button>
         <div id="left-offcanvas" class="am-offcanvas">
-            <div class="am-offcanvas-bar">
+            <div class="am-offcanvas-bar yu-panier-visuel">
                 <div class="am-offcanvas-content am-kai yu-offcanvas-content-adjustor">
                     <div >
                         <ul class="am-padding-0 yu-top-margin-039">
                             <i class="am-icon-shopping-bag am-icon-defeault am-text-xs"></i>&nbsp; <a href="javascript:void(0);"> {$Think.lang.myshoppinglist} </a>
                         </ul>
                         <ul class="am-padding-0">
-                            <i class="am-icon-user am-icon-defeault am-text-xs"></i>&nbsp;&nbsp; <a href="javascript:void(0);"> {$Think.lang.myaccount} </a>
+                            <i class="am-icon-user am-icon-defeault am-text-xs"></i>&nbsp;&nbsp; 
+                            <a href="javascript:void(0);" data-am-collapse="{target: '#collapse-my-acct'}"> 
+                                {$Think.lang.myaccount} 
+                                <i class="am-icon-angle-right" style="float:right"></i>
+                            </a>
+                             <ul id="collapse-my-acct" class="am-collapse" style="padding-left:6px;padding-right:6px;">
+                            <form class="am-form am-form-horizontal" role="form" method="post">
+                                <input type="hidden" name="method" value="login">
+                                <div class="am-form-group yu-margin-0612">
+                                    <input name="userName" class="yu-font-12 am-form-field yu-input-sm" placeholder="用户名/电子邮件">
+                                </div>
+
+                                <div class="am-form-group yu-margin-0612">
+                                    <input type="password" name="password" class="yu-font-12 am-form-field yu-input-sm" placeholder="密码">
+                                </div>
+
+                                <a class="am-btn am-btn-link yu-forget-pwd">{$Think.lang.forgetpwd}？</a>
+                                <div class="am-checkbox yu-rm-me">
+                                    <label class="yu-font-12">
+                                        <input type="checkbox" style="margin-top:4.2px;">
+                                        {$Think.lang.rmbme} </label>
+                                </div>
+
+                                <button type="submit" class="am-btn am-btn-default yu-leftside-login">
+                                     {$Think.lang.login}                                </button>
+                                <div class="yu-26otherlogin yu-margin-126">
+                                    <span class="yu-seperate"></span>
+                                    <span class="yu-26text-or">{$Think.lang.or}</span>
+                                </div>
+                                <a href="##" class="am-icon-sm am-icon-facebook" style="margin-left:3%;margin-right: 38%;color: #ff9966;"></a>
+                                <a href="##" class="am-icon-sm am-icon-wechat" style="margin-right: 32%;margin-bottom:3%;color: #ff9966;"></a>
+                                <a href="##" class="am-icon-sm am-icon-weibo" style="color:#ff9966;"></a>
+                                <a class="am-btn am-btn-link yu-newaccount-26" id="registerLnkFromLogin" href="javascript:void(0);">新客户创建一个账户</a>
+                            </form>
+                             </ul>
                         </ul>
                         <ul class="am-padding-0">
                             <i class="am-icon-heart am-icon-defeault am-text-xs"></i>&nbsp; <a href="javascript:void(0);"> {$Think.lang.myfavorite} </a>
