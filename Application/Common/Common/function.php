@@ -125,7 +125,11 @@ function getSizeDescriptionByAge($age){
 	}else{
 		$startAge = current(explode(',', $age));
 		$endAge = end(explode(',', $age));
-		return $sizeArray[$startAge][0].'-'.$sizeArray[$endAge][0].'  ('.$sizeArray[$startAge][1].' - '.$sizeArray[$endAge][2].'cm)';
+		if($endAge == $startAge){
+			return $sizeArray[$startAge][0].'  ('.$sizeArray[$startAge][1].' - '.$sizeArray[$endAge][2].'cm)';
+		}else{
+			return $sizeArray[$startAge][0].'-'.$sizeArray[$endAge][0].'  ('.$sizeArray[$startAge][1].' - '.$sizeArray[$endAge][2].'cm)';
+		}
 	}
 }
 
@@ -136,7 +140,11 @@ function getSizeDescriptionAndPriceByAge($age, $price, $currency){
 	}else{
 		$startAge = current(explode(',', $age));
 		$endAge = end(explode(',', $age));
-		return $sizeArray[$startAge][0].'-'.$sizeArray[$endAge][0].'  ('.$sizeArray[$startAge][1].' - '.$sizeArray[$endAge][2].'cm)'.' - '.$currency.' '.$price;
+		if($endAge == $startAge){
+			return $sizeArray[$startAge][0].'  ('.$sizeArray[$startAge][1].' - '.$sizeArray[$endAge][2].'cm)'.' - '.$currency.' '.$price;
+		}else{
+			return $sizeArray[$startAge][0].'-'.$sizeArray[$endAge][0].'  ('.$sizeArray[$startAge][1].' - '.$sizeArray[$endAge][2].'cm)'.' - '.$currency.' '.$price;
+		}
 	}
 }
 
