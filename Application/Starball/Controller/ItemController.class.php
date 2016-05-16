@@ -7,7 +7,6 @@ class ItemController extends BaseController {
 		$itemData = D("Item", "Logic")->getItemById($itemId);
 		$imageData = D("Image", "Logic")->getImageById($itemId);
 		$inventoryResult = D("Inventory", "Logic")->getInventoryAndPriceByItemId($itemId, $this->getCurrency());
-		logInfo('fkkk');
 		$inventoryData = array();
 		$currencyArray = C('CURRENCY');
 		foreach($inventoryResult as $inventory){
