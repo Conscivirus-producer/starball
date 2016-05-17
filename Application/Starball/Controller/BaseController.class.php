@@ -353,7 +353,7 @@ class BaseController extends Controller {
 	protected function convertCountryCode($addressList){
 		$countryList = C('COUNTRY_LIST');
 		$i=0;
-		foreach($addressList as $record){
+		foreach($addressList as $record){                          
 			if($record['country'] != ''){
 				$record['country'] = L($countryList[$record['country']]);
 				$addressList[$i] = $record;
@@ -426,19 +426,4 @@ class BaseController extends Controller {
 		}
 	}
 	
- 	//登录成功，微信用户信息
-    public function weixin($token){
-        $weixin   = \ThinkOauth::getInstance('weixin', $token);
-        $data = $weixin->call('sns/userinfo');
-
-        if($data['ret'] == 0){
-            $userInfo['type'] = 'WEIXIN';
-            $userInfo['name'] = $data['nickname'];
-            $userInfo['nick'] = $data['nickname'];
-            $userInfo['head'] = $data['headimgurl'];
-            return $userInfo;
-        } else {
-            throw_exception("获取微信用户信息失败：{$data['errmsg']}");
-        }
-    }
 }

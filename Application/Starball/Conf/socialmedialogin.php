@@ -1,4 +1,7 @@
 <?php
+//定义回调URL通用的URL
+define('URL_CALLBACK', 'http://starballkids.com/Starball/Home/callback/type/');
+
 return array(
 	//'配置项'=>'配置值'
 	//新浪微博配置
