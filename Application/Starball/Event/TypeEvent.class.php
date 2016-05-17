@@ -9,7 +9,7 @@
 // | Author: 麦当苗儿 <zuojiazi.cn@gmail.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 // TypeEvent.class.php 2013-02-27
-namespace Video\Event;
+namespace Starball\Event;
 class TypeEvent{
 
 	//登录成功，获取新浪微博用户信息
