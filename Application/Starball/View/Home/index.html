@@ -1,6 +1,7 @@
 <extend name="Public/base" />
 <block name="customizedHeader">
 	<meta property="wb:webmaster" content="5995b5fe4e0bbfac" />
+	<script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=3323085710" type="text/javascript" charset="utf-8"></script>
 </block>
 <block name="customizedCss">
     <link rel="stylesheet" type="text/css" href="__PUBLIC__/starball/css/home.css">
@@ -321,6 +322,18 @@
 				$("#searchValue").attr("placeholder", "请填写搜索条件");
 			}
 			
+		});
+		WB2.anyWhere(function (W) {
+		    W.widget.connectButton({
+		        id: "wb_connect_btn",
+		        type: '3,2',
+		        callback: {
+		            login: function (o) { //登录后的回调函数
+		            },
+		            logout: function () { //退出后的回调函数
+		            }
+		        }
+		    });
 		});
     </script>
 </block>
