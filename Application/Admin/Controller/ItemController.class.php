@@ -313,7 +313,7 @@ class ItemController extends Controller {
     }
 
     public function editMainPageSetting() {
-        $hotItemLogic = D("HotItem", "Logic");
+        $hotItemLogic = D("Hotitem", "Logic");
         $hotId = I("get.hotId", "");
         if ($hotId == "") {
             die("错误操作");
@@ -334,7 +334,7 @@ class ItemController extends Controller {
         $res = array(
             "status" => "0"
         );
-        $hotItemLogic = D("HotItem", "Logic");
+        $hotItemLogic = D("Hotitem", "Logic");
         $fields = array(
             "hotId",
             "title",
