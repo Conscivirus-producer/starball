@@ -292,7 +292,7 @@ class ItemController extends Controller {
         $res = array(
             "status" => "0"
         );
-        $hotItemLogic = D("HotItem", "Logic");
+        $hotItemLogic = D("Hotitem", "Logic");
         $fields = array(
             "title",
             "subtitle",
