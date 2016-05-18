@@ -272,7 +272,7 @@ class ItemController extends Controller {
 
     public function mainPageSetting() {
         $data = array();
-        $hotItemLogic = D("HotItem", "Logic");
+        $hotItemLogic = D("Hotitem", "Logic");
         $categories = array("H", "MLH", "MLF", "MR", "F", "S");
         for($i = 0; $i < count($categories); $i++) {
             $data[$categories[$i]] = $hotItemLogic->getHotItems($categories[$i]);
