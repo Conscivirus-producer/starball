@@ -419,9 +419,11 @@ class BaseController extends Controller {
 		if(is_array($token)){
 			session('sina_token', $token);
 			$user_info = A('Type', 'Event')->$type($token);
+			echo $token['openid'];
+			print_r($user_info);
 			$weiboId = $token['openid'];
 			$weiboName = $user_info['name'];
-			$this->redirect('Home/index');
+			//$this->redirect('Home/index');
 			//$this->checkExistingUserInformation($weiboId, $weiboName);
 		}
 	}
