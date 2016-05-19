@@ -417,15 +417,14 @@ class BaseController extends Controller {
 
 		//获取当前登录用户信息
 		if(is_array($token)){
-			session('sina_token', $token);
 			$user_info = A('Type', 'Event')->$type($token);
-			echo $token['openid'];
-			print_r($user_info);
-			$weiboId = $token['openid'];
-			$weiboName = $user_info['name'];
-			//$this->redirect('Home/index');
-			//$this->checkExistingUserInformation($weiboId, $weiboName);
+			$this->checkExistingUserInformation($token['openid'], $user_info);
 		}
+	}
+	
+	protected function checkExistingUserInformation($openid, $user_info){
+		
+		$this->redirect('Home/index');
 	}
 	
 }
