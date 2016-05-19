@@ -234,8 +234,8 @@ class PaymentController extends BaseController {
 	
 	public function webhook(){
 		header("Content-type: text/html; charset=utf-8");
-		$appId = "045c259d-9ceb-4320-84e6-64d463c01a2d";
-		$appSecret = "b3842787-3442-49eb-914a-5ec86e0b2e74";
+		$appId = C('APP_ID');
+		$appSecret = C('APP_SECRET');
 		$jsonStr = file_get_contents("php://input");
 		logInfo('ReturnJson:'.$jsonStr);
 		//$jsonStr = file_get_contents(dirname(__FILE__)."/refund_json111.txt");
@@ -246,6 +246,7 @@ class PaymentController extends BaseController {
 		$sign = md5($appId . $appSecret . $msg->timestamp);
 		if ($sign != $msg->sign) {
 		    // 签名不正确
+		    logWarn('Signature incorrect.');
 		    exit();
 		}
 		// 此处需要验证购买的产品与订单金额是否匹配:
