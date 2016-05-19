@@ -34,8 +34,8 @@ class PaymentController extends BaseController {
 		Vendor("beecloud.autoload");
 		
 		$data = array();
-		$appSecret = C('APP_SECRET');
-		$data["app_id"] = C('APP_ID');
+		$appSecret = C('PAYMENT_APP_SECRET');
+		$data["app_id"] = C('PAYMENT_APP_ID');
 		$data["timestamp"] = time() * 1000;
 		$data["app_sign"] = md5($data["app_id"] . $data["timestamp"] . $appSecret);
 		$data["channel"] = "WX_NATIVE";
@@ -234,8 +234,8 @@ class PaymentController extends BaseController {
 	
 	public function webhook(){
 		header("Content-type: text/html; charset=utf-8");
-		$appId = C('APP_ID');
-		$appSecret = C('APP_SECRET');
+		$appId = C('PAYMENT_APP_ID');
+		$appSecret = C('PAYMENT_APP_SECRET');
 		$jsonStr = file_get_contents("php://input");
 		logInfo('ReturnJson:'.$jsonStr);
 		//$jsonStr = file_get_contents(dirname(__FILE__)."/refund_json111.txt");
