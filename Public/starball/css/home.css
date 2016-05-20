@@ -14,3 +14,6 @@ div.yu-header-container{
  	padding:0 10px;
  	border-bottom: 0;
  }
+img:hover.headerimg{
+	cursor: pointer;
+}
