@@ -168,6 +168,19 @@
                 </div>
             </div>
 
+            <!-- 首页上新更新成功提示框 -->
+            <div class="am-modal am-modal-alert" tabindex="-1" id="main-setting-update-success">
+                <div class="am-modal-dialog">
+                    <div class="am-modal-hd">更新成功</div>
+                    <div class="am-modal-bd">
+                        更新成功
+                    </div>
+                    <div class="am-modal-footer">
+                        <span class="am-modal-btn">确定</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
     <!-- content end -->
@@ -287,7 +300,9 @@
             postData["imageChanged"] = imageChanged;
             $.post("./updateMainPageSetting", postData, function(result){
                 if ($.parseJSON(result).status == "1") {
-                    window.location.reload();
+                    // 需要提示
+                    $("#main-setting-update-success").modal('open');
+                    //window.location.reload();
                 } else {
                     $("#main-setting-update-fail").modal('open');
                 }

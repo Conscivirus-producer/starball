@@ -112,4 +112,19 @@ class BlogController extends Controller {
         }
         echo json_encode($res);
     }
+
+    public function deleteOneBlogById() {
+        $blogLogic = D("Blog", "Logic");
+        $blogId = I("get.blogId", "");
+        if ($blogId == "") {
+            die("错误操作!");
+        }
+        $res = array(
+            "status" => "0"
+        );
+        if ($blogLogic->deleteOneBlogById($blogId) !== false) {
+            $res["status"] = "1";
+        }
+        echo json_encode($res);
+    }
 }

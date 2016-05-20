@@ -204,7 +204,8 @@
                             <textarea class="" rows="4" name="images_array" id="item-images-array" placeholder="商品图片数组"></textarea>
                         </div>
 
-
+                        <!-- new code for shoe modification -->
+                        <input type="text" name="product-type" id="product-type" style="display: none">
                     </fieldset>
                 </form>
                 <fieldset>
@@ -300,11 +301,12 @@
     var Qiniu_UploadUrl = "http://up.qiniu.com";
     var itemSizeData = {$itemSizeData};
     var inventoryCount = 1;
+    var productType;
     $(document).ready(function(){
         // category
         $.getJSON( "./getCategoryInfo", function(data) {
             $.each(data, function( index, value ) {
-                $("#item-categoryId").append("<option value='" + value.categoryId + "'>" + value.categoryName + "</option>");
+                $("#item-categoryId").append("<option value='" + value.categoryId + "' class='" + value.type + "'>" + value.categoryName + "</option>");
             });
             $("#item-categoryId").val(itemInformation.categoryId);
         });
@@ -324,22 +326,47 @@
         $("#item-grade").val(itemInformation.grade);
         $("#item-gender").val(itemInformation.gender);
         $.each(itemInformation.inventory, function( index, inventoryValue ) {
+            // new code for shoe starts
+            if (inventoryValue.footSize != "") {
+                productType = "2";
+            } else {
+                // maybe it's not "1", but use "1" to make it different from "2"
+                productType = "1";
+            }
+            // new code for shoe ends
+
             var $line = $('<hr data-am-widget="divider" style="" id="inventoryLine' +  inventoryCount +  '" class="am-divider am-divider-default inventory-line" />');
             var $div = $('<div class="am-form-group inventory-setting-group" id="inventoryDiv' + inventoryCount +  '"></div>');
             // input used for identifying already existed inventories
             var $inventoryIdInput = $('<input type="text" class="inventory-id" name="inventory-id' + inventoryCount + '" id="" style="display: none;" value="' + inventoryValue.inventoryId +  '">');
-            var $labelStart = $('<label>大小下限</label>');
-            var $selectStart = $('<select class="inventory-size-start" name="inventory-size-start' + inventoryCount + '"></select>');
+
+            // area for common products starts
+            var $labelStart;
+            var $selectStart;
+            var $labelEnd;
+            var $selectEnd;
+            $labelStart = $('<label>大小下限</label>');
+            $selectStart = $('<select class="inventory-size-start" name="inventory-size-start' + inventoryCount + '"></select>');
             $.each(itemSizeData, function( index, value ) {
                 var $option = $("<option value='" + index + "'>" + value[0] + "  (" + value[1] + " - " + value[2] + "cm)</option>");
                 $option.appendTo($selectStart);
             });
-            var $labelEnd = $('<label>大小上限</label>');
-            var $selectEnd = $('<select class="inventory-size-end" name="inventory-size-end' + inventoryCount + '"></select>');
+            $labelEnd = $('<label>大小上限</label>');
+            $selectEnd = $('<select class="inventory-size-end" name="inventory-size-end' + inventoryCount + '"></select>');
             $.each(itemSizeData, function( index, value ) {
                 var $option = $("<option value='" + index + "'>" + value[0] + "  (" + value[1] + " - " + value[2] + "cm)</option>");
                 $option.appendTo($selectEnd);
             });
+            // area for common products ends
+
+            // area for shoes starts
+            var $shoeLabel;
+            var $shoeSizeInput;
+            $shoeLabel = $('<label>鞋子尺码</label>');
+            $shoeSizeInput = $('<input type="text" class="shoeSize" name="shoeSize' + inventoryCount + '" id="" placeholder="输入鞋码">');
+            // area for shoes ends
+
+
             var $button = $('<button type="button" name="inventoryDelete' + inventoryCount + '" class="am-close">&times;</button>');
             $button.click(function(){
                 var inventoryDeleteId = $(this).attr("name").replace("inventoryDelete", "");
@@ -354,13 +381,32 @@
             var $priceHKDInput = $('<input type="text" class="inventory-price-HKD" name="inventory-price-HKD' + inventoryCount + '" id="" placeholder="输入港币币价格">');
             // changed price create
 
-            $selectStart.val(inventoryValue.age.split(",")[0]);
-            $selectEnd.val(inventoryValue.age.split(",")[1]);
+
+            // if it's other products
+            if (productType != "2") {
+                $selectStart.val(inventoryValue.age.split(",")[0]);
+                $selectEnd.val(inventoryValue.age.split(",")[1]);
+                $shoeLabel.hide();
+                $shoeSizeInput.hide();
+            }
+            // if it's shoe
+            else {
+                $labelStart.hide();
+                $selectStart.hide();
+                $labelEnd.hide();
+                $selectEnd.hide();
+                $shoeSizeInput.val(inventoryValue.footSize);
+            }
+
             $input.val(inventoryValue.inventory);
             $priceCNYInput.val(inventoryValue.priceCNY.price);
             $priceHKDInput.val(inventoryValue.priceHKD.price);
 
             $inventoryIdInput.appendTo($div);
+            // new code for shoe starts
+            $shoeLabel.appendTo($div);
+            $shoeSizeInput.appendTo($div);
+            // new code for shoe ends
             $labelStart.appendTo($div);
             $selectStart.appendTo($div);
             $labelEnd.appendTo($div);
@@ -447,6 +493,7 @@
     // inventory check function
     function checkInventoryFields() {
         // if we have inventory
+        productType = $("#item-categoryId option:selected").attr('class');
         if ($(".inventory-number").length > 0) {
             if ($(".inventory-number").val().trim() == "") {
                 return false;
@@ -466,11 +513,16 @@
             if (!$.isNumeric($(".inventory-price-HKD").val().trim())) {
                 return false;
             }
+            if (productType == "2" && ($(".shoeSize").val().trim() == "")) {
+                return false;
+            }
         }
         return true;
     }
 
     $("#update-single-item").click(function(){
+        productType = $("#item-categoryId option:selected").attr('class');
+        $("#product-type").val(productType);
         if (validateFields() == true) {
             var $form = $("#single-item-form");
             var options = {
@@ -550,20 +602,47 @@
         }
     });
     $("#add-inventory").click(function() {
+        productType = $("#item-categoryId option:selected").attr('class');
         var $line = $('<hr data-am-widget="divider" style="" id="inventoryLine' +  inventoryCount +  '" class="am-divider am-divider-default inventory-line" />');
         var $div = $('<div class="am-form-group inventory-setting-group" id="inventoryDiv' + inventoryCount +  '"></div>');
-        var $labelStart = $('<label>大小下限</label>');
-        var $selectStart = $('<select class="inventory-size-start" name="inventory-size-start' + inventoryCount + '"></select>');
+        // fields for common products start
+        var $labelStart;
+        var $selectStart;
+        var $labelEnd;
+        var $selectEnd;
+
+        $labelStart = $('<label>大小下限</label>');
+        $selectStart = $('<select class="inventory-size-start" name="inventory-size-start' + inventoryCount + '"></select>');
         $.each(itemSizeData, function( index, value ) {
             var $option = $("<option value='" + index + "'>" + value[0] + "  (" + value[1] + " - " + value[2] + "cm)</option>");
             $option.appendTo($selectStart);
         });
-        var $labelEnd = $('<label>大小上限</label>');
-        var $selectEnd = $('<select class="inventory-size-end" name="inventory-size-end' + inventoryCount + '"></select>');
+        $labelEnd = $('<label>大小上限</label>');
+        $selectEnd = $('<select class="inventory-size-end" name="inventory-size-end' + inventoryCount + '"></select>');
         $.each(itemSizeData, function( index, value ) {
             var $option = $("<option value='" + index + "'>" + value[0] + "  (" + value[1] + " - " + value[2] + "cm)</option>");
             $option.appendTo($selectEnd);
         });
+        if (productType == "2") {
+            $labelStart.hide();
+            $selectStart.hide();
+            $labelEnd.hide();
+            $selectEnd.hide();
+        }
+        // fields for common products end
+
+        // fields for shoes start
+        var $shoeLabel;
+        var $shoeSizeInput;
+        $shoeLabel = $('<label>鞋子尺码</label>');
+        $shoeSizeInput = $('<input type="text" class="shoeSize" name="shoeSize' + inventoryCount + '" id="" placeholder="输入鞋码">');
+        if (productType != "2") {
+            $shoeLabel.hide();
+            $shoeSizeInput.hide();
+        }
+        // fields for shoes end
+
+
         var $button = $('<button type="button" name="inventoryDelete' + inventoryCount + '" class="am-close">&times;</button>');
         $button.click(function(){
             var inventoryDeleteId = $(this).attr("name").replace("inventoryDelete", "");
@@ -579,6 +658,11 @@
         var $priceHKDInput = $('<input type="text" class="inventory-price-HKD" name="inventory-price-HKD' + inventoryCount + '" id="" placeholder="输入港币币价格">');
         // changed price create
 
+
+        // shoe area added
+        $shoeLabel.appendTo($div);
+        $shoeSizeInput.appendTo($div);
+        // common product area
         $labelStart.appendTo($div);
         $selectStart.appendTo($div);
         $labelEnd.appendTo($div);
