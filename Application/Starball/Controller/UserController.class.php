@@ -81,12 +81,14 @@ class UserController extends BaseController {
 		$order = D('Order', 'Logic')->findByOrderId($orderId);
 		$ordeItems = D('OrderItem', 'Logic')->getOrderItemsByOrdeId($orderId);
 		$orderBill = D('OrderBill', 'Logic')->findOrderSuccessPayBill($order['orderNumber']);
+		$shippingAddress = D('ShippingAddress', 'Logic')->findExsitingAddress($order['shippingAddress']);
 		$orderStatus = C('ORDERSTATUS');
 		$order['statusDescription'] = $orderStatus[$order['status']];
 		$order['orderDate'] = substr($order['orderDate'], 0,10);
 		$this->assign('order', $order);
 		$this->assign('orderItems', $ordeItems);
 		$this->assign('orderBill', $orderBill);
+		$this->assign('address', $shippingAddress);
 		$this->display();
 	}
 	
