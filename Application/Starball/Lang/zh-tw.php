@@ -27,6 +27,7 @@ return array(
     'recentShoppingList'=>'最近加入的宝贝',
     'totalAmount'=>'总金额',
     'buynow'=>'立即購買',
+    'seeall'=>'查看全部',
     'forgetpwd'=>'忘記密碼',
     'loginAccount'=>'登陸我的賬戶',
     'login'=>'登陸',
