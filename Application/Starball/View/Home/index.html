@@ -17,14 +17,14 @@
                 <ul class="am-slides">
                     <volist name="headArea" id="vo">
                         <li>
-                            <img src="{$vo.image}" >
+                            <img class="headerimg" src="{$vo.image}" onclick="window.location.href='{$vo.targetItemLink}'">
                             <div class="yu-slider-desc">
                                 <div class="yu-slider-content">
                                     <h2 class="am-slider-title yu-slider-title am-kai">{$vo.title}</h2>
                                     <p class="yu-slider-subtitle am-kai">
                                         {$vo.subtitle}
                                     </p>
-                                </div><a class="yu-slider-more am-kai">〉{$Think.lang.buynow}</a>
+                                </div><a class="yu-slider-more am-kai" href="{$vo.targetItemLink}">〉{$Think.lang.buynow}</a>
                             </div>
                         </li>
                     </volist>
