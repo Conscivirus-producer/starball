@@ -139,7 +139,7 @@
                     </thead>
                     <tbody>
                     <volist name="data" id="vo">
-                    <tr>
+                    <tr id="blog{$vo.blogId}">
                         <td>{$vo.title}</td>
                         <td>{$vo.abstract}</td>
                         <td>{$vo.createdDt}</td>
@@ -156,6 +156,19 @@
                     </volist>
                     </tbody>
                 </table>
+            </div>
+
+            <!-- 删除失败 -->
+            <div class="am-modal am-modal-alert" tabindex="-1" id="delete-fail">
+                <div class="am-modal-dialog">
+                    <div class="am-modal-hd">删除失败</div>
+                    <div class="am-modal-bd">
+                        删除失败
+                    </div>
+                    <div class="am-modal-footer">
+                        <span class="am-modal-btn">确定</span>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -187,7 +200,13 @@
 <script>
     $(".delete-button.am-btn.am-btn-secondary").click(function(){
         var blogId = $(this).attr("name").replace("delete", "");
-
+        $.getJSON("./deleteOneBlogById?blogId=" + blogId,function(result){
+            if (result.status == "1") {
+                $("#blog" + blogId).remove();
+            } else {
+                $("#delete-fail").modal("open");
+            }
+        });
     });
 </script>
 </body>
