@@ -2,7 +2,7 @@
 return array(
     //home page
     'home'=>'主頁',
-    'myshoppinglist'=>'我的购物袋',
+    'myshoppinglist'=>'我的购物車',
     'myaccount'=>'我的帳戶',
     'myfavorite'=>'我的收藏',
     'newseries'=>'新系列',
@@ -53,7 +53,7 @@ return array(
 	'ubagempty'=>'您的購物袋為空',
 	'size'=>'尺碼',
 	'quantity'=>'數量',
-	'Cmybag'=>'查看我的購物袋',
+	'Cmybag'=>'查看我的購物車',
 	'emptybag'=>'購物袋還是空的！',
 	'nothing'=>'您的購物車沒有任何商品',
 	'continueshopping'=>'繼續購物',
@@ -104,7 +104,7 @@ return array(
 	'class'=>'類別',
 	'discount'=>'折扣',
 	'all'=>'全部',
-	'paymode'=>'付款方式',
+	'paymode'=>'支付方式',
 	'shippayinfo'=>'配送和支付信息',
 	'wechat'=>'微信',
 	'alipay'=>'支付寶',
@@ -122,8 +122,8 @@ return array(
 	'certify'=>'100%正品保證',
 	'cusser'=>'顧客服務',
 	'callemail'=>'可以致電或電郵聯絡',
-	'dayship'=>'24小時內聯絡',
-	'SFYT'=>'順豐／圓通',
+	'dayship'=>'付款妙發',
+	'SFYT'=>'原裝進口，速運到家',
 	'srcontent'=>'退貨與送貨：
 
 				  送貨：
@@ -140,5 +140,8 @@ return array(
 	
 	'PaySec'=>'交易安全',
 	'PayCer'=>'支付全程保證',
-	
+	'shipinfo'=>'物流配送',
+	'RtrnPolicy'=>'退換政策',
+	'SizeGuide'=>'尺碼手冊',
+	'FAQ'=>'常見問題',
 );

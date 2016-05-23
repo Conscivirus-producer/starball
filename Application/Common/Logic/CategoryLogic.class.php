@@ -27,4 +27,9 @@ class CategoryLogic extends CategoryModel{
     public function addCategory($data) {
         return ($this->add($data) !== false);
     }
+	
+	public function findById($categoryId){
+		$map['categoryId'] = $categoryId;
+		return $this->where($map)->find();
+	}
 }

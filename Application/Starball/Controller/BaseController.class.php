@@ -25,7 +25,7 @@ class BaseController extends Controller {
 			//需要根据汇率重新读取礼物费用
 			$supportingData = D('SupportingData', 'Logic');
 			$giftPackageFee = $supportingData->getValueByKey('GIFT_PACKAGE_PRICE_'.$this->getCurrency());
-			session('giftPackageFee', $giftPackageFee['value']);
+			session('giftPackageFee', $giftPackageFee);
 			$this->assign('giftPackageFee', $this->getGiftPackageFee());
 			$this->updateShoppingListByCurrency();
 		}
@@ -41,7 +41,7 @@ class BaseController extends Controller {
 	protected function prepareSupportingData(){
 		$supportingData = D('SupportingData', 'Logic');
 		$giftPackageFee = $supportingData->getValueByKey('GIFT_PACKAGE_PRICE_'.$this->getCurrency());
-		session('giftPackageFee', $giftPackageFee['value']);
+		session('giftPackageFee', $giftPackageFee);
 		$this->assign('giftPackageFee', $this->getGiftPackageFee());
 	}
 	
@@ -75,12 +75,6 @@ class BaseController extends Controller {
 	private function updateUserShoppingListByCurrency(){
 		$orderLogic = D('Order', 'Logic');
 		$backlogOrder = $orderLogic->getOrderByUserId($this->getCurrentUserId(), 'N');
-		/*if($order['giftPackageFee'] != '0'){
-			$supportingData = D('SupportingData', 'Logic');
-			$orderData['giftPackageFee'] = $supportingData->getValueByKey('GIFT_PACKAGE_PRICE_'.$this->getCurrency());
-		}else{
-			$orderData['giftPackageFee'] = '0';
-		}*/
 		if(count($backlogOrder) == 0){
 			//No order found.
 			return;
