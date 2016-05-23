@@ -5,7 +5,8 @@
 		
 		public function getValueByKey($key){
 			$map['key'] = $key;
-			return $this->where($map)->find();
+			$data = $this->where($map)->find();
+			return $data['value'];
 		}
 		
 	}

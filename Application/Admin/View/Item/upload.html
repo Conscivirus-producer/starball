@@ -131,7 +131,7 @@
 
                         <div class="am-form-group">
                             <label for="item-categoryId">商品类别</label>
-                            <select name="categoryId" id="item-categoryId">
+                            <select name="categoryId" id="item-categoryId" onchange="changeCategory($(this).val())">
                             </select>
                             <span class="am-form-caret"></span>
                         </div>
@@ -177,6 +177,16 @@
                         <div class="am-form-group">
                             <label for="item-season">商品季节</label>
                             <input type="text" class="" name="season" id="item-season" placeholder="输入商品季节">
+                        </div>
+                        
+                        <div class="am-form-group">
+                            <label for="item-weight">商品重量</label>
+                            <input type="text" class="" name="weight" id="item-weight" placeholder="输入商品重量" value="{$defaultClothWeight}">
+                        </div>
+                        
+                        <div class="am-form-group">
+                            <label for="item-extraShippingFee">额外物流费用(RMB)</label>
+                            <input type="text" class="" name="extraShippingFee" id="item-extraShippingFee" placeholder="输入商品物流额外费用" value="0">
                         </div>
 
                         <!-- inventory -->
@@ -662,6 +672,12 @@
             }
         }
         return true;
+    }
+    
+    function changeCategory(categoryId){
+	    $.post('{:U("Item/changeCategory")}',{'categoryId':categoryId},function(data){
+    		$('#item-weight').val(data.itemWeight);
+	    },'json');
     }
 
 </script>
