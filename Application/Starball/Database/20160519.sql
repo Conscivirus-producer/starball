@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2016 年 05 月 19 日 13:28
+-- 生成日期: 2016 年 05 月 19 日 15:00
 -- 服务器版本: 5.5.20
 -- PHP 版本: 5.3.10
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `t_user_socialmedia` (
   `openid` varchar(50) NOT NULL COMMENT 'id provided by the channel',
   `name` varchar(50) NOT NULL COMMENT 'user name',
   `nick` varchar(100) NOT NULL COMMENT 'user nick name',
-  `headImgUrl` varchar(200) NOT NULL,
+  `head` varchar(200) NOT NULL COMMENT 'head image url',
   `reference` varchar(500) NOT NULL COMMENT 'other information if need, stored in json format',
   PRIMARY KEY (`socialMediaId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='third party login information' AUTO_INCREMENT=1 ;

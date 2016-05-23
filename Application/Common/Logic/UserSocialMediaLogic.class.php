@@ -8,7 +8,11 @@
 namespace Common\Logic;
 use Common\Model\UserSocialMediaModel;
 class UserSocialMediaLogic extends UserSocialMediaModel{
-		
+	public function findByOpenId($openid){
+		$map['openid'] = $openid;
+		return $this->where($map)->find();
+	}
+	
 }
 ?>
 	

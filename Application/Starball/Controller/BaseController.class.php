@@ -386,14 +386,23 @@ class BaseController extends Controller {
 	}
 	
 	public function loginFromSocialMedia($type = null){
-		empty($type) && $this->error('参数错误');
-
-		//加载ThinkOauth类并实例化一个对象
-		import("Org.ThinkSDK.ThinkOauth");
-		$sns  = \ThinkOauth::getInstance($type);
-
-		//跳转到授权页面
-		redirect($sns->getRequestCodeURL());
+    	if(C('IS_DEV') == 'true'){
+			$weiboId = "1747985920";
+			$user_info['type'] = 'SINA';
+			$user_info['name'] = 'super001';
+			$user_info['nick'] = '老王';
+			$user_info['head'] = 'http://tva2.sinaimg.cn/crop.0.0.180.180.180/68302600jw1e8qgp5bmzyj2050050aa8.jpg';
+			$this->checkExistingUserInformation($weiboId, $user_info);
+    	} else{
+			empty($type) && $this->error('参数错误');
+	
+			//加载ThinkOauth类并实例化一个对象
+			import("Org.ThinkSDK.ThinkOauth");
+			$sns  = \ThinkOauth::getInstance($type);
+	
+			//跳转到授权页面
+			redirect($sns->getRequestCodeURL());
+		}
 	}
 	
 	//授权回调地址
@@ -423,7 +432,31 @@ class BaseController extends Controller {
 	}
 	
 	protected function checkExistingUserInformation($openid, $user_info){
-		
+		$socialMediaLogic = D('UserSocialMedia', 'Logic');
+		$existingUser = $socialMediaLogic->findByOpenId($openid);
+		if($existingUser == ''){
+			//创建用户数据，用户名为临时的
+			$userData['lastUpdatedDate'] = date("Y-m-d H:i:s" ,time());
+			$userId = D('User', 'Logic')->add($userData);
+			
+			$user_info['userId'] = $userId;
+			$user_info['openid'] = $openid;
+			$user_info['lastIp'] = get_client_ip();
+			D('UserSocialMedia', 'Logic')->add($user_info);
+			session('starballkids_userId', $userId);
+			session('starballkids_userName', $user_info['name']);
+		}else{
+			session('starballkids_userId', $existingUser['userId']);
+			$user = D('User', 'Logic')->getUserInformationByUserId($existingUser['userId']);
+			$userName = '';
+			if($user['userName'] != ''){
+				$userName = $user['userName'];
+			}else{
+				$userName = $existingUser['name'];
+			}
+			session('starballkids_userName', $userName);
+			session('starballkids_email', $user['email']);
+		}
 		$this->redirect('Home/index');
 	}
 	
