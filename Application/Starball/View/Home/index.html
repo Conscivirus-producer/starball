@@ -1,4 +1,8 @@
 <extend name="Public/base" />
+<block name="customizedHeader">
+	<meta property="wb:webmaster" content="5995b5fe4e0bbfac" />
+	<script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=3323085710" type="text/javascript" charset="utf-8"></script>
+</block>
 <block name="customizedCss">
     <link rel="stylesheet" type="text/css" href="__PUBLIC__/starball/css/home.css">
 </block>
@@ -13,14 +17,14 @@
                 <ul class="am-slides">
                     <volist name="headArea" id="vo">
                         <li>
-                            <img src="{$vo.image}" >
+                            <img class="pointer" src="{$vo.image}" onclick="window.location.href='{$vo.targetItemLink}'">
                             <div class="yu-slider-desc">
                                 <div class="yu-slider-content">
                                     <h2 class="am-slider-title yu-slider-title am-kai">{$vo.title}</h2>
                                     <p class="yu-slider-subtitle am-kai">
                                         {$vo.subtitle}
                                     </p>
-                                </div><a class="yu-slider-more am-kai">〉{$Think.lang.buynow}</a>
+                                </div><a class="yu-slider-more am-kai" href="{$vo.targetItemLink}">〉{$Think.lang.buynow}</a>
                             </div>
                         </li>
                     </volist>
@@ -35,14 +39,14 @@
                 <ul class="am-slides">
                     <volist name="headArea" id="vo">
                         <li>
-                            <img class="yu-slides-sm" src="{$vo.image}">
+                            <img class="yu-slides-sm" src="{$vo.image}" onclick="window.location.href='{$vo.targetItemLink}'">
                             <div class="yu-slider-desc-sm">
                                 <div class="yu-slider-content">
                                     <h2 class="am-slider-title yu-slider-title-sm am-kai">{$vo.title}</h2>
                                     <p class="yu-slider-subtitle-sm am-kai">
                                         {$vo.subtitle}
                                     </p>
-                                </div><a class="yu-slider-more-sm am-kai">〉{$Think.lang.buynow}</a>
+                                </div><a class="yu-slider-more-sm am-kai" href="{$vo.targetItemLink}">〉{$Think.lang.buynow}</a>
                             </div>
                         </li>
                     </volist>
@@ -56,50 +60,36 @@
             <div class="am-g">
                 <!-- the left 2/3 -->
                 <div class="am-u-lg-8 am-padding-left-0">
-                    <div class="am-u-lg-6 yu-leftsection-adjustor">
+                	<volist name="middleLeftHead" id="vo">
+	                    <div class="am-u-lg-6 yu-leftsection-adjustor pointer" onclick="window.location.href='{$vo.targetItemLink}'">
+	                        <div class="am-thumbnail am-padding-0">
+	                            <img src="{$vo.image}" alt="" class="yu-lgimg-fixer">
+	                            <div class="am-thumbnail-caption am-kai" >
+	                                <p class="yu-home-title">
+	                                    {$vo.title}
+	                                </p>
+	                                <p class="yu-home-subtitle">
+	                                    {$vo.subtitle}
+	                                </p>
+	                                <p class="am-margin-0">
+	                                    <a href="{$vo.targetItemLink}" class="yu-home-button"> 〉{$Think.lang.buynow} </a>
+	                                </p>
+	                            </div>
+	                        </div>
+	                    </div>
+                	</volist>
+                    <div class="am-u-sm-12 am-u-md-12 am-u-lg-12 am-padding-0 pointer" style="margin-bottom: 18px;" onclick="window.location.href='{$middleLeftFoot.targetItemLink}'">
                         <div class="am-thumbnail am-padding-0">
-                            <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/bar-jeans-405-spring-summer-2016-2.jpg" alt="" class="yu-lgimg-fixer">
-                            <div class="am-thumbnail-caption am-kai" >
-                                <p class="yu-home-title">
-                                    牛仔系列
-                                </p>
-                                <p class="yu-home-subtitle">
-                                    单宁世界
-                                </p>
-                                <p class="am-margin-0">
-                                    <a href="##" class="yu-home-button"> 〉{$Think.lang.buynow} </a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="am-u-lg-6 yu-mdsection-adjustor">
-                        <div class="am-thumbnail am-padding-0">
-                            <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/gucci-405-spring-summer-2016.jpg" alt="" class="yu-lgimg-fixer">
-                            <div class="am-thumbnail-caption am-kai">
-                                <p class="yu-home-title">
-                                    GUCCI
-                                </p>
-                                <p class="yu-home-subtitle">
-                                    单宁世界
-                                </p>
-                                <p class="am-margin-0">
-                                    <a href="##" class="yu-home-button"> 〉{$Think.lang.buynow} </a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="am-u-sm-12 am-u-md-12 am-u-lg-12 am-padding-0" style="margin-bottom: 18px;">
-                        <div class="am-thumbnail am-padding-0">
-                            <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/archimede-998-spring-summer-2016.jpg" alt="" class="yu-lgimg-fixer">
+                            <img src="{$middleLeftFoot.image}" alt="" class="yu-lgimg-fixer">
                             <div class="am-thumbnail-caption am-kai yu-text-alicen">
                                 <p class="yu-home-title">
-                                    ARCHIMEDE
+                                    {$middleLeftFoot.title}
                                 </p>
                                 <p class="yu-home-subtitle">
-                                    单宁世界
+                                    {$middleLeftFoot.subtitle}
                                 </p>
                                 <p class="am-margin-0">
-                                    <a href="##" class="yu-home-button"> 〉{$Think.lang.buynow} </a>
+                                    <a href="{$middleLeftFoot.targetItemLink}" class="yu-home-button"> 〉{$Think.lang.seeall} </a>
                                 </p>
                             </div>
                         </div>
@@ -108,45 +98,21 @@
                 <!-- the right 1/3 -->
                 <div class="am-u-lg-4 yu-home-rightend">
                     <div class="am-g">
-                        <div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
-                            <div class="am-thumbnail yu-margin-right am-padding-0" style="margin-bottom:42px;">
-                                <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/marguerite-style-spring-summer-2016.jpg" alt="" style="width: 100%;">
-                                <div class="am-thumbnail-caption">
-                                    <p class="yu-thumbnail-title">
-                                        LE MEGAZINE
-                                    </p>
-                                    <p class="yu-thumbnail-subtitle">
-                                        THE HISTORY OF DAISIES
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
-                            <div class="am-thumbnail yu-margin-right am-padding-0" style="margin-bottom: 42px;">
-                                <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/botanique-cabinet-curiosites-spring-summer-2016.jpg" alt="" style="width: 100%;">
-                                <div class="am-thumbnail-caption">
-                                    <p class="yu-thumbnail-title">
-                                        LE MEGAZINE
-                                    </p>
-                                    <p class="yu-thumbnail-subtitle">
-                                        THE CABINET OF CURIOSITIES
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
-                            <div class="am-thumbnail yu-margin-right am-padding-0">
-                                <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/barrio-latino-style-spring-summer-2016.jpg" alt="" style="width: 100%;">
-                                <div class="am-thumbnail-caption">
-                                    <p class="yu-thumbnail-title">
-                                        LE MEGAZINE
-                                    </p>
-                                    <p class="yu-thumbnail-subtitle">
-                                        BARRIO LATINO
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                    	<volist name="middleRight" id="vo">
+	                        <div class="am-u-sm-12 am-u-md-4 am-u-lg-12 pointer" onclick="window.location.href='{$vo.targetItemLink}'">
+	                            <div class="am-thumbnail yu-margin-right am-padding-0" style="margin-bottom:42px;">
+	                                <img src="{$vo.image}" alt="" style="width: 100%;">
+	                                <div class="am-thumbnail-caption">
+	                                    <p class="yu-thumbnail-title">
+	                                        {$vo.title}
+	                                    </p>
+	                                    <p class="yu-thumbnail-subtitle">
+	                                        {$vo.subtitle}
+	                                    </p>
+	                                </div>
+	                            </div>
+	                        </div>
+                    	</volist>
                     </div>
                 </div>
             </div>
@@ -156,147 +122,82 @@
     <div class="yu-mddn-container">
         <li class="am-show-md-down yu-margin-top am-kai yu-text-alicen">
             <div class="am-g">
-                <!-- 2nd layer left when md & 2nd layer when sm-->
-                <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
-                    <div class="am-thumbnail am-padding-0">
-                        <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/bar-jeans-405-spring-summer-2016-2.jpg" style="width:100%" alt="">
-                         <div class="am-thumbnail-caption am-kai" >
-                                <p class="yu-home-title">
-                                    牛仔系列
-                                </p>
-                                <p class="yu-home-subtitle">
-                                    单宁世界
-                                </p>
-                                <p class="am-margin-0">
-                                    <a href="##" class="yu-home-button"> 〉{$Think.lang.buynow} </a>
-                                </p>
-                         </div>
-                    </div>
-                </div>
-                <!-- 2nd layer right when md & 3rd layer in sm -->
-                <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
-                    <div class="am-thumbnail am-padding-0">
-                        <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/gucci-405-spring-summer-2016.jpg" style="width:100%" alt="">
-                        <div class="am-thumbnail-caption am-kai">
-                                <p class="yu-home-title">
-                                    GUCCI
-                                </p>
-                                <p class="yu-home-subtitle">
-                                    单宁世界
-                                </p>
-                                <p class="am-margin-0">
-                                    <a href="##" class="yu-home-button"> 〉{$Think.lang.buynow} </a>
-                                </p>
-                         </div>
-                    </div>
-                </div>
+                <!-- 2nd layer left/right when md & 2nd layer when sm-->
+                <volist name="middleLeftHead" id="vo">
+	                <div class="am-u-sm-12 am-u-md-6 am-u-lg-6" onclick="window.location.href='{$vo.targetItemLink}'">
+	                    <div class="am-thumbnail am-padding-0">
+	                        <img src="{$vo.image}" style="width:100%" alt="">
+	                         <div class="am-thumbnail-caption am-kai" >
+	                                <p class="yu-home-title">
+	                                    {$vo.title}
+	                                </p>
+	                                <p class="yu-home-subtitle">
+	                                    {$vo.subtitle}
+	                                </p>
+	                                <p class="am-margin-0">
+	                                    <a href="{$vo.targetItemLink}" class="yu-home-button"> 〉{$Think.lang.buynow} </a>
+	                                </p>
+	                         </div>
+	                    </div>
+	                </div>
+                </volist>
                 <!-- 3rd layer in md screen & 4th layer in sm size -->
-                <div class="am-u-sm-12 am-u-md-12 am-u-lg-12" style="margin-top:15px;">
+                <div class="am-u-sm-12 am-u-md-12 am-u-lg-12" style="margin-top:15px;" onclick="window.location.href='{$vo.targetItemLink}'">
                     <div class="am-thumbnail am-padding-0">
-                        <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/archimede-998-spring-summer-2016.jpg" style="width:100%" alt="">
+                        <img src="{$middleLeftFoot.image}" style="width:100%" alt="">
                         <div class="am-thumbnail-caption am-kai yu-text-alicen">
                                 <p class="yu-home-title">
-                                    ARCHIMEDE
+                                    {$middleLeftFoot.title}
                                 </p>
                                 <p class="yu-home-subtitle">
-                                    单宁世界
+                                    {$middleLeftFoot.subtitle}
                                 </p>
                                 <p class="am-margin-0">
-                                    <a href="##" class="yu-home-button"> 〉{$Think.lang.buynow} </a>
+                                    <a href="{$vo.targetItemLink}" class="yu-home-button"> 〉{$Think.lang.buynow} </a>
                                 </p>
                          </div>
                     </div>
                  </div>
                 <!-- 4th layer when md and 5,6,7th layer when sm -->
-                <div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
-                    <div class="am-thumbnail am-padding-0 yu-margin-right">
-                        <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/marguerite-style-spring-summer-2016.jpg" alt="" style="width:100%">
-                        <div class="am-thumbnail-caption">
-                            <p class="yu-thumbnail-title">
-                                LE MEGAZINE
-                            </p>
-                            <p class="yu-thumbnail-subtitle">
-                                THE HISTORY OF DAISIES
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
-                    <div class="am-thumbnail am-padding-0 yu-margin-right">
-                        <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/botanique-cabinet-curiosites-spring-summer-2016.jpg" alt="" style="width:100%">
-                        <div class="am-thumbnail-caption">
-                            <p class="yu-thumbnail-title">
-                                LE MEGAZINE
-                            </p>
-                            <p class="yu-thumbnail-subtitle">
-                                THE CABINET OF CURIOSITIES
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="am-u-sm-12 am-u-md-4 am-u-lg-12">
-                    <div class="am-thumbnail am-padding-0 yu-margin-right">
-                        <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/barrio-latino-style-spring-summer-2016.jpg" alt="" style="width:100%">
-                        <div class="am-thumbnail-caption">
-                            <p class="yu-thumbnail-title">
-                                LE MEGAZINE
-                            </p>
-                            <p class="yu-thumbnail-subtitle">
-                                BARRIO LATINO
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <volist name="middleRight" id="vo">
+	                <div class="am-u-sm-12 am-u-md-4 am-u-lg-12" onclick="window.location.href='{$vo.targetItemLink}'">
+	                    <div class="am-thumbnail am-padding-0 yu-margin-right">
+	                        <img src="{$vo.image}" alt="" style="width:100%">
+	                        <div class="am-thumbnail-caption">
+	                            <p class="yu-thumbnail-title">
+	                                {$vo.title}
+	                            </p>
+	                            <p class="yu-thumbnail-subtitle">
+	                                {$vo.subtitle}
+	                            </p>
+	                        </div>
+	                    </div>
+	                </div>
+                </volist>
             </div>
         </li>
     </div>
     <!-- the last layer in any size screen -->
     <div class="yu-layout-container">
-        <ul data-am-widget="gallery" class="am-gallery am-avg-sm-1 am-avg-md-5 am-avg-lg-5 am-gallery-overlay am-no-layout yu-lastlayer-adjustor" data-am-gallery="{ pureview: true }">
-        <li>
-            <div class="am-gallery-item">
-                <a href="javascript:void(0)"> 
-                    <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/coup-de-coeur-botany1.jpg" alt="" data-am-pureviewed="1">
-                </a>
-            </div>
-        </li>
-        <li>
-            <div class="am-gallery-item">
-               <a href="javascript:void(0)"> 
-                    <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/coup-de-coeur-botany2.jpg" alt="" data-am-pureviewed="1">
-                </a>
-            </div>
-        </li>
-        <li>
-            <div class="am-gallery-item">
-                <a href="javascript:void(0)"> 
-                    <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/coup-de-coeur-botany3.jpg" alt="" data-am-pureviewed="1">
-                </a>
-            </div>
-        </li>
-        <li>
-            <div class="am-gallery-item">
-                <a href="javascript:void(0)"> 
-                    <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/coup-de-coeur-botany4.jpg" alt="" data-am-pureviewed="1">
-                </a>
-            </div>
-        </li>
-        <li>
-            <div class="am-gallery-item">
-              <a href="javascript:void(0)"> 
-                    <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/coup-de-coeur-botany5.jpg" alt="" data-am-pureviewed="1">
-                </a>
-            </div>
-        </li>
-        <div class="am-kai yu-bottomlayer-adjustor">
+    <ul data-am-widget="gallery" class="am-gallery am-avg-sm-1 am-avg-md-5 am-avg-lg-5 am-gallery-overlay am-no-layout yu-lastlayer-adjustor" data-am-gallery="{ pureview: true }">
+    	<volist name="footArea" id="vo">
+	        <li>
+	            <div class="am-gallery-item">
+	                <a href="{$vo.targetItemLink}"> 
+	                    <img src="{$vo.image}" alt="" data-am-pureviewed="1" onclick="window.location.href='{$vo.targetItemLink}'">
+	                </a>
+	            </div>
+	        </li>
+    	</volist>
+        <div class="am-kai yu-bottomlayer-adjustor pointer" onclick="window.location.href='{$footArea[0].targetItemLink}'">
             <p class="yu-home-title">
-                一见钟情
+                {$footArea[0].title}
             </p>
             <p class="yu-home-subtitle">
-                BOTANY
+                {$footArea[0].subtitle}
             </p>
             <p class="yu-home-button">
-                <a href="##" class="yu-home-button"> 〉{$Think.lang.buynow} </a>
+                <a href="{$footArea[0].additionalLink}" class="yu-home-button"> 〉{$Think.lang.buynow} </a>
             </p>
         </div>
     </ul>
@@ -318,6 +219,18 @@
 				$("#searchValue").attr("placeholder", "请填写搜索条件");
 			}
 			
+		});
+		WB2.anyWhere(function (W) {
+		    W.widget.connectButton({
+		        id: "wb_connect_btn",
+		        type: '3,2',
+		        callback: {
+		            login: function (o) { //登录后的回调函数
+		            },
+		            logout: function () { //退出后的回调函数
+		            }
+		        }
+		    });
 		});
     </script>
 </block>

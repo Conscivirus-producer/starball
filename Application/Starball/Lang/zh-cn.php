@@ -28,6 +28,7 @@ return array(
     'recentShoppingList'=>'最近加入的宝贝',
     'totalAmount'=>'总金额',
     'buynow'=>'立即购买',
+    'seeall'=>'查看全部',
     'forgetpwd'=>'忘记密码',
     'loginAccount'=>'登录我的账户',
     'login'=>'登录',

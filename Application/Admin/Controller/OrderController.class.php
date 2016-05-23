@@ -107,8 +107,8 @@ class OrderController extends Controller {
 		
 		//向第三方支付发起退款请求
 		$data = array();
-		$appSecret = C('APP_SECRET');
-		$data["app_id"] = C('APP_ID');
+		$appSecret = C('PAYMENT_APP_SECRET');
+		$data["app_id"] = C('PAYMENT_APP_ID');
 		$data["timestamp"] = time() * 1000;
 		$data["app_sign"] = md5($data["app_id"] . $data["timestamp"] . $appSecret);
 		//bill_no为支付成功的支付单号
@@ -172,8 +172,8 @@ class OrderController extends Controller {
 		
 		//向第三方支付发起退款请求
 		$data = array();
-		$appSecret = C('APP_SECRET');
-		$data["app_id"] = C('APP_ID');
+		$appSecret = C('PAYMENT_APP_SECRET');
+		$data["app_id"] = C('PAYMENT_APP_ID');
 		$data["timestamp"] = time() * 1000;
 		$data["app_sign"] = md5($data["app_id"] . $data["timestamp"] . $appSecret);
 		//bill_no为支付成功的支付单号

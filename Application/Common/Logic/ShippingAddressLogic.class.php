@@ -8,6 +8,11 @@
 			$this->where($map)->save($data);
 		}
 		
+		public function deleteAddress($addressId){
+			$map['addressId'] = $addressId;
+			$this->where($map)->delete();			
+		}
+		
 		public function findExsitingAddress($addressId){
 			$map['addressId'] = $addressId;
 			return $this->where($map)->find();

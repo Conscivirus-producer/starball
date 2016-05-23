@@ -41,4 +41,8 @@ class BlogLogic extends BlogModel{
         $data["lastUpdatedDt"] = date("Y-m-d H:i:s" ,time());
         return ($this->save($data) !== false);
     }
+    public function deleteOneBlogById($blogId) {
+        $map["blogId"] = $blogId;
+        return ($this->where($map)->delete() !== false);
+    }
 }

@@ -66,6 +66,7 @@
 			$itemPriceLogic = D("ItemPrice", "Logic");
 			$priceArray = array();
 			for ($i = 0; $i < count($inventoryArray); $i++) {
+				$data["footSize"] = $inventoryArray[$i]["footSize"];
 				$data["age"] = $inventoryArray[$i]["age"];
 				$data["inventory"] = $inventoryArray[$i]["inventory"];
 				$data["itemId"] = $itemId;
@@ -108,6 +109,7 @@
 				} else {
 					$inventoryUpdateData["inventoryId"] = $inventoryArray[$i]["inventoryId"];
 					$inventoryUpdateData["age"] = $inventoryArray[$i]["age"];
+					$inventoryUpdateData["footSize"] = $inventoryArray[$i]["footSize"];
 					$inventoryUpdateData["inventory"] = $inventoryArray[$i]["inventory"];
 					if ($this->save($inventoryUpdateData) === false) {
 						return false;

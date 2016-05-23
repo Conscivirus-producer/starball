@@ -1,6 +1,6 @@
 <?php
 return array(
 	//第三方支付信息, beecloud
-	'APP_SECRET' => 'b3842787-3442-49eb-914a-5ec86e0b2e74',
-	'APP_ID' => '045c259d-9ceb-4320-84e6-64d463c01a2d',
+	'PAYMENT_APP_SECRET' => 'd1be74ba-c85f-4f4e-83e9-67216fcb3d69',
+	'PAYMENT_APP_ID' => '99962629-fa3e-4dd9-b562-99134bb77927',
 );

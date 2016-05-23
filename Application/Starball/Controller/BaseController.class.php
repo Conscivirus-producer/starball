@@ -353,7 +353,7 @@ class BaseController extends Controller {
 	protected function convertCountryCode($addressList){
 		$countryList = C('COUNTRY_LIST');
 		$i=0;
-		foreach($addressList as $record){
+		foreach($addressList as $record){                          
 			if($record['country'] != ''){
 				$record['country'] = L($countryList[$record['country']]);
 				$addressList[$i] = $record;
@@ -384,4 +384,80 @@ class BaseController extends Controller {
 		}
 		return $inadequateInventoryItems;
 	}
+	
+	public function loginFromSocialMedia($type = null){
+    	if(C('IS_DEV') == 'true'){
+			$weiboId = "1747985920";
+			$user_info['type'] = 'SINA';
+			$user_info['name'] = 'super001';
+			$user_info['nick'] = '老王';
+			$user_info['head'] = 'http://tva2.sinaimg.cn/crop.0.0.180.180.180/68302600jw1e8qgp5bmzyj2050050aa8.jpg';
+			$this->checkExistingUserInformation($weiboId, $user_info);
+    	} else{
+			empty($type) && $this->error('参数错误');
+	
+			//加载ThinkOauth类并实例化一个对象
+			import("Org.ThinkSDK.ThinkOauth");
+			$sns  = \ThinkOauth::getInstance($type);
+	
+			//跳转到授权页面
+			redirect($sns->getRequestCodeURL());
+		}
+	}
+	
+	//授权回调地址
+	public function callback($type = null, $code = null){
+		(empty($type) || empty($code)) && $this->error('参数错误');
+		
+		//加载ThinkOauth类并实例化一个对象
+		import("Org.ThinkSDK.ThinkOauth");
+		$sns  = \ThinkOauth::getInstance($type);
+
+		//腾讯微博需传递的额外参数
+		$extend = null;
+		if($type == 'tencent'){
+			$extend = array('openid' => $this->_get('openid'), 'openkey' => $this->_get('openkey'));
+		}
+
+		//请妥善保管这里获取到的Token信息，方便以后API调用
+		//调用方法，实例化SDK对象的时候直接作为构造函数的第二个参数传入
+		//如： $qq = ThinkOauth::getInstance('qq', $token);
+		$token = $sns->getAccessToken($code , $extend);
+
+		//获取当前登录用户信息
+		if(is_array($token)){
+			$user_info = A('Type', 'Event')->$type($token);
+			$this->checkExistingUserInformation($token['openid'], $user_info);
+		}
+	}
+	
+	protected function checkExistingUserInformation($openid, $user_info){
+		$socialMediaLogic = D('UserSocialMedia', 'Logic');
+		$existingUser = $socialMediaLogic->findByOpenId($openid);
+		if($existingUser == ''){
+			//创建用户数据，用户名为临时的
+			$userData['lastUpdatedDate'] = date("Y-m-d H:i:s" ,time());
+			$userId = D('User', 'Logic')->add($userData);
+			
+			$user_info['userId'] = $userId;
+			$user_info['openid'] = $openid;
+			$user_info['lastIp'] = get_client_ip();
+			D('UserSocialMedia', 'Logic')->add($user_info);
+			session('starballkids_userId', $userId);
+			session('starballkids_userName', $user_info['name']);
+		}else{
+			session('starballkids_userId', $existingUser['userId']);
+			$user = D('User', 'Logic')->getUserInformationByUserId($existingUser['userId']);
+			$userName = '';
+			if($user['userName'] != ''){
+				$userName = $user['userName'];
+			}else{
+				$userName = $existingUser['name'];
+			}
+			session('starballkids_userName', $userName);
+			session('starballkids_email', $user['email']);
+		}
+		$this->redirect('Home/index');
+	}
+	
 }

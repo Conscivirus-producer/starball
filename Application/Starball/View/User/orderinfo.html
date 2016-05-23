@@ -24,24 +24,22 @@
             <tr>
                 <td class="am-text-left am-text-sm" colspan="2">收件地址：
                 <br>
-                深圳市南山区讯美科技广场3栋1521B</td>
+                {$address.contactName}<br>{$address.address}<br>{$address.postCode} {$address.city}<br>{$address.country}</td>
                 <td class="am-text-left am-text-sm" colspan="2">状态：
                 <br>
                 	{$order.statusDescription}
                 	<switch name="order.status">
                 		<case value="P">
-		                	<form class="am-form am-form-horizontal" role="form" method="post">
-								<input type="hidden" name="method" value="cancelOrder">
-								<input type="hidden" name="orderId" value="{$order.orderId}">
-			                	<button type="submit" class="am-btn am-btn-default yu-black-button">取消订单</button>
-		                	</form>
+		                	<button class="am-btn am-btn-default yu-black-button"
+		                		onclick="if(window.confirm('确定取消这个订单?')){window.location.href='{:U('Starball/User/cancelOrder', array('orderId'=>$order['orderId']))}';}">
+		                		取消订单
+	                		</button>
 	                	</case>
                 		<case value="D">
-		                	<form class="am-form am-form-horizontal" role="form" method="post">
-								<input type="hidden" name="method" value="confirmDelivery">
-								<input type="hidden" name="orderId" value="{$order.orderId}">
-			                	<button type="submit" class="am-btn am-btn-default yu-black-button">确认收货</button>
-		                	</form>
+		                	<button class="am-btn am-btn-default yu-black-button"
+		                		onclick="if(window.confirm('确认收到商品?')){window.location.href='{:U('Starball/User/confirmDelivery', array('orderId'=>$order['orderId']))}';}">
+		                		确认收货
+	                		</button>
 	                	</case>
                 	</switch>
             	</td>
@@ -83,31 +81,32 @@
 	                            <span class="yu-product-fronttitle"><span class="yu-product-order-content">尺码 :</span> {$vo.sizeDescription}</span>
 	                            <span class="yu-product-fronttitle">
 	                                <span class="yu-product-order-content">数量 :</span> {$vo.quantity}
-	                                <form class="am-form am-form-horizontal" role="form" method="post">
-	                                	<input type="hidden" name="orderItemId" value="{$vo.id}">
-	                                	<switch name="vo.status">
-	                                		<case value="P">
-			                                	<input type="hidden" name="method" value="returnFund">
-			                                	<button type="submit" class="am-btn am-btn-default yu-black-button">取消商品</button>
-                                			</case>
-                                			<case value="C1">
-                                				<span style="font-size: 14px;float:right">等待退款</span>			
-                            				</case>
-                                			<case value="C2">
-                                				<span style="font-size: 14px;float:right">等待退款</span>			
-                            				</case>
-                                			<case value="C3">
-                                				<span style="font-size: 14px;float:right">退款成功</span>			
-                            				</case>
-                                			<case value="D">
-                                				<span style="font-size: 14px;float:right">已发货</span>			
-                            				</case>
-	                                		<case value="V">
-			                                	<input type="hidden" name="method" value="returnGood">
-			                                	<button type="submit" class="am-btn am-btn-default yu-black-button">申请退货</button>
-                                			</case>
-	                                	</switch>
-	                                </form>
+                                	<switch name="vo.status">
+                                		<case value="P">
+		                                	<button class="am-btn am-btn-default yu-black-button" 
+		                                		onclick="if(window.confirm('确定取消这个商品?')){window.location.href='{:U('Starball/User/refundItem', array('orderItemId'=>$vo['id'], 'status'=>$vo['status']))}';}">
+		                                		取消商品
+	                                		</button>
+                            			</case>
+                            			<case value="C1">
+                            				<span style="font-size: 14px;float:right">等待退款</span>			
+                        				</case>
+                            			<case value="C2">
+                            				<span style="font-size: 14px;float:right">等待退款</span>			
+                        				</case>
+                            			<case value="C3">
+                            				<span style="font-size: 14px;float:right">退款成功</span>			
+                        				</case>
+                            			<case value="D">
+                            				<span style="font-size: 14px;float:right">已发货</span>			
+                        				</case>
+                                		<case value="V">
+		                                	<button class="am-btn am-btn-default yu-black-button" 
+		                                		onclick="if(window.confirm('确定退掉这个商品?')){window.location.href='{:U('Starball/User/refundItem', array('orderItemId'=>$vo['id'], 'status'=>$vo['status']))}';}">
+		                                		取消商品
+	                                		</button>
+                            			</case>
+                                	</switch>
 	                            </span>
 	                            <span class="yu-product-fronttitle"> <span class="yu-product-order-content">总金额 :</span> {$priceSymbol} {$vo.price} </span>
 	                        </p>

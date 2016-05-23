@@ -39,9 +39,9 @@
                                     <span class="yu-seperate"></span>
                                     <span class="yu-26text-or">{$Think.lang.or}</span>
                                 </div>
-                                <a href="##" class="am-icon-sm am-icon-facebook" style="margin-left:3%;margin-right: 38%;color: #ff9966;"></a>
-                                <a href="##" class="am-icon-sm am-icon-wechat" style="margin-right: 32%;margin-bottom:3%;color: #ff9966;"></a>
-                                <a href="##" class="am-icon-sm am-icon-weibo" style="color:#ff9966;"></a>
+                                <a href="#" class="am-icon-sm am-icon-facebook" style="margin-left:3%;margin-right: 38%;color: #ff9966;"></a>
+                                <a href="#" class="am-icon-sm am-icon-wechat" style="margin-right: 32%;margin-bottom:3%;color: #ff9966;"></a>
+                                <a href="#" class="am-icon-sm am-icon-weibo" style="color:#ff9966;"></a>
                                 <a class="am-btn am-btn-link yu-newaccount-26" id="registerLnkFromLogin" href="javascript:void(0);">新客户创建一个账户</a>
                             </form>
                              </ul>
@@ -105,7 +105,7 @@
         <!--small screen logo -->
         <div class="am-show-sm-only">
             <div class="am-u-sm-8 am-u-sm-push-1">
-                <img class="am-img-responsive yu-margin-left30" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/starballlogo2.jpeg">
+                <img class="am-img-responsive yu-margin-left30" src="http://7xr7p7.com1.z0.glb.clouddn.com/starballlogo2.jpg">
             </div>
         </div>
         <!--small screen right button -->
@@ -253,9 +253,9 @@
                                     <span class="yu-seperate"></span>
                                     <span class="yu-text-or"> {$Think.lang.or}</span>
                                 </div>
-                                <a href="##" class="am-icon-md am-icon-facebook" style="margin-left:3%;margin-right: 38%;color: #ff9966;"></a>
-                                <a href="##" class="am-icon-md am-icon-wechat" style="margin-right: 32%;margin-bottom:3%;color: #ff9966;"></a>
-                                <a href="##" class="am-icon-md am-icon-weibo" style="color:#ff9966;"></a>
+                                <a href="#" class="am-icon-md am-icon-facebook" style="margin-left:3%;margin-right: 38%;color: #ff9966;"></a>
+                                <a href="{:U('loginFromSocialMedia', array('type'=>'weixin'))}" class="am-icon-md am-icon-wechat" style="margin-right: 32%;margin-bottom:3%;color: #ff9966;"></a>
+                                <a href="{:U('loginFromSocialMedia', array('type'=>'sina'))}" class="am-icon-md am-icon-weibo" style="color:#ff9966;"></a>
                                 <a class="am-btn am-btn-link yu-newaccount-1" id="registerLnkFromLogin"  href="javascript:void(0);">{$Think.lang.newcuscre}</a>
                             </form>
                         </ul>
@@ -414,17 +414,17 @@
                         <li style="text-align: center;">
                             <a class="yu-menu yu-text-black" href="javascript:void(0)" id="boy" style="margin-right:30px;">{$Think.lang.boy}</a>
                         </li>
-                        <li style="text-align: center;">
-                            <a class="yu-menu yu-text-black" href="javascript:void(0)" id="selected" style="margin: 0 21px;">{$Think.lang.featured}</a>
-                        </li>
-                        <li style="text-align:right;">
-                            <a class="yu-menu yu-text-black" href="javascript:void(0)" id="special">{$Think.lang.clothingmatch}</a>
+                        <li style="text-align:center;">
+                            <a class="yu-menu yu-text-black" href="javascript:void(0)" id="shoes">{$Think.lang.shoes}</a>
                         </li>
                         <li style="text-align:right;">
                             <a class="yu-menu yu-text-black" href="javascript:void(0)" id="accessory">{$Think.lang.accessory}</a>
                         </li>
+                        <li style="text-align: right;">
+                            <a class="yu-menu yu-text-black" href="javascript:void(0)" id="selected" style="margin: 0 21px;">{$Think.lang.featured}</a>
+                        </li>
                         <li style="text-align:right;">
-                            <a class="yu-menu yu-text-black" href="javascript:void(0)" id="shoes">{$Think.lang.shoes}</a>
+                            <a class="yu-menu yu-text-black" href="{:U('Starball/Babystyling/contentlist')}" id="special">{$Think.lang.clothingmatch}</a>
                         </li>
                         <li style="text-align:right;">
                             <a class="yu-menu yu-text-black" href="javascript:void(0)" id="sales">{$Think.lang.sales}</a>

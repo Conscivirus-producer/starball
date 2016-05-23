@@ -45,21 +45,16 @@
 	                                        <dd class="am-accordion-bd am-collapse" style="height: 0px;">
 	                                            <!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
 	                                            <div class="am-accordion-content">
-	                                                深圳市南山区讯美科技广场三栋15F15-21B
+	                                                {$vo.contactName}<br>{$vo.address}<br>{$vo.postCode} {$vo.city}<br>{$vo.country}
 	                                            </div>
 	                                            <div style="margin-bottom: 10px;text-align: right">
-		                                            <button class="am-btn am-btn-default am-btn-xs">编辑</button>
-		                                            <button class="am-btn am-btn-default am-btn-xs">删除</button>
+		                                            <button class="am-btn am-btn-default am-btn-xs" 
+		                                            	onclick="if(window.confirm('确定删除这个地址?')){window.location.href='{:U('Starball/User/deleteAddress', array('addressId'=>$vo['addressId']))}';}">删除</button>
 	                                            </div>
 	                                        </dd>
 	                                    </dl>
 	                                </section>
                                 </volist>
-                                <p>
-                                    <button type="button" class="am-btn am-btn-default yu-black-button">
-                                        输入新地址
-                                    </button>
-                                </p>
                             </div>
                         </div>
                         <!-- Password changing -->

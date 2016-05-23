@@ -55,11 +55,20 @@ class ItemController extends Controller {
     }
 
     public function uploadSingleItem() {
+        $result = array(
+            "status" => "fail"
+        );
         // inventory process
+        $productType = I("post.product-type", "");
+        if ($productType == "") {
+            echo json_encode($result);
+            return;
+        }
         $inventoryCount = (int)(I("post.inventory-div-count"));
         $inventoryArray = array();
         $inventory = array();
         for ($i = 0; $i <= $inventoryCount; $i++) {
+            $shoeSize = I("post.shoeSize".$i, "");
             $inventorySizeStart = I("post.inventory-size-start".$i, "");
             $inventorySizeEnd = I("post.inventory-size-end".$i, "");
             $inventoryNumber = I("post.inventory-number".$i, "");
@@ -68,7 +77,16 @@ class ItemController extends Controller {
             if ($inventorySizeStart == "" || $inventorySizeEnd == "" || $inventoryNumber == "" || $inventoryPriceCNY == "" || $inventoryPriceHKD == "") {
                 continue;
             }
-            $inventory["age"] = $inventorySizeStart.",".$inventorySizeEnd;
+            if ($productType == "2" && $shoeSize == "") {
+                continue;
+            }
+            $inventory["productType"] = $productType;
+            $inventory["footSize"] = $shoeSize;
+            if ($inventory["productType"] != "2") {
+                $inventory["age"] = $inventorySizeStart.",".$inventorySizeEnd;
+            } else{
+                $inventory["age"] = "";
+            }
             $inventory["inventory"] = $inventoryNumber;
             $inventory["priceCNY"] = $inventoryPriceCNY;
             $inventory["priceHKD"] = $inventoryPriceHKD;
@@ -88,9 +106,6 @@ class ItemController extends Controller {
             "discount",
             "tag",
             "images_array"
-        );
-        $result = array(
-            "status" => "fail"
         );
         $data = array();
         $count = count($fields);
@@ -142,11 +157,20 @@ class ItemController extends Controller {
     }
 
     public function updateSingleItem() {
+        $result = array(
+            "status" => "fail"
+        );
         // inventory process
+        $productType = I("post.product-type", "");
+        if ($productType == "") {
+            echo json_encode($result);
+            return;
+        }
         $inventoryCount = (int)(I("post.inventory-div-count"));
         $inventoryArray = array();
         $inventory = array();
         for ($i = 0; $i <= $inventoryCount; $i++) {
+            $shoeSize = I("post.shoeSize".$i, "");
             $inventoryId = I("post.inventory-id".$i, "");
             $inventorySizeStart = I("post.inventory-size-start".$i, "");
             $inventorySizeEnd = I("post.inventory-size-end".$i, "");
@@ -156,8 +180,17 @@ class ItemController extends Controller {
             if ($inventorySizeStart == "" || $inventorySizeEnd == "" || $inventoryNumber == "" || $inventoryPriceCNY == "" || $inventoryPriceHKD == "") {
                 continue;
             }
+            if ($productType == "2" && $shoeSize == "") {
+                continue;
+            }
+            $inventory["productType"] = $productType;
+            $inventory["footSize"] = $shoeSize;
             $inventory["inventoryId"] = $inventoryId;
-            $inventory["age"] = $inventorySizeStart.",".$inventorySizeEnd;
+            if ($inventory["productType"] != "2") {
+                $inventory["age"] = $inventorySizeStart.",".$inventorySizeEnd;
+            } else{
+                $inventory["age"] = "";
+            }
             $inventory["inventory"] = $inventoryNumber;
             $inventory["priceCNY"] = $inventoryPriceCNY;
             $inventory["priceHKD"] = $inventoryPriceHKD;
@@ -178,9 +211,6 @@ class ItemController extends Controller {
             "discount",
             "tag",
             "images_array"
-        );
-        $result = array(
-            "status" => "fail"
         );
         $data = array();
         $data["inventory"] = $inventoryArray;
@@ -272,7 +302,7 @@ class ItemController extends Controller {
 
     public function mainPageSetting() {
         $data = array();
-        $hotItemLogic = D("HotItem", "Logic");
+        $hotItemLogic = D("Hotitem", "Logic");
         $categories = array("H", "MLH", "MLF", "MR", "F", "S");
         for($i = 0; $i < count($categories); $i++) {
             $data[$categories[$i]] = $hotItemLogic->getHotItems($categories[$i]);
@@ -292,7 +322,7 @@ class ItemController extends Controller {
         $res = array(
             "status" => "0"
         );
-        $hotItemLogic = D("HotItem", "Logic");
+        $hotItemLogic = D("Hotitem", "Logic");
         $fields = array(
             "title",
             "subtitle",
@@ -313,7 +343,7 @@ class ItemController extends Controller {
     }
 
     public function editMainPageSetting() {
-        $hotItemLogic = D("HotItem", "Logic");
+        $hotItemLogic = D("Hotitem", "Logic");
         $hotId = I("get.hotId", "");
         if ($hotId == "") {
             die("错误操作");
@@ -334,7 +364,7 @@ class ItemController extends Controller {
         $res = array(
             "status" => "0"
         );
-        $hotItemLogic = D("HotItem", "Logic");
+        $hotItemLogic = D("Hotitem", "Logic");
         $fields = array(
             "hotId",
             "title",
