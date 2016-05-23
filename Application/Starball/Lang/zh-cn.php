@@ -2,7 +2,7 @@
 return array(
     //home page
     'home'=>'首页',
-    'myshoppinglist'=>'我的购物袋',
+    'myshoppinglist'=>'我的购物车',
     'myaccount'=>'我的账户',
     'myfavorite'=>'我的收藏',
     'newseries'=>'新系列',
@@ -104,7 +104,7 @@ return array(
 	'class'=>'类别',
 	'discount'=>'折扣',
 	'all'=>'全部',
-	'paymode'=>'付款方式',
+	'paymode'=>'支付方式',
 	'shippayinfo'=>'配送和支付信息',
 	'wechat'=>'微信',
 	'alipay'=>'支付宝',
@@ -122,8 +122,8 @@ return array(
 	'certify'=>'100%正品保证',
 	'cusser'=>'顾客服务',
 	'callemail'=>'可以致电或电邮联络',
-	'dayship'=>'24小时内发货',
-	'SFYT'=>'顺丰/圆通',
+	'dayship'=>'付款秒发',
+	'SFYT'=>'原装进口速运到家',
 	'PaySec'=>'交易安全',
 	'PayCer'=>'支付全程保证',
 	'srcontent'=>'退货与送货：
@@ -139,4 +139,9 @@ return array(
 				  </br></br>			
 				  若商品无质量问题，因个人喜好（款式，颜色，外观等）要求退换货恕不接受退换，敬情谅解，谢谢配合。',
 	'CScontent'=>'球姐告诉我，我再告诉你',
+	'AboutUs'=>'关于我们',
+	'shipinfo'=>'物流配送',
+	'RtrnPolicy'=>'退换政策',
+	'SizeGuide'=>'尺码手册',
+	'FAQ'=>'常见问题',
 );
