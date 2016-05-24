@@ -36,7 +36,7 @@ class CartController extends BaseController {
 		if(count($addressList) == 0){
 			$this->redirect('Cart/address');
 		}
-		$addressList = $this->convertCountryCode($addressList);
+		$addressList = $this->convertCountryProvinceCode($addressList);
 		$this->assign('addressList', $addressList);
 		$this->display();
 	}
@@ -60,7 +60,7 @@ class CartController extends BaseController {
 			//把addressId存入order
 			$data['userId'] = $this->getCurrentUserId();
 			$orderUpdate['shippingAddress'] = $shipppingAddress->add($data);
-			$orderUpdate['shippingFee'] = $this->calculateShippingFee();
+			$orderUpdate['shippingFee'] = $this->calculateShippingFee($order['totalAmount']);
 			$orderLogic->updateOrder($orderUpdate, $order['orderId']);
 			$this->redirect('Cart/delivery');
 		}
@@ -120,15 +120,14 @@ class CartController extends BaseController {
 		$orderLogic = D('Order', 'Logic');
 		$backlogOrder = $orderLogic->getOrderByUserId($this->getCurrentUserId(), 'N');
 		$order = $backlogOrder[0];
-		logInfo('fk111');
 		$addressId = I('addressId');
 		//更新用户默认地址
 		$shipppingAddress = D("ShippingAddress", "Logic");
 		$shipppingAddress->unsetDefault($this->getCurrentUserId());
-		$shipppingAddress->setDefault($this->getCurrentUserId(), $addressId);
+		$shipppingAddress->setDefault($addressId);
 
 		//计算运费,根据最新的地址
-		$shippingFee = $this->calculateShippingFee();
+		$shippingFee = $this->calculateShippingFee($order['totalAmount']);
 					
 		//更新订单信息,运费,总费用,地址
 		$data['shippingAddress'] = $addressId;
@@ -204,7 +203,7 @@ class CartController extends BaseController {
 		//更新order的数量
 		$data['totalItemCount'] = $order['totalItemCount'] + $changedQuantity;
 		$data['totalAmount'] = round($order['totalAmount'] + $changedPrice, 2);
-		$data['shippingFee'] = $this->calculateShippingFee();
+		$data['shippingFee'] = $this->calculateShippingFee($data['totalAmount']);
 		$data['totalFee'] = $data['totalAmount'] + $data['shippingFee'] + $order['giftPackageFee'];
 		$orderLogic->updateOrder($data, $order['orderId']);
 		return true;

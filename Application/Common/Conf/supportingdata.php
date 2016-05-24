@@ -104,5 +104,11 @@ return array(
 		'63'=>array('青海省','22','9'),
 		'64'=>array('宁夏回族自治区','22','9'),
 		'65'=>array('新疆维吾尔自治区','22','9')
+	),
+	'SHIPPING_FEE_SETTING' => array(
+		'EXTENDED_WEIGHT_BENCHMARK' => '0.5',
+		'FREE_BENCHMARK_CNY' => '840',
+		'FREE_BENCHMARK_HKD' => '1000',
+		'HK_DEFAULT_COST' => '35'
 	)
 );

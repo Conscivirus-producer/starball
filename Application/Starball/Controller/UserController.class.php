@@ -48,6 +48,7 @@ class UserController extends BaseController {
 	private function prepareUserAddressInformation(){
 		$shippingAddress = D('ShippingAddress', 'Logic');
 		$addressList = $shippingAddress->getAllAddress($this->getCurrentUserId());
+		$addressList = $this->convertCountryProvinceCode($addressList);
 		$this->assign('addressList', $addressList);
 	}
 	

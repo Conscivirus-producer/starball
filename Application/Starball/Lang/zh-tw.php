@@ -145,6 +145,6 @@ return array(
 	'RtrnPolicy'=>'退換政策',
 	'SizeGuide'=>'尺碼手冊',
 	'FAQ'=>'常見問題',
-	'deliveryToHome'=>'送货上门',
-	'pickAtStation'=>'地鐵站交接'
+	'deliveryToHome'=>'送货上门(35 HKD)',
+	'pickAtStation'=>'地鐵站交接(免運費)'
 );

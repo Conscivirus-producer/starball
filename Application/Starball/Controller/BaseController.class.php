@@ -100,7 +100,7 @@ class BaseController extends Controller {
 		$orderData['totalAmount'] = $newTotalPrice;
 		//如果现有礼物包装费用为0，则保持0
 		$orderData['giftPackageFee'] = $order['giftPackageFee'] == 0 ? 0 : $this->getGiftPackageFee();
-		$orderData['shippingFee'] = $this->calculateShippingFee();
+		$orderData['shippingFee'] = $this->calculateShippingFee($orderData['totalAmount']);
 		$orderData['totalFee'] = $orderData['totalAmount'] + $orderData['giftPackageFee'] + $orderData['shippingFee'];
 		$orderData['currency'] = $this->getCurrency();
 		$orderLogic->updateOrder($orderData, $order['orderId']);
@@ -128,10 +128,9 @@ class BaseController extends Controller {
 		$backlogOrder = $orderLogic->getOrderByUserId($this->getCurrentUserId(), 'N');
 		if(count($backlogOrder) == 0){
 			//之前没有任何订单记录
-			$data['shippingFee'] = $this->calculateShippingFee();
 			$data['totalItemCount'] = $shoppingList['totalItemCount'];
-			$data['shippingFee'] = $this->calculateShippingFee();
 			$data['totalAmount'] = $shoppingList['totalAmount'];
+			$data['shippingFee'] = $this->calculateShippingFee($data['totalAmount']);
 			$data['totalFee'] = $data['totalAmount'] + $data['shippingFee'];
 			$data['userId'] = $this->getCurrentUserId(); 
 			$data['status'] = 'N';
@@ -193,7 +192,7 @@ class BaseController extends Controller {
 		}
 		
 		$orderData['totalAmount'] = $order['totalAmount'] + $newTotalPrice;
-		$orderData['shippingFee'] = $this->calculateShippingFee();
+		$orderData['shippingFee'] = $this->calculateShippingFee($orderData['totalAmount']);
 		$orderData['totalFee'] = $orderData['totalAmount'] + $order['giftPackageFee'] + $orderData['shippingFee'];
 		$orderData['totalItemCount'] = $order['totalItemCount'] + $newTotalCount;
 		$orderData['currency'] = $this->getCurrency();
@@ -344,25 +343,67 @@ class BaseController extends Controller {
 		}		
 	}
 	
-	protected function convertCountryCode($addressList){
+	protected function convertCountryProvinceCode($addressList){
 		$countryList = C('COUNTRY_LIST');
+		$provinceList = C('CHINA_PROVINCE_LIST');
 		$i=0;
-		foreach($addressList as $record){                          
-			if($record['country'] != ''){
-				$record['country'] = L($countryList[$record['country']]);
-				$addressList[$i] = $record;
+		foreach($addressList as $address){                          
+			if($address['country'] != ''){
+				$address['country'] = L($countryList[$address['country']]);
+				$addressList[$i] = $address;
+			}
+			if($address['province'] != ''){
+				$address['province'] = current($provinceList[$address['province']]);
+				$addressList[$i] = $address;
 			}
 			$i++;
 		}
 		return $addressList;
 	}
 
-	protected function calculateShippingFee(){
-		//TBC, 需要考虑汇率,按照当前用户的默认送货地址计算价格
-		if($this->getCurrency() == 'HKD'){
-			return 0.01;
-		}else if($this->getCurrency() == 'CNY'){
-			return 0.01;
+	protected function calculateShippingFee($totalAmount){
+		$defaultAddress = D('ShippingAddress', 'Logic')->getDefaultAddress($this->getCurrentUserId());
+		$shippingFeeSetting = C('SHIPPING_FEE_SETTING');
+		if($defaultAddress['country'] == 'hk'){
+			//如果当前地址是香港
+			if($defaultAddress['deliveryType'] == 0){
+				//地铁站自取
+				return 0;
+			}else if($defaultAddress['deliveryType'] == 1){
+				//商品价格达到免邮标准
+				if($totalAmount - $shippingFeeSetting['FREE_BENCHMARK_'.$this->getCurrency()] > 0){
+					return 0;
+				}
+				return $shippingFeeSetting['HK_DEFAULT_COST'];
+			}
+		}else if($defaultAddress['country'] == 'cn'){
+			//商品价格达到免邮标准
+			if($totalAmount - $shippingFeeSetting['FREE_BENCHMARK_'.$this->getCurrency()] > 0){
+				return 0;
+			}
+			
+			//如果是国内地址,根据首重,续重的规则来.特殊商品有额外费用的设置
+			//计算重量，还有额外费用总和
+			$backlogOrder = D('Order', 'Logic')->getOrderByUserId($this->getCurrentUserId(), 'N');
+			$shoppingList = $backlogOrder[0];
+			$shoppingListItems = D('OrderItem', 'Logic')->getOrderItemsByOrdeId($shoppingList['orderId']);
+			$extraShippingFee = 0;
+			$totalWeight = 0;
+			foreach($shoppingListItems as $orderItem){
+				$item = D('Item', 'Logic')->findById($orderItem['itemId']);
+				$extraShippingFee += $item['extraShippingFee'] * $orderItem['quantity'];
+				$totalWeight += $item['weight'] * $orderItem['quantity'];
+			}
+			$provinceList = C('CHINA_PROVINCE_LIST');
+			$firstKgFee = $provinceList[$defaultAddress['province']][1];
+			$extendKgFee = $provinceList[$defaultAddress['province']][2];
+			if($totalWeight - 1 < 0){
+				return $extraShippingFee + $firstKgFee;
+			}else{
+				$extendCount = ceil(($totalWeight - 1)/$shippingFeeSetting['EXTENDED_WEIGHT_BENCHMARK']);
+				logInfo('$extendCount:'.$extendCount);
+				return $extraShippingFee + $firstKgFee + $extendCount * $extendKgFee;
+			}
 		}
 		return 0;
 	}

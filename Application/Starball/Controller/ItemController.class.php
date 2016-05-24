@@ -4,7 +4,7 @@ use Think\Controller;
 class ItemController extends BaseController {
 	public function index($itemId){
 		$this->commonProcess();
-		$itemData = D("Item", "Logic")->getItemById($itemId);
+		$itemData = D("Item", "Logic")->getItemWithBrandAndCategoryById($itemId);
 		$imageData = D("Image", "Logic")->getImageById($itemId);
 		$inventoryResult = D("Inventory", "Logic")->getInventoryAndPriceByItemId($itemId, $this->getCurrency());
 		$inventoryData = array();
@@ -83,7 +83,7 @@ class ItemController extends BaseController {
 			}
 			$data['totalItemCount'] = 1; 
 			$data['totalAmount'] = I('currentPrice');
-			$data['shippingFee'] = $this->calculateShippingFee();
+			$data['shippingFee'] = $this->calculateShippingFee($data['totalAmount']);
 			$data['totalFee'] = $data['totalAmount'] + $data['shippingFee'];
 			$data['userId'] = $userId; 
 			$data['status'] = 'N';
@@ -98,9 +98,9 @@ class ItemController extends BaseController {
 				return false;
 			}
 			
-			$data['shippingFee'] = $this->calculateShippingFee();
 			$data['totalItemCount'] = $order['totalItemCount'] + 1;
 			$data['totalAmount'] = $order['totalAmount'] + I('currentPrice');
+			$data['shippingFee'] = $this->calculateShippingFee($data['totalAmount']);
 			$data['totalFee'] = $data['totalAmount'] + $data['shippingFee'] + $order['giftPackageFee'];
 			$orderLogic->updateOrder($data, $order['orderId']);
 		}
