@@ -427,7 +427,7 @@
                             <a class="yu-menu yu-text-black" href="{:U('Starball/Babystyling/contentlist')}" id="special">{$Think.lang.clothingmatch}</a>
                         </li>
                         <li style="text-align:right;">
-                            <a class="yu-menu yu-text-black" href="javascript:void(0)" id="sales">{$Think.lang.sales}</a>
+                            <a class="yu-menu yu-text-black" href="{:U('Starball/List/showList/by/discount/byValue/discount')}" id="sales">{$Think.lang.sales}</a>
                         </li>
                     </ul>
                     <!--sub menus -->
@@ -611,56 +611,26 @@
                     </div>
                     <div  class="yu-sub-menu am-u-md-12 am-u-end selected">
                         <div class="am-kai am-u-md-10 am-u-md-offset-1">
-                            <div class="am-u-lg-4 am-u-md-4 am-u-sm-12 yu-boutique-spacefixer">
-                                <div class="am-thumbnail am-padding-0">
-                                    <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/gucci-405-spring-summer-2016.jpg" alt="" class="yu-boutiqueimg-fixer">
-                                    <div class="am-thumbnail-caption am-kai am-text-center am-padding-bottom-0 am-padding-top-0">
-                                        <p class="yu-home-title">
-                                            GUCCI
-                                        </p>
-                                        <p class="yu-home-subtitle">
-                                            单宁世界
-                                        </p>
-                                        <p class="am-margin-0">
-                                            <a href="javascript:void(0);" class="yu-home-button"> 〉{$Think.lang.buynow} </a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="am-u-lg-4 am-u-md-4 am-u-sm-12 yu-boutique-spacefixer">
-                                <div class="am-thumbnail am-padding-0">
-                                    <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/gucci-405-spring-summer-2016.jpg" alt="" class="yu-boutiqueimg-fixer">
-                                    <div class="am-thumbnail-caption am-kai am-text-center am-padding-bottom-0 am-padding-top-0">
-                                        <p class="yu-home-title">
-                                            GUCCI
-                                        </p>
-                                        <p class="yu-home-subtitle">
-                                            单宁世界
-                                        </p>
-                                        <p class="am-margin-0">
-                                            <a href="javascript:void(0);" class="yu-home-button"> 〉{$Think.lang.buynow} </a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="am-u-lg-4 am-u-md-4 am-u-sm-12 yu-boutique-spacefixer">
-                                <div class="am-thumbnail am-padding-0">
-                                    <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/gucci-405-spring-summer-2016.jpg" alt="" class="yu-boutiqueimg-fixer">
-                                    <div class="am-thumbnail-caption am-kai am-text-center am-padding-bottom-0 am-padding-top-0">
-                                        <p class="yu-home-title">
-                                            GUCCI
-                                        </p>
-                                        <p class="yu-home-subtitle">
-                                            单宁世界
-                                        </p>
-                                        <p class="am-margin-0">
-                                            <a href="javascript:void(0);" class="yu-home-button"> 〉{$Think.lang.buynow} </a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                            <volist name="boutiqueMenu" id="boutique">
+                            	<div class="am-u-lg-4 am-u-md-4 am-u-sm-12 yu-boutique-spacefixer">
+                            		<div class="am-thumbnail am-padding-0">
+	                                    <img src="{$boutique.image}" alt="" class="yu-boutiqueimg-fixer">
+	                                    <div class="am-thumbnail-caption am-kai am-text-center am-padding-bottom-0 am-padding-top-0">
+	                                        <p class="yu-home-title">
+	                                            {$boutique.title}
+	                                        </p>
+	                                        <p class="yu-home-subtitle">
+	                                            {$boutique.subtitle}
+	                                        </p>
+	                                        <p class="am-margin-0">
+	                                            <a href="{$boutique.targetItemLink}" class="yu-home-button"> 〉{$Think.lang.buynow} </a>
+	                                        </p>
+	                                    </div>
+	                                </div>
+                            	</div>
+                            </volist>
                             <div class="yu-boutique-button">
-                                <a class="yu-boutique-more am-kai">〉{$Think.lang.Callfeatures}</a>
+                                <a href="{:U('Starball/List/hotItem')}" class="yu-boutique-more am-kai">〉{$Think.lang.Callfeatures}</a>
                             </div>
                         </div>
                     </div>

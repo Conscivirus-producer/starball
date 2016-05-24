@@ -118,6 +118,12 @@ class BaseController extends Controller {
 		}
 	}
 	
+	protected function prepareBoutiqueMenu(){
+		$map["t_hotitem.type"] = array("EQ", "S");
+		$boutiqueList = D("hotitem")->where($map)->limit(3)->select();
+		$this->assign("boutiqueMenu", $boutiqueList);
+	}
+	
 	private function appendSessionShoppingListToUser(){
 		$shoppingList = session('shoppingList');
 		$shoppingListItems = session('shoppingListItems');
@@ -251,6 +257,7 @@ class BaseController extends Controller {
 		$this->prepareSupportingData();
 		$this->prepareBrandList();
 		$this->prepareUserMenu();
+		$this->prepareBoutiqueMenu();
 		$this->prepareShoppingList();
 	}
 	
