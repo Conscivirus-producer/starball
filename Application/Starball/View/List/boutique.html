@@ -15,101 +15,29 @@
         </ol>
         <hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-layout">
         <div class="am-g am-kai yu-boutique-viewlist">
-            <div class="am-u-lg-4 am-u-md-6 am-u-sm-12 yu-boutique-spacefixer">
-                <div class="am-thumbnail am-padding-0">
-                    <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/gucci-405-spring-summer-2016.jpg" alt="" class="yu-boutiqueimg-fixer">
-                    <div class="am-thumbnail-caption am-kai am-text-center">
-                        <p class="yu-home-title">
-                            GUCCI
-                        </p>
-                        <p class="yu-home-subtitle">
-                            单宁世界
-                        </p>
-                        <p class="am-margin-0">
-                            <a href="##" class="yu-home-button"> 〉立即购买 </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="am-u-lg-4 am-u-md-6 am-u-sm-12 yu-boutique-spacefixer">
-                <div class="am-thumbnail am-padding-0">
-                    <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/gucci-405-spring-summer-2016.jpg" alt="" class="yu-boutiqueimg-fixer">
-                    <div class="am-thumbnail-caption am-kai am-text-center">
-                        <p class="yu-home-title">
-                            GUCCI
-                        </p>
-                        <p class="yu-home-subtitle">
-                            单宁世界
-                        </p>
-                        <p class="am-margin-0">
-                            <a href="##" class="yu-home-button"> 〉立即购买 </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="am-u-lg-4 am-u-md-6 am-u-sm-12 yu-boutique-spacefixer">
-                <div class="am-thumbnail am-padding-0">
-                    <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/gucci-405-spring-summer-2016.jpg" alt="" class="yu-boutiqueimg-fixer">
-                    <div class="am-thumbnail-caption am-kai am-text-center">
-                        <p class="yu-home-title">
-                            GUCCI
-                        </p>
-                        <p class="yu-home-subtitle">
-                            单宁世界
-                        </p>
-                        <p class="am-margin-0">
-                            <a href="##" class="yu-home-button"> 〉立即购买 </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="am-u-lg-4 am-u-md-6 am-u-sm-12 yu-boutique-spacefixer">
-                <div class="am-thumbnail am-padding-0">
-                    <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/gucci-405-spring-summer-2016.jpg" alt="" class="yu-boutiqueimg-fixer">
-                    <div class="am-thumbnail-caption am-kai am-text-center">
-                        <p class="yu-home-title">
-                            GUCCI
-                        </p>
-                        <p class="yu-home-subtitle">
-                            单宁世界
-                        </p>
-                        <p class="am-margin-0">
-                            <a href="##" class="yu-home-button"> 〉立即购买 </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="am-u-lg-4 am-u-md-6 am-u-sm-12 yu-boutique-spacefixer">
-                <div class="am-thumbnail am-padding-0">
-                    <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/gucci-405-spring-summer-2016.jpg" alt="" class="yu-boutiqueimg-fixer">
-                    <div class="am-thumbnail-caption am-kai am-text-center">
-                        <p class="yu-home-title">
-                            GUCCI
-                        </p>
-                        <p class="yu-home-subtitle">
-                            单宁世界
-                        </p>
-                        <p class="am-margin-0">
-                            <a href="##" class="yu-home-button"> 〉立即购买 </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="am-u-lg-4 am-u-md-6 am-u-sm-12 yu-boutique-spacefixer">
-                <div class="am-thumbnail am-padding-0">
-                    <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/gucci-405-spring-summer-2016.jpg" alt="" class="yu-boutiqueimg-fixer">
-                    <div class="am-thumbnail-caption am-kai am-text-center">
-                        <p class="yu-home-title">
-                            GUCCI
-                        </p>
-                        <p class="yu-home-subtitle">
-                            单宁世界
-                        </p>
-                        <p class="am-margin-0">
-                            <a href="##" class="yu-home-button"> 〉立即购买 </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
+            <volist name="itemList" id="boutiqueList">
+            	<div class="am-u-lg-4 am-u-md-6 am-u-sm-12 yu-boutique-spacefixer">
+	                <div class="am-thumbnail am-padding-0">
+	                    <img src="{$boutiqueList.image}" alt="" class="yu-boutiqueimg-fixer">
+	                    <div class="am-thumbnail-caption am-kai am-text-center">
+	                        <p class="yu-home-title">
+	                            {$boutiqueList.title}
+	                        </p>
+	                        <p class="yu-home-subtitle">
+	                            {$boutiqueList.subtitle}
+	                        </p>
+	                        <p class="am-margin-0">
+	                            <a href="{$boutiqueList.targetItemLink}" class="yu-home-button"> 〉立即购买 </a>
+	                        </p>
+	                    </div>
+	                </div>
+	            </div>
+            </volist>
+         </div>
     </div>
+</block>
+<block name="customizedJavascript">
+<script>
+	$("div.am-g.am-kai.yu-boutique-viewlist div:last-child").addClass("am-u-end");
+</script>
 </block>
