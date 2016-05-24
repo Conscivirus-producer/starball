@@ -52,7 +52,7 @@ class ItemController extends Controller {
         $this->assign("itemSizeData", json_encode($allItemSize));
         $this->assign('qiniuToken',$token);
 		$supportingData = D('SupportingData', 'Logic');
-		$this->assign('defaultClothWeight', $supportingData->getValueByKey('COMMON_CLOTH_WEIGHT'));
+		$this->assign('defaultClothWeight', $supportingData->getValueByKey('SHIPPING_COMMON_CLOTH_WEIGHT'));
         $this->display();
     }
 
@@ -399,9 +399,9 @@ class ItemController extends Controller {
 		$data = D('Category', 'Logic')->findById($categoryId);
 		$supportingData = D('SupportingData', 'Logic');
 		if($data['type'] == '2'){
-			$res['itemWeight'] = $supportingData->getValueByKey('COMMON_SHOE_WEIGHT');
+			$res['itemWeight'] = $supportingData->getValueByKey('SHIPPING_COMMON_SHOE_WEIGHT');
 		}else if($data['type'] == '1'){
-			$res['itemWeight'] = $supportingData->getValueByKey('COMMON_CLOTH_WEIGHT');
+			$res['itemWeight'] = $supportingData->getValueByKey('SHIPPING_COMMON_CLOTH_WEIGHT');
 		}
 		echo json_encode($res);
 	}

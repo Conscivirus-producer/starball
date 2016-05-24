@@ -7,7 +7,7 @@
 	<include file="Public/cartcommon" />
 	
 	<div class="yu-cart-content">
-		<span style="font-weight: bold;font-size: 13px">{$Think.lang.myshoppinglist}</span><span style="font-size:13px">{$Think.lang.myaddress}</span>
+		<span style="font-weight: bold;font-size: 13px">{$Think.lang.myaddress}</span>
 		<hr style="border-color: black" />
 		<form class="am-form am-form-horizontal" role="form" method="post" style="width:70%; margin-left: 15%;font-size: 12px">
 			<input type="hidden" value="1" name="default"/>
@@ -21,25 +21,41 @@
 			</div>
 			<div class="am-form-group">
 				<div style="margin-bottom: 10px">
-					<input name="contactName" value="{$data.contactName}" class="am-form-field" placeholder="{$Think.lang.name}" />
+					<input name="contactName" value="{$data.contactName}" class="am-form-field" placeholder="{$Think.lang.consignee}" />
 				</div>
 				<div style="margin-bottom: 10px">
-					<input name="address" value="{$data.address}"  class="am-form-field" placeholder="{$Think.lang.address}＊" />
-				</div>
-				<div style="margin-bottom: 10px">
-					<input name="postCode" value="{$data.postCode}"  class="am-form-field" placeholder="{$Think.lang.zipcode}" />
-				</div>
-				<div style="margin-bottom: 10px">
-					<input name="city" value="{$data.city}"  class="am-form-field" placeholder="{$Think.lang.citytown}＊" />
-				</div>
-				<div style="margin-bottom: 10px">
-					<select data-am-selected="{btnWidth: '100%', btnSize: 'sm'}" name="country">
+					<select data-am-selected="{btnWidth: '100%', btnSize: 'sm'}" name="country" id="country" onchange="changeCountry($(this).val())">
 						<option value="none" selected>{$Think.lang.country}*</option>
 						<volist name="countryList" id="vo">
 						  	<option value="{$vo.code}">{$vo.display}</option>
 						</volist>
 					</select>
-				</div>				
+				</div>	
+				<div style="margin-bottom: 10px;" class="cn-info" >
+					<select data-am-selected="{btnWidth: '100%', btnSize: 'sm'}" name="province">
+						<option value="none" selected>{$Think.lang.province}*</option>
+						<volist name="provinceList" id="vo">
+						  	<option value="{$vo.code}">{$vo.display}</option>
+						</volist>
+					</select>
+                </div>
+                <div style="margin-bottom: 10px" class="cn-info">
+                    <input name="city" value="{$data.city}"  class="am-form-field" placeholder="{$Think.lang.citytown}＊" />
+				</div>
+				<div style="margin-bottom: 10px" class="cn-info">
+					<input name="postCode" value="{$data.postCode}"  class="am-form-field" placeholder="{$Think.lang.zipcode}" />
+				</div>
+				<div style="margin-bottom: 10px">
+					<input name="address" value="{$data.address}"  class="am-form-field" placeholder="{$Think.lang.address}＊" />
+				</div>
+				<div class="am-form-group hk-info">
+				  <label class="am-radio-inline">
+				    <input type="radio" name="deliveryType" value="1"> {$Think.lang.deliveryToHome}
+				  </label>
+				  <label class="am-radio-inline">
+				    <input type="radio" name="deliveryType" value="0"> {$Think.lang.pickAtStation}
+				  </label>
+				</div>
 				<div style="margin-bottom: 10px">
 					<input name="phone" value="{$data.phone}" class="am-form-field" placeholder="Mobile＊" />
 				</div>
@@ -50,7 +66,7 @@
 					{$Think.lang.setaddresscheck}*	
 				</div>
 				<div style="margin-bottom: 10px">
-					<input name="addressName" value="{$data.addressName}" class="am-form-field" placeholder="{$Think.lang.pwd}" />
+					<input name="addressName" value="{$data.addressName}" class="am-form-field" placeholder="{$Think.lang.addressName}" />
 				</div>
 				<button id="delivery" type="submit" style="float: right; margin-top: 10px; width: 80px; height: 28px;background-color: black;border:0; color: white">
 				    {$Think.lang.submit}
@@ -65,5 +81,19 @@
 		$(".cart-step2").addClass("step-on");
 		$("#cartlnk1").attr('href', "{:U('Starball/Cart/index')}");
 		$("#cartlnk2").attr('href', "{:U('Starball/Cart/delivery')}");
+		changeCountry($('#country').val());
+		
+		function changeCountry(countryCode){
+			if(countryCode == 'cn'){
+				$('.cn-info').show();
+				$('.hk-info').hide();
+			}else if(countryCode == 'hk'){
+				$('.cn-info').hide();
+				$('.hk-info').show();
+			}else if(countryCode == 'none'){
+				$('.cn-info').hide();
+				$('.hk-info').hide();				
+			}
+		}
 	</script>
 </block>

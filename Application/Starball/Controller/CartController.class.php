@@ -64,6 +64,12 @@ class CartController extends BaseController {
 			$orderLogic->updateOrder($orderUpdate, $order['orderId']);
 			$this->redirect('Cart/delivery');
 		}
+		$provinceList = array();
+		foreach(C('CHINA_PROVINCE_LIST') as $key=>$value){
+			$tmpArray = array('code'=>$key, 'display'=>$value[0]);
+			array_push($provinceList, $tmpArray);
+		}
+		$this->assign('provinceList', $provinceList);
 		$countryArray = array();
 		foreach(C('COUNTRY_LIST') as $key=>$value){
 			$tmpArray = array('code'=>$key, 'display'=>L($value));
