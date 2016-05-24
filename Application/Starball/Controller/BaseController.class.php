@@ -364,6 +364,7 @@ class BaseController extends Controller {
 	protected function calculateShippingFee($totalAmount){
 		$defaultAddress = D('ShippingAddress', 'Logic')->getDefaultAddress($this->getCurrentUserId());
 		$shippingFeeSetting = C('SHIPPING_FEE_SETTING');
+		$exchangeRate = C('EXCHANGE_RATE_HKD_TO_CNY');
 		if($defaultAddress['country'] == 'hk'){
 			//如果当前地址是香港
 			if($defaultAddress['deliveryType'] == 0){
@@ -374,7 +375,9 @@ class BaseController extends Controller {
 				if($totalAmount - $shippingFeeSetting['FREE_BENCHMARK_'.$this->getCurrency()] > 0){
 					return 0;
 				}
-				return $shippingFeeSetting['HK_DEFAULT_COST'];
+				$totalShippingFee = $shippingFeeSetting['HK_DEFAULT_COST'];
+				//这个是基于港币的结果，如果当前币种是人民币，转化成港币
+				return $this->getCurrency() == 'HKD' ? $totalShippingFee : round($totalShippingFee * $exchangeRate, 2);
 			}
 		}else if($defaultAddress['country'] == 'cn'){
 			//商品价格达到免邮标准
@@ -397,13 +400,15 @@ class BaseController extends Controller {
 			$provinceList = C('CHINA_PROVINCE_LIST');
 			$firstKgFee = $provinceList[$defaultAddress['province']][1];
 			$extendKgFee = $provinceList[$defaultAddress['province']][2];
+			$totalShippingFee = 0;
 			if($totalWeight - 1 < 0){
-				return $extraShippingFee + $firstKgFee;
+				$totalShippingFee = $extraShippingFee + $firstKgFee;
 			}else{
 				$extendCount = ceil(($totalWeight - 1)/$shippingFeeSetting['EXTENDED_WEIGHT_BENCHMARK']);
-				logInfo('$extendCount:'.$extendCount);
-				return $extraShippingFee + $firstKgFee + $extendCount * $extendKgFee;
+				$totalShippingFee = $extraShippingFee + $firstKgFee + $extendCount * $extendKgFee;
 			}
+			//这个是基于人民币的结果，如果当前币种是港币，转化成人民币
+			return $this->getCurrency() == 'CNY' ? $totalShippingFee : round($totalShippingFee / $exchangeRate, 2);
 		}
 		return 0;
 	}

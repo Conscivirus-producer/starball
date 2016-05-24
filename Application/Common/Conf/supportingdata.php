@@ -110,5 +110,6 @@ return array(
 		'FREE_BENCHMARK_CNY' => '840',
 		'FREE_BENCHMARK_HKD' => '1000',
 		'HK_DEFAULT_COST' => '35'
-	)
+	),
+	'EXCHANGE_RATE_HKD_TO_CNY' => '0.84'
 );
