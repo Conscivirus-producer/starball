@@ -122,7 +122,7 @@ return array(
 	'certify'=>'100%正品保證',
 	'cusser'=>'顧客服務',
 	'callemail'=>'可以致電或電郵聯絡',
-	'dayship'=>'付款妙發',
+	'dayship'=>'付款秒發',
 	'SFYT'=>'原裝進口，速運到家',
 	'srcontent'=>'退貨與送貨：
 
