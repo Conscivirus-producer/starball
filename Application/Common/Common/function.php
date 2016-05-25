@@ -133,21 +133,6 @@ function getSizeDescriptionByAge($age){
 	}
 }
 
-function getSizeDescriptionAndPriceByAge($age, $price, $currency){
-	$sizeArray = C('ITEMSIZE');
-	if(strpos($age, ',') <= 0){
-		return $sizeArray[$age][0].'  ('.$sizeArray[$age][1].' - '.$sizeArray[$age][2].'cm)'.' - '.$currency.' '.$price;
-	}else{
-		$startAge = current(explode(',', $age));
-		$endAge = end(explode(',', $age));
-		if($endAge == $startAge){
-			return $sizeArray[$startAge][0].'  ('.$sizeArray[$startAge][1].' - '.$sizeArray[$endAge][2].'cm)'.' - '.$currency.' '.$price;
-		}else{
-			return $sizeArray[$startAge][0].'-'.$sizeArray[$endAge][0].'  ('.$sizeArray[$startAge][1].' - '.$sizeArray[$endAge][2].'cm)'.' - '.$currency.' '.$price;
-		}
-	}
-}
-
 function array_customized_sort($arrays,$sort_key,$sort_order=SORT_ASC,$sort_type=SORT_NUMERIC ){
     if(is_array($arrays)){   
         foreach ($arrays as $array){   

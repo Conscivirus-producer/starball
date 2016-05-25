@@ -146,5 +146,9 @@ return array(
 	'SizeGuide'=>'尺碼手冊',
 	'FAQ'=>'常見問題',
 	'deliveryToHome'=>'送货上门(35 HKD)',
-	'pickAtStation'=>'地鐵站交接(免運費)'
+	'pickAtStation'=>'地鐵站交接(免運費)',
+	'comingsoonalert'=>'(即將到貨 - 設置提醒)',
+	'soldout'=>'售罄',
+	'sizecomingsoon'=>'此尺碼即將到貨',
+	'notifymewhengoodarrived'=>'此商品到貨時提醒我'
 );

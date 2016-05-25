@@ -10,10 +10,7 @@ class ItemController extends BaseController {
 		$inventoryData = array();
 		$currencyArray = C('CURRENCY');
 		foreach($inventoryResult as $inventory){
-			if($inventory['inventory'] <= 0){
-				continue;
-			}
-			$inventory['description'] = getSizeDescriptionAndPriceByAge($inventory['age'], $inventory['price'], $currencyArray[$this->getCurrency()]);
+			$inventory['description'] = $this->getSizeDescriptionAndPriceByAge($inventory['age'], $inventory['price'], $currencyArray[$this->getCurrency()], $itemData['isAvailable']);
 			array_push($inventoryData, $inventory);
 		}
 		$this->assign('data', $itemData);
@@ -23,6 +20,26 @@ class ItemController extends BaseController {
 		$this->assign('inventory', $inventoryData);
 		$this->assign('inventoryjson', json_encode($inventoryData));
 		$this->display();
+	}
+
+	private function getSizeDescriptionAndPriceByAge($age, $price, $currency, $isAvailable){
+		$sizeArray = C('ITEMSIZE');
+		$result = '';
+		if(strpos($age, ',') <= 0){
+			$result = $sizeArray[$age][0].'  ('.$sizeArray[$age][1].' - '.$sizeArray[$age][2].'cm)'.' - '.$currency.' '.$price;
+		}else{
+			$startAge = current(explode(',', $age));
+			$endAge = end(explode(',', $age));
+			if($endAge == $startAge){
+				$result = $sizeArray[$startAge][0].'  ('.$sizeArray[$startAge][1].' - '.$sizeArray[$endAge][2].'cm)'.' - '.$currency.' '.$price;
+			}else{
+				$result = $sizeArray[$startAge][0].'-'.$sizeArray[$endAge][0].'  ('.$sizeArray[$startAge][1].' - '.$sizeArray[$endAge][2].'cm)'.' - '.$currency.' '.$price;
+			}
+		}
+		if($isAvailable == 2){
+			$result = $result.'	'.L('comingsoonalert');
+		}
+		return $result;
 	}
 	
 	public function addToShoppingList(){
@@ -41,6 +58,15 @@ class ItemController extends BaseController {
 			$vo['html'] = '';
 			$vo['message'] = '该尺码库存不足';
 			$vo['status'] = 0;			
+		}
+		$this->ajaxReturn($vo, "json");
+	}
+	
+	public function confirmSubscription(){
+		$vo['status'] = 0;
+		$id = D('ItemSubscription', 'Logic')->createRecord(I('subscriptionEmail'), I('itemId'));
+		if($id > 0){
+			$vo['status'] = 1;	
 		}
 		$this->ajaxReturn($vo, "json");
 	}
