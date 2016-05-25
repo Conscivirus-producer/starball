@@ -1,0 +1,10 @@
+div.subscription-block{
+	float: left;
+	text-align:center;
+    box-sizing: border-box;
+    border:solid 1px #cc4c4b;
+    color:#cc4c4b;
+    margin: 0 0 20px;
+    max-width:476px;
+    width:100%
+}

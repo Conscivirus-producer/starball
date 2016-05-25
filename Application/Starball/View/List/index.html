@@ -1,5 +1,8 @@
 <extend name="Public/base" />
 <block name="title"><title>产品列表</title></block>
+<block name="customizedCss">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/starball/css/list.css">
+</block>
 <block name="main">
 <div class="am-g yu-main-container">
 	<div class="am-u-sm-12 am-padding-0">
@@ -145,6 +148,7 @@
 									<span class="listpage-item-price">
 									   {$priceSymbol}  {$vo.price}
 									</span>
+									<div class="subscription-block am-kai">获取到货通知</div>
 								</div>
 							</div>
 						</a>
