@@ -1,23 +1,13 @@
 <extend name="Public/base" />
 <block name="title"><title>产品列表</title></block>
-<block name="customizedCss">
-	<link rel="stylesheet" type="text/css" href="__PUBLIC__/starball/css/list.css">
-</block>
 <block name="main">
 <div class="am-g yu-main-container">
 	<div class="am-u-sm-12 am-padding-0">
 		<ol class="am-breadcrumb am-breadcrumb-slash am-kai am-margin-bottom-15 am-text-center">
 			    <div class="yu-listpage-header">
                       <span class="yu-listpage-seperate"></span>
-                      <if condition="$by eq 'time'"><span class="yu-listpage-title">{$Think.lang.newseries}</span></if>
-                      <if condition="$by eq 'brand'"><span class="yu-listpage-title">{$Think.lang.brand}</span></if>
-                      <if condition="$by eq 'baby'"><span class="yu-listpage-title">{$Think.lang.baby}</span></if>
-                      <if condition="$by eq 'girl'"><span class="yu-listpage-title">{$Think.lang.girl}</span></if>
-                      <if condition="$by eq 'boy'"><span class="yu-listpage-title">{$Think.lang.boy}</span></if>
-                      <if condition="$by eq 'discount'"><span class="yu-listpage-title">{$Think.lang.discount}</span></if>
+                      <span class="yu-listpage-title">{$Think.lang.shoes}</span>
                 </div>
-                <if condition="$by eq 'time' and $byValue neq 'commingsoon'"><div class="filterings">最近{$byValue}天</div></if>
-                <if condition="$by eq 'time' and $byValue eq 'commingsoon'"><div class="filterings">{$Think.lang.commingsoon}</div></if>
 	            <if condition="$by eq 'brand'"><div class="filterings">{$brand[0].brandName}</div></if>
 	            <if condition="$byValue eq 'brand'"><div class="filterings">{$brand[0].brandName}</div></if>
 	            <if condition="$byValue eq 'category'"><div class="filterings">{$category[0].categoryName}</div></if>
@@ -149,7 +139,6 @@
 									<span class="listpage-item-price">
 									   {$priceSymbol}  {$vo.price}
 									</span>
-									<div class="subscription-block am-kai">获取到货通知</div>
 								</div>
 							</div>
 						</a>
@@ -157,7 +146,7 @@
 						<a href="{:U('Starball/Item/index','itemId='.$vo['itemId'])}">
 							<span  class="yu-age-list"   style="position: absolute;top: 30%; left: 50%; background-color: rgb(248, 248, 248); font-size: 6px; min-width: 150px;display: none">
 								<volist name="vo['ageList']" id="ageList">
-									<span style="display: inline-block; padding: 5px; border-bottom: 1px solid #CECECE; color: black">{$ageList.age}</span>
+									<span style="display: inline-block; padding: 5px; border-bottom: 1px solid #CECECE; color: black">{$ageList.footSize}码</span>
 								</volist>
 							</span>
 						</a>
@@ -272,9 +261,9 @@ $("input.filter").click(function(){
 	if(seasons.length != 0){
 		params = params+"/seasons/"+seasons.toString();
 	}
-	var url = "{:U('Starball/List/showList/by/$by/byValue/$byValue$params')}";
-	url = url.replace("$by","{$by}");
-	url = url.replace("$byValue","{$byValue}");
+	var url = "{:U('Starball/List/shoes/by/$by/byValue/$byValue$params')}";
+	url = url.replace("$by","shoes");
+	url = url.replace("$byValue","shoes");
 	url = url.replace("$params",params);
 	window.location.href=url;
 });
