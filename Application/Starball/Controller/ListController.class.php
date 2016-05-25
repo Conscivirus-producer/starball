@@ -280,4 +280,199 @@ class ListController extends BaseController {
 		//show item list page
 		$this->display('boutique');
 	}
+	
+	public function shoes(){
+		$this->commonProcess();
+		
+		//get params
+		$brands = I('get.brands');
+		$categories = I('get.categories');
+		$genders = I('get.genders');
+		$ages = I('get.ages');
+		$colors = I('get.colors');
+		$seasons = I('get.seasons');
+		
+		//check inventory availability
+		$map["isAvailable"] = array('NEQ', "0");
+		
+		//get filters
+		if($brands != ""){
+			$brandsChecked = explode(",", $brands);
+			$map["t_item.brandId"] = array('IN',$brands );
+		}
+		if($genders != ""){
+			$gendersChecked = explode(",", $genders);
+			$map["t_item.gender"] = array('IN',$genders );
+		}
+		if($ages != ""){
+			$agesChecked = explode(",", $ages);
+			$ageFilter = str_replace('a', ',', $ages);
+			// $map["t_item.grade"] = array('IN', $ages);
+		}
+		if($colors != ""){
+			$colorsChecked = explode(",", $colors);
+			$map["t_item.color"] = array('IN',$colors );
+		}
+		if($seasons != ""){
+			$seasonsChecked = explode(",", $seasons);
+			$map["t_item.season"] = array('IN',$seasons );
+		}
+		if($categories != ""){
+			$categoriesChecked = explode(",", $categories);
+			$map["t_item.categoryId"] = array('IN',$categories );
+		}
+		
+		//get item list and paging
+		if($tag == ""){
+			if($ages == ""){
+				$itemList = D('Item')->distinct(true)->field('t_item.*, img.image, price.price')
+							 ->where($map)
+							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
+							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
+							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type ='2'")
+							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
+							 ->page($p.',18')
+							 ->select();
+				$count = D('Item')->distinct(true)->field('t_item.*, img.image, price.price')
+							 ->where($map)
+							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
+							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
+							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type ='2'")
+							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
+							 ->count();
+			}else{
+				$itemList = D('Item')->distinct(true)->field('t_item.*, img.image, price.price')
+							 ->where($map)
+							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
+							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
+							 ->join("t_inventory inv ON inv.itemId = t_item.itemId and inv.footSize ='".$ageFilter."'")
+							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type ='2'")
+							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
+							 ->page($p.',18')
+							 ->select();
+				$count = D('Item')->distinct(true)->field('t_item.*, img.image, price.price')
+							 ->where($map)
+							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
+							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
+							 ->join("t_inventory inv ON inv.itemId = t_item.itemId and inv.footSize ='".$ageFilter."'")
+							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type ='2'")
+							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
+							 ->count();
+			}
+		}else{
+			$itemList = D('Item')->field('distinct t_item.itemId, t_item.*, img.image, price.price')
+							 ->where($map)
+							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
+							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.currency = '".$this->getCurrency()."'")
+							 ->join("t_tag tg ON tg.itemId = t_item.itemId AND tg.tagName ='".$tag."'")
+							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type ='2'")
+							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
+							 ->page($p.',18')
+							 ->select();
+			$count = D('Item')->field('distinct t_item.itemId, t_item.*, img.image, price.price')
+							 ->where($map)
+							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
+							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.currency = '".$this->getCurrency()."'")
+							 ->join("t_tag tg ON tg.itemId = t_item.itemId AND tg.tagName ='".$tag."'")
+							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type ='2'")
+							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
+							 ->count();
+		}
+
+		//age list for each item
+		for ($i=0; $i < count($itemList); $i++) {
+			$ageMap["t_inventory.itemId"] = array('EQ', $itemList[$i]["itemId"]); 
+			$itemList[$i]["ageList"] = D('Inventory')->field('distinct t_inventory.footSize')->where($ageMap)->select();
+		}
+		logInfo(json_encode($itemList));
+		
+		
+		$Page = new \Think\Page($count,18);
+		$show = $Page->show();					 
+		
+		$filterArray = array_keys(I('get.'));
+		if(in_array("categories", $filterArray)){
+			$category = D('Item')->field('distinct t_item.categoryId, ctg.categoryName, count(*) as count')->where($map)->join('t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type = 2')->group('t_item.categoryId')->order('categoryId desc')->select();
+		}else{
+			$category = D('Item')->field('distinct t_item.categoryId, ctg.categoryName, count(*) as count')->where($map)->join('t_category ctg ON ctg.categoryId = t_item.categoryId  and ctg.type = 2')->group('t_item.categoryId')->order('categoryId desc')->select();
+		}
+		if(in_array("brands", $filterArray)){
+			$brand = D('Item')->field('distinct t_item.brandId, brd.brandName, count(*)')->where($map)->join('t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type = 2')->join('t_brand brd ON brd.brandId = t_item.brandId')->group('t_item.brandId')->order('brandId asc')->select();
+		}else{
+			$brand = D('Item')->field('distinct t_item.brandId, brd.brandName, count(*)')->where($map)->join('t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type = 2')->join('t_brand brd ON brd.brandId = t_item.brandId')->group('t_item.brandId')->order('brandId asc')->select();
+		}
+		if(in_array("genders", $filterArray)){
+			$gender = D('Item')->field('distinct t_item.gender')->where($map)->join('t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type = 2')->select();
+			for ($i=0; $i < count($gender); $i++) { 
+				if($gender[$i]["gender"] == "M"){
+					$gender[$i]["genderName"] = "男";
+				}else{
+					$gender[$i]["genderName"] = "女";
+				}
+			}
+		}else{
+			$gender = D('Item')->field('distinct t_item.gender')->where($map)->join('t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type = 2')->select();
+			for ($i=0; $i < count($gender); $i++) { 
+				if($gender[$i]["gender"] == "M"){
+					$gender[$i]["genderName"] = "男";
+				}else{
+					$gender[$i]["genderName"] = "女";
+				}
+			}
+		}
+		if(in_array("colors", $filterArray)){
+			$color = D('Item')->field('distinct t_item.color')->where($map)->join('t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type = 2')->select();
+		}else{
+			$color = D('Item')->field('distinct t_item.color')->where($map)->join('t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type = 2')->select();
+		}
+		if(in_array("ages", $filterArray)){
+			$age = D('Item')->field('distinct inv.footSize')
+							->where($map)
+							->join("t_inventory inv ON inv.itemId = t_item.itemId and inv.footSize ='".$ageFilter."'")
+							->join('t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type = 2')
+							->select();
+			for ($i=0; $i < count($age); $i++) {
+				$age[$i]["ageName"] = $age[$i]["footSize"]."码";
+				$age[$i]["age"] = $age[$i]["footSize"];
+			}
+		}else{
+			$age = D('Item')->field('distinct inv.footSize')
+							->where($map)
+							->join('t_inventory inv ON inv.itemId = t_item.itemId')
+							->join('t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type = 2')
+							->select();
+			for ($i=0; $i < count($age); $i++) {
+				$age[$i]["ageName"] = $age[$i]["footSize"]."码";
+				$age[$i]["age"] = $age[$i]["footSize"];
+				logInfo(json_encode($age));
+			}
+		}
+		if(in_array("seasons", $filterArray)){
+			$season = D('Item')->field('distinct t_item.season')->where($map)->join('t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type = 2')->select();
+		}else{
+			$season = D('Item')->field('distinct t_item.season')->where($map)->join('t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type = 2')->select();
+		}
+		
+		//selected filters
+		$this->assign('brandsChecked', json_encode($brandsChecked));
+		$this->assign('categoriesChecked',json_encode($categoriesChecked));
+		$this->assign('gendersChecked',json_encode($gendersChecked));
+		$this->assign('colorsChecked',json_encode($colorsChecked));
+		$this->assign('agesChecked', json_encode($agesChecked));
+		$this->assign('seasonsChecked', json_encode($seasonsChecked));
+		//pageing
+		$this->assign('page', $show);
+		$this->assign('itemList',$itemList);
+		//refresh filters
+		$this->assign('category', $category);
+		$this->assign('brand', $brand);
+		$this->assign('gender', $gender);
+		$this->assign('color', $color);
+		$this->assign('age', $age);
+		$this->assign('season', $season);
+		//age list
+		$this->assign('ageList', $ageList);
+		//show item list page
+		$this->display('shoes');
+	}
 }
