@@ -25,6 +25,44 @@ div.big-info-picto {
 div.empty-cart{
 	text-align: center;
 }
+img.yu-favorite-photo{
+	height: 150px;
+    width: 150px;
+    display: block;
+    float: left;
+    border: 1px solid #ececec;
+}
+img.yu-favorite-photo-sm{
+	height: 150px;
+    width: 150px;
+    display: block;
+    border: 1px solid #ececec;
+    margin-left:30%;
+}
+button.yu-favorite-buy{
+	background-color: black;
+    font-size: 13px;
+    padding: 9px 0 9px 0;
+    margin-bottom: 10px;
+    color: #fff;
+    width: 100%;
+    margin-top:3%;
+    font-weight:bold;
+}
+span.yu-favorite-item-panier{
+    display: block;
+    float: left;
+    width: 258px;
+    margin-left: 15px;
+    position: relative;
+}
+span.yu-favorite-item-panier-sm{
+    display: block;
+    float: left;
+    width: 100%;
+    position: relative;
+}
+
 /*payment scuccess*/
 button.yu-backhome-button{
 	font-size: 12px;
