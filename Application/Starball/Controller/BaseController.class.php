@@ -120,7 +120,7 @@ class BaseController extends Controller {
 	
 	protected function prepareBoutiqueMenu(){
 		$map["t_hotitem.type"] = array("EQ", "S");
-		$boutiqueList = D("hotitem")->where($map)->limit(3)->select();
+		$boutiqueList = D("Hotitem")->where($map)->limit(3)->select();
 		$this->assign("boutiqueMenu", $boutiqueList);
 	}
 	
