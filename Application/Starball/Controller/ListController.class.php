@@ -17,6 +17,7 @@ class ListController extends BaseController {
 		
 		//check inventory availability
 		$map["isAvailable"] = array('NEQ', "0");
+		
 		//check page entry
 		if($by == "time"){
 			if($byValue == "commingsoon"){
@@ -37,6 +38,8 @@ class ListController extends BaseController {
 			$search["t_item.name"] = array('like', "%".$byValue."%");
 			$search["t_item.detailDescription"] = array('like', "%".$byValue."%");
 			$map["_complex"] = $search;
+		}elseif($by == "discount"){
+			$map["t_item.discount"] = array("NEQ", "100");
 		}
 		
 		//get filters
@@ -215,5 +218,66 @@ class ListController extends BaseController {
 		$this->assign('ageList', $ageList);
 		//show item list page
 		$this->display('index');
+	}
+	
+	public function accessory(){
+		$this->commonProcess();
+		
+		//check inventory availability
+		$map["isAvailable"] = array('NEQ', "0");
+		
+		
+		//get item list and paging
+		$itemList = D('Item')->distinct(true)->field('t_item.*, img.image, price.price')
+					 ->where($map)
+					 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
+					 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
+					 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type ='3'")
+					 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
+					 ->page($p.',18')
+					 ->select();
+		$count = D('Item')->distinct(true)->field('t_item.*, img.image, price.price')
+					 ->where($map)
+					 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
+					 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
+					 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type ='3'")
+					 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
+					 ->count();
+
+		//age list for each item
+		for ($i=0; $i < count($itemList); $i++) {
+			$ageMap["t_inventory.itemId"] = array('EQ', $itemList[$i]["itemId"]); 
+			$itemList[$i]["ageList"] = D('Inventory')->field('distinct t_inventory.age')->where($ageMap)->select();
+			for ($j=0; $j < count($itemList[$i]["ageList"]); $j++) { 
+				$itemList[$i]["ageList"][$j]["age"] = getSizeDescriptionByAge($itemList[$i]["ageList"][$j]["age"]);
+			}
+		}
+		
+		$Page = new \Think\Page($count,18);
+		$show = $Page->show();					 
+		
+		//pageing
+		$this->assign('page', $show);
+		$this->assign('itemList',$itemList);
+		//age list
+		$this->assign('ageList', $ageList);
+		//show item list page
+		$this->display('accessory');
+	}
+	
+	public function hotItem(){
+		$this->commonProcess();
+		//select type as 'S'
+		$map["type"] = array("EQ", "S");
+		//get hotitem list and paging
+		$itemList = D('t_hotitem')
+					 ->where($map)
+					 ->order('t_hotitem.sequence desc')
+					 ->limit(9)
+					 ->select();
+
+		$this->assign('itemList',$itemList);
+		//show item list page
+		$this->display('boutique');
 	}
 }

@@ -60,8 +60,12 @@
             <div class="am-g">
                 <!-- the left 2/3 -->
                 <div class="am-u-lg-8 am-padding-left-0">
-                	<volist name="middleLeftHead" id="vo">
-	                    <div class="am-u-lg-6 yu-leftsection-adjustor pointer" onclick="window.location.href='{$vo.targetItemLink}'">
+                	<volist name="middleLeftHead" id="vo" key="j">
+                		<if condition="$j eq 1">
+		                    <div class="am-u-lg-6 yu-leftsection-adjustor pointer" onclick="window.location.href='{$vo.targetItemLink}'">
+                		<else /> 
+                			<div class="am-u-lg-6 yu-mdsection-adjustor pointer" onclick="window.location.href='{$vo.targetItemLink}'">
+                		</if>
 	                        <div class="am-thumbnail am-padding-0">
 	                            <img src="{$vo.image}" alt="" class="yu-lgimg-fixer">
 	                            <div class="am-thumbnail-caption am-kai" >
@@ -179,12 +183,12 @@
     </div>
     <!-- the last layer in any size screen -->
     <div class="yu-layout-container">
-    <ul data-am-widget="gallery" class="am-gallery am-avg-sm-1 am-avg-md-5 am-avg-lg-5 am-gallery-defau am-no-layout yu-lastlayer-adjustor" data-am-gallery="{ gallery:false }">
+    <ul data-am-widget="gallery" class="am-gallery am-avg-sm-1 am-avg-md-5 am-avg-lg-5 am-gallery-defau am-no-layout yu-lastlayer-adjustor" data-am-gallery="{ pureview:0 }">
     	<volist name="footArea" id="vo">
 	        <li>
 	            <div class="am-gallery-item">
 	                <a href="{$vo.targetItemLink}"> 
-	                    <img src="{$vo.image}" alt="" data-am-pureviewed="1" onclick="window.location.href='{$vo.targetItemLink}'">
+	                    <img src="{$vo.image}?imageView2/1/w/215/h/235/q/100" alt="" data-am-pureviewed="1" onclick="window.location.href='{$vo.targetItemLink}'">
 	                </a>
 	            </div>
 	        </li>

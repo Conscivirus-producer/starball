@@ -29,14 +29,11 @@
 			return $this->where($map)->select();
 		}
 		
-		public function setDefault($userId, $addressId){
-			$map['userId'] = $userId;
+		public function setDefault($addressId){
 			$map['addressId'] = $addressId;
 			$result = $this->where($map)->find();
-			if($result != ''){
-				$result['default'] = 1;
-				$this->save($result);
-			}
+			$data['default'] = 1;
+			$this->where($map)->save($data);
 		}
 		
 		public function unsetDefault($userId){

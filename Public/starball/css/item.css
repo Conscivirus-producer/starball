@@ -1,0 +1,18 @@
+div.subscription-block{
+	float: left;
+    box-sizing: border-box;
+    background: #ececec;
+    padding: 15px;
+    margin: 0 0 20px;
+    max-width:476px;
+    width:100%
+}
+div.subscription-head{
+	display: block;
+    max-width: 475px;
+    position: relative;
+    text-align: center;
+}
+.subscription-highlight{
+	color: #cc4c4b !important;
+}

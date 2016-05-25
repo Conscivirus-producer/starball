@@ -17,8 +17,8 @@
 <span><label class="am-radio"><input type="radio" name="addressId" onclick="changeAddress($(this).val())" value="{$vo.addressId}" <eq name="vo['default']" value="1">checked</eq> >{$vo.addressName}</label></span>
 							</div>
 							<div style="width:100%; padding: 0px 15px 0px 35px"><span>{$vo.contactName}</span></div>
-							<div style="width:100%; padding: 0px 15px 0px 35px"><span>{$vo.address}</span></div>
-							<div style="width:100%; padding: 0px 15px 0px 35px"><span>{$vo.postCode} {$vo.city}</span></div>
+							<div style="width:100%; padding: 0px 15px 0px 35px"><span>{$vo.address}<eq name="vo['deliveryType']" value="0"> - {$Think.lang.pickAtStation}</eq></span></div>
+							<div style="width:100%; padding: 0px 15px 0px 35px"><span>{$vo.postCode} {$vo.city} {$vo.province}</span></div>
 							<div style="width:100%; padding: 0px 15px 0px 35px"><span>{$vo.country}</span></div>
 						</div>
 					</volist>

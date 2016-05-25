@@ -51,6 +51,8 @@ class ItemController extends Controller {
         $allItemSize = C("ITEMSIZE");
         $this->assign("itemSizeData", json_encode($allItemSize));
         $this->assign('qiniuToken',$token);
+		$supportingData = D('SupportingData', 'Logic');
+		$this->assign('defaultClothWeight', $supportingData->getValueByKey('SHIPPING_COMMON_CLOTH_WEIGHT'));
         $this->display();
     }
 
@@ -102,6 +104,8 @@ class ItemController extends Controller {
             "grade",
             "gender",
             "season",
+            "weight",
+            "extraShippingFee",
             "isAvailable",
             "discount",
             "tag",
@@ -207,6 +211,8 @@ class ItemController extends Controller {
             "grade",
             "gender",
             "season",
+            "weight",
+            "extraShippingFee",
             "isAvailable",
             "discount",
             "tag",
@@ -384,5 +390,19 @@ class ItemController extends Controller {
         }
         echo json_encode($res);
     }
-
+	
+	public function changeCategory(){
+        $res = array(
+            "itemWeight" => "0"
+        );
+		$categoryId = I('categoryId');
+		$data = D('Category', 'Logic')->findById($categoryId);
+		$supportingData = D('SupportingData', 'Logic');
+		if($data['type'] == '2'){
+			$res['itemWeight'] = $supportingData->getValueByKey('SHIPPING_COMMON_SHOE_WEIGHT');
+		}else if($data['type'] == '1'){
+			$res['itemWeight'] = $supportingData->getValueByKey('SHIPPING_COMMON_CLOTH_WEIGHT');
+		}
+		echo json_encode($res);
+	}
 }

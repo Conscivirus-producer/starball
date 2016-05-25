@@ -69,7 +69,8 @@ class PaymentController extends BaseController {
 		$this->commonProcess();
 		//send mail
 		$mailContent = D("Order", "Logic")->getOrderInformationByOrderNumber(I('orderNumber'));
-		sendMail($mailContent, "payment");
+		$userInfo = D('User', 'Logic')->getUserInformationByUserId($this->getCurrentUserId());
+		sendMailNewVersion($mailContent, "payment", $userInfo);
 		$this->assign('orderNumber', I('orderNumber'));
 		$this->display();
 	}
@@ -85,39 +86,6 @@ class PaymentController extends BaseController {
 		$billData['status'] = 'N';
 		D('OrderBill', 'Logic')->createBill($billData);
 	}
-	
-	public function wxrefund(){
-		//退款
-		$this->display();
-	}
-
-	public function wxrefunds(){
-		//查询退款
-		$this->display();
-	}
-		
-	public function query(){
-		//查询支付
-		Vendor("beecloud.autoload");
-		date_default_timezone_set("Asia/Shanghai");
-		
-		$data = array();
-		$data["orderNumber"] = I('orderNumber');
-		$data['status'] = 'P';
-		$result = D('Order', 'Logic')->queryOrder($data);
-		$vo = array();
-		if(count($result) == 1){
-			$vo['status'] = 1;
-			$vo['result_msg'] = 'OK';
-		}else{
-			$vo['status'] = 0;
-			$vo['result_msg'] = 'FAILED';
-		}
-		//$result = \beecloud\rest\api::bills($data);
-		
-		print json_encode($vo);
-	}
-	
 	
 	public function testFinishPayment(){
         $res = array(

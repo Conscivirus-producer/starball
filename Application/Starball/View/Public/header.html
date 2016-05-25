@@ -65,7 +65,7 @@
                                     <a href="{:U('Starball/List/showList','by=time&byValue=28')}">{$Think.lang.lastfourweek}</a>
                                 </li>
                                 <li style="list-style-type:none;">
-                                    <a href="{:U('Starball/List/showList','by=time&byValue=180')}">{$Think.lang.commingsoon}</a>
+                                    <a href="{:U('Starball/List/showList','by=time&byValue=commingsoon')}">{$Think.lang.commingsoon}</a>
                                 </li>
                             </ul>
                         </ul>
@@ -148,9 +148,9 @@
                     <li class="am-dropdown" data-am-dropdown="">
                         <a class="am-dropdown-toggle am-text-xs yu-text-black" data-am-dropdown-toggle="" href="javascript:;"style="padding-left:15px;" >
                         <if condition="strtolower(cookie('think_language')) == 'zh-tw'">
-                            {$Think.lang.simpleC}
-                            <else/>
                             {$Think.lang.traditionalC}
+                            <else/>
+                            {$Think.lang.simpleC}
                         </if></a>
                         <ul class="am-dropdown-content">
                             <li>
@@ -418,7 +418,7 @@
                             <a class="yu-menu yu-text-black" href="javascript:void(0)" id="shoes" style="margin-right:12px;">{$Think.lang.shoes}</a>
                         </li>
                         <li style="text-align:center;">
-                            <a class="yu-menu yu-text-black" href="javascript:void(0)" id="accessory">{$Think.lang.accessory}</a>
+                            <a class="yu-menu yu-text-black" href="{:U('Starball/List/accessory')}" id="accessory">{$Think.lang.accessory}</a>
                         </li>
                         <li style="text-align:right;">
                             <a class="yu-menu yu-text-black" href="javascript:void(0)" id="selected" style="margin-right:30px;">{$Think.lang.featured}</a>
@@ -427,7 +427,7 @@
                             <a class="yu-menu yu-text-black" href="{:U('Starball/Babystyling/contentlist')}" id="special">{$Think.lang.clothingmatch}</a>
                         </li>
                         <li style="text-align:right;">
-                            <a class="yu-menu yu-text-black" href="javascript:void(0)" id="sales">{$Think.lang.sales}</a>
+                            <a class="yu-menu yu-text-black" href="{:U('Starball/List/showList/by/discount/byValue/discount')}" id="sales">{$Think.lang.sales}</a>
                         </li>
                     </ul>
                     <!--sub menus -->
@@ -444,7 +444,7 @@
                                 <a href="{:U('Starball/List/showList','by=time&byValue=28')}">{$Think.lang.lastfourweek}</a>
                             </div>
                             <div class="am-u-md-12 am-icon-angle-right am-margin-0 am-padding-0">
-                                <a href="{:U('Starball/List/showList','by=time&byValue=180')}">{$Think.lang.commingsoon}</a>
+                                <a href="{:U('Starball/List/showList','by=time&byValue=commingsoon')}">{$Think.lang.commingsoon}</a>
                             </div>
                         </div>
                         <div class="am-u-md-7 am-u-end">
@@ -611,56 +611,26 @@
                     </div>
                     <div  class="yu-sub-menu am-u-md-12 am-u-end selected">
                         <div class="am-kai am-u-md-10 am-u-md-offset-1">
-                            <div class="am-u-lg-4 am-u-md-4 am-u-sm-12 yu-boutique-spacefixer">
-                                <div class="am-thumbnail am-padding-0">
-                                    <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/gucci-405-spring-summer-2016.jpg" alt="" class="yu-boutiqueimg-fixer">
-                                    <div class="am-thumbnail-caption am-kai am-text-center am-padding-bottom-0 am-padding-top-0">
-                                        <p class="yu-home-title">
-                                            GUCCI
-                                        </p>
-                                        <p class="yu-home-subtitle">
-                                            单宁世界
-                                        </p>
-                                        <p class="am-margin-0">
-                                            <a href="javascript:void(0);" class="yu-home-button"> 〉{$Think.lang.buynow} </a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="am-u-lg-4 am-u-md-4 am-u-sm-12 yu-boutique-spacefixer">
-                                <div class="am-thumbnail am-padding-0">
-                                    <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/gucci-405-spring-summer-2016.jpg" alt="" class="yu-boutiqueimg-fixer">
-                                    <div class="am-thumbnail-caption am-kai am-text-center am-padding-bottom-0 am-padding-top-0">
-                                        <p class="yu-home-title">
-                                            GUCCI
-                                        </p>
-                                        <p class="yu-home-subtitle">
-                                            单宁世界
-                                        </p>
-                                        <p class="am-margin-0">
-                                            <a href="javascript:void(0);" class="yu-home-button"> 〉{$Think.lang.buynow} </a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="am-u-lg-4 am-u-md-4 am-u-sm-12 yu-boutique-spacefixer">
-                                <div class="am-thumbnail am-padding-0">
-                                    <img src="http://7xr7p7.com2.z0.glb.qiniucdn.com/gucci-405-spring-summer-2016.jpg" alt="" class="yu-boutiqueimg-fixer">
-                                    <div class="am-thumbnail-caption am-kai am-text-center am-padding-bottom-0 am-padding-top-0">
-                                        <p class="yu-home-title">
-                                            GUCCI
-                                        </p>
-                                        <p class="yu-home-subtitle">
-                                            单宁世界
-                                        </p>
-                                        <p class="am-margin-0">
-                                            <a href="javascript:void(0);" class="yu-home-button"> 〉{$Think.lang.buynow} </a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                            <volist name="boutiqueMenu" id="boutique">
+                            	<div class="am-u-lg-4 am-u-md-4 am-u-sm-12 yu-boutique-spacefixer">
+                            		<div class="am-thumbnail am-padding-0">
+	                                    <img src="{$boutique.image}" alt="" class="yu-boutiqueimg-fixer">
+	                                    <div class="am-thumbnail-caption am-kai am-text-center am-padding-bottom-0 am-padding-top-0">
+	                                        <p class="yu-home-title">
+	                                            {$boutique.title}
+	                                        </p>
+	                                        <p class="yu-home-subtitle">
+	                                            {$boutique.subtitle}
+	                                        </p>
+	                                        <p class="am-margin-0">
+	                                            <a href="{$boutique.targetItemLink}" class="yu-home-button"> 〉{$Think.lang.buynow} </a>
+	                                        </p>
+	                                    </div>
+	                                </div>
+                            	</div>
+                            </volist>
                             <div class="yu-boutique-button">
-                                <a class="yu-boutique-more am-kai">〉{$Think.lang.Callfeatures}</a>
+                                <a href="{:U('Starball/List/hotItem')}" class="yu-boutique-more am-kai">〉{$Think.lang.Callfeatures}</a>
                             </div>
                         </div>
                     </div>

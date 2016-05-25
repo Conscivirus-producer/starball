@@ -32,9 +32,8 @@
                                     我的地址
                                 </p>
                                 <p class="am-text-xs">
-                                    您可添加多个送货地址（家庭住址和工作地址等）或账单地址。请标注不同的名称，以便在您下订单时快速查找。
-                                    <br>
-                                    您还可添加其他地址（如配送到您的办公室）。
+                                    您可以在提交订单时添加多个送货地址（家庭住址和工作地址等）。请标注不同的名称，以便在您下订单时快速查找。
+                                    <br>您可以在下面删除您所添加的地址。
                                 </p>
                                 <volist name="addressList" id="vo">
 	                                <section data-am-widget="accordion" class="am-accordion am-accordion-gapped am-no-layout" style="margin:0" data-am-accordion="{ &quot;multiple&quot;: true }">
@@ -45,7 +44,11 @@
 	                                        <dd class="am-accordion-bd am-collapse" style="height: 0px;">
 	                                            <!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
 	                                            <div class="am-accordion-content">
-	                                                {$vo.contactName}<br>{$vo.address}<br>{$vo.postCode} {$vo.city}<br>{$vo.country}
+	                                                {$vo.contactName}<br>{$vo.address}
+	                                                <if condition="$vo['province'] neq ''">
+	                                                	<br>{$vo.postCode} {$vo.city} {$vo.province}
+	                                                </if>
+	                                                <br>{$vo.country}
 	                                            </div>
 	                                            <div style="margin-bottom: 10px;text-align: right">
 		                                            <button class="am-btn am-btn-default am-btn-xs" 
