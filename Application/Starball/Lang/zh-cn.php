@@ -112,6 +112,7 @@ return array(
 	'alipay'=>'支付宝',
 	'payok'=>'支付成功',
 	'backhome'=>'返回首页',
+	'viewOrderDetail'=>'查看订单详情',
 	'dearcus'=>'亲爱的用户',
 	'oksuccess'=>'您的订单已成功支付，订单号为',
 	'ordernum'=>'订单号',

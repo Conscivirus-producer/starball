@@ -48,7 +48,7 @@ class UserController extends BaseController {
 	private function prepareUserAddressInformation(){
 		$shippingAddress = D('ShippingAddress', 'Logic');
 		$addressList = $shippingAddress->getAllAddress($this->getCurrentUserId());
-		$addressList = $this->convertCountryProvinceCode($addressList);
+		$addressList = $this->parseAddressListCode($addressList);
 		$this->assign('addressList', $addressList);
 	}
 	
@@ -89,7 +89,7 @@ class UserController extends BaseController {
 		$this->assign('order', $order);
 		$this->assign('orderItems', $ordeItems);
 		$this->assign('orderBill', $orderBill);
-		$this->assign('address', $shippingAddress);
+		$this->assign('address', $this->parseAddressCode($shippingAddress));
 		$this->display();
 	}
 	

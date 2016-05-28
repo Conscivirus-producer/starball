@@ -36,7 +36,7 @@ class CartController extends BaseController {
 		if(count($addressList) == 0){
 			$this->redirect('Cart/address');
 		}
-		$addressList = $this->convertCountryProvinceCode($addressList);
+		$addressList = $this->parseAddressListCode($addressList);
 		$this->assign('addressList', $addressList);
 		$this->display();
 	}
@@ -94,6 +94,11 @@ class CartController extends BaseController {
 		$backlogOrder = $orderLogic->getOrderByUserId($userId, 'N');
 		if(count($backlogOrder) > 0){
 			$order = $backlogOrder[0];
+			//如果没有地址,用默认地址
+			if($order['shippingAddress'] == 0){
+				$defaultAddress = D("ShippingAddress", "Logic")->getDefaultAddress($userId);
+				$data['shippingAddress'] = $defaultAddress['addressId'];
+			}
 			//检查库存
 			$inadequateInventoryItems = $this->checkOrderItemsInventory($order['orderId']);
 			if(count($inadequateInventoryItems) > 0){

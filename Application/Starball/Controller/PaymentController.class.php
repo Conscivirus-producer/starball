@@ -13,9 +13,30 @@ class PaymentController extends BaseController {
 		$this->display();
 	}
 	
+	public function aliPay(){
+		header("Content-type:text/html;charset=utf-8");
+		$result = $this->payCommonProcess();
+	    if ($result->result_code != 0) {
+	        echo json_encode($result);
+	        exit();
+	    }
+	    $htmlContent = $result->html;
+	    $url = $result->url;
+	    echo $htmlContent;
+	}
+	
 	public function wx(){
 		$this->commonProcess();
-		//微信支付,需要难登录态,
+		$result = $this->payCommonProcess();
+	    if ($result->result_code != 0) {
+	        echo json_encode($result);
+	        exit();
+	    }
+		$this->assign('codeUrl', $result->code_url);
+		$this->display();
+	}
+
+	private function payCommonProcess(){
 		$orderNumber = I('orderNumber');
 		$orderLogic = D('Order', 'Logic');
 		$map['orderNumber'] = $orderNumber;
@@ -38,7 +59,12 @@ class PaymentController extends BaseController {
 		$data["app_id"] = C('PAYMENT_APP_ID');
 		$data["timestamp"] = time() * 1000;
 		$data["app_sign"] = md5($data["app_id"] . $data["timestamp"] . $appSecret);
-		$data["channel"] = "WX_NATIVE";
+		$data["channel"] = I('channel');
+		//当channel参数为 ALI_WEB 或 ALI_QRCODE 或 UN_WEB时 return_url为必填
+		if($data["channel"] == 'ALI_WEB'){
+			$data["return_url"] = C('PAYMENT_RETURN_URL');
+		}
+		
 		$data["total_fee"] =  intval($order['totalFee'] * 100);
 		//商户订单号, 8到32位数字和/或字母组合，请自行确保在商户系统中唯一，同一订单号不可重复提交，否则会造成订单重复.
 		//这里直接在订单号后面加上时间戳作为付款的订单号
@@ -48,40 +74,64 @@ class PaymentController extends BaseController {
 		}else{
 			$data["title"] = "StarBall.Kids订单".$orderNumber;
 		}
-		$this->createOrderBill($data, $orderNumber, 'WX', 'PAY');
-	    $result = \beecloud\rest\api::bill($data);
-	    if ($result->result_code != 0) {
-	        print_r($result);
-	        exit();
-	    }
-		//选填 optional
-		//$data["return_url"] = "http://starballkids.com/";
-		//$data["optional"] = json_decode(json_encode(array("tag"=>"msgtoreturn")));
-		$this->assign('codeUrl', $result->code_url);
+		//微信支付页面显示所需要的内容
 		$this->assign('totalFee', $data["total_fee"]/100);
 		$this->assign('orderNumber', $orderNumber);
 		$this->assign('bill_no', $data["bill_no"]);
 		$this->assign('is_dev', C('IS_DEV'));
-		$this->display();
+		
+		$this->createOrderBill($data, $orderNumber, 'PAY');
+	    $result = \beecloud\rest\api::bill($data);
+		return $result;
+	}
+
+	public function query(){
+		//查询支付
+		Vendor("beecloud.autoload");
+		date_default_timezone_set("Asia/Shanghai");
+		
+		$data = array();
+		$data["orderNumber"] = I('orderNumber');
+		$data['status'] = 'P';
+		$result = D('Order', 'Logic')->queryOrder($data);
+		$vo = array();
+		if(count($result) == 1){
+			$vo['status'] = 1;
+			$vo['result_msg'] = 'OK';
+		}else{
+			$vo['status'] = 0;
+			$vo['result_msg'] = 'FAILED';
+		}
+		//$result = \beecloud\rest\api::bills($data);
+		
+		print json_encode($vo);
 	}
 
 	public function paysuccess(){
 		$this->commonProcess();
-		//send mail
-		$mailContent = D("Order", "Logic")->getOrderInformationByOrderNumber(I('orderNumber'));
-		$userInfo = D('User', 'Logic')->getUserInformationByUserId($this->getCurrentUserId());
-		sendMailNewVersion($mailContent, "payment", $userInfo);
-		$this->assign('orderNumber', I('orderNumber'));
+		logInfo('subject:'.I('subject').'out_trade_no:'.I('out_trade_no').'buyer_email:'.I('buyer_email').'seller_email:'.I('seller_email').'trade_no:'.I('trade_no').
+		'total_fee:'.I('total_fee').'trade_status:'.I('trade_status'));
+		if(I('orderNumber') != ''){
+			$this->assign('orderNumber', I('orderNumber'));
+			$order = D('Order', 'Logic')->findByOrderNumber(I('orderNumber'));
+			$this->assign('orderId', $order['orderId']);
+		}
 		$this->display();
 	}
+	
+	private function sendPaymentSuccessuEmail($orderNumber){
+		//send mail
+		$mailContent = D("Order", "Logic")->getOrderInformationByOrderNumber($orderNumber);
+		$userInfo = D('User', 'Logic')->getUserInformationByUserId($mailContent['userId']);
+		sendMailNewVersion($mailContent, "payment", $userInfo);
+	}
 
-	private function createOrderBill($data, $orderNumber, $channel, $type){
+	private function createOrderBill($data, $orderNumber, $type){
 		$billData['orderNumber'] =  $orderNumber;
 		$billData['billNumber'] = $data["bill_no"];
 		$billData['totalAmount'] = $data["total_fee"] / 100;
 		$billData['title'] = $data["title"];
-		$billData['subChannel'] = $data["channel"];
-		$billData['channel'] = $channel;
+		$billData['channel'] = $data["channel"];
 		$billData['type'] = $type;
 		$billData['status'] = 'N';
 		D('OrderBill', 'Logic')->createBill($billData);
@@ -113,6 +163,9 @@ class PaymentController extends BaseController {
 			$this->deduceInventoryByOrder($bill['orderNumber']);
             $res["status"] = "1";
         }
+
+		//发送支付成功邮件
+		$this->sendPaymentSuccessuEmail($bill['orderNumber']);
 		
 		echo json_encode($res);
 	}
@@ -265,6 +318,9 @@ class PaymentController extends BaseController {
 						
 						//更新库存
 						$this->deduceInventoryByOrder($bill['orderNumber']);
+						
+						//发送支付成功邮件
+						$this->sendPaymentSuccessuEmail($bill['orderNumber']);
 					}
 		            break;
 		        case "ALI":
