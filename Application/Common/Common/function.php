@@ -94,11 +94,15 @@ function sendMailNewVersion($mailContent, $type, $userInfo){
 		$mail->Subject = 'StarballKids发货通知';
 		$mail->Body    = "您购买的商品订单号".$mailContent["orderNumber"]."已发货, 快递公司为".$mailContent["expressName"].", 快递号为".$mailContent["expressNumber"].", 请您注意查收.";
 		$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+	}else if($type == 'itemSubscription'){
+		$mail->Subject = 'StarballKids到货通知';
+		$mail->Body    = '您关注的商品已经到货了';
+		$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';		
 	}
 
 	if(!$mail->send()) {
 		//echo 'Message could not be sent.';
-		//echo 'Mailer Error: ' . $mail->ErrorInfo;
+		logInfo('Mailer Error: ' . $mail->ErrorInfo);
 		return false;
 	} else {
 		logInfo(json_encode($mailContent));

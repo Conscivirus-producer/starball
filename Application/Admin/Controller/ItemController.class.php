@@ -152,6 +152,8 @@ class ItemController extends Controller {
         $this->assign("itemInformation", $itemInformation);
         $this->assign("itemInformationJSON", json_encode($itemInformation));
         $this->assign('qiniuToken',$token);
+		$subscriptionList = D('ItemSubscription', 'Logic')->queryByItemId($itemId);
+		$this->assign('subscriptionList', $subscriptionList);
         $this->display();
     }
 
@@ -402,6 +404,32 @@ class ItemController extends Controller {
 			$res['itemWeight'] = $supportingData->getValueByKey('SHIPPING_COMMON_SHOE_WEIGHT');
 		}else if($data['type'] == '1'){
 			$res['itemWeight'] = $supportingData->getValueByKey('SHIPPING_COMMON_CLOTH_WEIGHT');
+		}
+		echo json_encode($res);
+	}
+	
+	public function sendSubscriptionMail(){
+        $res = array(
+            "status" => "0"
+        );
+		$itemId = I('itemId');
+		$itemSubscription = D('ItemSubscription', 'Logic');
+		$subscriptionList = $itemSubscription->queryByItemId($itemId);
+		$userInfo['userName'] = '顾客';
+		$sentSbuscriptions = array();
+		foreach($subscriptionList as $subscription){
+			if($subscription['status'] == '1'){
+				//状态为1的已经发了邮件
+				continue;
+			}
+			$userInfo['email'] = $subscription['email'];
+			if(sendMailNewVersion($mailContent, "itemSubscription", $userInfo)){
+				array_push($sentSbuscriptions, $subscription['subscriptionId']);
+			}
+		}
+		if(!empty($sentSbuscriptions)){
+			$itemSubscription->batchUpdateStatus($sentSbuscriptions);
+			$res['status'] = '1';
 		}
 		echo json_encode($res);
 	}

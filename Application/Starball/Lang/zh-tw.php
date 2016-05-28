@@ -110,6 +110,7 @@ return array(
 	'alipay'=>'支付寶',
 	'payok'=>'支付成功',
 	'backhome'=>'返回首頁',
+	'viewOrderDetail'=>'查看訂單詳情',
 	'dearcus'=>'親愛的用戶',
 	'oksuccess'=>'您的訂單已支付成功，訂單號為',
 	'ordernum'=>'訂單號',

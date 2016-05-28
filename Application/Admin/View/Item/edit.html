@@ -191,6 +191,31 @@
                             <label class="am-radio-inline">
                                 <input type="radio" value="2" class="item-isAvailable" name="isAvailable"> 即将上新
                             </label>
+                            <button type="button" style="display:none" onclick="sendEmail()" class="am-btn am-btn-default comingsoon">发送到货邮件</button>
+	                        <section data-am-widget="accordion" class="am-accordion am-accordion-gapped am-no-layout comingsoon" style="display:none;margin:0;width:30%" data-am-accordion="{ &quot;multiple&quot;: true }">
+	                            <dl class="am-accordion-item yu-accordion-item yu-accordion-item">
+	                                <dt class="am-accordion-title yu-accordion-title">
+	                                    查看订阅商品用户列表
+	                                </dt>
+	                                <dd class="am-accordion-bd am-collapse" style="height: 0px;">
+	                                    <!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
+	                                    <div class="am-accordion-content">
+											<div class="am-g doc-am-g" style="font-weight:bold;">
+											  <div class="am-u-lg-5">邮箱</div>
+											  <div class="am-u-lg-2">已发送</div>
+											  <div class="am-u-lg-5">时间</div>
+											</div>
+											<volist name="subscriptionList" id="vo">
+												<div class="am-g doc-am-g">
+												  <div class="am-u-lg-5">{$vo.email}</div>
+												  <div class="am-u-lg-2">{$vo.status}</div>
+												  <div class="am-u-lg-5">{$vo.createdDate}</div>
+												</div>
+											</volist>
+	                                    </div>
+	                                </dd>
+	                            </dl>
+	                        </section>
                         </div>
                         <!-- product status -->
 
@@ -329,6 +354,9 @@
         // isAvailable
         $(".item-isAvailable").each(function(){
             if ($(this).val() == itemInformation.isAvailable) {
+            	if($(this).val() == 2){
+            		$('.comingsoon').show();
+            	}
                 $(this).attr("checked","checked");
             }
         });
@@ -688,6 +716,18 @@
         $line.insertAfter($("#inventory-add-section-start"));
         inventoryCount++;
     });
+    function sendEmail(){
+	    $.post('{:U("Item/sendSubscriptionMail")}',{'itemId':$('#item-id').val()},function(data){
+	    	if(data.status == '1'){
+				alert('发送邮件成功');	    		
+	    	}else{
+	    		alert('没有接收者或者接收者的邮件格式非法');
+	    	}
+	    },'json');
+    }
+    function checkUsers(){
+    	
+    }
 </script>
 </body>
 </html>

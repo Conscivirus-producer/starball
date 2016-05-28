@@ -1,0 +1,2 @@
+ALTER TABLE  `t_itemsubscription` ADD  `status` VARCHAR( 5 ) NOT NULL DEFAULT  '0' COMMENT  '发送状态,0-未发,1-已发';
+ALTER TABLE  `t_itemsubscription` ADD  `lastUpdatedDate` DATETIME NOT NULL COMMENT  '更新时间' AFTER  `createdDate`;

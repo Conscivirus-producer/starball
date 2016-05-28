@@ -350,25 +350,32 @@ class BaseController extends Controller {
 		}		
 	}
 	
-	protected function convertCountryProvinceCode($addressList){
-		$countryList = C('COUNTRY_LIST');
-		$provinceList = C('CHINA_PROVINCE_LIST');
+	protected function parseAddressListCode($addressList){
 		$i=0;
 		foreach($addressList as $address){                          
-			if($address['country'] != ''){
-				$address['country'] = L($countryList[$address['country']]);
-				$addressList[$i] = $address;
-			}
-			if($address['province'] != ''){
-				$address['province'] = current($provinceList[$address['province']]);
-				$addressList[$i] = $address;
-			}
+			$addressList[$i] = $this->parseAddressCode($address);
 			$i++;
 		}
 		return $addressList;
 	}
-
+	
+	protected function parseAddressCode($address){
+		$provinceList = C('CHINA_PROVINCE_LIST');
+		$countryList = C('COUNTRY_LIST');
+		if($address['country'] != ''){
+			$address['country'] = L($countryList[$address['country']]);
+		}
+		if($address['province'] != ''){
+			$address['province'] = current($provinceList[$address['province']]);
+		}
+		return $address;
+	}
+	
 	protected function calculateShippingFee($totalAmount){
+		if(C('IS_TEST') == 'true'){
+			return '0';
+		}
+
 		$defaultAddress = D('ShippingAddress', 'Logic')->getDefaultAddress($this->getCurrentUserId());
 		$shippingFeeSetting = C('SHIPPING_FEE_SETTING');
 		$exchangeRate = C('EXCHANGE_RATE_HKD_TO_CNY');
