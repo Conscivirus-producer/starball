@@ -109,6 +109,7 @@ return array(
 	'wechat'=>'微信',
 	'alipay'=>'支付寶',
 	'payok'=>'支付成功',
+	'payfail'=>'支付失敗',
 	'backhome'=>'返回首頁',
 	'viewOrderDetail'=>'查看訂單詳情',
 	'dearcus'=>'親愛的用戶',

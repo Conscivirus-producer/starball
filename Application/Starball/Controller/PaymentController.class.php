@@ -109,17 +109,32 @@ class PaymentController extends BaseController {
 
 	public function paysuccess(){
 		$this->commonProcess();
-		logInfo('subject:'.I('subject').'out_trade_no:'.I('out_trade_no').'buyer_email:'.I('buyer_email').'seller_email:'.I('seller_email').'trade_no:'.I('trade_no').
-		'total_fee:'.I('total_fee').'trade_status:'.I('trade_status'));
+		logInfo('subject:'.I('subject').',out_trade_no:'.I('out_trade_no').',buyer_email:'.I('buyer_email').',seller_email:'.I('seller_email').',trade_no:'.I('trade_no').
+		',total_fee:'.I('total_fee').',trade_status:'.I('trade_status'));
+		$orderNumber = '';
+		$payStatus = 'fail';
 		if(I('orderNumber') != ''){
-			$this->assign('orderNumber', I('orderNumber'));
-			$order = D('Order', 'Logic')->findByOrderNumber(I('orderNumber'));
+			//通过微信扫码支付,应用内跳转
+			$orderNumber = I('orderNumber');
+			$payStatus = 'success';
+		}else if(I('out_trade_no') != ''){
+			//支付宝return url处理
+			$orderBill = D('OrderBill', 'Logic')->findPayBill(I('out_trade_no'));
+			$orderNumber = $orderBill['orderNumber'];
+			if(I('trade_status') == 'TRADE_SUCCESS'){
+				$payStatus = 'success';
+			}
+		}
+		if($orderNumber != ''){
+			$order = D('Order', 'Logic')->findByOrderNumber($orderNumber);
+			$this->assign('orderNumber', $orderNumber);
 			$this->assign('orderId', $order['orderId']);
+			$this->assign('payStatus', $payStatus);
 		}
 		$this->display();
 	}
 	
-	private function sendPaymentSuccessuEmail($orderNumber){
+	private function sendPaymentSuccessEmail($orderNumber){
 		//send mail
 		$mailContent = D("Order", "Logic")->getOrderInformationByOrderNumber($orderNumber);
 		$userInfo = D('User', 'Logic')->getUserInformationByUserId($mailContent['userId']);
@@ -165,7 +180,7 @@ class PaymentController extends BaseController {
         }
 
 		//发送支付成功邮件
-		$this->sendPaymentSuccessuEmail($bill['orderNumber']);
+		$this->sendPaymentSuccessEmail($bill['orderNumber']);
 		
 		echo json_encode($res);
 	}
@@ -280,110 +295,116 @@ class PaymentController extends BaseController {
 		// 只要按照前述要求做了购买的产品与订单金额的匹配性验证，在你的后端服务器不被入侵的前提下，你就不会有任何经济损失。
 		
 		if($msg->transactionType == "PAY") {
-			
-		    //付款信息
-		    //支付状态是否变为支付成功
-		    $result = $msg->tradeSuccess;
-		
 		    //messageDetail 参考文档
 		    switch ($msg->channelType) {
 		        case "WX":
-					
-					$billLogic = D('OrderBill', 'Logic');
-					$map['billNumber'] = $msg->transactionId;
-					$map['type'] = 'PAY';
-					$record = $billLogic->queryBill($map);
-					if(count($record) == 0){
-						logWarn('Payment Webhook:cannot find matched bill pay record.');
-						echo 'success';
-						return;						
-					}
-					$bill = $record[0];
-					if($bill['totalAmount'] != $msg->transactionFee / 100){
-						//确认金额确实为业务产生的金额
-						logWarn('Payment Webhook:Pay total Fee not matched.');
-						echo 'success';
-						return;
-					}
-					//如果支付成功，则更新状态为SUCCESS,否则为FAILED
-					$data['status'] = $result ? 'S' : 'F';
-					$data['billId'] = $bill['billId'];
-					$billLogic->update($data);
-					
-					//如果支付成功,更新订单状态为PAID
-					if($result){
-						$orderLogic = D('Order', 'Logic');
-						$order = $orderLogic->findByOrderNumber($bill['orderNumber']);
-				        $orderLogic->updateOrderStatus($order['orderId'], 'N', 'P');
-						
-						//更新库存
-						$this->deduceInventoryByOrder($bill['orderNumber']);
-						
-						//发送支付成功邮件
-						$this->sendPaymentSuccessuEmail($bill['orderNumber']);
-					}
+					$this->commonPayProcess($msg);
 		            break;
 		        case "ALI":
+		        	$this->commonPayProcess($msg);
 		            break;
 		        case "UN":
 		            break;
 		    }
 		} else if ($msg->transactionType == "REFUND") {
-		    //付款信息
-		    //支付状态是否变为支付成功
-		    $result = $msg->tradeSuccess;
-			$map['refundNumber'] = $msg->transactionId;
-			$map['type'] = 'REFUND';
-			$billLogic = D('OrderBill', 'Logic');
-			$record = $billLogic->queryBill($map);
-			if(count($record) == 0){
-				logWarn('Payment Webhook:cannot find matched bill refund record.');
-				echo 'success';
-				return;		
-			}
-			$bill = $record[0];
-			if($bill['totalAmount'] != $msg->transactionFee / 100){
-				//确认金额确实为业务产生的金额
-				logWarn('Payment Webhook:Refund total Fee not matched.');
-				echo 'success';
-				return;
-			}
-			
-			//如果支付成功，则更新状态为SUCCESS,否则为FAILED
-			$data['status'] = $result ? 'S' : 'F';
-			$data['billId'] = $bill['billId'];
-			$billLogic->update($data);
-			
-			if($bill['orderItemId'] == 0){
-				if($result){
-					//Entire order refund
-					$orderLogic = D('Order', 'Logic');
-					$order = $orderLogic->findByOrderNumber($bill['orderNumber']);
-					//update inventory
-					$this->increaseInventoryByOrder($order['orderId']);
-			        if ($orderLogic->updateOrderStatus($order['orderId'], 'C2', 'C3') == false) {
-			            logWarn('Payment Webhook:Order/Order item status not match.');
-						return;
-			        }
-				}
-			}else{
-				//Single order item refund
-				//如果退款成功,更新orderitem状态
-				$orderItem = D('OrderItem', 'Logic')->getOrderItemById($bill['orderItemId']);
-				if($orderItem['status'] != 'C2'){
-					logWarn('Payment Webhook:Order Item status not C2, return.');
-					return;
-				}
-				if($result){
-					$orderItemData['status'] = 'C3';
-					D('OrderItem', 'Logic')->updateOrderItem($orderItemData, $bill['orderItemId']);
-					//更新库存
-					$this->increaseInventoryByOrderItem($bill['orderItemId']);
-				}
-			}
+			$this->refundProcess($msg);
 		}
 		//处理消息成功,不需要持续通知此消息返回success 
 		echo 'success';
+	}
+
+	private function commonPayProcess($msg){
+	    //付款信息
+	    //支付状态是否变为支付成功
+	    $result = $msg->tradeSuccess;
+		$billLogic = D('OrderBill', 'Logic');
+		$map['billNumber'] = $msg->transactionId;
+		$map['type'] = 'PAY';
+		$record = $billLogic->queryBill($map);
+		if(count($record) == 0){
+			logWarn('Payment Webhook:cannot find matched bill pay record.');
+			echo 'success';
+			return;						
+		}
+		$bill = $record[0];
+		if($bill['totalAmount'] != $msg->transactionFee / 100){
+			//确认金额确实为业务产生的金额
+			logWarn('Payment Webhook:Pay total Fee not matched.');
+			echo 'success';
+			return;
+		}
+		//如果支付成功，则更新状态为SUCCESS,否则为FAILED
+		$data['status'] = $result ? 'S' : 'F';
+		$data['billId'] = $bill['billId'];
+		$billLogic->update($data);
+		
+		//如果支付成功,更新订单状态为PAID
+		if($result){
+			$orderLogic = D('Order', 'Logic');
+			$order = $orderLogic->findByOrderNumber($bill['orderNumber']);
+	        $orderLogic->updateOrderStatus($order['orderId'], 'N', 'P');
+			
+			//更新库存
+			$this->deduceInventoryByOrder($bill['orderNumber']);
+			
+			//发送支付成功邮件
+			$this->sendPaymentSuccessEmail($bill['orderNumber']);
+		}
+	}
+
+	private function refundProcess($msg){
+	    //付款信息
+	    //支付状态是否变为支付成功
+	    $result = $msg->tradeSuccess;
+		$map['refundNumber'] = $msg->transactionId;
+		$map['type'] = 'REFUND';
+		$billLogic = D('OrderBill', 'Logic');
+		$record = $billLogic->queryBill($map);
+		if(count($record) == 0){
+			logWarn('Payment Webhook:cannot find matched bill refund record.');
+			echo 'success';
+			return;		
+		}
+		$bill = $record[0];
+		if($bill['totalAmount'] != $msg->transactionFee / 100){
+			//确认金额确实为业务产生的金额
+			logWarn('Payment Webhook:Refund total Fee not matched.');
+			echo 'success';
+			return;
+		}
+		
+		//如果支付成功，则更新状态为SUCCESS,否则为FAILED
+		$data['status'] = $result ? 'S' : 'F';
+		$data['billId'] = $bill['billId'];
+		$billLogic->update($data);
+		
+		if($bill['orderItemId'] == 0){
+			if($result){
+				//Entire order refund
+				$orderLogic = D('Order', 'Logic');
+				$order = $orderLogic->findByOrderNumber($bill['orderNumber']);
+				//update inventory
+				$this->increaseInventoryByOrder($order['orderId']);
+		        if ($orderLogic->updateOrderStatus($order['orderId'], 'C2', 'C3') == false) {
+		            logWarn('Payment Webhook:Order/Order item status not match.');
+					return;
+		        }
+			}
+		}else{
+			//Single order item refund
+			//如果退款成功,更新orderitem状态
+			$orderItem = D('OrderItem', 'Logic')->getOrderItemById($bill['orderItemId']);
+			if($orderItem['status'] != 'C2'){
+				logWarn('Payment Webhook:Order Item status not C2, return.');
+				return;
+			}
+			if($result){
+				$orderItemData['status'] = 'C3';
+				D('OrderItem', 'Logic')->updateOrderItem($orderItemData, $bill['orderItemId']);
+				//更新库存
+				$this->increaseInventoryByOrderItem($bill['orderItemId']);
+			}
+		}
 	}
 	
 }

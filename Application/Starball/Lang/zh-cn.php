@@ -111,6 +111,7 @@ return array(
 	'wechat'=>'微信',
 	'alipay'=>'支付宝',
 	'payok'=>'支付成功',
+	'payfail'=>'支付失败',
 	'backhome'=>'返回首页',
 	'viewOrderDetail'=>'查看订单详情',
 	'dearcus'=>'亲爱的用户',
