@@ -138,7 +138,6 @@ class OrderController extends Controller {
 			//本地测试不用向第三方发送请求
 			Vendor("beecloud.autoload");
 		    $result = \beecloud\rest\api::refund($data);
-			logInfo('resultCode:'.$result->result_code.", resultMsg:".$result->result_msg);
 		    if ($result->result_code != 0 || $result->result_msg != "OK") {
 		        echo json_encode($result->err_detail);
 				logInfo('errorDetail:'.$result->err_detail);
@@ -203,7 +202,6 @@ class OrderController extends Controller {
 			//本地测试不用向第三方发送请求
 			Vendor("beecloud.autoload");
 		    $result = \beecloud\rest\api::refund($data);
-			logInfo('resultCode:'.$result->result_code.", resultMsg:".$result->result_msg);
 		    if ($result->result_code != 0 || $result->result_msg != "OK") {
 		        echo json_encode($result->err_detail);
 				logInfo('errorDetail:'.$result->err_detail);

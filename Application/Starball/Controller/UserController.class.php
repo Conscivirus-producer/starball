@@ -22,11 +22,7 @@ class UserController extends BaseController {
 
 				$userLogic = D('User', 'Logic');
 				$user = $userLogic->getUserInformationByUserId($this->getCurrentUserId());
-				logInfo('fk111111');
-				logInfo('existingpwd:'.$user['password']);
-				logInfo('newPwd:'.$newPwd);
 				if($user['password'] == $currentPwd && $newPwd == $newPwdRepeat && $currentPwd != $newPwd){
-					logInfo('fk222');
 					$data['password'] = $newPwd;
 					D('User', 'Logic')->updateUserInformation($data, $this->getCurrentUserId());
 				}				

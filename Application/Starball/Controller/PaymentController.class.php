@@ -109,8 +109,6 @@ class PaymentController extends BaseController {
 
 	public function paysuccess(){
 		$this->commonProcess();
-		logInfo('subject:'.I('subject').',out_trade_no:'.I('out_trade_no').',buyer_email:'.I('buyer_email').',seller_email:'.I('seller_email').',trade_no:'.I('trade_no').
-		',total_fee:'.I('total_fee').',trade_status:'.I('trade_status'));
 		$orderNumber = '';
 		$payStatus = 'fail';
 		if(I('orderNumber') != ''){
@@ -380,8 +378,8 @@ class PaymentController extends BaseController {
 		$billLogic->update($data);
 		
 		if($bill['orderItemId'] == 0){
+		//如果orderItemId为0,则表示是整个订单取消
 			if($result){
-				//Entire order refund
 				$orderLogic = D('Order', 'Logic');
 				$order = $orderLogic->findByOrderNumber($bill['orderNumber']);
 				//update inventory

@@ -238,7 +238,6 @@ class BaseController extends Controller {
 		}
 		$currencyArray = C('CURRENCY');
 		$this->assign('priceSymbol', $currencyArray[$this->getCurrency()]);
-		//logInfo('priceSymbol:'.$this->get('priceSymbol'));
 	}
 	
 	protected function commonProcess(){
@@ -314,7 +313,6 @@ class BaseController extends Controller {
 			$this->error("用户名密码不正确");
 		}
 		//从哪里跳到登录页面，跳回去
-		logInfo('fromAction:'.session('fromAction'));
 		if(session('fromAction') != ''){
 			$actionArray = C('FROM_ACTION');
 			$actionDetail = $actionArray[session('fromAction')];
