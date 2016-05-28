@@ -59,7 +59,7 @@ class PaymentController extends BaseController {
 		$data["app_id"] = C('PAYMENT_APP_ID');
 		$data["timestamp"] = time() * 1000;
 		$data["app_sign"] = md5($data["app_id"] . $data["timestamp"] . $appSecret);
-		$data["channel"] = I('channel');
+		$data["channel"] = I('subChannel');
 		//当channel参数为 ALI_WEB 或 ALI_QRCODE 或 UN_WEB时 return_url为必填
 		if($data["channel"] == 'ALI_WEB'){
 			$data["return_url"] = C('PAYMENT_RETURN_URL');
@@ -80,7 +80,7 @@ class PaymentController extends BaseController {
 		$this->assign('bill_no', $data["bill_no"]);
 		$this->assign('is_dev', C('IS_DEV'));
 		
-		$this->createOrderBill($data, $orderNumber, 'PAY');
+		$this->createOrderBill($data, $orderNumber, 'PAY', I('channel'), I('subChannel'));
 	    $result = \beecloud\rest\api::bill($data);
 		return $result;
 	}
@@ -141,12 +141,13 @@ class PaymentController extends BaseController {
 		sendMailNewVersion($mailContent, "payment", $userInfo);
 	}
 
-	private function createOrderBill($data, $orderNumber, $type){
+	private function createOrderBill($data, $orderNumber, $type, $channel, $subChannel){
 		$billData['orderNumber'] =  $orderNumber;
 		$billData['billNumber'] = $data["bill_no"];
 		$billData['totalAmount'] = $data["total_fee"] / 100;
 		$billData['title'] = $data["title"];
-		$billData['channel'] = $data["channel"];
+		$billData['channel'] = $channel;
+		$billData['subChannel'] = $subChannel;
 		$billData['type'] = $type;
 		$billData['status'] = 'N';
 		D('OrderBill', 'Logic')->createBill($billData);
@@ -298,22 +299,22 @@ class PaymentController extends BaseController {
 		    //messageDetail 参考文档
 		    switch ($msg->channelType) {
 		        case "WX":
-					$this->commonPayProcess($msg);
+					$this->commonPayCallbackProcess($msg);
 		            break;
 		        case "ALI":
-		        	$this->commonPayProcess($msg);
+		        	$this->commonPayCallbackProcess($msg);
 		            break;
 		        case "UN":
 		            break;
 		    }
 		} else if ($msg->transactionType == "REFUND") {
-			$this->refundProcess($msg);
+			$this->refundCallbackProcess($msg);
 		}
 		//处理消息成功,不需要持续通知此消息返回success 
 		echo 'success';
 	}
 
-	private function commonPayProcess($msg){
+	private function commonPayCallbackProcess($msg){
 	    //付款信息
 	    //支付状态是否变为支付成功
 	    $result = $msg->tradeSuccess;
@@ -352,7 +353,7 @@ class PaymentController extends BaseController {
 		}
 	}
 
-	private function refundProcess($msg){
+	private function refundCallbackProcess($msg){
 	    //付款信息
 	    //支付状态是否变为支付成功
 	    $result = $msg->tradeSuccess;

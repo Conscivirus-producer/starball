@@ -26,9 +26,9 @@
 				<div class="am-panel-bd">
   					<input type="hidden" value="{$orderNumber}" id="orderNumber"/>
 					<button type="button" class="am-btn am-btn-default" 
-					onclick="window.location.href='{:U('Payment/wx', array('orderNumber'=>$orderNumber, 'channel'=>'WX_NATIVE'))}'">{$Think.lang.wechat}</button>
+					onclick="window.location.href='{:U('Payment/wx', array('orderNumber'=>$orderNumber,'channel'=>'WX', 'subChannel'=>'WX_NATIVE'))}'">{$Think.lang.wechat}</button>
 					<button type="button" class="am-btn am-btn-default"
-					onclick="window.open('{:U('Payment/aliPay', array('orderNumber'=>$orderNumber, 'channel'=>'ALI_WEB'))}')">{$Think.lang.alipay}</button>
+					onclick="window.open('{:U('Payment/aliPay', array('orderNumber'=>$orderNumber,'channel'=>'ALI', 'subChannel'=>'ALI_WEB'))}')">{$Think.lang.alipay}</button>
 				</div>
 			</div>
 		</div>
