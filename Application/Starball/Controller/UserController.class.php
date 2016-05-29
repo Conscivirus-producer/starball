@@ -70,13 +70,17 @@ class UserController extends BaseController {
 		$this->redirect('User/index');
 	}
 	
-	public function orderinfo($orderId){
+	public function orderinfo($orderId = '', $orderNumber = ''){
 		if(!$this->isLogin()){
 			$this->redirect('Home/register');
 		}
 		$this->commonProcess();
-		$order = D('Order', 'Logic')->findByOrderId($orderId);
-		$ordeItems = D('OrderItem', 'Logic')->getOrderItemsByOrdeId($orderId);
+		if($orderId != ''){
+			$order = D('Order', 'Logic')->findByOrderId($orderId);
+		}else if($orderNumber != ''){
+			$order = D('Order', 'Logic')->findByOrderNumber($orderNumber);
+		}
+		$ordeItems = D('OrderItem', 'Logic')->getOrderItemsByOrdeId($order['orderId']);
 		$orderBill = D('OrderBill', 'Logic')->findOrderSuccessPayBill($order['orderNumber']);
 		$shippingAddress = D('ShippingAddress', 'Logic')->findExsitingAddress($order['shippingAddress']);
 		$orderStatus = C('ORDERSTATUS');

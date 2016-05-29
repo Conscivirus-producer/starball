@@ -17,5 +17,4 @@ return array(
 	'DEFAULT_MODULE'        =>  'Starball',  // 默认模块
     'DEFAULT_CONTROLLER'    =>  'Home', // 默认控制器名称
     'DEFAULT_ACTION'        =>  'index', // 默认操作名称
-    'PAYMENT_RETURN_URL'	=>	'http://starballkids.com/Starball/Payment/paysuccess',
 );

@@ -85,6 +85,15 @@ class PaymentController extends BaseController {
 		return $result;
 	}
 
+	public function checkPayresult(){
+		$vo['status'] = 0;
+		$order = D('Order', 'Logic')->findByOrderNumber(I('orderNumber'));
+		if($order['status'] == 'P'){
+			$vo['status'] = 1;	
+		}
+		$this->ajaxReturn($vo, "json");
+	}
+
 	public function query(){
 		//查询支付
 		Vendor("beecloud.autoload");
@@ -124,9 +133,7 @@ class PaymentController extends BaseController {
 			}
 		}
 		if($orderNumber != ''){
-			$order = D('Order', 'Logic')->findByOrderNumber($orderNumber);
 			$this->assign('orderNumber', $orderNumber);
-			$this->assign('orderId', $order['orderId']);
 			$this->assign('payStatus', $payStatus);
 		}
 		$this->display();
