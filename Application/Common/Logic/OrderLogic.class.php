@@ -91,6 +91,7 @@
 			} else {
 				$orderBillMap["orderNumber"] = $orderNumber;
 				$information["orderBills"] = $orderBillLogic->queryBill($orderBillMap);
+				$information['payChannel'] = $information["orderBills"][0]['channel'];
 			}
 			return $information;
 		}
@@ -163,6 +164,10 @@
 			$map["orderId"] = $orderId;
 			$orderInformation = current($this->where($map)->select());
 			$orderStatus = $orderInformation["status"];
+			if ($orderStatus == $toStatus) {
+				//如果是重复操作退款
+				return true;
+			}
 			if ($orderStatus != $fromStatus) {
 				return false;
 			}

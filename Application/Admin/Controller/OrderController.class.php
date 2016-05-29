@@ -214,8 +214,9 @@ class OrderController extends Controller {
 		        exit();
 		    }
 		}
-		D('OrderItem', 'Logic')->cancelSingleOrderItem($id);
-		$res["status"] = "1";
+		if(D('OrderItem', 'Logic')->cancelSingleOrderItem($id)){
+			$res["status"] = "1";
+		}
 		if($result->url != ''){
 			$res["url"] = $result->url;
 			$res["needOpenNewWindow"] = 'true';

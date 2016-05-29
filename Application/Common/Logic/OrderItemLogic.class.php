@@ -109,6 +109,10 @@
 			$map["id"] = $id;
 			$orderItemInformation = current($this->where($map)->select());
 			$status = $orderItemInformation["status"];
+			if($status == 'C2'){
+				//如果是重复操作退款
+				return true;
+			}
 			if ($status != "C1") {
 				return false;
 			}
