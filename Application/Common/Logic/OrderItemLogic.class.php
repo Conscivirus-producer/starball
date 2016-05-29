@@ -39,8 +39,8 @@
 		
 		public function calculateExcludedItemsFee($orderId){
 			$map["orderId"] = $orderId;
-			//商品处于已支付，或者已申请退款，但商户尚未同意.非这二种状态的商品要被去掉
-			$map['status'] = array('NOT IN',array('P', 'C1'));
+			//商品处理支付成功,申请退款,同意退款的状态.非这三种状态的记录要被去掉
+			$map['status'] = array('NOT IN',array('P', 'C1', 'C2'));
 			$items = $this->where($map)->select();
 			$excludedFee = 0;
 			foreach($items as $item){
