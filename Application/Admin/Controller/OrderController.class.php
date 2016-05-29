@@ -146,7 +146,7 @@ class OrderController extends Controller {
 		    }
 		}
 		
-        if ($orderLogic->updateOrderStatus($orderId, 'C1', 'C2') !== false) {
+        if ($orderLogic->updateOrderStatus($orderId, 'C1', 'C2')) {
             $res["status"] = "1";
         }
 		if($result->url != ''){

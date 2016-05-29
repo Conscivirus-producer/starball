@@ -202,7 +202,7 @@
 									        <eq name="is_dev" value="true">
 									        	<button type="button" class="am-btn am-btn-primary single-item-manualrefund" name="single-item-manualrefund{$vo.id}">手动退款成功</button>
 									        </eq>
-									        <eq name="vo.payChannel" value="ALI">
+									        <eq name="information.payChannel" value="ALI">
 									        	<button type="button" class="am-btn am-btn-primary single-item-refund" name="single-item-refund{$vo.id}">继续退款</button>
 									        </eq>
                                         </case>
@@ -293,7 +293,7 @@
                 <div class="am-modal-dialog">
                     <div class="am-modal-hd">操作失败</div>
                     <div class="am-modal-bd">
-                        操作失败,请刷险页面重试
+                        操作失败,请刷新页面重试
                     </div>
                     <div class="am-modal-footer">
                         <span class="am-modal-btn">确定</span>
