@@ -148,6 +148,9 @@ class OrderController extends Controller {
         if ($orderLogic->updateOrderStatus($orderId, 'C1', 'C2') !== false) {
             $res["status"] = "1";
         }
+		if($result->url != ''){
+			$res["url"] = $result->url;	
+		}
         echo json_encode($res);
     }
 	
@@ -210,7 +213,10 @@ class OrderController extends Controller {
 		}
 		D('OrderItem', 'Logic')->cancelSingleOrderItem($id);
 		$res["status"] = "1";
-		
+		logInfo('url:'.$result->url);
+		if($result->url != ''){
+			$res["url"] = $result->url;	
+		}
         echo json_encode($res);
     }
 
