@@ -92,7 +92,8 @@ class OrderController extends Controller {
     public function cancelEntireOrder() {
         $orderLogic = D("Order", "Logic");
         $res = array(
-            "status" => "0"
+            "status" => "0",
+            "needOpenNewWindow" => 'false'
         );
         $orderId = I("post.orderId", "");
         if ($orderId == "") {
@@ -150,6 +151,7 @@ class OrderController extends Controller {
         }
 		if($result->url != ''){
 			$res["url"] = $result->url;	
+			$res["needOpenNewWindow"] = 'true';
 		}
         echo json_encode($res);
     }
@@ -158,7 +160,8 @@ class OrderController extends Controller {
     public function cancelSingleOrderItem() {
         $orderItemLogic = D("OrderItem", "Logic");
         $res = array(
-            "status" => "0"
+            "status" => "0",
+            "needOpenNewWindow" => 'false'
         );
         $id = I("post.cancelId", "");
         if ($id == "") {
@@ -213,9 +216,9 @@ class OrderController extends Controller {
 		}
 		D('OrderItem', 'Logic')->cancelSingleOrderItem($id);
 		$res["status"] = "1";
-		logInfo('url:'.$result->url);
 		if($result->url != ''){
-			$res["url"] = $result->url;	
+			$res["url"] = $result->url;
+			$res["needOpenNewWindow"] = 'true';
 		}
         echo json_encode($res);
     }

@@ -275,7 +275,7 @@
                 <div class="am-modal-dialog">
                     <div class="am-modal-hd">操作成功</div>
                     <div class="am-modal-bd">
-                        请在新窗口中输入支付密码退款
+                        请在新窗口中操作退款
                     </div>
                     <div class="am-modal-footer">
                         <span class="am-modal-btn">确定</span>
@@ -375,8 +375,12 @@
         data["orderId"] = orderId;
         $.post('{:U("Order/cancelEntireOrder")}',data,function(result){
             if ($.parseJSON(result).status == "1") {
-
-                $("#success-prompt").modal("open");
+            	if(data.needOpenNewWindow == 'true'){
+            		$("#newwindow-prompt").modal("open");
+            		window.open(data.url);	
+            	}else{
+	                $("#success-prompt").modal("open");
+            	}
             } else {
 
                 $("#fail-prompt").modal("open");
@@ -404,9 +408,8 @@
         $.post('{:U("Order/cancelSingleOrderItem")}',data,function(result){
         	var data = $.parseJSON(result);
             if (data.status == "1") {
-            	if(data.url != '' && data.url != 'undefined'){
+            	if(data.needOpenNewWindow == 'true'){
             		$("#newwindow-prompt").modal("open");
-            		alert(data.url);
             		window.open(data.url);	
             	}else{
 	                $("#success-prompt").modal("open");
