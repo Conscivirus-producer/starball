@@ -153,6 +153,7 @@ return array(
 	'soldout'=>'售罄',
 	'sizecomingsoon'=>'此尺碼即將到貨',
 	'notifymewhengoodarrived'=>'此商品到貨時提醒我',
+	'AboutUs'=>'關於我們',
 	'CcontactUS'=>'StarBall.Kids非常歡迎來自顧客朋友的反饋以及合作夥伴的諮詢。請發送郵件給我們，我們會盡快和您聯繫。<br><br>
  
 
@@ -226,4 +227,12 @@ return array(
 				Instagram: starballkids<br>
 				
 				微信公眾號：starballkids',
+	'CaboutUs'=>'StarBall.Kids是一間成立於香港的網上嬰幼兒童進口設計師品牌集合店，從產品質量，安全，舒適度和設計風格四大考慮出發，在全球範圍內搜羅最好的兒童服裝品牌。
+ 				<br><br>
+
+				StarBall.Kids的创始人Patrick和Catherine是一對生活在香港的夫婦，作為家長，他們發現市面上的幼童品牌雖然數量不少，但很少能同時兼顧到產品質量，安全，舒適度和設計風格這四大因素。StarBall.Kids留意到很多優質的歐美童裝並沒有進入亞洲市場，而對於這些時尚又特別的優質進口品牌，媽媽們只可以選擇海外代購，價格高又費時，更遑論服務和產品的保證。而現在，StarBall.Kids與這些優秀的品牌合作，建立這樣一個平台，就是希望能夠給父母更多的品牌選擇，提供更方便，更暢快，更實惠的購物體驗。
+
+                <br><br>
+
+				從StarBall.Kids創立至今，“Quality，Comfort and Cuteness”是我們一直堅持的，也是我們合作品牌的特質，優質又兼顧時尚，舒適又不失可愛。兒童服裝品牌繁多，我們會致力挑選和搜羅最優質的帶給各位爸爸媽媽，陪伴您孩子的成長。',
 );
