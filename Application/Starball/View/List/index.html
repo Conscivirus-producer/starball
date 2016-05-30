@@ -206,7 +206,7 @@ function applychecks(type, checkedArray){
 		$(".am-accordion-item."+type+" dd").addClass("am-in");
 		checkeds = checkedArray;
 		for(var i = 0; i < checkeds.length; i++){
-			$("."+type+"."+checkeds[i]).uCheck('check');
+			$("."+type+"[data-yu-val='"+checkeds[i]+"']").uCheck('check');
 			$(".filterings").append("/"+$("."+type+"."+checkeds[i]).attr("data-yu-val"));
 		}
 }
