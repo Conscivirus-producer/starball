@@ -25,4 +25,9 @@ class HomeController extends BaseController {
 		$this->commonProcess();
 		$this->display();
 	}
+	
+	public function info(){
+		$this->commonProcess();
+		$this->display();		
+	}
 }
