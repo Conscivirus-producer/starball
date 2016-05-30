@@ -44,7 +44,10 @@ class ItemController extends BaseController {
 		}else{
 			$startAge = current(explode(',', $age));
 			$endAge = end(explode(',', $age));
-			if($endAge == $startAge){
+			if($endAge == '24'){
+			//如果是圴码
+				return $sizeArray[$startAge][0].' - '.$currency.' '.$price;
+			}else if($endAge == $startAge){
 				$result = $sizeArray[$startAge][0].'  ('.$sizeArray[$startAge][1].' - '.$sizeArray[$endAge][2].'cm)'.' - '.$currency.' '.$price;
 			}else{
 				$result = $sizeArray[$startAge][0].'-'.$sizeArray[$endAge][0].'  ('.$sizeArray[$startAge][1].' - '.$sizeArray[$endAge][2].'cm)'.' - '.$currency.' '.$price;

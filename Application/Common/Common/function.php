@@ -72,7 +72,10 @@ function getSizeDescriptionByAge($age){
 	}else{
 		$startAge = current(explode(',', $age));
 		$endAge = end(explode(',', $age));
-		if($endAge == $startAge){
+		if($endAge == '24'){
+			//如果是圴码
+			return $sizeArray[$startAge][0];
+		}else if($endAge == $startAge){
 			return $sizeArray[$startAge][0].'  ('.$sizeArray[$startAge][1].' - '.$sizeArray[$endAge][2].'cm)';
 		}else{
 			return $sizeArray[$startAge][0].'-'.$sizeArray[$endAge][0].'  ('.$sizeArray[$startAge][1].' - '.$sizeArray[$endAge][2].'cm)';
