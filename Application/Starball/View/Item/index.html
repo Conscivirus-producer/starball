@@ -76,7 +76,7 @@
 						  </volist>
 						</select>
 					</div>
-					<div class="am-g yu-sizetext-styler">{$Think.lang.size}：</div>
+					<div class="am-g yu-sizetext-styler"><a href="javascript:void(0);" onclick="$('#light2').show();$('#fade').show();">{$Think.lang.size}：</a></div>
 					<div class="am-g" id="subscription">
 						<div class="subscription-block">
                                 <div class="subscription-head">
@@ -154,6 +154,12 @@
 		</div>
 	</div>
 	<div id="result"></div>
+	<div id="light2" class="white_content">
+		<div style="position:absolute;top:0;right:0;">
+			<a href="#" style="color:black;" onclick="$(this).parent().parent().hide();$('#light2').hide();$('#fade').hide();" class="am-icon-sm am-icon-close"></a>
+		</div>
+	</div>
+	<div id="fade" class="black_overlay"></div>
 </block>
 <block name="customizedJavascript">
 	<script type="text/javascript">

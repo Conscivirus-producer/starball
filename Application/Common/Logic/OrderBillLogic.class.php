@@ -29,4 +29,16 @@ class OrderBillLogic extends OrderBillModel{
 	public function queryBill($map){
 		return $this->where($map)->order('createdDate desc')->select();
 	}
+	
+	public function findPayBill($billNumber){
+		$map['billNumber'] = $billNumber;
+		$map['type'] = 'PAY';
+		return $this->where($map)->find(); 
+	}
+	
+	public function findRefundBill($billNumber){
+		$map['billNumber'] = $billNumber;
+		$map['type'] = 'REFUND';
+		return $this->where($map)->find(); 
+	}
 }

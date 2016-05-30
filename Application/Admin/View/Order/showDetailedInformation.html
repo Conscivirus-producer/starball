@@ -130,6 +130,9 @@
 	                                        <button type="button" id="manual-refund" class="am-btn am-btn-primary">手动退款成功</button>
 	                                    </li>
                                    </eq>
+							        <eq name="information.payChannel" value="ALI">
+							        	<button type="button" id="refund" class="am-btn am-btn-primary">继续退款</button>
+							        </eq>
                                 </case>
                             </switch>
                             <li>
@@ -198,7 +201,10 @@
                                         <case value="C2">
 									        <eq name="is_dev" value="true">
 									        	<button type="button" class="am-btn am-btn-primary single-item-manualrefund" name="single-item-manualrefund{$vo.id}">手动退款成功</button>
-									        </eq>                                        	
+									        </eq>
+									        <eq name="information.payChannel" value="ALI">
+									        	<button type="button" class="am-btn am-btn-primary single-item-refund" name="single-item-refund{$vo.id}">继续退款</button>
+									        </eq>
                                         </case>
                                     </switch>
                                     <li><img class="am-thumbnail" src="{$vo.itemImage}" /></li>
@@ -270,12 +276,24 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="am-modal am-modal-alert" tabindex="-1" id="newwindow-prompt">
+                <div class="am-modal-dialog">
+                    <div class="am-modal-hd">操作成功</div>
+                    <div class="am-modal-bd">
+                        请在新窗口中操作退款
+                    </div>
+                    <div class="am-modal-footer">
+                        <span class="am-modal-btn">确定</span>
+                    </div>
+                </div>
+            </div>
 
             <div class="am-modal am-modal-alert" tabindex="-1" id="fail-prompt">
                 <div class="am-modal-dialog">
                     <div class="am-modal-hd">操作失败</div>
                     <div class="am-modal-bd">
-                        操作失败,请刷险页面重试
+                        操作失败,请刷新页面重试
                     </div>
                     <div class="am-modal-footer">
                         <span class="am-modal-btn">确定</span>
@@ -362,9 +380,14 @@
         var data = {};
         data["orderId"] = orderId;
         $.post('{:U("Order/cancelEntireOrder")}',data,function(result){
-            if ($.parseJSON(result).status == "1") {
-
-                $("#success-prompt").modal("open");
+        	var data = $.parseJSON(result);
+            if (data.status == "1") {
+            	if(data.needOpenNewWindow == 'true'){
+            		$("#newwindow-prompt").modal("open");
+            		window.open(data.url);	
+            	}else{
+	                $("#success-prompt").modal("open");
+            	}
             } else {
 
                 $("#fail-prompt").modal("open");
@@ -390,8 +413,14 @@
         var data = {};
         data["cancelId"] = id;
         $.post('{:U("Order/cancelSingleOrderItem")}',data,function(result){
-            if ($.parseJSON(result).status == "1") {
-                $("#success-prompt").modal("open");
+        	var data = $.parseJSON(result);
+            if (data.status == "1") {
+            	if(data.needOpenNewWindow == 'true'){
+            		$("#newwindow-prompt").modal("open");
+            		window.open(data.url);	
+            	}else{
+	                $("#success-prompt").modal("open");
+            	}
             } else {
                 $("#fail-prompt").modal("open");
             }

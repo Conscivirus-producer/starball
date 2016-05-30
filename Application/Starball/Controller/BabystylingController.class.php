@@ -20,9 +20,7 @@ class BabystylingController extends BaseController {
 		for ($i=0; $i < count($contentList); $i++) { 
 			 $contentList[$i]["blogContent"] = htmlspecialchars_decode($contentList[$i]["content"]);
 			 preg_match("/((http|https):\/\/)+(\w+\.)+(\w+)[\w\/\.\-]*(jpg|gif|png)/", $contentList[$i]["blogContent"], $contentList[$i]["imgSrc"]);  
-			 logInfo(json_encode($contentList[$i]["imgSrc"][0]));
 		}
-		logInfo(json_encode($contentList));
 		$this->assign('contentlist', $contentList);
 		$this->display();
 	}

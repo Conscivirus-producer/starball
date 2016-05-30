@@ -128,7 +128,6 @@ class ListController extends BaseController {
 				$itemList[$i]["ageList"][$j]["age"] = getSizeDescriptionByAge($itemList[$i]["ageList"][$j]["age"]);
 			}
 		}
-		logInfo(json_encode($itemList));
 		
 		
 		$Page = new \Think\Page($count,18);
@@ -388,8 +387,6 @@ class ListController extends BaseController {
 			$ageMap["t_inventory.itemId"] = array('EQ', $itemList[$i]["itemId"]); 
 			$itemList[$i]["ageList"] = D('Inventory')->field('distinct t_inventory.footSize')->where($ageMap)->select();
 		}
-		logInfo(json_encode($itemList));
-		
 		
 		$Page = new \Think\Page($count,18);
 		$show = $Page->show();					 
@@ -448,7 +445,6 @@ class ListController extends BaseController {
 			for ($i=0; $i < count($age); $i++) {
 				$age[$i]["ageName"] = $age[$i]["footSize"]."码";
 				$age[$i]["age"] = $age[$i]["footSize"];
-				logInfo(json_encode($age));
 			}
 		}
 		if(in_array("seasons", $filterArray)){

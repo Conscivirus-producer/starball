@@ -7,19 +7,33 @@ class ItemController extends BaseController {
 		$itemData = D("Item", "Logic")->getItemWithBrandAndCategoryById($itemId);
 		$imageData = D("Image", "Logic")->getImageById($itemId);
 		$inventoryResult = D("Inventory", "Logic")->getInventoryAndPriceByItemId($itemId, $this->getCurrency());
+		
 		$inventoryData = array();
 		$currencyArray = C('CURRENCY');
 		foreach($inventoryResult as $inventory){
-			$inventory['description'] = $this->getSizeDescriptionAndPriceByAge($inventory['age'], $inventory['price'], $currencyArray[$this->getCurrency()], $itemData['isAvailable']);
+			if($itemData['type'] == '1'){
+				$inventory['description'] = $this->getSizeDescriptionAndPriceByAge($inventory['age'], $inventory['price'], $currencyArray[$this->getCurrency()], $itemData['isAvailable']);
+			}else if($itemData['type'] == '2'){
+				$inventory['description'] = $this->getShoeSizeDescription($inventory['footSize'], $inventory['price'], $currencyArray[$this->getCurrency()]);
+			}
 			array_push($inventoryData, $inventory);
 		}
-		$this->assign('data', $itemData);
-		$this->assign('images', $imageData);
-		$inventoryData = array_customized_sort($inventoryData, 'age',SORT_ASC, SORT_NUMERIC);
-		$this->assign('defaultPrice', $inventoryData[0]['price']);
+		if($itemData['type'] == '1'){
+			$inventoryData = array_customized_sort($inventoryData, 'age',SORT_ASC, SORT_NUMERIC);
+		}else if($itemData['type'] == '2'){
+			$inventoryData = array_customized_sort($inventoryData, 'footSize',SORT_ASC, SORT_NUMERIC);
+		}
 		$this->assign('inventory', $inventoryData);
 		$this->assign('inventoryjson', json_encode($inventoryData));
+		$this->assign('data', $itemData);
+		$this->assign('images', $imageData);
+		$this->assign('defaultPrice', $inventoryData[0]['price']);
 		$this->display();
+	}
+
+	private function getShoeSizeDescription($footSize, $price, $currency){
+		$result = $footSize.L('footsizeunit').' - '.$currency.' '.$price;
+		return $result;
 	}
 
 	private function getSizeDescriptionAndPriceByAge($age, $price, $currency, $isAvailable){
@@ -213,19 +227,6 @@ class ItemController extends BaseController {
 		}
 		//$this->testLogShoppingList();
 		return true;
-	}
-
-	protected function testLogShoppingList(){
-		$shoppingList = session('shoppingList');
-		logInfo('shoppingList  totalItemCount:'.$shoppingList['totalItemCount'].',totalAmount:'.$shoppingList['totalAmount']);
-		
-		$shoppingListItems = session('shoppingListItems');
-		logInfo('shoppingListItems:');
-		foreach($shoppingListItems as $value){
-			logInfo('itemId:'.$value['itemId'].',itemSize:'.$value['itemSize'].',itemName:'.$value['itemName'].',brandName:'.$value['brandName']
-			.',itemImage:'.$value['itemImage'].',itemColor:'.$value['itemColor'].',sizeDescription:'.$value['sizeDescription']
-			.',price:'.$value['price'].',quantity:'.$value['quantity'].',updatedDate:'.$value['updatedDate']);
-		}		
 	}
 
 	private function processSingleOrderItemForSession(){

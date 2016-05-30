@@ -92,7 +92,8 @@ class OrderController extends Controller {
     public function cancelEntireOrder() {
         $orderLogic = D("Order", "Logic");
         $res = array(
-            "status" => "0"
+            "status" => "0",
+            "needOpenNewWindow" => 'false'
         );
         $orderId = I("post.orderId", "");
         if ($orderId == "") {
@@ -138,7 +139,6 @@ class OrderController extends Controller {
 			//本地测试不用向第三方发送请求
 			Vendor("beecloud.autoload");
 		    $result = \beecloud\rest\api::refund($data);
-			logInfo('resultCode:'.$result->result_code.", resultMsg:".$result->result_msg);
 		    if ($result->result_code != 0 || $result->result_msg != "OK") {
 		        echo json_encode($result->err_detail);
 				logInfo('errorDetail:'.$result->err_detail);
@@ -146,9 +146,13 @@ class OrderController extends Controller {
 		    }
 		}
 		
-        if ($orderLogic->updateOrderStatus($orderId, 'C1', 'C2') !== false) {
+        if ($orderLogic->updateOrderStatus($orderId, 'C1', 'C2')) {
             $res["status"] = "1";
         }
+		if($result->url != ''){
+			$res["url"] = $result->url;	
+			$res["needOpenNewWindow"] = 'true';
+		}
         echo json_encode($res);
     }
 	
@@ -156,7 +160,8 @@ class OrderController extends Controller {
     public function cancelSingleOrderItem() {
         $orderItemLogic = D("OrderItem", "Logic");
         $res = array(
-            "status" => "0"
+            "status" => "0",
+            "needOpenNewWindow" => 'false'
         );
         $id = I("post.cancelId", "");
         if ($id == "") {
@@ -203,16 +208,19 @@ class OrderController extends Controller {
 			//本地测试不用向第三方发送请求
 			Vendor("beecloud.autoload");
 		    $result = \beecloud\rest\api::refund($data);
-			logInfo('resultCode:'.$result->result_code.", resultMsg:".$result->result_msg);
 		    if ($result->result_code != 0 || $result->result_msg != "OK") {
 		        echo json_encode($result->err_detail);
 				logInfo('errorDetail:'.$result->err_detail);
 		        exit();
 		    }
 		}
-		D('OrderItem', 'Logic')->cancelSingleOrderItem($id);
-		$res["status"] = "1";
-		
+		if(D('OrderItem', 'Logic')->cancelSingleOrderItem($id)){
+			$res["status"] = "1";
+		}
+		if($result->url != ''){
+			$res["url"] = $result->url;
+			$res["needOpenNewWindow"] = 'true';
+		}
         echo json_encode($res);
     }
 

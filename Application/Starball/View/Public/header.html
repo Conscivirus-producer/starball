@@ -39,9 +39,9 @@
                                     <span class="yu-seperate"></span>
                                     <span class="yu-26text-or">{$Think.lang.or}</span>
                                 </div>
-                                <a href="#" class="am-icon-sm am-icon-facebook" style="margin-left:3%;margin-right: 38%;color: #ff9966;"></a>
-                                <a href="#" class="am-icon-sm am-icon-wechat" style="margin-right: 32%;margin-bottom:3%;color: #ff9966;"></a>
-                                <a href="#" class="am-icon-sm am-icon-weibo" style="color:#ff9966;"></a>
+                                <a href="#" class="am-icon-sm am-icon-facebook" style="margin-left:3%;margin-right: 38%;color: #ececec;"></a>
+                                <a href="#" class="am-icon-sm am-icon-wechat" style="margin-right: 32%;margin-bottom:3%;color: #ececec;"></a>
+                                <a href="#" class="am-icon-sm am-icon-weibo" style="color:#ececec;"></a>
                                 <a class="am-btn am-btn-link yu-newaccount-26" id="registerLnkFromLogin" href="javascript:void(0);">新客户创建一个账户</a>
                             </form>
                              </ul>
@@ -253,9 +253,9 @@
                                     <span class="yu-seperate"></span>
                                     <span class="yu-text-or"> {$Think.lang.or}</span>
                                 </div>
-                                <a href="#" class="am-icon-md am-icon-facebook" style="margin-left:3%;margin-right: 38%;color: #ff9966;"></a>
-                                <a href="{:U('loginFromSocialMedia', array('type'=>'weixin'))}" class="am-icon-md am-icon-wechat" style="margin-right: 32%;margin-bottom:3%;color: #ff9966;"></a>
-                                <a href="{:U('loginFromSocialMedia', array('type'=>'sina'))}" class="am-icon-md am-icon-weibo" style="color:#ff9966;"></a>
+                                <a href="#" class="am-icon-md am-icon-facebook" style="margin-left:3%;margin-right: 38%;color: #ececec;"></a>
+                                <a href="{:U('loginFromSocialMedia', array('type'=>'weixin'))}" class="am-icon-md am-icon-wechat" style="margin-right: 32%;margin-bottom:3%;color: #ececec;"></a>
+                                <a href="{:U('loginFromSocialMedia', array('type'=>'sina'))}" class="am-icon-md am-icon-weibo" style="color:#ececec;"></a>
                                 <a class="am-btn am-btn-link yu-newaccount-1" id="registerLnkFromLogin"  href="javascript:void(0);">{$Think.lang.newcuscre}</a>
                             </form>
                         </ul>
@@ -294,9 +294,9 @@
                                     <span class="yu-seperate"></span>
                                     <span class="yu-text-or">{$Think.lang.or}</span>
                                 </div>
-                                <a href="##" class="am-icon-md am-icon-facebook" style="margin-left:3%;margin-right: 37%;color: #ff9966;"></a>
-                                <a href="##" class="am-icon-md am-icon-wechat" style="margin-right: 32%;margin-bottom:5%;color: #ff9966;"></a>
-                                <a href="##" class="am-icon-md am-icon-weibo" style="color:#ff9966;"></a>
+                                <a href="##" class="am-icon-md am-icon-facebook" style="margin-left:3%;margin-right: 37%;color: #ececec;"></a>
+                                <a href="##" class="am-icon-md am-icon-wechat" style="margin-right: 32%;margin-bottom:5%;color: #ececec;"></a>
+                                <a href="##" class="am-icon-md am-icon-weibo" style="color:#ececec;"></a>
                             </form>
                         </ul>
                     </li>
@@ -513,10 +513,10 @@
                                     {$Think.lang.age}
                                 </div>
                                 <hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
-                                <ul class="am-menu-sub am-collapse  am-avg-sm-2 am-text-xs" style="display: block">
-                                    <volist name="babyMenuCategory" id="vo">
+                                <ul class="am-menu-sub am-collapse  am-avg-sm-1 am-text-xs" style="display: block">
+                                    <volist name="babyMenuAge" id="vo">
                                         <li class="">
-                                            <a href="{:U('Starball/List/showList',array('by'=>'baby', 'byValue'=>'category', 'categories'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
+                                            <a href="{:U('Starball/List/showList',array('by'=>'baby', 'byValue'=>'age', 'ages'=>$vo))}" class="" >{$vo}</a>
                                         </li>
                                     </volist>
                                 </ul>
@@ -533,13 +533,13 @@
                     </div>
 
                     <div  class="yu-sub-menu am-kai am-u-md-12 girl">
-                        <div class="am-u-md-3 am-u-md-offset-1 yu-sub-menu-list">
-                            <div class="am-u-md-5 menu-sub-block am-margin-0 am-padding-0">
+                        <div class="am-u-md-5 am-u-md-offset-1 yu-sub-menu-list">
+                            <div class="am-u-md-4 menu-sub-block am-margin-1 am-padding-1">
                                 <div class="am-u-md-12 am-margin-0 am-padding-0">
                                     {$Think.lang.brand}
                                 </div>
                                 <hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
-                                <ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
+                                <ul class="am-menu-sub am-collapse  am-avg-sm-1 am-text-xs" style="display: block">
                                     <volist name="girlMenuBrand" id="vo">
                                         <li class="">
                                             <a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>'brand', 'brands'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
@@ -547,12 +547,12 @@
                                     </volist>
                                 </ul>
                             </div>
-                            <div class="am-u-md-5 menu-sub-block am-margin-0 am-padding-0 am-u-md-offset-1">
+                            <div class="am-u-md-4 menu-sub-block am-margin-1 am-padding-1">
                                 <div class="am-u-md-12 am-margin-0 am-padding-0">
                                     {$Think.lang.category}
                                 </div>
                                 <hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
-                                <ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
+                                <ul class="am-menu-sub am-collapse  am-avg-sm-1 am-text-xs" style="display: block">
                                     <volist name="girlMenuCategory" id="vo">
                                         <li class="">
                                             <a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>'category', 'categories'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
@@ -560,8 +560,21 @@
                                     </volist>
                                 </ul>
                             </div>
+                             <div class="am-u-md-4 menu-sub-block am-margin-1 am-padding-1">
+                                <div class="am-u-md-12 am-margin-0 am-padding-0">
+                                    {$Think.lang.age}
+                                </div>
+                                <hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
+                                <ul class="am-menu-sub am-collapse  am-avg-sm-2 am-text-xs" style="display: block">
+                                    <volist name="girlMenuAge" id="vo">
+                                        <li class="">
+                                            <a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>'age', 'ages'=>$vo))}" class="" >{$vo}</a>
+                                        </li>
+                                    </volist>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="am-u-md-7 am-u-end">
+                        <div class="am-u-md-5 am-u-end">
                             <img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/sub-menu-img.jpg" />
                             <div class="yu-sub-menu-img-title am-text-center">
                                 {$Think.lang.newseries}
@@ -572,13 +585,13 @@
                     </div>
 
                     <div  class="yu-sub-menu am-kai am-u-md-12 boy">
-                        <div class="am-u-md-3 am-u-md-offset-1 yu-sub-menu-list">
-                            <div class="am-u-md-5 menu-sub-block am-margin-0 am-padding-0">
+                        <div class="am-u-md-5 am-u-md-offset-1 yu-sub-menu-list">
+                            <div class="am-u-md-4 menu-sub-block am-margin-1 am-padding-1">
                                 <div class="am-u-md-12 am-margin-0 am-padding-0">
                                     {$Think.lang.brand}
                                 </div>
                                 <hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
-                                <ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
+                                <ul class="am-menu-sub am-collapse  am-avg-sm-1 am-text-xs" style="display: block">
                                     <volist name="boyMenuBrand" id="vo">
                                         <li class="">
                                             <a href="{:U('Starball/List/showList',array('by'=>'boy', 'byValue'=>'brand', 'brands'=>$vo['brandId']))}" class="" >{$vo.brandName}</a>
@@ -586,12 +599,12 @@
                                     </volist>
                                 </ul>
                             </div>
-                            <div class="am-u-md-5 menu-sub-block am-margin-0 am-padding-0 am-u-md-offset-1">
+                            <div class="am-u-md-4 menu-sub-block am-margin-1 am-padding-1">
                                 <div class="am-u-md-12 am-margin-0 am-padding-0">
                                     {$Think.lang.category}
                                 </div>
                                 <hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
-                                <ul class="am-menu-sub am-collapse  am-avg-sm-1 " style="display: block">
+                                <ul class="am-menu-sub am-collapse  am-avg-sm-1 am-text-xs" style="display: block">
                                     <volist name="boyMenuCategory" id="vo">
                                         <li class="">
                                             <a href="{:U('Starball/List/showList',array('by'=>'boy', 'byValue'=>'category', 'categories'=>$vo['categoryId']))}" class="" >{$vo.categoryName}</a>
@@ -599,8 +612,21 @@
                                     </volist>
                                 </ul>
                             </div>
+                             <div class="am-u-md-4 menu-sub-block am-margin-1 am-padding-1">
+                                <div class="am-u-md-12 am-margin-0 am-padding-0">
+                                    {$Think.lang.age}
+                                </div>
+                                <hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
+                                <ul class="am-menu-sub am-collapse  am-avg-sm-2 am-text-xs" style="display: block">
+                                    <volist name="boyMenuAge" id="vo">
+                                        <li class="">
+                                            <a href="{:U('Starball/List/showList',array('by'=>'boy', 'byValue'=>'age', 'ages'=>$vo))}" class="" >{$vo}</a>
+                                        </li>
+                                    </volist>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="am-u-md-7 am-u-end">
+                        <div class="am-u-md-5 am-u-end">
                             <img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/sub-menu-img.jpg" />
                             <div class="yu-sub-menu-img-title am-text-center">
                                 {$Think.lang.newseries}

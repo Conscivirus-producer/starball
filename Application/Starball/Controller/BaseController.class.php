@@ -115,6 +115,7 @@ class BaseController extends Controller {
 		foreach (C('USERTYPE') as $key => $value){
 			$this->assign($key.'MenuBrand', $itemLogic->getBrandNameListByGrade($value[0], $value[1]));				
 			$this->assign($key.'MenuCategory', $itemLogic->getCategoryNameByGrade($value[0], $value[1]));
+			$this->assign($key.'MenuAge', $itemLogic->getAgeListByGrade($value[0], $value[1]));
 		}
 	}
 	
@@ -238,7 +239,6 @@ class BaseController extends Controller {
 		}
 		$currencyArray = C('CURRENCY');
 		$this->assign('priceSymbol', $currencyArray[$this->getCurrency()]);
-		//logInfo('priceSymbol:'.$this->get('priceSymbol'));
 	}
 	
 	protected function commonProcess(){
@@ -314,7 +314,6 @@ class BaseController extends Controller {
 			$this->error("用户名密码不正确");
 		}
 		//从哪里跳到登录页面，跳回去
-		logInfo('fromAction:'.session('fromAction'));
 		if(session('fromAction') != ''){
 			$actionArray = C('FROM_ACTION');
 			$actionDetail = $actionArray[session('fromAction')];
@@ -350,25 +349,32 @@ class BaseController extends Controller {
 		}		
 	}
 	
-	protected function convertCountryProvinceCode($addressList){
-		$countryList = C('COUNTRY_LIST');
-		$provinceList = C('CHINA_PROVINCE_LIST');
+	protected function parseAddressListCode($addressList){
 		$i=0;
 		foreach($addressList as $address){                          
-			if($address['country'] != ''){
-				$address['country'] = L($countryList[$address['country']]);
-				$addressList[$i] = $address;
-			}
-			if($address['province'] != ''){
-				$address['province'] = current($provinceList[$address['province']]);
-				$addressList[$i] = $address;
-			}
+			$addressList[$i] = $this->parseAddressCode($address);
 			$i++;
 		}
 		return $addressList;
 	}
-
+	
+	protected function parseAddressCode($address){
+		$provinceList = C('CHINA_PROVINCE_LIST');
+		$countryList = C('COUNTRY_LIST');
+		if($address['country'] != ''){
+			$address['country'] = L($countryList[$address['country']]);
+		}
+		if($address['province'] != ''){
+			$address['province'] = current($provinceList[$address['province']]);
+		}
+		return $address;
+	}
+	
 	protected function calculateShippingFee($totalAmount){
+		if(C('IS_TEST') == 'true'){
+			return '0';
+		}
+
 		$defaultAddress = D('ShippingAddress', 'Logic')->getDefaultAddress($this->getCurrentUserId());
 		$shippingFeeSetting = C('SHIPPING_FEE_SETTING');
 		$exchangeRate = C('EXCHANGE_RATE_HKD_TO_CNY');

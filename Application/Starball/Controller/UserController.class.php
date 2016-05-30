@@ -22,11 +22,7 @@ class UserController extends BaseController {
 
 				$userLogic = D('User', 'Logic');
 				$user = $userLogic->getUserInformationByUserId($this->getCurrentUserId());
-				logInfo('fk111111');
-				logInfo('existingpwd:'.$user['password']);
-				logInfo('newPwd:'.$newPwd);
 				if($user['password'] == $currentPwd && $newPwd == $newPwdRepeat && $currentPwd != $newPwd){
-					logInfo('fk222');
 					$data['password'] = $newPwd;
 					D('User', 'Logic')->updateUserInformation($data, $this->getCurrentUserId());
 				}				
@@ -48,7 +44,7 @@ class UserController extends BaseController {
 	private function prepareUserAddressInformation(){
 		$shippingAddress = D('ShippingAddress', 'Logic');
 		$addressList = $shippingAddress->getAllAddress($this->getCurrentUserId());
-		$addressList = $this->convertCountryProvinceCode($addressList);
+		$addressList = $this->parseAddressListCode($addressList);
 		$this->assign('addressList', $addressList);
 	}
 	
@@ -74,13 +70,17 @@ class UserController extends BaseController {
 		$this->redirect('User/index');
 	}
 	
-	public function orderinfo($orderId){
+	public function orderinfo($orderId = '', $orderNumber = ''){
 		if(!$this->isLogin()){
 			$this->redirect('Home/register');
 		}
 		$this->commonProcess();
-		$order = D('Order', 'Logic')->findByOrderId($orderId);
-		$ordeItems = D('OrderItem', 'Logic')->getOrderItemsByOrdeId($orderId);
+		if($orderId != ''){
+			$order = D('Order', 'Logic')->findByOrderId($orderId);
+		}else if($orderNumber != ''){
+			$order = D('Order', 'Logic')->findByOrderNumber($orderNumber);
+		}
+		$ordeItems = D('OrderItem', 'Logic')->getOrderItemsByOrdeId($order['orderId']);
 		$orderBill = D('OrderBill', 'Logic')->findOrderSuccessPayBill($order['orderNumber']);
 		$shippingAddress = D('ShippingAddress', 'Logic')->findExsitingAddress($order['shippingAddress']);
 		$orderStatus = C('ORDERSTATUS');
@@ -89,7 +89,7 @@ class UserController extends BaseController {
 		$this->assign('order', $order);
 		$this->assign('orderItems', $ordeItems);
 		$this->assign('orderBill', $orderBill);
-		$this->assign('address', $shippingAddress);
+		$this->assign('address', $this->parseAddressCode($shippingAddress));
 		$this->display();
 	}
 	

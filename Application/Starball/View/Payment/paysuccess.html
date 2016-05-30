@@ -10,16 +10,16 @@
         <div class="am-g">
             <div class="am-u-lg-4 am-u-md-5 am-show-md-up am-u-sm-centered am-kai">
                 <h3>{$Think.lang.payok}</h3>
-                <p class="am-text-xs">{$Think.lang.dearcus}，<br>{$Think.lang.oksuccess}{$orderNumber}</p>
-                <button onclick="window.location.href='{:U('Home/index')}'" class="am-btn am-btn-default yu-backhome-button">
-                    {$Think.lang.backhome}
+                <p class="am-text-xs">{$Think.lang.dearcus}，<br>{$Think.lang.oksuccess} <strong style="color:#cc4c4b">{$orderNumber}</strong></p>
+                <button onclick="window.location.href='{:U('User/orderinfo', array('orderNumber'=>$orderNumber))}'" class="am-btn am-btn-default yu-backhome-button">
+                    {$Think.lang.viewOrderDetail}
                 </button>
             </div>
             <div class="am-u-sm-8 am-show-sm-only am-u-sm-centered am-kai" style="text-align:center; ">
                 <h3>{$Think.lang.payok}</h3>
-                <p class="am-text-xs">{$Think.lang.dearcus}，<br>{$Think.lang.oksuccess}{$orderNumber}</p>
-                <button onclick="window.location.href='{:U('Home/index')}'" class="am-btn am-btn-default yu-backhome-button">
-                    {$Think.lang.backhome}
+                <p class="am-text-xs">{$Think.lang.dearcus}，<br>{$Think.lang.oksuccess} <strong style="color:#cc4c4b">{$orderNumber}</strong></p>
+                <button onclick="window.location.href='{:U('User/orderinfo', array('orderNumber'=>$orderNumber))}'" class="am-btn am-btn-default yu-backhome-button">
+                    {$Think.lang.viewOrderDetail}
                 </button>
             </div>
         </div>

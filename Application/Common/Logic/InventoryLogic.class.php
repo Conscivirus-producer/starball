@@ -31,7 +31,7 @@
 		public function isInventoryAvailable($inventoryId, $quantity){
 			$map['inventoryId'] = $inventoryId;
 			$inventory = $this->where($map)->find();
-			return $inventory['inventory'] >= $quantity;
+			return $inventory == '' || $inventory['inventory'] >= $quantity;
 		}
 		
 		public function updateInventory($inventoryId, $changedQuantity){

@@ -24,11 +24,17 @@
             <tr>
                 <td class="am-text-left am-text-sm" colspan="2">收件地址：
                 <br>
-                {$address.contactName}<br>{$address.address}<br>{$address.postCode} {$address.city}<br>{$address.country}</td>
+                {$address.contactName}<br>{$address.address}<br>{$address.postCode} {$address.city} {$address.province}<br>{$address.country}</td>
                 <td class="am-text-left am-text-sm" colspan="2">状态：
                 <br>
-                	{$order.statusDescription}
+                	<strong>{$order.statusDescription}</strong>
                 	<switch name="order.status">
+                		<case value="N">
+		                	<button class="am-btn am-btn-default yu-black-button"
+		                		onclick="window.location.href='{:U('Payment/index', array('orderNumber'=>$order['orderNumber']))}'">
+		                		继续支付
+	                		</button>
+	                	</case>
                 		<case value="P">
 		                	<button class="am-btn am-btn-default yu-black-button"
 		                		onclick="if(window.confirm('确定取消这个订单?')){window.location.href='{:U('Starball/User/cancelOrder', array('orderId'=>$order['orderId']))}';}">
