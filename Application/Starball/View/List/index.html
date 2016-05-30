@@ -190,7 +190,14 @@ $(document).ready(function(){
 		applychecks("gender",{:$gendersChecked});
 	}
 	if({:$colorsChecked} != null){
-		applychecks("color",{:$colorsChecked});
+		$(".am-accordion-item.color").addClass("am-active");
+		$(".am-accordion-item.color"+" dd").addClass("am-in");
+		checkedcolor = {:$colorsChecked};
+		for(var i = 0; i < checkedcolor.length; i++){
+			$(".color"+"[data-yu-val='"+checkedcolor[i]+"']").uCheck('check');
+			$(".filterings").append("/"+$(".color"+"."+checkedcolor[i]).attr("data-yu-val"));
+		}
+		//applychecks("color",{:$colorsChecked});
 	}
 	if({:$agesChecked} != null){
 		applychecks("age",{:$agesChecked});
@@ -206,7 +213,7 @@ function applychecks(type, checkedArray){
 		$(".am-accordion-item."+type+" dd").addClass("am-in");
 		checkeds = checkedArray;
 		for(var i = 0; i < checkeds.length; i++){
-			$("."+type+"[data-yu-val='"+checkeds[i]+"']").uCheck('check');
+			$("."+type+"."+checkeds[i]).uCheck('check');
 			$(".filterings").append("/"+$("."+type+"."+checkeds[i]).attr("data-yu-val"));
 		}
 }
