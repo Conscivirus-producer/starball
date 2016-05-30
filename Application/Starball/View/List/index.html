@@ -249,7 +249,7 @@ $("input.filter").click(function(){
 	}
 	$("input.color").each(function(){
 		if($(this).is(':checked')){
-			colors.push(encodeURIComponent($(this).attr("value")));
+			colors.push(encodeURI($(this).attr("value")));
 		}
 	});
 	if(colors.length != 0){

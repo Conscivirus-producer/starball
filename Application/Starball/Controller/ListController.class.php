@@ -12,6 +12,7 @@ class ListController extends BaseController {
 		$genders = I('get.genders');
 		$ages = I('get.ages');
 		$colors = I('get.colors');
+		$colors = urldecode($colors);
 		$seasons = I('get.seasons');
 		$tag = I('get.tags');
 		
