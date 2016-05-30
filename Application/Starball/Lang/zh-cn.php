@@ -218,4 +218,5 @@ return array(
     'finishPayment'=>'已完成支付',
     'paymentProblem'=>'支付遇到问题',
     'inputGreetingWords'=>'请填写您的祝福',
+    'footsizeunit'=>'码'
 );
