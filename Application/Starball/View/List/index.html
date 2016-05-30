@@ -88,9 +88,9 @@
                         </dt>
                         <dd class="am-accordion-bd am-collapse ">
                             <div class="am-accordion-content">
-                                <volist name="color" id="cdata">
+                                <volist name="color" id="cdata" key="j">
                                     <label class="am-radio am-secondary">
-                                        <input class="color {$cdata.color} filter" type="checkbox" value="{$cdata.color}" data-yu-val="{$cdata.color}" data-am-ucheck />
+                                        <input class="color {$j} filter" type="checkbox" value="{$cdata.color}" data-yu-val="{$cdata.color}" data-am-ucheck />
                                         {$cdata.color}
                                     </label>
                                 </volist>
@@ -194,7 +194,7 @@ $(document).ready(function(){
 		$(".am-accordion-item.color"+" dd").addClass("am-in");
 		checkedcolor = {:$colorsChecked};
 		for(var i = 0; i < checkedcolor.length; i++){
-			$(".color"+"[data-yu-val='"+checkedcolor[i]+"']").uCheck('check');
+			$(".color."+(i+1)).uCheck('check');
 			$(".filterings").append("/"+$(".color"+"."+checkedcolor[i]).attr("data-yu-val"));
 		}
 		//applychecks("color",{:$colorsChecked});
