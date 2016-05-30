@@ -25,11 +25,15 @@
 				<div class="am-panel-hd">{$Think.lang.paymode}</div>
 				<div class="am-panel-bd">
   					<input type="hidden" value="{$orderNumber}" id="orderNumber"/>
-					<button type="button" class="am-btn am-btn-default" 
-					onclick="window.location.href='{:U('Payment/wx', array('orderNumber'=>$orderNumber,'channel'=>'WX', 'subChannel'=>'WX_NATIVE'))}'">{$Think.lang.wechat}</button>
-					<button type="button" class="am-btn am-btn-default"
-					onclick="$('#light2').show();$('#fade').show();window.open('{:U('Payment/aliPay', array('orderNumber'=>$orderNumber,'channel'=>'ALI', 'subChannel'=>'ALI_WEB'))}')">{$Think.lang.alipay}</button>
+  					<if condition="$preferred_currency eq 'CNY'">
+						<button type="button" class="am-btn am-btn-default" 
+						onclick="window.location.href='{:U('Payment/wx', array('orderNumber'=>$orderNumber,'channel'=>'WX', 'subChannel'=>'WX_NATIVE'))}'">{$Think.lang.wechat}</button>
+						<button type="button" class="am-btn am-btn-default"
+						onclick="$('#light2').show();$('#fade').show();window.open('{:U('Payment/aliPay', array('orderNumber'=>$orderNumber,'channel'=>'ALI', 'subChannel'=>'ALI_WEB'))}')">{$Think.lang.alipay}</button>
+					<else/>
+						<span style="color:#e0690c">{$Think.lang.HKDPaymentNotOpen}</span>
 					<!--<button type="button" class="am-btn am-btn-default" onclick="$('#light2').show();$('#fade').show();">测试</button>-->
+					</if>
 				</div>
 			</div>
 		</div>
@@ -66,13 +70,13 @@
 	<div style="clear: both;"></div>
 	<div id="light2" class="white_content">
 		<p class="yu-account-title">
-			正在支付...
+			{$Think.lang.payInProgress}
 		</p>
 		<button onclick="window.location.href='{:U('User/orderinfo', array('orderNumber'=>$orderNumber))}'" class="am-btn am-btn-default black-button payfinish">
-			已完成支付
+			{$Think.lang.finishPayment}
 		</button>
 		<button type="button" class="am-btn am-btn-default black-button payproblem" onclick="$('#light2').hide();$('#fade').hide();">
-			支付遇到问题
+			{$Think.lang.paymentProblem}
 		</button>
 		<div style="position:absolute;top:0;right:0;">
 			<a href="#" style="color:black;" onclick="$(this).parent().parent().hide();$('#light2').hide();$('#fade').hide();checkPayresult()" class="am-icon-sm am-icon-close"></a>

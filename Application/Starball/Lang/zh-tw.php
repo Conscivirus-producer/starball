@@ -226,4 +226,9 @@ return array(
 				Instagram: starballkids<br>
 				
 				微信公眾號：starballkids',
+	'HKDPaymentNotOpen'=>'目前港幣支付渠道尚未開通，請切換成人民幣進行支付。若仍希望通過港幣支付，請直接聯系賣家。',
+	'payInProgress'=>'正在支付...',
+	'finishPayment'=>'已完成支付',
+	'paymentProblem'=>'支付遇到問題',
+	'inputGreetingWords'=>'请填写您的祝福'
 );

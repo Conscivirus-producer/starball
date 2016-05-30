@@ -208,4 +208,9 @@ return array(
             facebook:   StarBall.Kids<br>
             instagram:  starballkids <br>
             微信公众号：starballkids<br>',
+    'HKDPaymentNotOpen'=>'目前港币支付渠道尚未开通，请切换成人民币进行支付。若仍希望通过港币支付，请直接联系卖家。',
+    'payInProgress'=>'正在支付...',
+    'finishPayment'=>'已完成支付',
+    'paymentProblem'=>'支付遇到问题',
+    'inputGreetingWords'=>'请填写您的祝福'
 );
