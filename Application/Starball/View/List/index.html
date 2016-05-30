@@ -173,7 +173,7 @@
 </div>
 </block>
 <block name="customizedJavascript">
-<script  charset="gbk">
+<script>
 //menu postion
 $("div.yu-sub-menu-list").removeClass("am-u-md-3 am-u-md-offset-1");
 $("div.yu-sub-menu-list").addClass("am-u-md-5 am-margin-0 am-padding-0");
@@ -195,7 +195,7 @@ $(document).ready(function(){
 		checkedcolor = {:$colorsChecked};
 		for(var i = 0; i < checkedcolor.length; i++){
 			$(".color."+(i+1)).uCheck('check');
-			$(".filterings").append("/"+$(".color"+"."+checkedcolor[i]).attr("data-yu-val"));
+			$(".filterings").append("/"+$(".color."+(i+1)).attr("data-yu-val"));
 		}
 		//applychecks("color",{:$colorsChecked});
 	}
