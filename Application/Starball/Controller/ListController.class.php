@@ -79,12 +79,12 @@ class ListController extends BaseController {
 							 ->order('brandId desc,categoryId desc, t_item.itemId desc')
 							 ->page($p.',18')
 							 ->select();
-				$count = D('Item')->distinct(true)->field('t_item.*, img.image, price.price')
+				$count = D('Item')->field('t_item.*, img.image, price.price')
 							 ->where($map)
 							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
 							 ->order('brandId desc,categoryId desc, t_item.itemId desc')
-							 ->count();
+							 ->count('distinct t_item.itemId');
 			}else{
 				$itemList = D('Item')->distinct(true)->field('t_item.*, img.image, price.price')
 							 ->where($map)
@@ -100,7 +100,7 @@ class ListController extends BaseController {
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
 							 ->join("t_inventory inv ON inv.itemId = t_item.itemId and inv.age ='".$ageFilter."'")
 							 ->order('brandId desc,categoryId desc, t_item.itemId desc')
-							 ->count();
+							 ->count('distinct t_item.itemId');
 			}
 		}else{
 			$itemList = D('Item')->field('distinct t_item.itemId, t_item.*, img.image, price.price')
@@ -117,7 +117,7 @@ class ListController extends BaseController {
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.currency = '".$this->getCurrency()."'")
 							 ->join("t_tag tg ON tg.itemId = t_item.itemId AND tg.tagName ='".$tag."'")
 							 ->order('brandId desc,categoryId desc, t_item.itemId desc')
-							 ->count();
+							 ->count('distinct t_item.itemId');
 		}
 
 		//age list for each item
@@ -150,6 +150,8 @@ class ListController extends BaseController {
 			for ($i=0; $i < count($gender); $i++) { 
 				if($gender[$i]["gender"] == "M"){
 					$gender[$i]["genderName"] = "男";
+				}elseif($gender[$i]["gender"] == "A"){
+					$gender[$i]["genderName"] = "不限";
 				}else{
 					$gender[$i]["genderName"] = "女";
 				}
@@ -159,6 +161,8 @@ class ListController extends BaseController {
 			for ($i=0; $i < count($gender); $i++) { 
 				if($gender[$i]["gender"] == "M"){
 					$gender[$i]["genderName"] = "男";
+				}elseif($gender[$i]["gender"] == "A"){
+					$gender[$i]["genderName"] = "不限";
 				}else{
 					$gender[$i]["genderName"] = "女";
 				}

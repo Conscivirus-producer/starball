@@ -543,6 +543,8 @@ span.listpage-title-item-panier{
 	text-transform:uppercase;
 	font-size:13px;
 	text-align:center;
+	width: 231px;
+	text-overflow: ellipsis;
 }
 span.listpage-item-price{
 	 font-size: 11px;
