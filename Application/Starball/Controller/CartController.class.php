@@ -23,10 +23,16 @@ class CartController extends BaseController {
 			$this->redirect('Cart/index');
 		}
 		
+		$data = array();
 		//如果需要礼品包装,把包装费用加到总费用里
 		if(I('isGiftPackage') != ''){
 			$data['giftPackageFee'] = I('isGiftPackage') == 'true' ? $this->getGiftPackageFee() : 0;
 			$data['totalFee'] = $order['totalAmount'] + $order['shippingFee'] + $data['giftPackageFee'];
+		}
+		if(I('addtionalGreetings') != ''){
+			$data['addtionalGreetings'] = I('addtionalGreetings');
+		}
+		if(!empty($data)){
 			$orderLogic->updateOrder($data, $order['orderId']);
 		}
 		

@@ -235,4 +235,9 @@ return array(
                 <br><br>
 
 				從StarBall.Kids創立至今，“Quality，Comfort and Cuteness”是我們一直堅持的，也是我們合作品牌的特質，優質又兼顧時尚，舒適又不失可愛。兒童服裝品牌繁多，我們會致力挑選和搜羅最優質的帶給各位爸爸媽媽，陪伴您孩子的成長。',
+	'HKDPaymentNotOpen'=>'目前港幣支付渠道尚未開通，請切換成人民幣進行支付。若仍希望通過港幣支付，請直接聯系賣家。',
+	'payInProgress'=>'正在支付...',
+	'finishPayment'=>'已完成支付',
+	'paymentProblem'=>'支付遇到問題',
+	'inputGreetingWords'=>'请填写您的祝福',
 );

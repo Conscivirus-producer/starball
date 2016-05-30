@@ -51,7 +51,8 @@
 							
 						</div>
 						<div class="am-panel-bd" style="font-size: 12px">
-							<textarea placeholder="请填写您的祝福" style="width: 100%;border: 1px solid #CECECE"></textarea>
+							<textarea placeholder="{$Think.lang.inputGreetingWords}" id="addtionalGreetings" 
+								style="width: 100%;border: 1px solid #CECECE">{$shoppingList.addtionalGreetings}</textarea>
 						</div>
 					</div>
 				</div>
@@ -105,7 +106,7 @@
 		$(".cart-step1").addClass("step-on");
 		$("#cartlnk1").attr('href', "{:U('Starball/Cart/index')}");
 		$(".submit").click(function(){
-			window.location.href="{:U('Starball/Cart/delivery')}?isGiftPackage="+$('#gift-card')[0].checked;
+			window.location.href="{:U('Starball/Cart/delivery')}?isGiftPackage="+$('#gift-card')[0].checked+"&addtionalGreetings="+$('#addtionalGreetings').val();
 		});
 		function clickGiftPackage(){
 			giftPackageFee = {$giftPackageFee};
