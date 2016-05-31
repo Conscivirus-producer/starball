@@ -285,5 +285,17 @@ $("input.filter").click(function(){
 $("a.yu-filter-button").click(function(){
     $("section.am-accordion").toggleClass("am-show-md-up");
 });
+$("#searchButton").click(function(){
+var searchValue = $("#searchValue")[0].value;
+if(searchValue != ""){
+		var url = "{:U('Starball/List/showList/by/$by/byValue/$byValue')}";
+		url = url.replace("$by", "search");
+		url = url.replace("$byValue", encodeURI($("#searchValue")[0].value));
+		window.location.href=url;
+	}else{
+		$("#searchValue").attr("placeholder", "请填写搜索条件");
+	}
+	
+});
 </script>
 </block>
