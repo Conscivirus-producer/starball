@@ -8,26 +8,36 @@ class ItemController extends BaseController {
 		$imageData = D("Image", "Logic")->getImageById($itemId);
 		$inventoryResult = D("Inventory", "Logic")->getInventoryAndPriceByItemId($itemId, $this->getCurrency());
 		
+		//把库存按照尺码排序
+		if($itemData['type'] == '2'){
+			//鞋子字段不一样
+			$inventoryResult = array_customized_sort($inventoryResult, 'footSize',SORT_ASC, SORT_NUMERIC);
+		}else{
+			//普通商品和鞋子
+			$inventoryResult = array_customized_sort($inventoryResult, 'age',SORT_ASC, SORT_NUMERIC);
+		}
+		$this->assign('defaultPrice', $inventoryResult[0]['price']);
+		
+		$discount = $itemData['discount'];
 		$inventoryData = array();
 		$currencyArray = C('CURRENCY');
 		foreach($inventoryResult as $inventory){
-			if($itemData['type'] == '1'){
-				$inventory['description'] = $this->getSizeDescriptionAndPriceByAge($inventory['age'], $inventory['price'], $currencyArray[$this->getCurrency()], $itemData['isAvailable']);
-			}else if($itemData['type'] == '2'){
+			if($discount < 100){
+				$inventory['price'] = round($inventory['price'] * $discount/100, 1);
+			}
+			if($itemData['type'] == '2'){
 				$inventory['description'] = $this->getShoeSizeDescription($inventory['footSize'], $inventory['price'], $currencyArray[$this->getCurrency()]);
+			}else{
+				$inventory['description'] = $this->getSizeDescriptionAndPriceByAge($inventory['age'], $inventory['price'], $currencyArray[$this->getCurrency()], $itemData['isAvailable']);
 			}
 			array_push($inventoryData, $inventory);
 		}
-		if($itemData['type'] == '1'){
-			$inventoryData = array_customized_sort($inventoryData, 'age',SORT_ASC, SORT_NUMERIC);
-		}else if($itemData['type'] == '2'){
-			$inventoryData = array_customized_sort($inventoryData, 'footSize',SORT_ASC, SORT_NUMERIC);
-		}
+		$this->assign('discount', 100 - $discount);
 		$this->assign('inventory', $inventoryData);
 		$this->assign('inventoryjson', json_encode($inventoryData));
 		$this->assign('data', $itemData);
 		$this->assign('images', $imageData);
-		$this->assign('defaultPrice', $inventoryData[0]['price']);
+		$this->assign('discountDefaultPrice', $inventoryData[0]['price']);
 		$this->display();
 	}
 
