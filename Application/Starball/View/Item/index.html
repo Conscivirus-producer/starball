@@ -47,6 +47,7 @@
 				</div>
 				<div class="am-u-md-5 am-u-sm-12">
 					<input type="hidden" id="itemId" value="{$data.itemId}"/>
+					<input type="hidden" id="discount" value="{$discount}"/>
 					<div class="am-g"><h2 id='brandName' style="margin-bottom: 0px">{$data.brandName}</h2></div>
 					<div class="am-g" id='itemName'>{$data.name}</div>
 					<div class="am-g">
@@ -55,7 +56,10 @@
 						<hr data-am-widget="divider" style="margin-top:3px;" class="am-divider am-divider-default" />
 					</div>
 					<div class="am-g">
-						<div class="am-u-sm-3 am-padding-left-0">{$priceSymbol}  <span id="currentPrice">{$defaultPrice}</span></div>
+						<div class="am-u-sm-3 am-padding-left-0 <gt name='defaultPrice' value='$discountDefaultPrice'>disable-price</gt>">
+							{$priceSymbol}  <span id="<eq name='defaultPrice' value='$discountDefaultPrice'>currentPrice</eq>">{$defaultPrice}</span>
+						</div>
+						<gt name="defaultPrice" value="$discountDefaultPrice">(-{$discount}%)</gt>
 						<div class="am-u-sm-3 am-padding-right-0">
 							<select data-am-selected="{btnWidth: '100%', btnSize: 'sm'}" onchange="window.location.href='?currency='+$(this).val();">
 								<volist name="currencyArray" id="vo">
@@ -64,6 +68,11 @@
 							</select>
 						</div>
 					</div>
+					<gt name="defaultPrice" value="$discountDefaultPrice">
+						<div class="am-g discount" id="discountPrice">
+							{$priceSymbol}  <span id="currentPrice">{$discountDefaultPrice}</span>
+						</div>
+					</gt>
 					<div class="am-g" style="margin-top: 10px;">
 						<select data-am-selected="{btnWidth: '100%', btnSize: 'sm'}" id="itemSize" onchange="changePrice($(this).val());">
 						  <option value="none" selected>{$Think.lang.size}</option>
@@ -154,7 +163,7 @@
 		</div>
 	</div>
 	<div id="result"></div>
-	<div id="light2" class="white_content">
+	<div id="light2" class="white_content" style="background: url('{$data.sizeDescription}');">
 		<div style="position:absolute;top:0;right:0;">
 			<a href="#" style="color:black;" onclick="$(this).parent().parent().hide();$('#light2').hide();$('#fade').hide();" class="am-icon-sm am-icon-close"></a>
 		</div>

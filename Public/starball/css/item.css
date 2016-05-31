@@ -19,7 +19,6 @@ div.subscription-head{
 .white_content {
  display: none;
  position: absolute;
- background: url('http://7xp6oq.com1.z0.glb.clouddn.com/858166934441770798.jpg');
  background-size:100%;
  top: 25%;
  left: 35%;
@@ -43,4 +42,11 @@ div.subscription-head{
  -moz-opacity: 0.8;
  opacity:.80;
  filter: alpha(opacity=80);
+}
+div.discount{
+ color:#cc4c4b	
+}
+div.disable-price{
+	text-decoration:line-through;
+	margin-right:-20px;
 }

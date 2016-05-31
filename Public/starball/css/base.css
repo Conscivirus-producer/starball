@@ -545,6 +545,8 @@ span.listpage-title-item-panier{
 	text-align:center;
 	width: 231px;
 	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 }
 span.listpage-item-price{
 	 font-size: 11px;
