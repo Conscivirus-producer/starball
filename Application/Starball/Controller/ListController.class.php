@@ -36,8 +36,8 @@ class ListController extends BaseController {
 			$map["gender"] = array('IN', 'F,A');
 		}elseif($by == "search"){
 			$search["_logic"] = "or";
-			$search["t_item.name"] = array('like', "%".$byValue."%");
-			$search["t_item.detailDescription"] = array('like', "%".$byValue."%");
+			$search["t_item.name"] = array('like', "%".urldecode($byValue)."%");
+			$search["t_item.detailDescription"] = array('like', "%".urldecode($byValue)."%");
 			$map["_complex"] = $search;
 		}elseif($by == "discount"){
 			$map["t_item.discount"] = array("NEQ", "100");
