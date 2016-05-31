@@ -24,15 +24,15 @@ return array(
 		'20' => array('14岁', '153', '164'),
 		'21' => array('15岁', '159', '171'),
 		'22' => array('16岁', '165', '176'),
-		'23' => array('18岁', '', ''),
+		//'23' => array('18岁', '', ''),
 		'24' => array('均码', '', ''),
     ),
     
     'USERTYPE' => array(
-    	//usertype => array(grade, gender), grade:1-baby, 2-boy/girl
-    	'baby' => array('1', ''),
-    	'boy' => array('2', 'M'),
-    	'girl' => array('2', 'F'),
+    	// => array(grade, gender), grade:1-baby, 2-boy/girl, 3-general; Gender: M-male, F-female, A-general
+    	'baby' => array(array('1', '3'), ''),
+    	'boy' => array(array('2', '3'), array('M', 'A')),
+    	'girl' => array(array('2', '3'), array('F', 'A')),
 	),
 	'CURRENCY' => array(
 		'HKD' => '$HK',
@@ -107,8 +107,8 @@ return array(
 	),
 	'SHIPPING_FEE_SETTING' => array(
 		'EXTENDED_WEIGHT_BENCHMARK' => '0.5',
-		'FREE_BENCHMARK_CNY' => '840',
-		'FREE_BENCHMARK_HKD' => '1000',
+		'FREE_BENCHMARK_CNY' => '990',
+		'FREE_BENCHMARK_HKD' => '1190',
 		'HK_DEFAULT_COST' => '35'
 	),
 	'EXCHANGE_RATE_HKD_TO_CNY' => '0.84'

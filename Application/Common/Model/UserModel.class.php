@@ -11,7 +11,7 @@
 	        array('email', 'require', '邮箱不能为空！'), 
 			array('email', 'email', '邮箱格式不正确'), // 内置正则验证邮箱格式
 			array('email', '', '该邮箱已被占用', 0, 'unique', 1), // 新增的时候email字段是否唯一
-	        array('password', '/^([a-zA-Z0-9@*#]{6,22})$/', '密码格式不正确,请重新输入！', 0),
+	        array('password', '/^([a-zA-Z0-9@*#]{6,22})$/', '密码格式不正确,必须为6位到22位数字和字母的组合,支持@*#,请重新输入！', 0),
 	        array('repassword', 'password', '确认密码不正确', 0, 'confirm'), // 验证确认密码是否和密码一致
 		);
 		

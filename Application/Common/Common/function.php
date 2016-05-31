@@ -65,14 +65,44 @@ function get_client_time(){
    return date("Y-m-d H:i:s");
 }
 
+function expodeAndDistinctAgeArray($ages){
+	$ageArray = array();
+	foreach($ages as $ageSection){
+		//age是有区间的,拆分age,然后把值distinct出来
+		$ageSectionArray = array_splice(explode(',', $ageSection['age']),0,-1);
+		foreach($ageSectionArray as $age){
+			if($age != '' && !in_array($age, $ageArray)){
+				array_push($ageArray, $age);
+			}
+		}
+	}
+	asort($ageArray);
+	
+	//把数字转化为描述
+	$itemSize = C('ITEMSIZE');
+	$ageDescriptionArray = array();
+	foreach($ageArray as $age){
+		//用a作为分隔符
+		$tmp['age'] = $age.'a';
+		$tmp['ageName'] =  getSizeDescriptionByAge($age);
+		array_push($ageDescriptionArray, $tmp);
+	}
+	return $ageDescriptionArray;
+}
+
 function getSizeDescriptionByAge($age){
 	$sizeArray = C('ITEMSIZE');
 	if(strpos($age, ',') <= 0){
 		return $sizeArray[$age][0].'  ('.$sizeArray[$age][1].' - '.$sizeArray[$age][2].'cm)';
 	}else{
-		$startAge = current(explode(',', $age));
-		$endAge = end(explode(',', $age));
-		if($endAge == $startAge){
+		$numberArray = explode(',', $age);
+		$numberArray = array_splice($numberArray,0,-1);
+		$startAge = current($numberArray);
+		$endAge = end($numberArray);
+		if($endAge == '24'){
+			//如果是圴码
+			return $sizeArray[$startAge][0];
+		}else if($endAge == $startAge){
 			return $sizeArray[$startAge][0].'  ('.$sizeArray[$startAge][1].' - '.$sizeArray[$endAge][2].'cm)';
 		}else{
 			return $sizeArray[$startAge][0].'-'.$sizeArray[$endAge][0].'  ('.$sizeArray[$startAge][1].' - '.$sizeArray[$endAge][2].'cm)';

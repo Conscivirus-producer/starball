@@ -4,7 +4,7 @@
 	class ItemLogic extends ItemModel{
 		public function getItemWithBrandAndCategoryById($itemId){
 			$map['itemId'] = $itemId;
-			$data = $this->field('t_brand.brandName, t_category.categoryName, t_item.*')->where($map)->
+			$data = $this->field('t_brand.brandName, t_brand.sizeDescription, t_category.categoryName,t_category.type, t_item.*')->where($map)->
 				join('t_brand on t_item.brandId = t_brand.brandId')->
 				join('t_category on t_item.categoryId = t_category.categoryId')->find();
 			return $data;
@@ -44,21 +44,70 @@
 		}
 
 		public function getBrandNameListByGrade($grade, $gender){
-			$map['grade'] = $grade;
+			$map['grade'] = array('in', $grade);
 			if($gender != ''){
-				$map['gender'] = $gender;
+				$map['gender'] = array('in', $gender);
 			}
 			$data = $this->distinct(true)->field('t_brand.brandName, t_brand.brandId')->where($map)->join('t_brand on t_item.brandId = t_brand.brandId')->select();
 			return $data;
 		}
 		
 		public function getCategoryNameByGrade($grade, $gender){
-			$map['grade'] = $grade;
+			$map['grade'] = array('in', $grade);
 			if($gender != ''){
-				$map['gender'] = $gender;
+				$map['gender'] = array('in', $gender);
 			}
 			$data = $this->distinct(true)->field('t_item.categoryId, t_category.categoryName')->where($map)->join('t_category on t_item.categoryId = t_category.categoryId')->select();
 			return $data;
+		}
+		
+		public function getAgeListByGrade($grade, $gender){
+			$itemSize = C('ITEMSIZE');
+			$ageDescriptionArray = array();
+			if(in_array('1', $grade)){
+			//婴儿
+				foreach($itemSize as $key=>$value){
+					if(($key - '7') > 0){
+						break;
+					}
+					array_push($ageDescriptionArray, $value[0]);
+				}
+			}else if(in_array('2', $grade)){
+				//男孩,女孩
+				foreach($itemSize as $key=>$value){
+					if(($key - '7') > 0){
+						array_push($ageDescriptionArray, $value[0]);
+					}
+				}
+			}
+			return $ageDescriptionArray;
+		}
+		
+		public function getAgeListByGradeCopy($grade, $gender){
+			$map['grade'] = array('in', $grade);
+			if($gender != ''){
+				$map['gender'] = array('in', $gender);
+			}
+			$data = $this->distinct(true)->field('t_inventory.age')->where($map)->join('t_inventory on t_inventory.itemId = t_item.itemId')->select();
+			$ageArray = array();
+			foreach($data as $ageSection){
+				//age是有区间的,拆分age,然后把值distinct出来
+				$ageSectionArray = explode(',', $ageSection['age']);
+				foreach($ageSectionArray as $age){
+					if($age != '' && !in_array($age, $ageArray)){
+						array_push($ageArray, $age);
+					}
+				}
+			}
+			asort($ageArray);
+			
+			//把数字转化为描述
+			$itemSize = C('ITEMSIZE');
+			$ageDescriptionArray = array();
+			foreach($ageArray as $age){
+				array_push($ageDescriptionArray, $itemSize[$age][0]);
+			}
+			return $ageDescriptionArray;
 		}
 
 		// 拿取所有信息:基本信息,价格,图片

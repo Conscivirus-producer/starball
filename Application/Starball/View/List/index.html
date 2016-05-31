@@ -88,9 +88,9 @@
                         </dt>
                         <dd class="am-accordion-bd am-collapse ">
                             <div class="am-accordion-content">
-                                <volist name="color" id="cdata">
+                                <volist name="color" id="cdata" key="j">
                                     <label class="am-radio am-secondary">
-                                        <input class="color {$cdata.color} filter" type="checkbox" value="{$cdata.color}" data-yu-val="{$cdata.color}" data-am-ucheck />
+                                        <input class="color {$j} filter" type="checkbox" value="{$cdata.color}" data-yu-val="{$cdata.color}" data-am-ucheck />
                                         {$cdata.color}
                                     </label>
                                 </volist>
@@ -113,7 +113,7 @@
                         </dd>
                     </dl>
                     <dl class="am-accordion-item yu-accordion-list category">
-                        <dt class="am-accordion-title">
+                        <dt class="am-accordion-title yu-bottomborder-none">
                              {$Think.lang.class} 
                         </dt>
                         <dd class="am-accordion-bd am-collapse ">
@@ -135,6 +135,13 @@
                                 </volist>
                             </div>
                         </dd>
+                    </dl>
+                    <dl class="am-accordion-item yu-accordion-list shoes">
+                    	<a href="{:U('Starball/List/shoes/by/shoes/byValue/shoes')}">
+	                        <dt class="am-accordion-title">
+	                            {$Think.lang.shoes}
+	                        </dt>
+                        </a>
                     </dl>
                 </section>
 			</div>
@@ -190,7 +197,14 @@ $(document).ready(function(){
 		applychecks("gender",{:$gendersChecked});
 	}
 	if({:$colorsChecked} != null){
-		applychecks("color",{:$colorsChecked});
+		$(".am-accordion-item.color").addClass("am-active");
+		$(".am-accordion-item.color"+" dd").addClass("am-in");
+		checkedcolor = {:$colorsChecked};
+		for(var i = 0; i < checkedcolor.length; i++){
+			$(".color."+(i+1)).uCheck('check');
+			$(".filterings").append("/"+$(".color."+(i+1)).attr("data-yu-val"));
+		}
+		//applychecks("color",{:$colorsChecked});
 	}
 	if({:$agesChecked} != null){
 		applychecks("age",{:$agesChecked});
@@ -242,7 +256,7 @@ $("input.filter").click(function(){
 	}
 	$("input.color").each(function(){
 		if($(this).is(':checked')){
-			colors.push($(this).attr("value"));
+			colors.push(encodeURI($(this).attr("value")));
 		}
 	});
 	if(colors.length != 0){

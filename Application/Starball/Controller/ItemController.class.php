@@ -7,19 +7,33 @@ class ItemController extends BaseController {
 		$itemData = D("Item", "Logic")->getItemWithBrandAndCategoryById($itemId);
 		$imageData = D("Image", "Logic")->getImageById($itemId);
 		$inventoryResult = D("Inventory", "Logic")->getInventoryAndPriceByItemId($itemId, $this->getCurrency());
+		
 		$inventoryData = array();
 		$currencyArray = C('CURRENCY');
 		foreach($inventoryResult as $inventory){
-			$inventory['description'] = $this->getSizeDescriptionAndPriceByAge($inventory['age'], $inventory['price'], $currencyArray[$this->getCurrency()], $itemData['isAvailable']);
+			if($itemData['type'] == '1'){
+				$inventory['description'] = $this->getSizeDescriptionAndPriceByAge($inventory['age'], $inventory['price'], $currencyArray[$this->getCurrency()], $itemData['isAvailable']);
+			}else if($itemData['type'] == '2'){
+				$inventory['description'] = $this->getShoeSizeDescription($inventory['footSize'], $inventory['price'], $currencyArray[$this->getCurrency()]);
+			}
 			array_push($inventoryData, $inventory);
 		}
-		$this->assign('data', $itemData);
-		$this->assign('images', $imageData);
-		$inventoryData = array_customized_sort($inventoryData, 'age',SORT_ASC, SORT_NUMERIC);
-		$this->assign('defaultPrice', $inventoryData[0]['price']);
+		if($itemData['type'] == '1'){
+			$inventoryData = array_customized_sort($inventoryData, 'age',SORT_ASC, SORT_NUMERIC);
+		}else if($itemData['type'] == '2'){
+			$inventoryData = array_customized_sort($inventoryData, 'footSize',SORT_ASC, SORT_NUMERIC);
+		}
 		$this->assign('inventory', $inventoryData);
 		$this->assign('inventoryjson', json_encode($inventoryData));
+		$this->assign('data', $itemData);
+		$this->assign('images', $imageData);
+		$this->assign('defaultPrice', $inventoryData[0]['price']);
 		$this->display();
+	}
+
+	private function getShoeSizeDescription($footSize, $price, $currency){
+		$result = $footSize.L('footsizeunit').' - '.$currency.' '.$price;
+		return $result;
 	}
 
 	private function getSizeDescriptionAndPriceByAge($age, $price, $currency, $isAvailable){
@@ -28,9 +42,14 @@ class ItemController extends BaseController {
 		if(strpos($age, ',') <= 0){
 			$result = $sizeArray[$age][0].'  ('.$sizeArray[$age][1].' - '.$sizeArray[$age][2].'cm)'.' - '.$currency.' '.$price;
 		}else{
-			$startAge = current(explode(',', $age));
-			$endAge = end(explode(',', $age));
-			if($endAge == $startAge){
+			$numberArray = explode(',', $age);
+			$numberArray = array_splice($numberArray,0,-1);
+			$startAge = current($numberArray);
+			$endAge = end($numberArray);
+			if($endAge == '24'){
+			//如果是圴码
+				return $sizeArray[$startAge][0].' - '.$currency.' '.$price;
+			}else if($endAge == $startAge){
 				$result = $sizeArray[$startAge][0].'  ('.$sizeArray[$startAge][1].' - '.$sizeArray[$endAge][2].'cm)'.' - '.$currency.' '.$price;
 			}else{
 				$result = $sizeArray[$startAge][0].'-'.$sizeArray[$endAge][0].'  ('.$sizeArray[$startAge][1].' - '.$sizeArray[$endAge][2].'cm)'.' - '.$currency.' '.$price;

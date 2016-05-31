@@ -115,6 +115,7 @@ class BaseController extends Controller {
 		foreach (C('USERTYPE') as $key => $value){
 			$this->assign($key.'MenuBrand', $itemLogic->getBrandNameListByGrade($value[0], $value[1]));				
 			$this->assign($key.'MenuCategory', $itemLogic->getCategoryNameByGrade($value[0], $value[1]));
+			$this->assign($key.'MenuAge', $itemLogic->getAgeListByGrade($value[0], $value[1]));
 		}
 	}
 	
