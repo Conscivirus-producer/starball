@@ -55,6 +55,14 @@ class ItemController extends Controller {
 		$this->assign('defaultClothWeight', $supportingData->getValueByKey('SHIPPING_COMMON_CLOTH_WEIGHT'));
         $this->display();
     }
+	
+	private function extendNumber($inventorySizeStart,$inventorySizeEnd){
+		$result = '';
+		for($i = 0;$inventorySizeStart + $i <= $inventorySizeEnd;$i++){
+			$result = $result.($inventorySizeStart + $i).',';
+		}
+		return $result;
+	}
 
     public function uploadSingleItem() {
         $result = array(
@@ -85,7 +93,7 @@ class ItemController extends Controller {
             $inventory["productType"] = $productType;
             $inventory["footSize"] = $shoeSize;
             if ($inventory["productType"] != "2") {
-                $inventory["age"] = $inventorySizeStart.",".$inventorySizeEnd;
+                $inventory["age"] = $this->extendNumber($inventorySizeStart, $inventorySizeEnd);
             } else{
                 $inventory["age"] = "";
             }
@@ -193,7 +201,7 @@ class ItemController extends Controller {
             $inventory["footSize"] = $shoeSize;
             $inventory["inventoryId"] = $inventoryId;
             if ($inventory["productType"] != "2") {
-                $inventory["age"] = $inventorySizeStart.",".$inventorySizeEnd;
+                $inventory["age"] = $this->extendNumber($inventorySizeStart, $inventorySizeEnd);
             } else{
                 $inventory["age"] = "";
             }

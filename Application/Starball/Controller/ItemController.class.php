@@ -42,8 +42,10 @@ class ItemController extends BaseController {
 		if(strpos($age, ',') <= 0){
 			$result = $sizeArray[$age][0].'  ('.$sizeArray[$age][1].' - '.$sizeArray[$age][2].'cm)'.' - '.$currency.' '.$price;
 		}else{
-			$startAge = current(explode(',', $age));
-			$endAge = end(explode(',', $age));
+			$numberArray = explode(',', $age);
+			$numberArray = array_splice($numberArray,0,-1);
+			$startAge = current($numberArray);
+			$endAge = end($numberArray);
 			if($endAge == '24'){
 			//如果是圴码
 				return $sizeArray[$startAge][0].' - '.$currency.' '.$price;
