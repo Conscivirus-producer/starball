@@ -81,7 +81,8 @@ return array(
     'zipcode'=>'郵政編碼',
     'citytown'=>'城鎮/城市',
     'country'=>'國家/地區',
-    'modetai'=>'更多细节',
+    'moredetail'=>'更多细节',
+    'addressHkDetail'=>'如選擇地鐵站交收，請您留下聯繫電話，我們會有專人和您聯絡商討送貨事宜。',
     'submit'=>'提交',
     'setaddresscheck'=>'請為此地址設定一個名稱，以便日後查詢',
     'useremail'=>'用戶名/電子郵件',
@@ -239,7 +240,8 @@ return array(
 	'payInProgress'=>'正在支付...',
 	'finishPayment'=>'已完成支付',
 	'paymentProblem'=>'支付遇到問題',
-	'inputGreetingWords'=>'请填写您的祝福',
+	'inputGreetingWords'=>'StarBall.Kids爲您免費提供寫祝福語的功能。如果您購買StarBall.Kids商品送作禮物，可以在此處寫下對寶寶祝福的話語（不超過250個字），我們會有專門的卡片包含在商品裏面，一起送到您的手中。',
 	'footsizeunit'=>'碼',
-	'shoeSize'=>'鞋碼'
+	'shoeSize'=>'鞋碼',
+	'mobile'=>'電話'
 );

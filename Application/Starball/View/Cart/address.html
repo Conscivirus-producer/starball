@@ -57,9 +57,9 @@
 				  </label>
 				</div>
 				<div style="margin-bottom: 10px">
-					<input name="phone" value="{$data.phone}" class="am-form-field" placeholder="Mobile＊" />
+					<input name="phone" value="{$data.phone}" class="am-form-field" placeholder="{$Think.lang.mobile}＊" />
 				</div>
-				<textarea name="moreDetails" value="{$data.moreDetails}" placeholder="{$Think.lang.modetai}"></textarea>
+				<textarea name="moreDetails" id="moreDetails" value="{$data.moreDetails}" placeholder="{$Think.lang.moredetail}"></textarea>
 			</div>
 			<div class="am-form-group">
 				<div style="margin-bottom: 10px">
@@ -85,12 +85,15 @@
 		
 		function changeCountry(countryCode){
 			if(countryCode == 'cn'){
+				$('#moreDetails').attr('placeholder', '更多细节');
 				$('.cn-info').show();
 				$('.hk-info').hide();
 			}else if(countryCode == 'hk'){
+				$('#moreDetails').attr('placeholder', '如選擇地鐵站交收，請您留下聯繫電話，我們會有專人和您聯絡商討送貨事宜。');
 				$('.cn-info').hide();
 				$('.hk-info').show();
 			}else if(countryCode == 'none'){
+				$('#moreDetails').attr('placeholder', '更多细节');
 				$('.cn-info').hide();
 				$('.hk-info').hide();				
 			}

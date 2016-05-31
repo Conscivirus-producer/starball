@@ -84,7 +84,8 @@ return array(
 	'province'=>'省份',
     'citytown'=>'城镇/城市',
     'country'=>'国家/地区',
-    'modetai'=>'更多细节',
+    'moredetail'=>'更多细节',
+    'addressHkDetail'=>'如选择地铁站交收，请您留下联系电话，我们会有专人和您联络商讨送货事宜。',
     'submit'=>'提交',
     'setaddresscheck'=>'请为此地址设定一个名称，以便日后查询',
     'useremail'=>'用户名/电子邮件',
@@ -219,5 +220,6 @@ return array(
     'paymentProblem'=>'支付遇到问题',
     'inputGreetingWords'=>'请填写您的祝福',
     'footsizeunit'=>'码',
-    'shoeSize'=>'鞋码'
+    'shoeSize'=>'鞋码',
+    'mobile'=>'电话'
 );
