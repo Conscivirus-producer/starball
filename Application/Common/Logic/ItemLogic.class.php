@@ -48,7 +48,9 @@
 			if($gender != ''){
 				$map['gender'] = array('in', $gender);
 			}
-			$data = $this->distinct(true)->field('t_brand.brandName, t_brand.brandId')->where($map)->join('t_brand on t_item.brandId = t_brand.brandId')->select();
+			$data = $this->distinct(true)->field('t_brand.brandName, t_brand.brandId')->where($map)
+			->join('t_brand on t_item.brandId = t_brand.brandId')
+			->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type !='2'")->select();
 			return $data;
 		}
 		
@@ -57,7 +59,8 @@
 			if($gender != ''){
 				$map['gender'] = array('in', $gender);
 			}
-			$data = $this->distinct(true)->field('t_item.categoryId, t_category.categoryName')->where($map)->join('t_category on t_item.categoryId = t_category.categoryId')->select();
+			$data = $this->distinct(true)->field('t_item.categoryId, cat.categoryName')->where($map)->
+			join("t_category cat on t_item.categoryId = cat.categoryId and cat.type !='2'")->select();
 			return $data;
 		}
 		
@@ -67,7 +70,7 @@
 			if(in_array('1', $grade)){
 			//婴儿
 				foreach($itemSize as $key=>$value){
-					if(($key - '7') > 0){
+					if(($key - '8') > 0){
 						break;
 					}
 					array_push($ageDescriptionArray, $value[0]);
@@ -75,7 +78,7 @@
 			}else if(in_array('2', $grade)){
 				//男孩,女孩
 				foreach($itemSize as $key=>$value){
-					if(($key - '7') > 0){
+					if(($key - '8') > 0){
 						array_push($ageDescriptionArray, $value[0]);
 					}
 				}
