@@ -23,7 +23,8 @@
                                 <div class="am-thumbnail-caption" style="border:none">
                                     <span class="listpage-title-item-panier">{$vo.name}</span>
                                     <span class="listpage-item-price">
-                                       {$priceSymbol}  {$vo.price}
+                                       <if condition="$vo.discount eq 100">{$priceSymbol}  {$vo.price}</if>
+									   <if condition="$vo.discount neq 100"><span style="text-decoration: line-through;width: 50%; margin:0">{$priceSymbol}  {$vo.price}</span> <span style="color: red;width:50%;margin:0;">{$priceSymbol}  {$vo['price']*$vo['discount']/100}({$vo.discount}%)</span></if>
                                     </span>
                                 </div>
                             </div>
