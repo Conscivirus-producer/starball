@@ -287,7 +287,7 @@ class ListController extends BaseController {
 		$this->display('boutique');
 	}
 	
-	public function shoes(){
+	public function shoes($p=1){
 		$this->commonProcess();
 		
 		//get params
