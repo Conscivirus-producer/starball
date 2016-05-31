@@ -77,14 +77,16 @@ class ListController extends BaseController {
 							 ->where($map)
 							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
-							 ->order('brandId desc,categoryId desc, t_item.itemId desc')
+							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type !='2'")
+							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
 							 ->page($p.',18')
 							 ->select();
 				$count = D('Item')->field('t_item.*, img.image, price.price')
 							 ->where($map)
 							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
-							 ->order('brandId desc,categoryId desc, t_item.itemId desc')
+							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type !='2'")
+							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
 							 ->count('distinct t_item.itemId');
 			}else{
 				$itemList = D('Item')->distinct(true)->field('t_item.*, img.image, price.price')
@@ -92,7 +94,8 @@ class ListController extends BaseController {
 							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
 							 ->join("t_inventory inv ON inv.itemId = t_item.itemId and inv.age ='".$ageFilter."'")
-							 ->order('brandId desc,categoryId desc, t_item.itemId desc')
+							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type !='2'")
+							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
 							 ->page($p.',18')
 							 ->select();
 				$count = D('Item')->distinct(true)->field('t_item.*, img.image, price.price')
@@ -100,7 +103,8 @@ class ListController extends BaseController {
 							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
 							 ->join("t_inventory inv ON inv.itemId = t_item.itemId and inv.age ='".$ageFilter."'")
-							 ->order('brandId desc,categoryId desc, t_item.itemId desc')
+							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type !='2'")
+							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
 							 ->count('distinct t_item.itemId');
 			}
 		}else{
@@ -109,7 +113,8 @@ class ListController extends BaseController {
 							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.currency = '".$this->getCurrency()."'")
 							 ->join("t_tag tg ON tg.itemId = t_item.itemId AND tg.tagName ='".$tag."'")
-							 ->order('brandId desc,categoryId desc, t_item.itemId desc')
+							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type !='2'")
+							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
 							 ->page($p.',18')
 							 ->select();
 			$count = D('Item')->field('distinct t_item.itemId, t_item.*, img.image, price.price')
@@ -117,7 +122,8 @@ class ListController extends BaseController {
 							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.currency = '".$this->getCurrency()."'")
 							 ->join("t_tag tg ON tg.itemId = t_item.itemId AND tg.tagName ='".$tag."'")
-							 ->order('brandId desc,categoryId desc, t_item.itemId desc')
+							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type !='2'")
+							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
 							 ->count('distinct t_item.itemId');
 		}
 
@@ -136,17 +142,17 @@ class ListController extends BaseController {
 		
 		$filterArray = array_keys(I('get.'));
 		if(in_array("categories", $filterArray)){
-			$category = D('Item')->field('distinct t_item.categoryId, ctg.categoryName, count(*) as count')->where($map)->join('t_category ctg ON ctg.categoryId = t_item.categoryId')->group('t_item.categoryId')->order('categoryId desc')->select();
+			$category = D('Item')->field('distinct t_item.categoryId, ctg.categoryName, count(*) as count')->where($map)->join("t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type !='2'")->group('t_item.categoryId')->order('t_item.categoryId desc')->select();
 		}else{
-			$category = D('Item')->field('distinct t_item.categoryId, ctg.categoryName, count(*) as count')->where($map)->join('t_category ctg ON ctg.categoryId = t_item.categoryId')->group('t_item.categoryId')->order('categoryId desc')->select();
+			$category = D('Item')->field('distinct t_item.categoryId, ctg.categoryName, count(*) as count')->where($map)->join("t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type !='2'")->group('t_item.categoryId')->order('t_item.categoryId desc')->select();
 		}
 		if(in_array("brands", $filterArray)){
-			$brand = D('Item')->field('distinct t_item.brandId, brd.brandName, count(*)')->where($map)->join('t_brand brd ON brd.brandId = t_item.brandId')->group('t_item.brandId')->order('brandId asc')->select();
+			$brand = D('Item')->field('distinct t_item.brandId, brd.brandName, count(*)')->where($map)->join('t_brand brd ON brd.brandId = t_item.brandId')->join("t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type !='2'")->group('t_item.brandId')->order('brandId asc')->select();
 		}else{
-			$brand = D('Item')->field('distinct t_item.brandId, brd.brandName, count(*)')->where($map)->join('t_brand brd ON brd.brandId = t_item.brandId')->group('t_item.brandId')->order('brandId asc')->select();
+			$brand = D('Item')->field('distinct t_item.brandId, brd.brandName, count(*)')->where($map)->join('t_brand brd ON brd.brandId = t_item.brandId')->join("t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type !='2'")->group('t_item.brandId')->order('brandId asc')->select();
 		}
 		if(in_array("genders", $filterArray)){
-			$gender = D('Item')->field('distinct t_item.gender')->where($map)->select();
+			$gender = D('Item')->field('distinct t_item.gender')->where($map)->join("t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.categoryId !='2'")->select();
 			for ($i=0; $i < count($gender); $i++) { 
 				if($gender[$i]["gender"] == "M"){
 					$gender[$i]["genderName"] = "男";
@@ -157,7 +163,7 @@ class ListController extends BaseController {
 				}
 			}
 		}else{
-			$gender = D('Item')->field('distinct t_item.gender')->where($map)->select();
+			$gender = D('Item')->field('distinct t_item.gender')->where($map)->join("t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type !='2'")->select();
 			for ($i=0; $i < count($gender); $i++) { 
 				if($gender[$i]["gender"] == "M"){
 					$gender[$i]["genderName"] = "男";
@@ -169,14 +175,15 @@ class ListController extends BaseController {
 			}
 		}
 		if(in_array("colors", $filterArray)){
-			$color = D('Item')->field('distinct t_item.color')->where($map)->select();
+			$color = D('Item')->field('distinct t_item.color')->where($map)->join("t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type !='2'")->select();
 		}else{
-			$color = D('Item')->field('distinct t_item.color')->where($map)->select();
+			$color = D('Item')->field('distinct t_item.color')->where($map)->join("t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type !='2'")->select();
 		}
 		if(in_array("ages", $filterArray)){
 			$age = D('Item')->field('distinct inv.age')
 							->where($map)
 							->join("t_inventory inv ON inv.itemId = t_item.itemId and inv.age ='".$ageFilter."'")
+							->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type !='2'")
 							->select();
 			for ($i=0; $i < count($age); $i++) {
 				$age[$i]["ageName"] = getSizeDescriptionByAge($age[$i]["age"]);
@@ -186,6 +193,7 @@ class ListController extends BaseController {
 			$age = D('Item')->field('distinct inv.age')
 							->where($map)
 							->join('t_inventory inv ON inv.itemId = t_item.itemId')
+							->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type !='2'")
 							->select();
 			for ($i=0; $i < count($age); $i++) {
 				$age[$i]["ageName"] = getSizeDescriptionByAge($age[$i]["age"]);
@@ -193,9 +201,9 @@ class ListController extends BaseController {
 			}
 		}
 		if(in_array("seasons", $filterArray)){
-			$season = D('Item')->field('distinct t_item.season')->where($map)->select();
+			$season = D('Item')->field('distinct t_item.season')->where($map)->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type !='2'")->select();
 		}else{
-			$season = D('Item')->field('distinct t_item.season')->where($map)->select();
+			$season = D('Item')->field('distinct t_item.season')->where($map)->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type !='2'")->select();
 		}
 		
 		//entry
