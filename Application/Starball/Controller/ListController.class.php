@@ -31,9 +31,9 @@ class ListController extends BaseController {
 		}elseif($by == "baby"){
 			$map["grade"] = array('EQ',"1");
 		}elseif($by == "boy"){
-			$map["gender"] = array('EQ', 'M');
+			$map["gender"] = array('IN', 'M,A');
 		}elseif($by == "girl"){
-			$map["gender"] = array('EQ', 'F');
+			$map["gender"] = array('IN', 'F,A');
 		}elseif($by == "search"){
 			$search["_logic"] = "or";
 			$search["t_item.name"] = array('like', "%".$byValue."%");
