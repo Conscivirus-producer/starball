@@ -155,7 +155,7 @@
 									<span class="listpage-title-item-panier">{$vo.name}</span>
 									<span class="listpage-item-price">
 									   <if condition="$vo.discount eq 100">{$priceSymbol}  {$vo.price}</if>
-									   <if condition="$vo.discount neq 100"><span style="text-decoration: line-through;width: 50%; margin:0">{$priceSymbol}  {$vo.price}</span> <span style="color: red;width:50%;margin:0;">{$priceSymbol}  {$vo['price']*$vo['discount']/100|round=1}({$vo.discount}%)</span></if>
+									   <if condition="$vo.discount neq 100"><span style="text-decoration: line-through;width: 50%; margin:0">{$priceSymbol}  {$vo.price}</span> <span style="color: red;width:50%;margin:0;">{$priceSymbol}  {$vo['price']*$vo['discount']/100|round=1}({$vo['discount'] - 100}%)</span></if>
 									</span>
 									<eq name="vo['isAvailable']" value="2"><div class="subscription-block am-kai">即将到货-点击获取到货通知</div></eq>
 								</div>
@@ -165,7 +165,7 @@
 						<a href="{:U('Starball/Item/index','itemId='.$vo['itemId'])}">
 							<span  class="yu-age-list"   style="position: absolute;top: 30%; left: 50%; background-color: rgb(248, 248, 248); font-size: 14px; min-width: 150px;display: none">
 								<volist name="vo['ageList']" id="ageList">
-									<span style="display: inline-block; padding: 5px; border-bottom: 1px solid #CECECE; color: black">{$ageList.age}</span>
+									<span style="display: inline-block; padding: 5px; border-bottom: 1px solid #CECECE; color: black">{$ageList.ageName}</span>
 								</volist>
 							</span>
 						</a>

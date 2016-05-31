@@ -131,9 +131,10 @@ class ListController extends BaseController {
 		for ($i=0; $i < count($itemList); $i++) {
 			$ageMap["t_inventory.itemId"] = array('EQ', $itemList[$i]["itemId"]); 
 			$itemList[$i]["ageList"] = D('Inventory')->field('distinct t_inventory.age')->where($ageMap)->select();
-			for ($j=0; $j < count($itemList[$i]["ageList"]); $j++) { 
+			$itemList[$i]["ageList"] = expodeAndDistinctAgeArray($itemList[$i]["ageList"]);
+			/*for ($j=0; $j < count($itemList[$i]["ageList"]); $j++) { 
 				$itemList[$i]["ageList"][$j]["age"] = getSizeDescriptionByAge($itemList[$i]["ageList"][$j]["age"]);
-			}
+			}*/
 		}
 		
 		
