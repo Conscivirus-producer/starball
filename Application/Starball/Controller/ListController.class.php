@@ -410,6 +410,8 @@ class ListController extends BaseController {
 			for ($i=0; $i < count($gender); $i++) { 
 				if($gender[$i]["gender"] == "M"){
 					$gender[$i]["genderName"] = "男";
+				}elseif($gender[$i]["gender"] == "A"){
+					$gender[$i]["genderName"] = "不限";
 				}else{
 					$gender[$i]["genderName"] = "女";
 				}
@@ -419,6 +421,8 @@ class ListController extends BaseController {
 			for ($i=0; $i < count($gender); $i++) { 
 				if($gender[$i]["gender"] == "M"){
 					$gender[$i]["genderName"] = "男";
+				}elseif($gender[$i]["gender"] == "A"){
+					$gender[$i]["genderName"] = "不限";
 				}else{
 					$gender[$i]["genderName"] = "女";
 				}
