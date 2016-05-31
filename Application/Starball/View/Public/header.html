@@ -273,7 +273,7 @@
                                     <input type="password" name="password" class="am-form-field yu-input-sm" placeholder="{$Think.lang.pwd}*">
                                 </div>
                                 <div class="am-form-group yu-margin-0612">
-                                    <input type="password" class="am-form-field yu-input-sm" placeholder="{$Think.lang.confirmpwd}*">
+                                    <input type="password" name="repassword" class="am-form-field yu-input-sm" placeholder="{$Think.lang.confirmpwd}*">
                                 </div>
                                 <div class="am-form-group yu-margin-0612">
                                     <input type="text" name="userName" class="am-form-field yu-input-sm" placeholder="{$Think.lang.nickname}">
@@ -304,7 +304,7 @@
                     <!-- myfavorite dropdown -->
                     <li class="am-dropdown"data-am-dropdown="">
                         <a class="am-dropdown-toggle am-text-xs yu-text-black" data-am-dropdown-toggle href="javascript:"style="padding-left:6px">{$Think.lang.myfavorite}</a>
-                        <ul class="am-dropdown-content yu-dropdown-content-contanier">
+                        <!--<ul class="am-dropdown-content yu-dropdown-content-contanier">
                             <li>
                                 <a href="#" class="item-panier"> 
                                     <img alt="Mini Me Choupette猫咪印图T恤" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/karl-lagerfeld-kids-t-1446712438-p_l_157397_A.jpg" class="item-photo-adjustor" > 
@@ -318,7 +318,7 @@
                             <button type="button" class="am-btn am-btn-default yu-check-button-adjustor">
                                 {$Think.lang.Cmyfavorites}
                             </button>
-                        </ul>
+                        </ul>-->
                     </li>
 
                     <!-- myshoppingcart dropdown  -->
@@ -448,12 +448,7 @@
                             </div>
                         </div>
                         <div class="am-u-md-7 am-u-end">
-                            <img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/sub-menu-img.jpg" />
-                            <div class="yu-sub-menu-img-title am-text-center">
-                                {$Think.lang.newseries}
-                                <br/>
-                                ARMANI JUNIOR 2016
-                            </div>
+                            <img class="am-img-responsive" src="http://7xr7p7.com1.z0.glb.clouddn.com/menu-newseris.png" />
                         </div>
                     </div>
                     <div  class="yu-sub-menu am-kai am-u-md-12 brand">
@@ -471,12 +466,7 @@
                             </ul>
                         </div>
                         <div class="am-u-md-7 am-u-end">
-                            <img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/sub-menu-img.jpg" />
-                            <div class="yu-sub-menu-img-title am-text-center">
-                                {$Think.lang.newseries}
-                                <br/>
-                                ARMANI JUNIOR 2016
-                            </div>
+                            <img class="am-img-responsive" src="http://7xr7p7.com1.z0.glb.clouddn.com/menu-brand.png" />
                         </div>
                     </div>
 
@@ -516,19 +506,14 @@
                                 <ul class="am-menu-sub am-collapse  am-avg-sm-1 am-text-xs" style="display: block">
                                     <volist name="babyMenuAge" id="vo">
                                         <li class="">
-                                            <a href="{:U('Starball/List/showList',array('by'=>'baby', 'byValue'=>'age', 'ages'=>$vo))}" class="" >{$vo}</a>
+                                            <a href="javascript:void(0)" class="" >{$vo}</a>
                                         </li>
                                     </volist>
                                 </ul>
                             </div>
                         </div>
                         <div class="am-u-md-5 am-u-end">
-                            <img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/sub-menu-img.jpg" />
-                            <div class="yu-sub-menu-img-title am-text-center">
-                                {$Think.lang.newseries}
-                                <br/>
-                                ARMANI JUNIOR 2016
-                            </div>
+                            <img class="am-img-responsive" src="http://7xr7p7.com1.z0.glb.clouddn.com/menu-baby.png" />
                         </div>
                     </div>
 
@@ -568,19 +553,14 @@
                                 <ul class="am-menu-sub am-collapse  am-avg-sm-2 am-text-xs" style="display: block">
                                     <volist name="girlMenuAge" id="vo">
                                         <li class="">
-                                            <a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>'age', 'ages'=>$vo))}" class="" >{$vo}</a>
+                                            <a href="javascript:void(0)" class="" >{$vo}</a>
                                         </li>
                                     </volist>
                                 </ul>
                             </div>
                         </div>
                         <div class="am-u-md-5 am-u-end">
-                            <img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/sub-menu-img.jpg" />
-                            <div class="yu-sub-menu-img-title am-text-center">
-                                {$Think.lang.newseries}
-                                <br/>
-                                ARMANI JUNIOR 2016
-                            </div>
+                            <img class="am-img-responsive" src="http://7xr7p7.com1.z0.glb.clouddn.com/menu-girl.png" />
                         </div>
                     </div>
 
@@ -620,19 +600,14 @@
                                 <ul class="am-menu-sub am-collapse  am-avg-sm-2 am-text-xs" style="display: block">
                                     <volist name="boyMenuAge" id="vo">
                                         <li class="">
-                                            <a href="{:U('Starball/List/showList',array('by'=>'boy', 'byValue'=>'age', 'ages'=>$vo))}" class="" >{$vo}</a>
+                                            <a href="javascript:void(0)" class="" >{$vo}</a>
                                         </li>
                                     </volist>
                                 </ul>
                             </div>
                         </div>
                         <div class="am-u-md-5 am-u-end">
-                            <img class="am-img-responsive" src="http://7xr7p7.com2.z0.glb.qiniucdn.com/sub-menu-img.jpg" />
-                            <div class="yu-sub-menu-img-title am-text-center">
-                                {$Think.lang.newseries}
-                                <br/>
-                                ARMANI JUNIOR 2016
-                            </div>
+                            <img class="am-img-responsive" src="http://7xr7p7.com1.z0.glb.clouddn.com/menu-boy.png" />
                         </div>
                     </div>
                     <div  class="yu-sub-menu am-u-md-12 am-u-end selected">
