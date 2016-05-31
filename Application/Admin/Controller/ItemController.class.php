@@ -58,8 +58,12 @@ class ItemController extends Controller {
 	
 	private function extendNumber($inventorySizeStart,$inventorySizeEnd){
 		$result = '';
-		for($i = 0;$inventorySizeStart + $i <= $inventorySizeEnd;$i++){
-			$result = $result.($inventorySizeStart + $i).',';
+		if($inventorySizeStart == $inventorySizeEnd){
+			$result = $inventorySizeStart.','.$inventorySizeEnd.',';
+		}else{
+			for($i = 0;$inventorySizeStart + $i <= $inventorySizeEnd;$i++){
+				$result = $result.($inventorySizeStart + $i).',';
+			}
 		}
 		return $result;
 	}

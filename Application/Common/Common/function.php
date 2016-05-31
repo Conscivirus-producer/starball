@@ -65,6 +65,31 @@ function get_client_time(){
    return date("Y-m-d H:i:s");
 }
 
+function expodeAndDistinctAgeArray($ages){
+	$ageArray = array();
+	foreach($ages as $ageSection){
+		//age是有区间的,拆分age,然后把值distinct出来
+		$ageSectionArray = array_splice(explode(',', $ageSection['age']),0,-1);
+		foreach($ageSectionArray as $age){
+			if($age != '' && !in_array($age, $ageArray)){
+				array_push($ageArray, $age);
+			}
+		}
+	}
+	asort($ageArray);
+	
+	//把数字转化为描述
+	$itemSize = C('ITEMSIZE');
+	$ageDescriptionArray = array();
+	foreach($ageArray as $age){
+		//用a作为分隔符
+		$tmp['age'] = $age.'a';
+		$tmp['ageName'] =  getSizeDescriptionByAge($age);
+		array_push($ageDescriptionArray, $tmp);
+	}
+	return $ageDescriptionArray;
+}
+
 function getSizeDescriptionByAge($age){
 	$sizeArray = C('ITEMSIZE');
 	if(strpos($age, ',') <= 0){
