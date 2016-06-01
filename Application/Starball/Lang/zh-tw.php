@@ -256,5 +256,6 @@ return array(
     'userNameEmpty'=>'用戶名不能爲空',
     'emailEmpty'=>'郵箱不能爲空',
     'emailFormatError'=>'郵箱格式錯誤',
-    'mobileShouldbeNumber'=>'電話號碼必須爲數字'
+    'mobileShouldbeNumber'=>'電話號碼必須爲數字',
+    'maintenance'=>'手機端網站即將上線,請您先通過PC端進行訪問,謝謝支持。'
 );

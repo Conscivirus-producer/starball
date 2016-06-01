@@ -243,6 +243,9 @@ class BaseController extends Controller {
 	
 	protected function commonProcess(){
 		//session(null);
+		if(isMobile() && C('DISABLE_MOBILE') == 'true'){
+			$this->redirect('Home/maintenance');
+		}
 		header("Content-type: text/html; charset=utf-8");
 		if(IS_POST){
 			if(I('method') == 'register'){

@@ -234,5 +234,6 @@ return array(
     'userNameEmpty'=>'用户名不能为空',
     'emailEmpty'=>'邮箱不能为空',
     'emailFormatError'=>'邮箱格式错误',
-    'mobileShouldbeNumber'=>'电话号码必须为数字'
+    'mobileShouldbeNumber'=>'电话号码必须为数字',
+    'maintenance'=>'手机端网站即将上线,请您先通过PC端进行访问,谢谢支持。'
 );

@@ -30,4 +30,8 @@ class HomeController extends BaseController {
 		$this->commonProcess();
 		$this->display();		
 	}
+	
+	public function maintenance(){
+		$this->display();
+	}
 }
