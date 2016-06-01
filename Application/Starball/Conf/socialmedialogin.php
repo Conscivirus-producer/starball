@@ -13,8 +13,8 @@ return array(
 	
     //微信登录
     'THINK_SDK_WEIXIN' => array(
-        'APP_KEY'    => '', //应用注册成功后分配的 APP ID
-        'APP_SECRET' => '', //应用注册成功后分配的KEY
+        'APP_KEY'    => 'wxfda566293af59f58', //应用注册成功后分配的 APP ID
+        'APP_SECRET' => 'e80ce93d11bfbf9c6acc9b53e4f40b91', //应用注册成功后分配的KEY
         'CALLBACK'   => URL_CALLBACK . 'weixin',
     ),
 );
