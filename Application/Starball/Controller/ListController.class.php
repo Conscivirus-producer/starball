@@ -89,6 +89,9 @@ class ListController extends BaseController {
 							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type !='2'")
 							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
 							 ->count('distinct t_item.itemId');
+				 if($count == 0 && $by == "brand"){
+				 	$this->redirect('Starball/List/shoes/by/shoes/byValue/shoes/brands/'.$byValue);
+				 }
 			}else{
 				$itemList = D('Item')->distinct(true)->field('t_item.*, img.image, price.price')
 							 ->where($map)
