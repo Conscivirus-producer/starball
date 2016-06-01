@@ -16,7 +16,7 @@ function sendMailNewVersion($mailContent, $type, $userInfo){
 	$mail->Password = 'test123456';                           // SMTP password
 	$mail->Port = 25;                                     // TCP port to connect to
 
-	$mail->setFrom('test@starballkids.com', 'test');
+	$mail->setFrom('test@starballkids.com', 'StarballKids');
 	$mail->addAddress($userInfo["email"], $userInfo["userName"]);     // Add a recipient
 	//$mail->addAddress('ellen@example.com');               // Name is optional
 	//$mail->addReplyTo('info@example.com', 'Information');
@@ -28,7 +28,7 @@ function sendMailNewVersion($mailContent, $type, $userInfo){
 	$mail->isHTML(true);                                  // Set email format to HTML
 
 	if($type == "payment"){
-		$mail->Subject = 'Here is the subject';
+		$mail->Subject = 'StarballKids支付成功通知-订单号'.$mailContent["orderNumber"];
 		$template = '下单成功！</br>
 				     订单号: '.$mailContent["orderNumber"].'</br>';
 		for ($i=0; $i < count($mailContent["orderItems"]); $i++) {
@@ -38,7 +38,7 @@ function sendMailNewVersion($mailContent, $type, $userInfo){
 		$mail->Body    = $template;
 		$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 	}elseif($type == "delivered"){
-		$mail->Subject = 'StarballKids发货通知';
+		$mail->Subject = 'StarballKids发货通知-订单号'.$mailContent["orderNumber"];
 		$mail->Body    = "您购买的商品订单号".$mailContent["orderNumber"]."已发货, 快递公司为".$mailContent["expressName"].", 快递号为".$mailContent["expressNumber"].", 请您注意查收.";
 		$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 	}else if($type == 'itemSubscription'){
