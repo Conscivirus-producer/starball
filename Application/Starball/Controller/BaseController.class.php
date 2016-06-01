@@ -355,22 +355,10 @@ class BaseController extends Controller {
 	protected function parseAddressListCode($addressList){
 		$i=0;
 		foreach($addressList as $address){                          
-			$addressList[$i] = $this->parseAddressCode($address);
+			$addressList[$i] = parseAddressCode($address);
 			$i++;
 		}
 		return $addressList;
-	}
-	
-	protected function parseAddressCode($address){
-		$provinceList = C('CHINA_PROVINCE_LIST');
-		$countryList = C('COUNTRY_LIST');
-		if($address['country'] != ''){
-			$address['country'] = L($countryList[$address['country']]);
-		}
-		if($address['province'] != ''){
-			$address['province'] = current($provinceList[$address['province']]);
-		}
-		return $address;
 	}
 	
 	protected function calculateShippingFee($totalAmount){

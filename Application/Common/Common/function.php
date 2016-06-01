@@ -28,13 +28,28 @@ function sendMailNewVersion($mailContent, $type, $userInfo){
 	$mail->isHTML(true);                                  // Set email format to HTML
 
 	if($type == "payment"){
+		$address = D('ShippingAddress', 'Logic')->getDefaultAddress($mailContent['userId']);
+		$address = parseAddressCode($address);
 		$mail->Subject = 'StarballKids支付成功通知-订单号'.$mailContent["orderNumber"];
-		$template = '下单成功！</br>
-				     订单号: '.$mailContent["orderNumber"].'</br>';
+		$template = '尊敬的'.$userInfo["userName"].':</br>
+				     非常感谢您对StarBall.Kids的支持，您的订单下单时间为'.date('y-m-d H:i:s',time()).'，您的订单号码为'.$mailContent["orderNumber"].'。</br>
+				     我们正在打包您的包裹。当您的包裹开始邮寄时，您将会收到另一封邮件，包含您的包裹追踪号码。您可以登录快递公司官方网站，输入您的包裹追踪号码进而跟踪您的商品。</br>
+				     您的订单详情：</br>';
 		for ($i=0; $i < count($mailContent["orderItems"]); $i++) {
-			$template = $template."商品: ".$mailContent["orderItems"][$i]["itemName"]."价格: ".$mailContent["orderItems"][$i]["price"].$mailContent["currency"]."<br/>";
+			$template = $template."商品: ".$mailContent["orderItems"][$i]["itemName"].",价格: ".$mailContent["orderItems"][$i]["price"].$mailContent["currency"]."<br/>";
 		}
 		$template = $template.'总价: '.$mailContent["totalAmount"].$mailContent["currency"];
+		
+		$template = $template.'</br>您提供的收货地址：</br>'.$address['address'];
+		if($address['city'] != ''){
+			$template = $template.','.$address['city'];
+		}
+		if($address['province'] != ''){
+			$template = $template.','.$address['province'];
+		}
+		$template = $template.','.$address['country'].'</br>';
+		$template = $template.'StarBall.Kids是一家来自香港的婴幼儿品牌集合店，主营进口婴幼儿童服装，这里有世界各地的大牌潮牌衣服供您选择。</br>';
+		$template = $template.'www.starballkids.com';
 		$mail->Body    = $template;
 		$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 	}elseif($type == "delivered"){
@@ -63,6 +78,18 @@ function logWarn($msg){
 
 function get_client_time(){
    return date("Y-m-d H:i:s");
+}
+
+function parseAddressCode($address){
+	$provinceList = C('CHINA_PROVINCE_LIST');
+	$countryList = C('COUNTRY_LIST');
+	if($address['country'] != ''){
+		$address['country'] = L($countryList[$address['country']]);
+	}
+	if($address['province'] != ''){
+		$address['province'] = current($provinceList[$address['province']]);
+	}
+	return $address;
 }
 
 function expodeAndDistinctAgeArray($ages){

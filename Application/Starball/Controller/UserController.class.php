@@ -126,7 +126,7 @@ class UserController extends BaseController {
 		$this->assign('order', $order);
 		$this->assign('orderItems', $ordeItems);
 		$this->assign('orderBill', $orderBill);
-		$this->assign('address', $this->parseAddressCode($shippingAddress));
+		$this->assign('address', parseAddressCode($shippingAddress));
 		$this->display();
 	}
 	
