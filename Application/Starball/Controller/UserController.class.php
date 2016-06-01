@@ -10,22 +10,9 @@ class UserController extends BaseController {
 		}
 		if(IS_POST){
 			if(I('method') == 'changeUserInfo'){
-				$data['userName'] = I('userName');
-				$data['mobile'] = I('mobile');
-				$data['userId'] = $this->getCurrentUserId();
-				//D('User')->save($data);
-				D('User', 'Logic')->updateUserInformation($data, $this->getCurrentUserId());
+				$this->changePersonalInformation();
 			}else if(I('method') == 'changePassword'){
-				$currentPwd = md5(I('currentPwd'));
-				$newPwd = md5(I('newPwd'));
-				$newPwdRepeat = md5(I('newPwdRepeat'));
-
-				$userLogic = D('User', 'Logic');
-				$user = $userLogic->getUserInformationByUserId($this->getCurrentUserId());
-				if($user['password'] == $currentPwd && $newPwd == $newPwdRepeat && $currentPwd != $newPwd){
-					$data['password'] = $newPwd;
-					D('User', 'Logic')->updateUserInformation($data, $this->getCurrentUserId());
-				}				
+				$this->changePassword();
 			}
 		}
 		$this->prepareUserInformation();
@@ -33,6 +20,56 @@ class UserController extends BaseController {
 		$this->prepareOrderList();
 		$this->assign('tab', I('tab'));
 		$this->display();
+	}
+	
+	private function changePersonalInformation(){
+		$userName = I('userName');
+		$email = I('email');
+		$mobile = I('mobile');
+		$emailRegex = '/^[a-z0-9!#$%&\'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+\/=?^_`{|}~-]+)*@(?:[-_a-z0-9][-_a-z0-9]*\.)*(?:[a-z0-9][-a-z0-9]{0,62})\.(?:(?:[a-z]{2}\.)?[a-z]{2,})$/i';
+		if($userName == ''){
+			$this->assign('message', L('userNameEmpty'));
+		}else if($email == ''){
+			$this->assign('message', L('emailEmpty'));
+		}else if(!preg_match($emailRegex,$email)){
+			$this->assign('message', L('emailFormatError'));
+		}else if(!preg_match('/^\d+$/i',$mobile)){
+			$this->assign('message', L('mobileShouldbeNumber'));
+		}else{
+			$data['userName'] = $userName;
+			$data['email'] = $email;
+			$data['mobile'] = $mobile;
+			$data['userId'] = $this->getCurrentUserId();
+			//D('User')->save($data);
+			D('User', 'Logic')->updateUserInformation($data, $this->getCurrentUserId());
+			session('starballkids_userName', $userName);
+			$this->assign('message', L('personalInfoChanged'));
+		}
+	}
+
+	private function changePassword(){
+		if(!preg_match('/^([a-zA-Z0-9@*#]{6,22})$/',I('newPwd'))){
+			$this->assign('message', L('newPwdFormatError'));
+		}else{
+			$currentPwd = md5(I('currentPwd'));
+			$newPwd = md5(I('newPwd'));
+			$newPwdRepeat = md5(I('newPwdRepeat'));
+			$userLogic = D('User', 'Logic');
+			$user = $userLogic->getUserInformationByUserId($this->getCurrentUserId());
+			if($user['password'] != '' && $user['password'] != $currentPwd){
+				$this->assign('message', L('existingPwdIncorrect'));
+			}else if($user['password'] != '' && $currentPwd == $newPwd){
+				$this->assign('message', L('newPwdSameWithExisting'));
+			}else if($newPwd == md5('')){
+				$this->assign('message', L('newPwdShouldNotBeEmpty'));
+			}else if($newPwd != $newPwdRepeat){
+				$this->assign('message', L('newPwdDifferentWithRepeat'));
+			}else{
+				$data['password'] = $newPwd;
+				D('User', 'Logic')->updateUserInformation($data, $this->getCurrentUserId());
+				$this->assign('message', L('passwordChanged'));
+			}
+		}
 	}
 	
 	private function prepareUserInformation(){

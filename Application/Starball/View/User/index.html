@@ -4,6 +4,7 @@
 </block>
 <block name="main">
 	<input type="hidden" value="{$tab}" id="tab"/>
+	<input type="hidden" value="{$message}" id="message"/>
     <!-- Four Tabs -->
     <div class="yu-account-container">
         <div class="am-tabs" data-am-tabs>
@@ -37,5 +38,8 @@
 <block name="customizedJavascript">
 	<script>
 		$("#"+$("#tab").val()).click();
+		if($('#message').val() != ''){
+			alert($('#message').val());
+		}
 	</script>
 </block>

@@ -502,6 +502,7 @@ class BaseController extends Controller {
 			session('starballkids_userId', $existingUser['userId']);
 			$user = D('User', 'Logic')->getUserInformationByUserId($existingUser['userId']);
 			$userName = '';
+			//如果还没有设置用户名,就用社交媒体的用户名
 			if($user['userName'] != ''){
 				$userName = $user['userName'];
 			}else{
@@ -510,7 +511,22 @@ class BaseController extends Controller {
 			session('starballkids_userName', $userName);
 			session('starballkids_email', $user['email']);
 		}
-		$this->redirect('Home/index');
+		
+		//登录之后自动根据当前汇率重新计算用户订单的总额
+		$this->updateUserShoppingListByCurrency();
+		
+		//并且把当前session的购物车加到用户下面
+		$this->appendSessionShoppingListToUser();
+		
+		//从哪里跳到登录页面，跳回去
+		if(session('fromAction') != ''){
+			$actionArray = C('FROM_ACTION');
+			$actionDetail = $actionArray[session('fromAction')];
+			$this->redirect($actionDetail['url'], $actionDetail['params']);
+		}else{
+			//否则直接跳主页
+			$this->redirect('Home/index');
+		}
 	}
 	
 }

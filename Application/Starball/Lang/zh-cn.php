@@ -221,5 +221,18 @@ return array(
     'inputGreetingWords'=>'请填写您的祝福',
     'footsizeunit'=>'码',
     'shoeSize'=>'鞋码',
-    'mobile'=>'电话'
+    'mobile'=>'电话',
+    'personalInfoChanged'=>'个人信息修改成功',
+    'existingPwdIncorrect'=>'现有密码不正确',
+    'newPwdSameWithExisting'=>'新密码不能和现有密码相同',
+    'newPwdDifferentWithRepeat'=>'新密码和确认重复密码不一致',
+    'newPwdShouldNotBeEmpty'=>'新密码不能为空',
+    'passwordChanged'=>'密码修改成功',
+    'setupNewPwd'=>'设置新密码',
+    'changePwd'=>'更改密码',
+    'newPwdFormatError'=>'新密码格式不正确,必须为6位到22位数字和字母的组合,支持@*#,请重新输入',
+    'userNameEmpty'=>'用户名不能为空',
+    'emailEmpty'=>'邮箱不能为空',
+    'emailFormatError'=>'邮箱格式错误',
+    'mobileShouldbeNumber'=>'电话号码必须为数字'
 );

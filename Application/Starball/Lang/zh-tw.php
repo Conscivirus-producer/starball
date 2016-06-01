@@ -243,5 +243,18 @@ return array(
 	'inputGreetingWords'=>'StarBall.Kids爲您免費提供寫祝福語的功能。如果您購買StarBall.Kids商品送作禮物，可以在此處寫下對寶寶祝福的話語（不超過250個字），我們會有專門的卡片包含在商品裏面，一起送到您的手中。',
 	'footsizeunit'=>'碼',
 	'shoeSize'=>'鞋碼',
-	'mobile'=>'電話'
+	'mobile'=>'電話',
+	'personalInfoChanged'=>'個人信息修改成功',
+	'passwordChanged'=>'密碼修改成功',
+	'existingPwdIncorrect'=>'現有密碼不正確',
+	'newPwdSameWithExisting'=>'新密碼不能和現有密碼相同',
+	'newPwdDifferentWithRepeat'=>'新密碼和確認重複密碼不一致',
+	'newPwdShouldNotBeEmpty'=>'新密碼不能爲空',
+	'setupNewPwd'=>'設置新密碼',
+	'changePwd'=>'更改密碼',
+	'newPwdFormatError'=>'新密碼格式不正確,必須爲6位到22位數字和字母的組合,支持@*#,請重新輸入',
+    'userNameEmpty'=>'用戶名不能爲空',
+    'emailEmpty'=>'郵箱不能爲空',
+    'emailFormatError'=>'郵箱格式錯誤',
+    'mobileShouldbeNumber'=>'電話號碼必須爲數字'
 );
