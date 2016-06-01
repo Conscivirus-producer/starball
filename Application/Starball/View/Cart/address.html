@@ -9,7 +9,7 @@
 	<div class="yu-cart-content">
 		<span style="font-weight: bold;font-size: 13px">{$Think.lang.myaddress}</span>
 		<hr style="border-color: black" />
-		<form class="am-form am-form-horizontal" role="form" method="post" style="width:70%; margin-left: 15%;font-size: 12px">
+		<form class="am-form am-form-horizontal" role="form" method="post" onsubmit="return checkAddressData()" style="width:70%; margin-left: 15%;font-size: 12px">
 			<input type="hidden" value="1" name="default"/>
 			<div class="am-form-group">
 			  <label class="am-radio-inline">
@@ -21,7 +21,7 @@
 			</div>
 			<div class="am-form-group">
 				<div style="margin-bottom: 10px">
-					<input name="contactName" value="{$data.contactName}" class="am-form-field" placeholder="{$Think.lang.consignee}" />
+					<input name="contactName" id="contactName" value="{$data.contactName}" class="am-form-field" placeholder="{$Think.lang.consignee}" />
 				</div>
 				<div style="margin-bottom: 10px">
 					<select data-am-selected="{btnWidth: '100%', btnSize: 'sm'}" name="country" id="country" onchange="changeCountry($(this).val())">
@@ -32,7 +32,7 @@
 					</select>
 				</div>	
 				<div style="margin-bottom: 10px;" class="cn-info" >
-					<select data-am-selected="{btnWidth: '100%', btnSize: 'sm'}" name="province">
+					<select data-am-selected="{btnWidth: '100%', btnSize: 'sm'}" name="province" id="province">
 						<option value="" selected>{$Think.lang.province}*</option>
 						<volist name="provinceList" id="vo">
 						  	<option value="{$vo.code}">{$vo.display}</option>
@@ -40,13 +40,13 @@
 					</select>
                 </div>
                 <div style="margin-bottom: 10px" class="cn-info">
-                    <input name="city" value="{$data.city}"  class="am-form-field" placeholder="{$Think.lang.citytown}＊" />
+                    <input name="city" id="city" value="{$data.city}"  class="am-form-field" placeholder="{$Think.lang.citytown}＊" />
 				</div>
 				<div style="margin-bottom: 10px" class="cn-info">
 					<input name="postCode" value="{$data.postCode}"  class="am-form-field" placeholder="{$Think.lang.zipcode}" />
 				</div>
 				<div style="margin-bottom: 10px">
-					<input name="address" value="{$data.address}"  class="am-form-field" placeholder="{$Think.lang.address}＊" />
+					<input name="address" id="address" value="{$data.address}"  class="am-form-field" placeholder="{$Think.lang.address}＊" />
 				</div>
 				<div class="am-form-group hk-info">
 				  <label class="am-radio-inline">
@@ -57,7 +57,7 @@
 				  </label>
 				</div>
 				<div style="margin-bottom: 10px">
-					<input name="phone" value="{$data.phone}" class="am-form-field" placeholder="{$Think.lang.mobile}＊" />
+					<input name="phone" id="phone" value="{$data.phone}" class="am-form-field" placeholder="{$Think.lang.mobile}＊" />
 				</div>
 				<textarea name="moreDetails" id="moreDetails" value="{$data.moreDetails}" placeholder="{$Think.lang.moredetail}"></textarea>
 			</div>
@@ -66,7 +66,7 @@
 					{$Think.lang.setaddresscheck}*	
 				</div>
 				<div style="margin-bottom: 10px">
-					<input name="addressName" value="{$data.addressName}" class="am-form-field" placeholder="{$Think.lang.addressName}" />
+					<input name="addressName" id="addressName" value="{$data.addressName}" class="am-form-field" placeholder="{$Think.lang.addressName}" />
 				</div>
 				<button id="delivery" type="submit" style="float: right; margin-top: 10px; width: 80px; height: 28px;background-color: black;border:0; color: white">
 				    {$Think.lang.submit}
@@ -97,6 +97,38 @@
 				$('.cn-info').hide();
 				$('.hk-info').hide();				
 			}
+		}
+		
+		function checkAddressData(){
+			if($('#contactName').val() == ''){
+				alert('联系人姓名不能为空');
+				return false;
+			}
+			if($('#country').val() == 'none'){
+				alert('请选择国家');
+				return false;
+			}
+			if($('#country').val() == 'cn' && $('#province').val() == ''){
+				alert('请选择省份');
+				return false;
+			}
+			if($('#country').val() == 'cn' && $('#city').val() == ''){
+				alert('请输入城市');
+				return false;
+			}
+			if($('#address').val() == ''){
+				alert('请输入地址');
+				return false;
+			}
+			if($('#phone').val() == ''){
+				alert('请输入电话号码');
+				return false;
+			}
+			if($('#addressName').val() == ''){
+				alert('请为地址输入名字');
+				return false;
+			}
+			return true;
 		}
 	</script>
 </block>
