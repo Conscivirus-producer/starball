@@ -280,7 +280,7 @@ class BaseController extends Controller {
 		$this->redirect('Home/index');
 	}
 	
-	private function logout(){
+	public function logout(){
 		session(null);
 		$this->redirect('Home/index');
 	}

@@ -44,5 +44,22 @@ class TypeEvent{
             throw_exception("获取微信用户信息失败：{$data['errmsg']}");
         }
     }
+	
+ 	//登录成功，facebook用户信息
+    public function facebook($token){
+        $facebook   = \ThinkOauth::getInstance('facebook', $token);
+        $data = $facebook->call('');//需要查询facebook的接口说明
+
+        //所有data的索引需要查询facebook的接口说明
+        if($data[''] == 0){
+            $userInfo['type'] = 'FACEBOOK';
+            $userInfo['name'] = $data[''];
+            $userInfo['nick'] = $data[''];
+            $userInfo['head'] = $data[''];
+            return $userInfo;
+        } else {
+            throw_exception("获取FACEBOOK用户信息失败：{$data['']}");
+        }
+    }
 
 }

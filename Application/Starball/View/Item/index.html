@@ -228,10 +228,15 @@
 					$("#myShoppingCart").click(function(){
 						window.location.href="{:U('Starball/Cart/index')}";
 					});
-		    		$("#myShoppingListLnk").click();
-				    setTimeout(function () { 
-				        $("#myShoppingListLnk").click();
-				    }, 2000);
+					if($("#myShoppingListLnk").css('display') != 'none'){
+			    		$("#myShoppingListLnk").click();
+					    setTimeout(function () { 
+					        $("#myShoppingListLnk").click();
+					    }, 2000);
+					}
+					if($("#goToShoppingList").css('display') != 'none'){
+						$("#goToShoppingList").click();
+					}
 		    	}
 		    },'json');
 		}

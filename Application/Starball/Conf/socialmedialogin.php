@@ -17,4 +17,11 @@ return array(
         'APP_SECRET' => 'e80ce93d11bfbf9c6acc9b53e4f40b91', //应用注册成功后分配的KEY
         'CALLBACK'   => URL_CALLBACK . 'weixin',
     ),
+    
+    //Facebook登录
+    'THINK_SDK_FACEBOOK' => array(
+        'APP_KEY'    => '', //应用注册成功后分配的 APP ID
+        'APP_SECRET' => '', //应用注册成功后分配的KEY
+        'CALLBACK'   => URL_CALLBACK . 'facebook',
+    ),
 );

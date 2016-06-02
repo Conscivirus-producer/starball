@@ -42,7 +42,6 @@ return array(
 	'simpleC'=>'简体中文',
 	'traditionalC'=>'繁体中文',
 	'newcuscre'=>'新客户创建一个账户',
-	'myorder'=>'我的订单',
 	'return'=>'退货',
 	'mycoupon'=>'我的购物券',
 	'mygiftcard'=>'我的礼品卡',

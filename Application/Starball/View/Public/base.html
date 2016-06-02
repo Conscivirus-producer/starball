@@ -45,7 +45,11 @@
 	<body>
 		
 	<body>
-		<block name="head"><include file="Public/header" /></block>
+		<header class="am-topbar yu-no-border" id="headerArea">
+			<block><include file="Public/header" /></block>
+			<block><include file="Public/headersm" /></block>
+		</header>
+		<block><include file="Public/headerext" /></block>
 		<block name="main"></block>
 		<include file="Public/footer" />
 		<block name="customizedJavascript"></block>
