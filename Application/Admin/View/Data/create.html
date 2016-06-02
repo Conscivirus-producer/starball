@@ -1,0 +1,330 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>添加支持数据</title>
+    <meta name="description" content="添加关键数据页面">
+    <meta name="keywords" content="help">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" href="__PUBLIC__/AmazeUI-2.5.2/assets/i/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="__PUBLIC__/AmazeUI-2.5.2/assets/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="stylesheet" href="__PUBLIC__/AmazeUI-2.5.2/assets/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="__PUBLIC__/AmazeUI-2.5.2/assets/css/admin.css">
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+    以获得更好的体验！</p>
+<![endif]-->
+<input type="text" id="qiniuToken" name="qiniuToken" value="{$qiniuToken}" style="display: none">
+<header class="am-topbar admin-header">
+    <div class="am-topbar-brand">
+        <strong>StarBall</strong> <small>后台管理</small>
+    </div>
+
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+            <li><a href="javascript:;"><span class="am-icon-envelope-o"></span> 收件箱 <span class="am-badge am-badge-warning">5</span></a></li>
+            <li class="am-dropdown" data-am-dropdown>
+                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                    <span class="am-icon-users"></span> 管理员 <span class="am-icon-caret-down"></span>
+                </a>
+                <ul class="am-dropdown-content">
+                    <li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
+                    <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
+                    <li><a href="#"><span class="am-icon-power-off"></span> 退出</a></li>
+                </ul>
+            </li>
+            <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><span class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
+        </ul>
+    </div>
+</header>
+
+<div class="am-cf admin-main">
+    <!-- side bar start -->
+    <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+        <div class="am-offcanvas-bar admin-offcanvas-bar">
+            <ul class="am-list admin-sidebar-list">
+                <li><a href="../Order" target="_blank"><span class="am-icon-home"></span> 订单管理</a></li>
+                <li><a href="../Brand"><span class="am-icon-square"></span> 品牌管理</a></li>
+                <li class="admin-parent">
+                    <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 商品管理 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+                        <li><a href="../Item/upload" class="am-cf" target="_blank"><span class="am-icon-upload"></span> 商品上新</a></li>
+                        <li><a href="../Item/search" target="_blank"><span class="am-icon-search"></span> 商品搜索</a></li>
+                        <li><a href="../Item/mainPageSetting" target="_blank"><span class="am-icon-search"></span> 首页上新</a></li>
+                    </ul>
+                </li>
+                <li class="admin-parent">
+                    <a class="am-cf" data-am-collapse="{target: '#blog-nav'}"><span class="am-icon-file"></span> 博客 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="blog-nav">
+                        <li><a href="../Blog/search" class="am-cf" target="_blank"><span class="am-icon-search"></span> 博客管理</a></li>
+                        <li><a href="../Blog/create" target="_blank"><span class="am-icon-upload"></span> 写新博客</a></li>
+                    </ul>
+                </li>
+                <li class="admin-parent">
+                    <a class="am-cf" data-am-collapse="{target: '#data-nav'}"><span class="am-icon-file"></span> 支持数据 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="data-nav">
+                        <li><a href="./Data" class="am-cf" target="_blank"><span class="am-icon-search"></span> 支持数据管理</a></li>
+                        <li><a href="./create" target="_blank"><span class="am-icon-upload"></span> 添加支持数据</a></li>
+                    </ul>
+                </li>
+                <li><a href="#"><span class="am-icon-sign-out"></span> 注销</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- sidebar end -->
+
+    <!-- content start -->
+    <div class="admin-content">
+        <div class="am-g">
+            <form class="am-form" method="post" enctype="multipart/form-data">
+                <fieldset>
+                    <legend>添加支持数据</legend>
+                    <div class="am-form-group">
+                        <label for="supporting-data-key">键</label>
+                        <input type="text" class="" name="supporting-data-key" id="supporting-data-key" placeholder="输入支持数据的键">
+                    </div>
+                    <div class="am-form-group">
+                        <label for="supporting-data-type">支持数据类型</label>
+                        <select id="supporting-data-type" name="supporting-data-type">
+                            <option value="1">文字</option>
+                            <option value="2">图片</option>
+                        </select>
+                        <span class="am-form-caret"></span>
+                    </div>
+                    <div class="am-form-group" id="if-text-div">
+                        <label for="supporting-data-value">值</label>
+                        <input type="text" class="" name="supporting-data-value" id="supporting-data-value" placeholder="输入支持数据的值">
+                    </div>
+                    <div id="if-image-div" style="display: none">
+                        <div class="am-form-group am-form-file">
+                            <button type="button" class="am-btn am-btn-success am-btn-sm">
+                                <i class="am-icon-cloud-upload"></i> 上传支持数据所代表的图片
+                            </button>
+                            <input id="supporting-data-image" type="file" name="supporting-data-image" >
+                        </div>
+                        <ul class="am-avg-sm-4 am-thumbnails" id="images-gallery">
+
+                        </ul>
+                    </div>
+                    <div class="am-form-group">
+                        <label for="supporting-data-remark">说明</label>
+                        <input type="text" class="" name="supporting-data-remark" id="supporting-data-remark" placeholder="输入支持数据的说明">
+                    </div>
+                    <p><button type="button" id="upload" class="am-btn am-btn-default">提交</button></p>
+                </fieldset>
+            </form>
+        </div>
+        <!-- 图片上传报错框 -->
+        <div class="am-modal am-modal-alert" tabindex="-1" id="single-pic-alert">
+            <div class="am-modal-dialog">
+                <div class="am-modal-hd">图片上传错误</div>
+                <div class="am-modal-bd">
+                    请重新上传图片
+                </div>
+                <div class="am-modal-footer">
+                    <span class="am-modal-btn">确定</span>
+                </div>
+            </div>
+        </div>
+        <!-- 内容报错框 -->
+        <div class="am-modal am-modal-alert" tabindex="-1" id="fields-alert">
+            <div class="am-modal-dialog">
+                <div class="am-modal-hd">请把内容填写完整</div>
+                <div class="am-modal-bd">
+                    请把内容填写完整
+                </div>
+                <div class="am-modal-footer">
+                    <span class="am-modal-btn">确定</span>
+                </div>
+            </div>
+        </div>
+        <!-- key冲突报错框 -->
+        <div class="am-modal am-modal-alert" tabindex="-1" id="key-conflict-alert">
+            <div class="am-modal-dialog">
+                <div class="am-modal-hd">这个键已经存在了</div>
+                <div class="am-modal-bd">
+                    请重新填写键
+                </div>
+                <div class="am-modal-footer">
+                    <span class="am-modal-btn">确定</span>
+                </div>
+            </div>
+        </div>
+        <!-- 上传成功提醒框 -->
+        <div class="am-modal am-modal-alert" tabindex="-1" id="create-success-alert">
+            <div class="am-modal-dialog">
+                <div class="am-modal-hd">创建成功!</div>
+                <div class="am-modal-bd">
+                    创建成功!
+                </div>
+                <div class="am-modal-footer">
+                    <span class="am-modal-btn">确定</span>
+                </div>
+            </div>
+        </div>
+        <!-- 上传错误提醒框 -->
+        <div class="am-modal am-modal-alert" tabindex="-1" id="create-fail-alert">
+            <div class="am-modal-dialog">
+                <div class="am-modal-hd">创建失败!请重新创建</div>
+                <div class="am-modal-bd">
+                    创建失败!请重新创建
+                </div>
+                <div class="am-modal-footer">
+                    <span class="am-modal-btn">确定</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- content end -->
+
+</div>
+
+<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+<footer>
+    <hr>
+    <p class="am-padding-left">© 2016 UltraBravo Inc.</p>
+</footer>
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="__PUBLIC__/AmazeUI-2.5.2/assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="__PUBLIC__/AmazeUI-2.5.2/assets/js/amazeui.min.js"></script>
+<script src="__PUBLIC__/AmazeUI-2.5.2/assets/js/app.js"></script>
+<script src="__PUBLIC__/starball/js/jquery.form.js"></script>
+<!-- 自己的JS代码-->
+<script>
+    var imageUrl = "";
+    $("#supporting-data-type").change(function() {
+        var selectedVal = $(this).children('option:selected').val();
+        if (selectedVal == "1") {
+            $("#if-text-div").show();
+            $("#if-image-div").hide();
+        } else if (selectedVal == "2") {
+            $("#if-text-div").hide();
+            $("#if-image-div").show();
+        }
+    });
+    $("#upload").click(function() {
+        var supportingDataKey = $("#supporting-data-key").val().trim();
+        var supportingDataValue;
+        var supportingDataType = $("#supporting-data-type").children('option:selected').val();
+        var supportingDataRemark = $("#supporting-data-remark").val().trim();
+        if (supportingDataType == "1") {
+            supportingDataValue = $("#supporting-data-value").val().trim();
+        } else {
+            supportingDataValue = imageUrl;
+        }
+        if (supportingDataKey == ""){
+            $('#fields-alert').modal('open');
+        } else {
+            $.getJSON("./checkKeyExistence?key=" + supportingDataKey,function(result){
+                if (result.status == 1) {
+                    $('#key-conflict-alert').modal('open');
+                } else {
+                    if (supportingDataValue == "") {
+                        $('#fields-alert').modal('open');
+                    } else if (supportingDataRemark == "") {
+                        $('#fields-alert').modal('open');
+                    } else {
+                        var postData = {};
+                        postData["key"] = supportingDataKey;
+                        postData["value"] = supportingDataValue;
+                        postData["type"] = supportingDataType;
+                        postData["remark"] = supportingDataRemark;
+                        $.post("./insertOneKeyAndValue", postData, function(data) {
+                            if ($.parseJSON(data).status == "1") {
+                                $("#create-success-alert").modal("open");
+                            } else {
+                                $("#create-fail-alert").modal("open");
+                            }
+                            clearFields();
+                        });
+                    }
+                }
+            });
+        }
+    });
+    // image uploading
+    var imageKey;
+    var qiniuToken = $("#qiniuToken").val().trim();
+    var Qiniu_UploadUrl = "http://up.qiniu.com";
+    var is_uploading_image = false;
+    // qiniu upload
+    $("#supporting-data-image").change(function() {
+        // uploading starts
+        is_uploading_image = true;
+        var Qiniu_upload = function(f, token, key) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', Qiniu_UploadUrl, true);
+            var formData;
+            formData = new FormData();
+            if (key !== null && key !== undefined) formData.append('key', key);
+            formData.append('token', token);
+            formData.append('file', f);
+            xhr.onreadystatechange = function(response) {
+                if (xhr.readyState == 4 && xhr.status == 200 && xhr.responseText != "") {
+                    $('li:last-child', $("#images-gallery")).remove();
+                    var $li = $("<li></li>");
+                    $li.append('<img class="am-thumbnail" src="http://7xp6oq.com2.z0.glb.qiniucdn.com/' + key +'" />');
+                    imageUrl = "http://7xp6oq.com2.z0.glb.qiniucdn.com/" + key;
+                    var $button = $('<button type="button" name="' + key + '" class="am-close">&times;</button>');
+                    $button.click(function() {
+                        var currentKey = $(this).attr("name");
+                        $.getJSON("../Item/deleteImageByQiniuKey?qiniuKey=" + currentKey,function(result){
+                            if (result.status == "1") {
+                                $li.remove();
+                                imageUrl = "";
+                            }
+                        });
+                    });
+                    $li.append($button);
+                    $("#images-gallery").append($li);
+                    is_uploading_image = false;
+                } else if (xhr.status != 200 && xhr.responseText) {
+                    $('#single-pic-alert').modal('open');
+                    is_uploading_image = false;
+                }
+            };
+            xhr.send(formData);
+        };
+        if ($("#supporting-data-image")[0].files.length > 0 && qiniuToken != "") {
+            var startDate = new Date().getTime();
+            imageKey = "key_value_image_" + startDate;
+            $("#images-gallery").append('<li><img class="am-thumbnail" src="http://7xoh2x.com1.z0.glb.clouddn.com/loading.gif" /></li>');
+            Qiniu_upload($("#supporting-data-image")[0].files[0], qiniuToken, imageKey);
+        } else {
+            // uploading ends
+            is_uploading_image = false;
+            $('#single-pic-alert').modal('open');
+        }
+    });
+
+    function clearFields() {
+        $("#supporting-data-key").val("");
+        $("#supporting-data-type").val("1");
+        $("#supporting-data-value").val("");
+        $("#supporting-data-remark").val("");
+        $("#supporting-data-image").val("");
+        $("#images-gallery").empty();
+        $("#if-text-div").show();
+        $("#if-image-div").hide();
+    };
+</script>
+</body>
+</html>
