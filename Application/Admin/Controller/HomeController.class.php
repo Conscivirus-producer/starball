@@ -20,7 +20,7 @@ class HomeController extends Controller {
         $data["username"] = $username;
         $data["password"] = $password;
         if ($adminUserLogic->checkUserExistence($data) === true) {
-            session('starball_kid_username',$username);
+            session('starball_kid_username_fuck_you_hacker',$username);
             redirect(".");
         } else {
             redirect("./login");
