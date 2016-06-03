@@ -73,13 +73,15 @@
 					if(($key - '8') > 0){
 						break;
 					}
-					array_push($ageDescriptionArray, $value[0]);
+					$tmpArray = array('code'=>$key, 'name'=>$value[0]);
+					array_push($ageDescriptionArray, $tmpArray);
 				}
 			}else if(in_array('2', $grade)){
 				//男孩,女孩
 				foreach($itemSize as $key=>$value){
 					if(($key - '8') > 0){
-						array_push($ageDescriptionArray, $value[0]);
+						$tmpArray = array('code'=>$key, 'name'=>$value[0]);
+						array_push($ageDescriptionArray, $tmpArray);
 					}
 				}
 			}
