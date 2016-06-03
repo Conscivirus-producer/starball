@@ -224,17 +224,25 @@
 		    									'itemSize':$('#itemSize').val()},function(data){
 				alert(data.message);
 		    	if(data.status == 1){
-		    		$('#ulMyShoppingList').html(data.html);
-					$("#myShoppingCart").click(function(){
-						window.location.href="{:U('Starball/Cart/index')}";
-					});
 					if($("#myShoppingListLnk").css('display') != 'none'){
+						//if is md-up screen
+			    		$('#ulMyShoppingList').html(data.html);
+						$("#myShoppingCart").click(function(){
+							window.location.href="{:U('Starball/Cart/index')}";
+						});
 			    		$("#myShoppingListLnk").click();
 					    setTimeout(function () { 
 					        $("#myShoppingListLnk").click();
 					    }, 2000);
 					}
 					if($("#goToShoppingList").css('display') != 'none'){
+						$('#ulMyShoppingListsm').html(data.htmlsm);
+						$("#myShoppingCartsm").click(function(){
+							window.location.href="{:U('Starball/Cart/index')}";
+						});
+						$("#continueShoppingSm").click(function(){
+							$('#right-offcanvas').click();
+						});
 						$("#goToShoppingList").click();
 					}
 		    	}

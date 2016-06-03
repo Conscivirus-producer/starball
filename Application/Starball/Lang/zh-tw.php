@@ -23,7 +23,6 @@ return array(
     'commingsoon'=>'即将有货',
     'addToShoppingList'=>'添加到購物車',
     'addToFavoriteList'=>'添加到我的收藏',
-    'size'=>'大小',
     'recentShoppingList'=>'最近加入的宝贝',
     'totalAmount'=>'总金额',
     'buynow'=>'立即購買',
