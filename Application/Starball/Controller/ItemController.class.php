@@ -80,7 +80,9 @@ class ItemController extends BaseController {
 		}
 		$vo = array();
 		if($result){
+			$this->prepareShoppingList();
 			$vo['html'] = $this->prepareNewShoppingListHtml();
+			$vo['htmlsm'] = $this->prepareNewShoppingListHtmlsm();
 			$vo['message'] = '添加成功';
 			$vo['status'] = 1;
 		}else{
@@ -100,8 +102,34 @@ class ItemController extends BaseController {
 		$this->ajaxReturn($vo, "json");
 	}
 	
+	private function prepareNewShoppingListHtmlsm(){
+		$shoppingList = $this->get('shoppingList');
+		$shoppingListItems = $this->get('shoppingListItems');	
+		$tab = "<p class='yusm-title'>".L('myshoppinglist')."</p>";
+		foreach($shoppingListItems as $record){
+			if($record['quantity'] == 0){
+				continue;
+			}
+			$url = U('Starball/Item/index','itemId='.$record['itemId']);
+			$tab = $tab."<a href='".$url."' class='yu-sideitem-panier'> <img alt='".$record['itemName']."' src='".$record['itemImage']."?imageView2/1/w/100/h/100/q/100' class='sideitem-photo-adjustor'> 
+						<span class='yu-sideitem-visuel'> <span class='yu-sideitem-title'>".$record['brandName']."</span> <span class='yu-sideitem-subtitle'>".$record['itemName']."</span> 
+						<span class='yu-sidesize-container'> <span class='' style='text-transform: none;'> ".L('size')."： <span class='am-sans-serif yu-sidesize-content'>".$record['sizeDescription']."</span> </span> 
+						<span class='yu-side-size'> ".L('quantity')."： <span class='yu-sidesize-content am-sans-serif'>".$record['quantity']."
+						</span> </span> <span class='am-sans-serif yu-sideitem-price'> <span class='yu-sidesize-content'> ".$this->get('priceSymbol')."&nbsp;".$record['price'].
+						" </span> </span> </span> </span> </a>";
+		}
+		//append total account
+		$tab = $tab."<div class='yu-side-total-price'>"."<span class='title-total-price'>".L('totalamt')."： </span>
+		<span class='value-total-price'>".$this->get('priceSymbol')."&nbsp;".$shoppingList['totalAmount']."</span></div>";
+		
+		//append buttons
+		$cartListUrl =  U('Starball/Cart/index');
+		$tab = $tab."<div class='sm-cart-btn'><button id='myShoppingCartsm' class='yu-white-button'>".L('Cmybag')."</button></div>";
+		$tab = $tab."<div class='yu-continue-shop sm-cart-btn'><button id='continueShoppingSm' class='yu-white-button'>".L('continueshopping')."</button></div>";
+		return $tab;
+	}
+	
 	private function prepareNewShoppingListHtml(){
-		$this->prepareShoppingList();
 		$shoppingList = $this->get('shoppingList');
 		$shoppingListItems = $this->get('shoppingListItems');
 		$tab = "<div class='scroll-item-list'><strong>".L('recentShoppingList')."</strong></div>";
@@ -118,8 +146,8 @@ class ItemController extends BaseController {
 			$url = U('Starball/Item/index','itemId='.$record['itemId']);
 			$tab = $tab."<li><a href='".$url."' class='item-panier'> <img alt='".$record['itemName']."' src='".$record['itemImage']."?imageView2/1/w/100/h/100/q/100' class='item-photo-adjustor'> 
 						<span class='content-item-panier'> <span class='title-item-panier'>".$record['brandName']."</span> <span class='subtitle-item-panier'>".$record['itemName']."</span> 
-						<span class='yu-size-container'> <span class='' style='text-transform: none;'> 尺码： <span class='am-sans-serif'style='font-weight:bold;'>".$record['sizeDescription']."</span> </span> 
-						<span class='' style='float:right'> 数量： <span class=''>".$record['quantity']."</span> </span> <span class='am-sans-serif yu-item-price'> <span> ".$this->get('priceSymbol')."&nbsp;".$record['price'].
+						<span class='yu-size-container'> <span class='' style='text-transform: none;'> ".L('size')."： <span class='am-sans-serif'style='font-weight:bold;'>".$record['sizeDescription']."</span> </span> 
+						<span class='' style='float:right'> ".L('quantity')."： <span class=''>".$record['quantity']."</span> </span> <span class='am-sans-serif yu-item-price'> <span> ".$this->get('priceSymbol')."&nbsp;".$record['price'].
 						" </span> </span> </span> </span> </a></li>";
 		}
 		$tab = $tab."<li style='margin:0;'><div id='' class='yu-total-price-panier'><span class=''>".L('totalAmount')."： </span><span class='am-sans-serif value-total-price' >".$this->get('priceSymbol')."&nbsp; ".$shoppingList['totalAmount']."</span></div></li>";

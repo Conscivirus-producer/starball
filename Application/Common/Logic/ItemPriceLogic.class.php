@@ -7,9 +7,16 @@
 			$map['itemId'] = $itemId;
 			$map['currency'] = $currency;
 			$result = $this->where($map)->select();
+			
+			$itemData = D('Item', 'Logic')->findById($itemId);
+			$discount = $itemData['discount'];
 			$data = array();
 			foreach($result as $record){
-				$data[$record['inventoryId']] = $record['price'];
+				if($discount != 100){
+					$data[$record['inventoryId']] = round($record['price'] * $discount/100, 1);
+				}else{
+					$data[$record['inventoryId']] = $record['price'];
+				}
 			}
 			return $data;
 		}
