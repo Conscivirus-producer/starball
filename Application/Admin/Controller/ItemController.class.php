@@ -241,6 +241,7 @@ class ItemController extends Controller {
             if ($fields[$i] != "tag") {
                 if ($data[$fields[$i]] == "") {
                     echo json_encode($result);
+                    return;
                 }
             }
         }

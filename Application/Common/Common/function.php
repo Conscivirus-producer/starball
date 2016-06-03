@@ -28,7 +28,7 @@ function sendMailNewVersion($mailContent, $type, $userInfo){
 	$mail->isHTML(true);                                  // Set email format to HTML
 
 	if($type == "payment"){
-		$address = D('ShippingAddress', 'Logic')->getDefaultAddress($mailContent['userId']);
+		/*$address = D('ShippingAddress', 'Logic')->getDefaultAddress($mailContent['userId']);
 		$address = parseAddressCode($address);
 		$mail->Subject = 'StarballKids支付成功通知-订单号'.$mailContent["orderNumber"];
 		$template = '尊敬的'.$userInfo["userName"].':</br>
@@ -48,17 +48,74 @@ function sendMailNewVersion($mailContent, $type, $userInfo){
 			$template = $template.','.$address['province'];
 		}
 		$template = $template.','.$address['country'].'</br>';
+
+		// 添加logo图片
 		$template = $template.'StarBall.Kids是一家来自香港的婴幼儿品牌集合店，主营进口婴幼儿童服装，这里有世界各地的大牌潮牌衣服供您选择。</br>';
+		// 添加另外一张图
 		$template = $template.'www.starballkids.com';
 		$mail->Body    = $template;
-		$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+		$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';*/
+		// XXXXXX修改为相应的变量
+		$template = "";
+		$template = $template."<p>尊敬的"."XXX".":</p>";
+		$template = $template."<p>非常感谢您对StarBall.Kids的支持，您的订单下单时间为"."XXXXXX"."，您的订单号码为"."XXXXXX"."。</p>";
+		$template = $template."<p>我们正在打包您的包裹。当您的包裹开始邮寄时，您将会收到另一封邮件，包含您的包裹追踪号码。您可以登录快递公司官方网站，输入您的包裹追踪号码进而跟踪您的商品。</p>";
+		$template = $template."<p>您的订单详情: </p>";
+		$tableContent = "";
+		$tableContent = $tableContent."<table width='600' cellpadding='0' cellspacing='0' style='border: 1px #F2F2F2 solid; background-color: #F8F8F8'><tbody><tr><td>描述</td><td>数量</td>><td>尺寸</td><td>价钱</td></tr><tr><td>XXX</td>><td>XXX</td>><td>XXX</td><td>XXX</td></tr>";
+		$tableContent = $tableContent."<tr><td>XXX</td>><td>XXX</td>><td>XXX</td><td>XXX</td></tr>";
+		$tableContent = $tableContent."<tr><td>运费</td>><td>-</td>><td>-</td><td>XXX</td></tr>";
+		$tableContent = $tableContent."<tr><td>总优惠金额</td>><td>-</td>><td>-</td><td>XXX</td></tr>";
+		$tableContent = $tableContent."<tr><td>信用票据总额</td>><td>-</td>><td>-</td><td>XXX</td></tr>";
+		$tableContent = $tableContent."<tr><td>总金额</td>><td>-</td>><td>-</td><td>XXX</td></tr>";
+		$tableContent = $tableContent."</tbody></table>";
+		$template = $template.$tableContent;
+		$template = $template."<p>您提供的收货地址：</p>";
+		$template = $template."<p>XXXXXX<br>XXXXXX<br></p>";
+		$template = $template."<p><img src='http://7xr7p7.com2.z0.glb.qiniucdn.com/1660857294.jpg' width='80' height='51'></p>";
+		$template = $template."<p>StarBall.Kids是一家来自香港的婴幼儿品牌集合店，主营进口婴幼儿童服装，这里有世界各地的大牌潮牌衣服供您选择。</p>";
+		$template = $template."<p>联系我们：邮件＋电话（稍后提供）</p>";
+		$mail->Subject = 'StarballKids支付成功通知-订单号'."XXXXXXXX";
+		$mail->Body = $template;
 	}elseif($type == "delivered"){
-		$mail->Subject = 'StarballKids发货通知-订单号'.$mailContent["orderNumber"];
-		$mail->Body    = "您购买的商品订单号".$mailContent["orderNumber"]."已发货, 快递公司为".$mailContent["expressName"].", 快递号为".$mailContent["expressNumber"].", 请您注意查收.";
+		$mail->Subject = 'StarballKids发货通知-订单号'."XXXXXXXXX";
+		$template = "";
+		$template = $template."<p>尊敬的"."XXX".":</p>";
+		$template = $template."<p>很高兴的通知您，您的订单XXXX已经发货了。</p>";
+		$template = $template."<p>您的订单详情：</p>";
+		$tableContent = "";
+		$tableContent = $tableContent."<table width='600' cellpadding='0' cellspacing='0' style='border: 1px #F2F2F2 solid; background-color: #F8F8F8'><tbody><tr><td>描述</td><td>数量</td>><td>尺寸</td><td>价钱</td></tr><tr><td>XXX</td>><td>XXX</td>><td>XXX</td><td>XXX</td></tr>";
+		$tableContent = $tableContent."<tr><td>XXX</td>><td>XXX</td>><td>XXX</td><td>XXX</td></tr>";
+		$tableContent = $tableContent."<tr><td>运费</td>><td>-</td>><td>-</td><td>XXX</td></tr>";
+		$tableContent = $tableContent."<tr><td>总优惠金额</td>><td>-</td>><td>-</td><td>XXX</td></tr>";
+		$tableContent = $tableContent."<tr><td>信用票据总额</td>><td>-</td>><td>-</td><td>XXX</td></tr>";
+		$tableContent = $tableContent."<tr><td>总金额</td>><td>-</td>><td>-</td><td>XXX</td></tr>";
+		$tableContent = $tableContent."</tbody></table>";
+		$template = $template.$tableContent;
+		$template = $template."<p>您可以登录快递公司的官方网站，输入您的包裹追踪号码来跟踪您的商品。</p>";
+		$template = $template."<p>您的快递公司：XXX</p>";
+		$template = $template."<p>您的包裹追踪号码：XXXXX。</p>";
+		$template = $template."<p>您的收货地址：</p>";
+		$template = $template."<p>XXXXXX<br>XXXXXX<br></p>";
+		$template = $template."<p>有关于商品退换货事宜，请查看官网 www.starballkids.com 主页下方的退换政策了解详情。或联系我们的客服微信 starballkidshk. 我们会在第一时间给您回复并处理相关事宜。</p>";
+		$template = $template."<p>非常感谢您选择StarBall.Kids，相信是一次愉快的购物体验。希望很快再见到您，谢谢光临。</p>";
+		$template = $template."<p><img src='http://7xr7p7.com2.z0.glb.qiniucdn.com/1660857294.jpg' width='80' height='51'></p>";
+		$template = $template."<p>StarBall.Kids是一家来自香港的婴幼儿品牌集合店，主营进口婴幼儿童服装，这里有世界各地的大牌潮牌衣服供您选择。</p>";
+		$template = $template."<p>联系我们：邮件＋电话（稍后提供）</p>";
+
+		$mail->Body = $template;
 		$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 	}else if($type == 'itemSubscription'){
 		$mail->Subject = 'StarballKids到货通知';
-		$mail->Body    = '您关注的商品已经到货了';
+		$template = "";
+		$template = $template."<p>尊敬的顾客：</p>";
+		$template = $template."<p>很高兴的通知您，您喜爱的商品 "."XXX"."高领毛衣 现货已登陆StarBall.Kids官方网站。库存有限，立即行动吧。</p>";
+		$template = $template."<p>点击下方链接进行购买</p>";
+		$template = $template."<p><a href='http://www.starballkids.com/Starball/Item/index/itemId/115.html' target='_blank'>点击购买</a></p>";
+		$template = $template."<p>我们的官方网站 www.starballkids.com 还有更多选择，欢迎浏览购买，相信会是一次愉快的购物体验。感谢您对StarBall.Kids的支持。</p>";
+		$template = $template."<p><img src='http://7xr7p7.com2.z0.glb.qiniucdn.com/1660857294.jpg' width='80' height='51'></p>";
+		$template = $template."<p>StarBall.Kids是一家来自香港的婴幼儿品牌集合店，主营进口婴幼儿童服装，这里有世界各地的大牌潮牌衣服供您选择。</p>";
+		$mail->Body    = $template;
 		$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';		
 	}
 

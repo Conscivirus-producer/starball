@@ -102,6 +102,12 @@ class DataController extends Controller {
         }
         echo json_encode($res);
     }
+
+    public function sendMail() {
+        $userInfo["email"] = "1415609649@qq.com";
+        $userInfo["userName"] = "dingjunnan";
+        sendMailNewVersion("", "itemSubscription", $userInfo);
+    }
 }
 
 

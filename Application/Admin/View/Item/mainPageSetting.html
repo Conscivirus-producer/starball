@@ -51,34 +51,7 @@
     <!-- sidebar start -->
     <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
         <div class="am-offcanvas-bar admin-offcanvas-bar">
-            <ul class="am-list admin-sidebar-list">
-                <li><a href="../Order" target="_blank"><span class="am-icon-home"></span> 订单管理</a></li>
-                <li><a href="../Order/cancel" target="_blank"><span class="am-icon-home"></span> 退单管理</a></li>
-                <li><a href="../Brand" target="_blank"><span class="am-icon-square"></span> 品牌管理</a></li>
-                <li class="admin-parent">
-                    <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 商品管理 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
-                    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
-                        <li><a href="./upload" class="am-cf" target="_blank"><span class="am-icon-upload"></span> 商品上新</a></li>
-                        <li><a href="./search" target="_blank"><span class="am-icon-search"></span> 商品搜索</a></li>
-                        <li><a href="./mainPageSetting" target="_blank"><span class="am-icon-level-up"></span>    首页上新</a></li>
-                    </ul>
-                </li>
-                <li class="admin-parent">
-                    <a class="am-cf" data-am-collapse="{target: '#blog-nav'}"><span class="am-icon-file"></span> 博客 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
-                    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="blog-nav">
-                        <li><a href="../Blog/search" class="am-cf" target="_blank"><span class="am-icon-search"></span> 博客管理</a></li>
-                        <li><a href="../Blog/create" target="_blank"><span class="am-icon-upload"></span> 写新博客</a></li>
-                    </ul>
-                </li>
-                <li class="admin-parent">
-                    <a class="am-cf" data-am-collapse="{target: '#data-nav'}"><span class="am-icon-file"></span> 支持数据 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
-                    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="data-nav">
-                        <li><a href="../Data" class="am-cf" target="_blank"><span class="am-icon-search"></span> 支持数据管理</a></li>
-                        <li><a href="../Data/create" target="_blank"><span class="am-icon-upload"></span> 添加支持数据</a></li>
-                    </ul>
-                </li>
-                <li><a href="#"><span class="am-icon-sign-out"></span> 注销</a></li>
-            </ul>
+            <include file="Public/sideList" />
         </div>
     </div>
     <!-- sidebar end -->
