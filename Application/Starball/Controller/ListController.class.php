@@ -185,14 +185,15 @@ class ListController extends BaseController {
 			$color = D('Item')->field('distinct t_item.color')->where($map)->join("t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type !='2'")->select();
 		}
 		$itemIds = array();
+		
 		foreach($itemList as $item){
 			array_push($itemIds, $item['itemId']);
 		}
 		$ageFilterMap['itemId'] = array('in', $itemIds);
-		if(in_array("ages", $filterArray)){
+		if(in_array("ages", $filterArray) && !empty($itemIds)){
 			$age = D('Inventory')->field('distinct age')->where($ageFilterMap)->select();
 			$age = expodeAndDistinctAgeArray($age);
-		}else{
+		}else if(!empty($itemIds)){
 			$age = D('Inventory')->field('distinct age')->where($ageFilterMap)->select();
 			$age = expodeAndDistinctAgeArray($age);
 		}
