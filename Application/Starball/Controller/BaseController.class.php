@@ -443,7 +443,6 @@ class BaseController extends Controller {
 			//加载ThinkOauth类并实例化一个对象
 			import("Org.ThinkSDK.ThinkOauth");
 			$sns  = \ThinkOauth::getInstance($type);
-	
 			//跳转到授权页面
 			redirect($sns->getRequestCodeURL());
 		}
@@ -509,6 +508,10 @@ class BaseController extends Controller {
 		//并且把当前session的购物车加到用户下面
 		$this->appendSessionShoppingListToUser();
 		
+		if($existingUser == '' || $existingUser['userName'] == ''){
+			//如果用户还没有绑定现有帐号
+			$this->redirect('User/index');
+		}
 		//从哪里跳到登录页面，跳回去
 		if(session('fromAction') != ''){
 			$actionArray = C('FROM_ACTION');

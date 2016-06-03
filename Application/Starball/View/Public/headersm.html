@@ -39,7 +39,7 @@
 	                                    <span class="yu-seperate"></span>
 	                                    <span class="yu-26text-or">{$Think.lang.or}</span>
 	                                </div>
-	                                <a href="#" class="am-icon-sm am-icon-facebook" style="margin-left:3%;margin-right: 38%;color: #ececec;"></a>
+	                                <a href="{:U('loginFromSocialMedia', array('type'=>'facebook'))}" class="am-icon-sm am-icon-facebook" style="margin-left:3%;margin-right: 38%;color: #ececec;"></a>
 	                                <a href="{:U('loginFromSocialMedia', array('type'=>'weixin'))}" class="am-icon-sm am-icon-wechat" style="margin-right: 32%;margin-bottom:3%;color: #ececec;"></a>
 	                                <a href="{:U('loginFromSocialMedia', array('type'=>'sina'))}" class="am-icon-sm am-icon-weibo" style="color:#ececec;"></a>
 	                                <a class="am-btn am-btn-link yu-newaccount-26" id="registerLnkFromLogin" href="{:U('Starball/Home/register#register')}">{$Think.lang.newcuscre}</a>
@@ -120,8 +120,21 @@
                         <ul class="am-padding-0">
                             &nbsp; <a href="javascript:void(0);"> {$Think.lang.clothingmatch} </a>
                         </ul>
-                        <hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-l ayout">
+                        <hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-layout">
                     </div>
+                    <div>
+                    <select data-am-selected="{btnWidth: '100%', btnSize: 'sm'}" onchange="window.location.href='?l='+$(this).val();">
+                    	<option value="zh-cn" <if condition="strtolower(cookie('think_language')) == 'zh-cn'">selected</if>>{$Think.lang.simpleC}</option>
+                    	<option value="zh-tw" <if condition="strtolower(cookie('think_language')) == 'zh-tw'">selected</if>>{$Think.lang.traditionalC}</option>	
+                	</select>
+                	</div>
+                	<div style="margin-top: 20px">
+                    <select data-am-selected="{btnWidth: '100%', btnSize: 'sm'}" onchange="window.location.href='?currency='+$(this).val();">
+                    	<volist name="currencyArray" id="vo">
+	                    	<option value="{$vo.currency}" <eq name="vo.currency" value="$preferred_currency">selected</eq>>{$vo.currency}</option>
+                    	</volist>
+                	</select>
+                	</div>
                 </div>
             </div>
         </div>
@@ -146,21 +159,23 @@
                         </div>
                     </div>
             	<else/>
-            	<volist name="shoppingListItems" id="vo" offset="0" length='3'>
-                	<a href="{:U('Starball/Item/index','itemId='.$vo['itemId'])}" class="yu-sideitem-panier"> 
-            			 <img alt="{$vo.itemName}" src="{$vo.itemImage}?imageView2/1/w/100/h/100/q/100" class="sideitem-photo-adjustor">
-	                     <span class="yu-sideitem-visuel"> 
-	                         <span class="yu-sideitem-title">{$vo.brandName}</span> 
-	                         <span class="yu-sideitem-subtitle">{$vo.itemName}</span> 
-	                         <span class="yu-sidesize-container"> 
-	                             <span class="" style="text-transform: none;">{$Think.lang.size}：
-	                                  <span class="am-sans-serif yu-sidesize-content">{$vo.sizeDescription}</span> 
-	                             </span> 
-	                             <span class="yu-side-size"> {$Think.lang.quantity}： <span class="yu-sidesize-content am-sans-serif">{$vo.quantity}</span> </span>
-	                             <span class="am-sans-serif yu-sideitem-price"> <span class="yu-sidesize-content"> {$priceSymbol}&nbsp;{$vo.price} </span> </span>
-	                         </span> 
-	                      </span>
-                    </a>
+            	<volist name="shoppingListItems" id="vo">
+            		<gt name="vo['quantity']" value="0">
+	                	<a href="{:U('Starball/Item/index','itemId='.$vo['itemId'])}" class="yu-sideitem-panier"> 
+	            			 <img alt="{$vo.itemName}" src="{$vo.itemImage}?imageView2/1/w/100/h/100/q/100" class="sideitem-photo-adjustor">
+		                     <span class="yu-sideitem-visuel"> 
+		                         <span class="yu-sideitem-title">{$vo.brandName}</span> 
+		                         <span class="yu-sideitem-subtitle">{$vo.itemName}</span> 
+		                         <span class="yu-sidesize-container"> 
+		                             <span class="" style="text-transform: none;">{$Think.lang.size}：
+		                                  <span class="am-sans-serif yu-sidesize-content">{$vo.sizeDescription}</span> 
+		                             </span> 
+		                             <span class="yu-side-size"> {$Think.lang.quantity}： <span class="yu-sidesize-content am-sans-serif">{$vo.quantity}</span> </span>
+		                             <span class="am-sans-serif yu-sideitem-price"> <span class="yu-sidesize-content"> {$priceSymbol}&nbsp;{$vo.price} </span> </span>
+		                         </span> 
+		                      </span>
+	                    </a>
+                   </gt>
                    </volist>
                       <div class="yu-side-total-price">
                           <span class="title-total-price">{$Think.lang.totalamt}： </span>

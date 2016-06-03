@@ -20,8 +20,8 @@ return array(
     
     //Facebook登录
     'THINK_SDK_FACEBOOK' => array(
-        'APP_KEY'    => '', //应用注册成功后分配的 APP ID
-        'APP_SECRET' => '', //应用注册成功后分配的KEY
+        'APP_KEY'    => '517537618433558', //应用注册成功后分配的 APP ID
+        'APP_SECRET' => '054609a860967018e29adb8bd9eaee45', //应用注册成功后分配的KEY
         'CALLBACK'   => URL_CALLBACK . 'facebook',
     ),
 );

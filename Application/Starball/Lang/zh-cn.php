@@ -217,7 +217,7 @@ return array(
     'payInProgress'=>'正在支付...',
     'finishPayment'=>'已完成支付',
     'paymentProblem'=>'支付遇到问题',
-    'inputGreetingWords'=>'请填写您的祝福',
+    'inputGreetingWords'=>'StarBall.Kids为您免费提供写祝福语的功能。如果您购买StarBall.Kids商品送作礼物，可以在此处写下对宝宝祝福的话语（不超过250个字），我们会有专门的卡片包含在商品里面，一起送到您的手中。',
     'footsizeunit'=>'码',
     'shoeSize'=>'鞋码',
     'mobile'=>'电话',
@@ -234,5 +234,9 @@ return array(
     'emailEmpty'=>'邮箱不能为空',
     'emailFormatError'=>'邮箱格式错误',
     'mobileShouldbeNumber'=>'电话号码必须为数字',
-    'maintenance'=>'手机端网站即将上线,请您先通过PC端进行访问,谢谢支持。'
+    'maintenance'=>'手机端网站即将上线,请您先通过PC端进行访问,谢谢支持。',
+    'addressmsg1'=>'您可以在提交订单时添加多个送货地址（家庭住址和工作地址等）。请标注不同的名称，以便在您下订单时快速查找。',
+    'addressmsg2'=>'您可以在下面删除您所添加的地址。',
+    'personalinfo'=>'我的个人信息',
+    'personalinfoChange'=>'如果您的个人信息发生改变，请随时进行更新。'
 );

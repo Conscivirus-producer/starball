@@ -48,17 +48,15 @@ class TypeEvent{
  	//登录成功，facebook用户信息
     public function facebook($token){
         $facebook   = \ThinkOauth::getInstance('facebook', $token);
-        $data = $facebook->call('');//需要查询facebook的接口说明
-
+        $data = $facebook->call('me');//需要查询facebook的接口说明
         //所有data的索引需要查询facebook的接口说明
-        if($data[''] == 0){
+        if($data['name'] != '' ){
             $userInfo['type'] = 'FACEBOOK';
-            $userInfo['name'] = $data[''];
-            $userInfo['nick'] = $data[''];
-            $userInfo['head'] = $data[''];
+            $userInfo['name'] = $data['name'];
+            $userInfo['nick'] = $data['name'];
             return $userInfo;
         } else {
-            throw_exception("获取FACEBOOK用户信息失败：{$data['']}");
+            throw_exception("获取FACEBOOK用户信息失败.");
         }
     }
 

@@ -20,3 +20,8 @@ img:hover.pointer{
 div:hover.pointer{
 	cursor: pointer;
 }
+/*override the default setting of the amazeui css, as the select option text color incorrect at small screen*/
+.am-selected-list .am-selected-text {
+    margin-right: 30px;
+    color: black;
+}
