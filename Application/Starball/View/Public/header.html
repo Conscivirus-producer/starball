@@ -412,7 +412,7 @@
                                 <ul class="am-menu-sub am-collapse  am-avg-sm-2 am-text-xs" style="display: block">
                                     <volist name="girlMenuAge" id="vo">
                                         <li class="">
-                                            <a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>'age', 'ageId'=>$vo['code']))}" class="" >{$vo.name}</a>
+                                            <a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>'age', 'ages'=>$vo['code']))}" class="" >{$vo.name}</a>
                                         </li>
                                     </volist>
                                 </ul>
