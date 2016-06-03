@@ -104,9 +104,14 @@ class DataController extends Controller {
     }
 
     public function sendMail() {
-        $userInfo["email"] = "1415609649@qq.com";
-        $userInfo["userName"] = "dingjunnan";
-        sendMailNewVersion("", "itemSubscription", $userInfo);
+        $user["email"] = "1415609649@qq.com";
+        $user["userName"] = "dingjunnan";
+        $userInfo = array();
+        array_push($userInfo, $user);
+        $user["email"] = "acrushdjn@163.com";
+        $user["userName"] = "djn";
+        array_push($userInfo, $user);
+        sendMailNewVersion("", "notifyMyself", $userInfo);
     }
 }
 

@@ -17,7 +17,9 @@ function sendMailNewVersion($mailContent, $type, $userInfo){
 	$mail->Port = 25;                                     // TCP port to connect to
 
 	$mail->setFrom('test@starballkids.com', 'StarballKids');
-	$mail->addAddress($userInfo["email"], $userInfo["userName"]);     // Add a recipient
+	for ($i = 0; $i < count($userInfo); $i++) {
+		$mail->addAddress($userInfo[$i]["email"], $userInfo[$i]["userName"]);     // Add a recipient
+	}
 	//$mail->addAddress('ellen@example.com');               // Name is optional
 	//$mail->addReplyTo('info@example.com', 'Information');
 	//$mail->addCC('cc@example.com');
@@ -111,12 +113,21 @@ function sendMailNewVersion($mailContent, $type, $userInfo){
 		$template = $template."<p>尊敬的顾客：</p>";
 		$template = $template."<p>很高兴的通知您，您喜爱的商品 "."XXX"."高领毛衣 现货已登陆StarBall.Kids官方网站。库存有限，立即行动吧。</p>";
 		$template = $template."<p>点击下方链接进行购买</p>";
-		$template = $template."<p><a href='http://www.starballkids.com/Starball/Item/index/itemId/115.html' target='_blank'>点击购买</a></p>";
+		$template = $template."<p>http://www.starballkids.com/Starball/Item/index/itemId/115.html</p>";
 		$template = $template."<p>我们的官方网站 www.starballkids.com 还有更多选择，欢迎浏览购买，相信会是一次愉快的购物体验。感谢您对StarBall.Kids的支持。</p>";
 		$template = $template."<p><img src='http://7xr7p7.com2.z0.glb.qiniucdn.com/1660857294.jpg' width='80' height='51'></p>";
 		$template = $template."<p>StarBall.Kids是一家来自香港的婴幼儿品牌集合店，主营进口婴幼儿童服装，这里有世界各地的大牌潮牌衣服供您选择。</p>";
 		$mail->Body    = $template;
 		$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';		
+	}else if($type == 'notifyMyself'){
+		$mail->Subject = 'StarballKids下单通知';
+		$template = "";
+		$template = $template."<p>用户XXXXX下单成功!</p>";
+		$template = $template."<p>订单号:XXXXXXXXX</p>";
+		$template = $template."<p>商品:XXXXXXXXX,单价:XXXXXXXX</p>";
+		$template = $template."<p>总价:XXXXXXXX</p>";
+		$mail->Body    = $template;
+		$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 	}
 
 	if(!$mail->send()) {
