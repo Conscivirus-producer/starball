@@ -365,7 +365,7 @@
                                 <ul class="am-menu-sub am-collapse  am-avg-sm-1 am-text-xs" style="display: block">
                                     <volist name="babyMenuAge" id="vo">
                                         <li class="">
-                                            <a href="{:U('Starball/List/showList',array('by'=>'baby', 'byValue'=>'age', 'ageId'=>$vo['code']))}" class="" >{$vo.name}</a>
+                                            <a href="{:U('Starball/List/showList',array('by'=>'baby', 'byValue'=>'age', 'ages'=>$vo['code']))}" class="" >{$vo.name}</a>
                                         </li>
                                     </volist>
                                 </ul>
@@ -412,7 +412,7 @@
                                 <ul class="am-menu-sub am-collapse  am-avg-sm-2 am-text-xs" style="display: block">
                                     <volist name="girlMenuAge" id="vo">
                                         <li class="">
-                                            <a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>'age', 'ageId'=>$vo['code']))}" class="" >{$vo.name}</a>
+                                            <a href="{:U('Starball/List/showList',array('by'=>'girl', 'byValue'=>'age', 'ages'=>$vo['code']))}" class="" >{$vo.name}</a>
                                         </li>
                                     </volist>
                                 </ul>
@@ -459,7 +459,7 @@
                                 <ul class="am-menu-sub am-collapse  am-avg-sm-2 am-text-xs" style="display: block">
                                     <volist name="boyMenuAge" id="vo">
                                         <li class="">
-                                            <a href="{:U('Starball/List/showList',array('by'=>'boy', 'byValue'=>'age', 'ageId'=>$vo['code']))}" class="" >{$vo.name}</a>
+                                            <a href="{:U('Starball/List/showList',array('by'=>'boy', 'byValue'=>'age', 'ages'=>$vo['code']))}" class="" >{$vo.name}</a>
                                         </li>
                                     </volist>
                                 </ul>
