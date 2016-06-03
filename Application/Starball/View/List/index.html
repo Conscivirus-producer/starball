@@ -152,7 +152,8 @@
 							<div class="am-thumbnail" style="border:none;">
 								<img src="{$vo.image}?imageView2/1/w/232/h/232/q/100" alt=""/>
 								<div class="am-thumbnail-caption" style="border:none">
-									<span class="listpage-title-item-panier">{$vo.name}</span>
+									<span class="am-show-md-up listpage-title-item-panier">{$vo.name}</span>
+									<span class="am-show-sm-only listpage-title-item-panier-sm">{$vo.name}</span>
 									<span class="listpage-item-price">
 									   <if condition="$vo.discount eq 100">{$priceSymbol}  {$vo.price}</if>
 									   <if condition="$vo.discount neq 100"><span style="text-decoration: line-through;width: 50%; margin:0">{$priceSymbol}  {$vo.price}</span> <span style="color: red;width:50%;margin:0;">{$priceSymbol}  {$vo['price']*$vo['discount']/100|round=1}({$vo['discount'] - 100}%)</span></if>
