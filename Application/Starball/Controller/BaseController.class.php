@@ -365,10 +365,6 @@ class BaseController extends Controller {
 	}
 	
 	protected function calculateShippingFee($totalAmount){
-		if(C('IS_TEST') == 'true'){
-			return '0';
-		}
-
 		$defaultAddress = D('ShippingAddress', 'Logic')->getDefaultAddress($this->getCurrentUserId());
 		$shippingFeeSetting = C('SHIPPING_FEE_SETTING');
 		$exchangeRate = C('EXCHANGE_RATE_HKD_TO_CNY');
@@ -401,6 +397,11 @@ class BaseController extends Controller {
 			$totalWeight = 0;
 			foreach($shoppingListItems as $orderItem){
 				$item = D('Item', 'Logic')->findById($orderItem['itemId']);
+				/*--------Hard code for testing start----------------*/
+				if(C('IS_TEST') == 'true' && $item['itemId'] == 158){
+					return '0';
+				}
+				/*--------Hard code for testing end----------------*/
 				$extraShippingFee += $item['extraShippingFee'] * $orderItem['quantity'];
 				$totalWeight += $item['weight'] * $orderItem['quantity'];
 			}
