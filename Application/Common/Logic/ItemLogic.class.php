@@ -42,7 +42,36 @@
 				return $res;
 			}
 		}
-
+		
+		public function getBrandForShoes(){
+			$brand = D('Item')->field('distinct t_item.brandId, brd.brandName, count(*)')
+							  ->join('t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type = 2')
+							  ->join('t_brand brd ON brd.brandId = t_item.brandId')
+							  ->group('t_item.brandId')
+							  ->order('brandId asc')
+							  ->select();
+		    return $brand;
+		}
+		
+		public function getCategoryForShoes(){
+			$category = D('Item')->field('distinct t_item.categoryId, ctg.categoryName, count(*) as count')
+								 ->join('t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type = 2')
+								 ->group('t_item.categoryId')
+								 ->order('categoryId desc')
+								 ->select();
+			return $category;
+		}
+		
+		public function getAgeListForShoes(){
+			$itemSize = C('ITEMSIZE');
+			$ageDescriptionArray = array();
+			foreach($itemSize as $key=>$value){
+				$tmpArray = array('code'=>$key, 'name'=>$value[0]);
+				array_push($ageDescriptionArray, $tmpArray);
+			}
+			return $ageDescriptionArray;
+		}
+		
 		public function getBrandNameListByGrade($grade, $gender){
 			$map['grade'] = array('in', $grade);
 			if($gender != ''){
@@ -53,6 +82,7 @@
 			->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type !='2'")->select();
 			return $data;
 		}
+		
 		
 		public function getCategoryNameByGrade($grade, $gender){
 			$map['grade'] = array('in', $grade);

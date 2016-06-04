@@ -117,6 +117,9 @@ class BaseController extends Controller {
 			$this->assign($key.'MenuCategory', $itemLogic->getCategoryNameByGrade($value[0], $value[1]));
 			$this->assign($key.'MenuAge', $itemLogic->getAgeListByGrade($value[0], $value[1]));
 		}
+		$this->assign('shoesMenuBrand', $itemLogic->getBrandForShoes());
+		$this->assign('shoesMenuCategory', $itemLogic->getCategoryForShoes());
+		$this->assign('shoesMenuAge', $itemLogic->getAgeListForShoes());
 	}
 	
 	protected function prepareBoutiqueMenu(){
