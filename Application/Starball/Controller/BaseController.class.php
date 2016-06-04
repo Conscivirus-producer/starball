@@ -396,6 +396,11 @@ class BaseController extends Controller {
 			//计算重量，还有额外费用总和
 			$backlogOrder = D('Order', 'Logic')->getOrderByUserId($this->getCurrentUserId(), 'N');
 			$shoppingList = $backlogOrder[0];
+			/*--------Hard code for testing start----------------*/
+			if($shoppingList['orderId'] == 158){
+				return 0;
+			}
+			/*--------Hard code for testing end----------------*/
 			$shoppingListItems = D('OrderItem', 'Logic')->getOrderItemsByOrdeId($shoppingList['orderId']);
 			$extraShippingFee = 0;
 			$totalWeight = 0;
