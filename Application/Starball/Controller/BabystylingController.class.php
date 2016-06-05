@@ -16,7 +16,7 @@ class BabystylingController extends BaseController {
 		$this->commonProcess();
 		$blogLogic = D("Blog", "Logic");
 		$map["status"] = array('EQ', '1');
-		$contentList = D("Blog")->where($map)->select();
+		$contentList = D("Blog")->where($map)->order('lastUpdatedDt desc')->select();
 		for ($i=0; $i < count($contentList); $i++) { 
 			 $contentList[$i]["blogContent"] = htmlspecialchars_decode($contentList[$i]["content"]);
 			 preg_match("/((http|https):\/\/)+(\w+\.)+(\w+)[\w\/\.\-]*(jpg|gif|png)/", $contentList[$i]["blogContent"], $contentList[$i]["imgSrc"]);  
