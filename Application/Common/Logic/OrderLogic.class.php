@@ -138,7 +138,10 @@
 			}
 			$userInfo["email"] = $data["email"];
 			$userInfo["userName"] = $data["userName"];
-			return (sendMailNewVersion($data, "delivered", $userInfo) !== false);
+			$mailContent = $this->getOrderInformationByOrderNumber($orderInformation['orderNumber']);
+			$mailContent['expressName'] = $data["expressName"];
+			$mailContent['expressNumber'] = $data["expressNumber"];
+			return (sendMailNewVersion($mailContent, "delivered", $userInfo) !== false);
 		}
 
 		public function confirmReceive($orderId) {

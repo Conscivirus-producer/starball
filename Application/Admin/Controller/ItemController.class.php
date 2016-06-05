@@ -428,6 +428,7 @@ class ItemController extends Controller {
 		$itemId = I('itemId');
 		$itemSubscription = D('ItemSubscription', 'Logic');
 		$subscriptionList = $itemSubscription->queryByItemId($itemId);
+		$item = D('Item', 'Logic')->findById($itemId);
 		$userInfo['userName'] = '顾客';
 		$sentSbuscriptions = array();
 		foreach($subscriptionList as $subscription){
@@ -436,11 +437,12 @@ class ItemController extends Controller {
 				continue;
 			}
 			$userInfo['email'] = $subscription['email'];
-			if(sendMailNewVersion($mailContent, "itemSubscription", $userInfo)){
+			if(sendMailNewVersion($item, "itemSubscription", $userInfo)){
 				array_push($sentSbuscriptions, $subscription['subscriptionId']);
 			}
 		}
 		if(!empty($sentSbuscriptions)){
+			logInfo('fk222');
 			$itemSubscription->batchUpdateStatus($sentSbuscriptions);
 			$res['status'] = '1';
 		}
