@@ -1191,3 +1191,22 @@ span.value-total-price{
     text-transform: uppercase;
     float: right;
 }
+a.wechat{
+	width:10%;	
+}
+div.wechat {
+	display:none !important;
+ position: absolute;
+ top: 25%;
+ left: 35%;
+ width: 258px;
+ background: #ececec;
+ z-index:1002;
+ overflow: auto;
+ height:258px;
+margin-top: 1840px;
+margin-left: 450px;
+}
+div.wechat img:hover{
+	cursor: pointer;
+}
