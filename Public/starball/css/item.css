@@ -16,19 +16,34 @@ div.subscription-head{
 .subscription-highlight{
 	color: #cc4c4b !important;
 }
-.white_content {
+div.white_content {
  display: none;
  position: absolute;
  background-size:100%;
  top: 25%;
  left: 35%;
- width: 60%;
- height:60%;
- padding: 6px 16px;
+ width: 900px;
+ height:900px;
  z-index:1002;
  overflow: auto;
  margin-left:-200px;
  margin-top:-200px;
+}
+div.white_content img{
+	cursor: pointer;
+}
+div.white_contentsm {
+ display: none;
+ position: absolute;
+ background-size:100%;
+ top: 25%;
+ left: 35%;
+ width: 450px;
+ height:450px;
+ z-index:1002;
+ overflow: auto;
+ margin-left:-180px;
+ margin-top:200px;
 }
 .black_overlay {
  display: none;

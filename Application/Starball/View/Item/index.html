@@ -85,7 +85,12 @@
 						  </volist>
 						</select>
 					</div>
-					<div class="am-g yu-sizetext-styler"><a href="javascript:void(0);" onclick="$('#light2').show();$('#fade').show();">{$Think.lang.size}：</a></div>
+					<div class="am-g yu-sizetext-styler am-show-md-up">
+						<a href="javascript:void(0);" onclick="$('#light2').show();$('#fade').show();">{$Think.lang.size}：</a>
+					</div>
+					<div class="am-g yu-sizetext-styler am-show-sm-only">
+						<a href="javascript:void(0);" onclick="$('#lightsm').show();$('#fade').show();">{$Think.lang.size}：</a>
+					</div>
 					<div class="am-g" id="subscription">
 						<div class="subscription-block">
                                 <div class="subscription-head">
@@ -103,14 +108,6 @@
 					</div>
 					<div class="am-g">
 						<hr data-am-widget="divider" style="margin-bottom: 5px;margin-top:10px;" class="am-divider am-divider-default" />
-        					<div class="am-u-sm-2" style="margin-left:38px;"><a href="javascript:void(0);" style="margin-bottom: 5px;color:#000000" class="am-icon-twitter"></a></div>	
-        					<div class="am-u-sm-2"><a href="javascript:void(0);" style="color:#000000;" class="am-icon-facebook"></a></div>	
-        					<div class="am-u-sm-2"><a href="javascript:void(0);" style="color:#000000;" class="am-icon-weibo"></a></div>	
-        					<div class="am-u-sm-2"><a href="javascript:void(0);" style="color:#000000;" class="am-icon-wechat"></a></div>
-        					<div class="am-u-sm-2"><a href="javascript:void(0);" style="color:#000000;" class="am-icon-instagram"></a></div>
-						<hr data-am-widget="divider" style="margin-bottom:0;" class="am-divider am-divider-default" />
-					</div>
-					<div class="am-g">
 						<section data-am-widget="accordion" class="am-accordion am-accordion-gapped" style="margin:0" data-am-accordion='{ "multiple": true }'>
 							<dl class="am-accordion-item yu-accordion-item">
 								<dt class="am-accordion-title yu-accordion-title">
@@ -163,9 +160,16 @@
 		</div>
 	</div>
 	<div id="result"></div>
-	<div id="light2" class="white_content" style="background: url('{$data.sizeDescription}');">
+	<div id="light2" class="white_content">
+		<img class="" src="{$data.sizeDescription}" onclick="$(this).parent().hide();$('#fade').hide();">
 		<div style="position:absolute;top:0;right:0;">
-			<a href="#" style="color:black;" onclick="$(this).parent().parent().hide();$('#light2').hide();$('#fade').hide();" class="am-icon-sm am-icon-close"></a>
+			<a href="javascript:void(0)" style="color:black;" onclick="$(this).parent().parent().hide();$('#fade').hide();" class="am-icon-sm am-icon-close"></a>
+		</div>
+	</div>
+	<div id="lightsm" class="white_contentsm">
+		<img class="" src="{$data.sizeDescription}?imageView2/1/w/450/h/450/q/100" onclick="$(this).parent().hide();$('#fade').hide();">
+		<div style="position:absolute;top:0;right:0;">
+			<a href="javascript:void(0)" style="color:black;" onclick="$(this).parent().parent().hide();$('#fade').hide();" class="am-icon-sm am-icon-close"></a>
 		</div>
 	</div>
 	<div id="fade" class="black_overlay"></div>

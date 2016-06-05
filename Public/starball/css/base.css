@@ -1195,7 +1195,7 @@ a.wechat{
 	width:10%;	
 }
 div.wechat {
-	display:none !important;
+ display:none;
  position: absolute;
  top: 25%;
  left: 35%;
