@@ -280,7 +280,14 @@ class BaseController extends Controller {
 		session('starballkids_userId', $userId);
 		session('starballkids_userName', I('userName'));
 		session('starballkids_email', I('email'));
-		$this->redirect('Home/index');
+		//注册成功后把当前session的购物车加到用户下面
+		$this->appendSessionShoppingListToUser();
+		//从哪里跳到登录页面，跳回去
+		if(session('fromAction') != ''){
+			$actionArray = C('FROM_ACTION');
+			$actionDetail = $actionArray[session('fromAction')];
+			$this->redirect($actionDetail['url'], $actionDetail['params']);
+		}
 	}
 	
 	public function logout(){
@@ -435,7 +442,7 @@ class BaseController extends Controller {
 	
 	public function loginFromSocialMedia($type = null){
     	if(C('IS_DEV') == 'true'){
-			$weiboId = "1747985920";
+			$weiboId = "123456";
 			$user_info['type'] = 'SINA';
 			$user_info['name'] = 'super001';
 			$user_info['nick'] = '老王';
@@ -497,11 +504,7 @@ class BaseController extends Controller {
 			$user = D('User', 'Logic')->getUserInformationByUserId($existingUser['userId']);
 			$userName = '';
 			//如果还没有设置用户名,就用社交媒体的用户名
-			if($user['userName'] != ''){
-				$userName = $user['userName'];
-			}else{
-				$userName = $existingUser['name'];
-			}
+			$userName = $user['userName'] != '' ? $user['userName'] : $existingUser['name'];
 			session('starballkids_userName', $userName);
 			session('starballkids_email', $user['email']);
 		}
@@ -512,7 +515,7 @@ class BaseController extends Controller {
 		//并且把当前session的购物车加到用户下面
 		$this->appendSessionShoppingListToUser();
 		
-		if($existingUser == '' || $existingUser['userName'] == ''){
+		if($user == '' || $user['userName'] == ''){
 			//如果用户还没有绑定现有帐号
 			$this->redirect('User/index');
 		}

@@ -6,7 +6,7 @@
 		
 		protected $_validate = array(
 	        array('userName', 'require', '用户名不能为空！'), //默认情况下用正则进行验证
-	        array('userName', '/^[a-zA-z][a-zA-Z0-9_]{2,9}$/', '用户名不符合格式', 0),
+	        array('userName', '/^[a-zA-z][a-zA-Z0-9_]{2,20}$/', '用户名必须为3到20位的英文和数字以及下划线的组合', 0),
 	        array('userName', '', '该用户名已被注册！', 0, 'unique', 1), // 在新增的时候验证name字段是否唯一
 	        array('email', 'require', '邮箱不能为空！'), 
 			array('email', 'email', '邮箱格式不正确'), // 内置正则验证邮箱格式
