@@ -83,6 +83,7 @@ class ItemController extends BaseController {
 			$this->prepareShoppingList();
 			$vo['html'] = $this->prepareNewShoppingListHtml();
 			$vo['htmlsm'] = $this->prepareNewShoppingListHtmlsm();
+			$vo['totalCount'] = $this->get('shoppingListCount');
 			$vo['message'] = '添加成功';
 			$vo['status'] = 1;
 		}else{
@@ -151,7 +152,7 @@ class ItemController extends BaseController {
 						" </span> </span> </span> </span> </a></li>";
 		}
 		$tab = $tab."<li style='margin:0;'><div id='' class='yu-total-price-panier'><span class=''>".L('totalAmount')."： </span><span class='am-sans-serif value-total-price' >".$this->get('priceSymbol')."&nbsp; ".$shoppingList['totalAmount']."</span></div></li>";
-		$tab = $tab."<li class='am-divider'></li><button type='button' id='myShoppingCart' class='am-btn am-btn-default yu-button-333 yu-check-button-adjustor'>查看我的购物袋</button>";
+		$tab = $tab."<li class='am-divider'></li><button type='button' id='myShoppingCart' class='am-btn am-btn-default yu-button-333 yu-check-button-adjustor'>".L('Cmybag')."</button>";
 		return $tab;
 	}
 	
@@ -289,27 +290,75 @@ class ItemController extends BaseController {
 		if(!$this->isLogin()){
 			$this->addFavoriteListToSession();
 		}else{
-			
+			$this->addFavoriteListToUser();
 		}
-		$data = array(
-		    'data'=>'吃饼饼',
-		    'message'=>'处理成功',
-		);
-		$vo = $data;
+		$this->prepareFavoriteList();
+		$vo['html'] = $this->prepareNewFavoriteItemHtml();
 		$vo['status'] = 1;
 		$this->ajaxReturn($vo, "json");
+	}
+	
+	private function prepareNewFavoriteItemHtml(){
+		$favoriteList = $this->get('favoriteList');
+		$tab = "<div class='scroll-item-list'><strong>".L('recentShoppingList')."</strong></div>";
+		$tab = $tab."<li class='am-divider'></li>";
+		$i = 0;
+		foreach($favoriteList as $record){
+			if($i > 2){
+				break;
+			}
+			$i++;
+			$url = U('Starball/Item/index','itemId='.$record['itemId']);
+			$tab = $tab."<li><a href='".$url."' class='item-panier'> <img alt='".$record['itemName']."' src='".$record['itemImage']."?imageView2/1/w/100/h/100/q/100' class='item-photo-adjustor'> 
+						<span class='content-item-panier'> <span class='title-item-panier'>".$record['brandName']."</span> <span class='subtitle-item-panier'>".$record['itemName']."</span> 
+						</span></a></li>";
+		}
+		$tab = $tab."<li class='am-divider'></li><button type='button' id='myFavoriteItem' class='am-btn am-btn-default yu-check-button-adjustor'>".L('Cmyfavorites')."</button>";
+		return $tab;
+	}
+	
+	private function addFavoriteListToUser(){
+		$itemData['itemId'] = I('itemId');
+		$itemData['itemName'] = I('itemName');
+		$itemData['brandName'] = I('brandName');
+		$itemData['itemImage'] = I('itemImage');
+		$itemData['itemColor'] = I('itemColor');
+		$itemData['price'] = I('currentPrice');
+		$itemData['userId'] = $this->getCurrentUserId();
+		D('FavoriteItem', 'Logic')->addFavorite($itemData);
 	}
 
 	private function addFavoriteListToSession(){
 		$itemId = I('itemId');
 		if(session('favoriteList') == ''){
-			session('favoriteList',array($itemId));
+			$favoriteList = array();
+			array_push($favoriteList, $this->getSingleRecordForFavoriteInSession());
+			session('favoriteList',$favoriteList);
 		}else{
-			$itemList = session('favoriteList');
-			if(!in_array($itemId, $itemList)){
-				array_push($itemList, $itemId);
-				session('favoriteList',$itemList);
+			$favoriteList = session('favoriteList');
+			$i = 0;
+			foreach($favoriteList as $record){
+				if($record['itemId'] == $itemId){
+					//已经存在
+					$record['updatedDate'] = date("Y-m-d H:i:s" ,time());
+					$favoriteList[$i] = $record;
+					session('favoriteList',array_customized_sort($favoriteList, 'updatedDate',SORT_DESC, SORT_STRING));
+					return;
+				}
+				$i++;
 			}
+			array_push($favoriteList, $this->getSingleRecordForFavoriteInSession());
+			session('favoriteList',array_customized_sort($favoriteList, 'updatedDate',SORT_DESC, SORT_STRING));
 		}
 	}	
+	
+	private function getSingleRecordForFavoriteInSession(){
+		return array('itemId'=>I('itemId'), 
+					'brandName'=>I('brandName'),
+					'itemName'=>I('itemName'),  
+					'itemImage'=>I('itemImage'), 
+					'itemColor'=>I('itemColor'), 
+					'price'=>I('currentPrice'),
+					'updatedDate'=>date("Y-m-d H:i:s" ,time()));
+	}
 }

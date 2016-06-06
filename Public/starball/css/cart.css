@@ -114,3 +114,11 @@ button.payfinish{
 button.payproblem{
 	margin-left: 10px;
 }
+div.favorite{
+	display: block; 
+	height:150px; 
+	position:relative;
+}
+div.favorite:hover{
+	cursor: pointer;	
+}

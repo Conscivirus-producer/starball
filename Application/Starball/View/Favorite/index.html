@@ -1,0 +1,63 @@
+<extend name="Public/base" />
+<block name="title">
+    <title>{$Think.lang.myfavorite}</title>
+</block>
+<block name="customizedCss">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/starball/css/cart.css">
+</block>
+<block name="main">
+    <div class="yu-cart-content am-kai am-show-md-up">
+    	<eq name="favoriteListCount" value="0">
+			<div class="empty-cart">
+				<div class='big-info-picto'></div></br>
+				{$Think.lang.nothinginfavorite}</br>
+				<button onclick="window.location.href='{:U('Home/index')}'" style="width: 108px; height: 40px;margin:10px; background-color:black; color: white;border: 0;">{$Think.lang.continueshopping}</button>
+			</div>
+		<else/>
+        <h3 style="margin-top:3%;">{$Think.lang.myfavorite}</h3>
+        <volist name="favoriteList" id="vo">
+	        <div class="favorite" onclick="window.location.href='{:U('Starball/Item/index', array('itemId'=>$vo['itemId']))}'">
+	            <img alt="{$vo.itemName}" src="{$vo.itemImage}?imageView2/1/w/150/h/150/q/100" class="yu-favorite-photo">
+	            <span class="yu-favorite-item-panier"> <span class="title-item-panier" style="font-size:16px;">{$vo.brandName}</span> 
+	            <span class="cart-sub-item-panier">{$vo.itemName}</span>
+	            <span class="cart-sub-item-panier" style="padding-bottom: 1%;">{$vo.itemColor}</span>
+	                    </span>
+	            <div class="am-sans-serif yu-item-price">
+	                <span> Ұ&nbsp;{$vo.price} </span>
+	            </div>
+	            <div style="position:absolute;top:0;right:0;">
+	                <a style="color:black;" href="{:U('Favorite/removeFavorite', array('itemId'=>$vo['itemId']))}" class="am-icon-close"></a>
+	            </div>
+		        <hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-layout">
+	        </div>
+        </volist>
+        </eq>
+    </div>
+    <div class="yu-cart-content am-kai am-show-sm-only">
+    	<eq name="favoriteListCount" value="0">
+			<div class="empty-cart">
+				<div class='big-info-picto'></div></br>
+				{$Think.lang.nothinginfavorite}</br>
+				<button onclick="window.location.href='{:U('Home/index')}'" style="width: 108px; height: 40px;margin:10px; background-color:black; color: white;border: 0;">{$Think.lang.continueshopping}</button>
+			</div>
+		<else/>
+        <p style="margin-top:3%;">{$Think.lang.myfavorite}</p>
+        <volist name="favoriteList" id="vo">
+	        <div class="favorite" onclick="window.location.href='{:U('Starball/Item/index', array('itemId'=>$vo['itemId']))}'">
+	            <img alt="{$vo.itemName}" src="{$vo.itemImage}?imageView2/1/w/150/h/150/q/100" class="yu-favorite-photo-sm">
+	            <span class="am-text-center yu-favorite-item-panier-sm"> <span class="title-item-panier" style="font-size:16px;">{$vo.brandName}</span> 
+	            <span class="cart-sub-item-panier">{$vo.itemName}</span>
+	            <span class="cart-sub-item-panier" style="padding-bottom: 1%;">{$vo.itemColor}</span>
+	            <div class="am-sans-serif am-text-center" style="margin-bottom: 6%;margin-top:9%;">
+	                <span> Ұ&nbsp;{$vo.price} </span>
+	            </div>
+	                    </span>
+	            <div style="position:absolute;top:0;right:0;">
+	                <a style="color:black;" href="{:U('Favorite/removeFavorite', array('itemId'=>$vo['itemId']))}" class="am-icon-close am-icon-sm"></a>
+	            </div>
+	        </div>
+	        <hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-layout">
+        </volist>
+       </eq>
+    </div>
+</block>

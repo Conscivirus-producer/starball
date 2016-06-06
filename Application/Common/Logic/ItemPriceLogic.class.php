@@ -20,7 +20,19 @@
 			}
 			return $data;
 		}
-
+		
+		public function getDefaultPrice($itemId, $currency){
+			$map['itemId'] = $itemId;
+			$map['currency'] = $currency;
+			$result = $this->where($map)->order('price asc')->select();
+			$defaultPrice = $result[0]['price'];
+			$itemData = D('Item', 'Logic')->findById($itemId);
+			$discount = $itemData['discount'];
+			if($discount != 100){
+				return round($defaultPrice * $discount/100, 1);
+			}
+			return $defaultPrice;
+		}
 
 		// related with inventory ID
 		public function insertItemPrices($itemId, $inventoryId, $priceArray) {

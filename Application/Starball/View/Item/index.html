@@ -104,7 +104,7 @@
 					</div>
 					<div class="am-g">
 						<button id="addToShoppingList" type="button" class="am-btn am-btn-primary am-btn-block yu-product-buy" onclick="addToShoppingList()">{$Think.lang.addToShoppingList}</button>
-						<button type="button" class="am-btn am-btn-default am-btn-block yu-product-favorite" >{$Think.lang.addToFavoriteList}</button>
+						<button type="button" class="am-btn am-btn-default am-btn-block yu-product-favorite" onclick="addToFavoriteList()">{$Think.lang.addToFavoriteList}</button>
 					</div>
 					<div class="am-g">
 						<hr data-am-widget="divider" style="margin-bottom: 5px;margin-top:10px;" class="am-divider am-divider-default" />
@@ -181,6 +181,7 @@
 	$("div.yu-sub-menu-list").addClass("am-u-md-5 am-margin-0 am-padding-0");
 	$("div.yu-sub-menu-selected").removeClass("am-u-md-10 am-u-md-offset-1");
 	$("div.yu-sub-menu-selected").addClass("am-u-md-12");
+	
 	changePrice($('#itemSize').val());
 	
 		$(document).ready(function($){
@@ -230,6 +231,7 @@
 		    	if(data.status == 1){
 					if($("#myShoppingListLnk").css('display') != 'none'){
 						//if is md-up screen
+						$('#shoppingListCount').html(data.totalCount);
 			    		$('#ulMyShoppingList').html(data.html);
 						$("#myShoppingCart").click(function(){
 							window.location.href="{:U('Starball/Cart/index')}";
@@ -240,6 +242,7 @@
 					    }, 2000);
 					}
 					if($("#goToShoppingList").css('display') != 'none'){
+						$('#shoppingListCountsm').html(data.totalCount);
 						$('#ulMyShoppingListsm').html(data.htmlsm);
 						$("#myShoppingCartsm").click(function(){
 							window.location.href="{:U('Starball/Cart/index')}";
@@ -254,11 +257,21 @@
 		}
 		
 		function addToFavoriteList(){
-		    /*$.post('__URL__/addToFavoriteList',{'itemId':$('#itemId').val(), 'itemSize':$('#itemSize').val()},function(data){
+		    $.post('__URL__/addToFavoriteList',{'itemId':$('#itemId').val(), 
+		    									'currentPrice':$('#currentPrice')[0].innerHTML,
+		    									'itemImage':$('#itemImage').val(), 
+		    									'brandName':$('#brandName')[0].innerText, 
+		    									'itemName':$('#itemName')[0].innerText,
+		    									'itemColor':$('#itemColor')[0].innerText},function(data){
 		    	if(data.status == 1){
 		    		alert("添加成功");
+		    		$('#ulMyFavoriteItem').html(data.html);
+						$("#myFavoriteItem").click(function(){
+							window.location.href="{:U('Starball/Favorite/index')}";
+						});
+		    		$('#myFavoriteLnk').click();
 		    	}
-		    },'json');*/
+		    },'json');
 		}
 	</script>
 </block>

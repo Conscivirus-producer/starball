@@ -15,7 +15,8 @@
 		}
 		
 		public function getOrderItemsByOrdeId($orderId){
-			$map['orderId'] = $orderId;
+			$map['orderId'] = array('eq',$orderId);
+			$map['quantity'] = array('neq','0');
 			return $this->where($map)->order('updatedDate desc')->select();
 		}
 		

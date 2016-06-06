@@ -27,7 +27,7 @@ class BaseController extends Controller {
 			$giftPackageFee = $supportingData->getValueByKey('GIFT_PACKAGE_PRICE_'.$this->getCurrency());
 			session('giftPackageFee', $giftPackageFee);
 			$this->assign('giftPackageFee', $this->getGiftPackageFee());
-			$this->updateShoppingListByCurrency();
+			$this->updateShoppingFavoriteListByCurrency();
 		}
 		$this->assign('preferred_currency', cookie('preferred_currency'));
 		//把currency列表放在页面上
@@ -45,16 +45,40 @@ class BaseController extends Controller {
 		$this->assign('giftPackageFee', $this->getGiftPackageFee());
 	}
 	
-	private function updateShoppingListByCurrency(){
+	private function updateShoppingFavoriteListByCurrency(){
 		if(!$this->isLogin()){
 			$this->updateSessionShoppingListByCurrency();
+			$this->updateSessionFavoriteByCurrency();
 		}else{
 			$this->updateUserShoppingListByCurrency();
+			$this->updateUserFavoriteByCurrency();
 		}
+	}
+	
+	private function updateSessionFavoriteByCurrency(){
+		$favoriteList = session('favoriteList');
+		if($favoriteList == ''){
+			return;
+		}
+		$i = 0;
+		foreach($favoriteList as $record){
+			$defaultPrice = D('ItemPrice', 'Logic')->getDefaultPrice($record['itemId'], $this->getCurrency());
+			logInfo('$defaultPrice:'.$defaultPrice);
+			$record['price'] = $defaultPrice;
+			$favoriteList[$i] = $record;
+		}
+		session('favoriteList', $favoriteList);
+	}
+	
+	private function updateUserFavoriteByCurrency(){
+		
 	}
 	
 	private function updateSessionShoppingListByCurrency(){
 		$shoppingList = session('shoppingList');
+		if($shoppingList == ''){
+			return;
+		}
 		$shoppingListItems = session('shoppingListItems');
 		$newTotalPrice = 0;
 		$i = 0;
@@ -126,6 +150,31 @@ class BaseController extends Controller {
 		$map["t_hotitem.type"] = array("EQ", "S");
 		$boutiqueList = D("Hotitem")->where($map)->limit(3)->select();
 		$this->assign("boutiqueMenu", $boutiqueList);
+	}
+	
+	private function appendSessionToUser(){
+		$this->appendSessionShoppingListToUser();
+		$this->appendSessionFavoriteToUser();
+	}
+	
+	private function appendSessionFavoriteToUser(){
+		$favoriteList = session('favoriteList');
+		if($favoriteList == ''){
+			return;
+		}
+		$userFavoriteList = D('FavoriteItem', 'Logic')->getFavoriteList($this->getCurrentUserId());
+		$itemIdArray = array();
+		foreach($userFavoriteList as $record){
+			array_push($itemIdArray, $record['itemId']);
+		}
+		foreach($favoriteList as $record){
+			if(in_array($record['itemId'], $itemIdArray)){
+				continue;
+			}
+			$record['userId'] = $this->getCurrentUserId();
+			$record['createdDate'] = $record['updatedDate'];
+			D('FavoriteItem', 'Logic')->add($record);
+		}
 	}
 	
 	private function appendSessionShoppingListToUser(){
@@ -220,7 +269,6 @@ class BaseController extends Controller {
 				$shoppingListItems = session('shoppingListItems');
 				$this->assign('shoppingList', $shoppingList);
 				$this->assign('shoppingListItems', $shoppingListItems);
-				$this->assign('shoppingListItemsCount', count($shoppingListItems));
 			}else{
 				$this->assign('shoppingListCount', 0);
 			}
@@ -235,13 +283,23 @@ class BaseController extends Controller {
 				$this->assign('shoppingList', $shoppingList);
 				$shoppingListItems = $orderItemLogic->getOrderItemsByOrdeId($shoppingList['orderId']);
 				$this->assign('shoppingListItems', $shoppingListItems);
-				$this->assign('shoppingListItemsCount', count($shoppingListItems));
 			}else{
 				$this->assign('shoppingListCount', 0);
 			}
 		}
 		$currencyArray = C('CURRENCY');
 		$this->assign('priceSymbol', $currencyArray[$this->getCurrency()]);
+	}
+
+	protected function prepareFavoriteList(){
+		if(!$this->isLogin()){
+			$favoriteList = session('favoriteList');
+		}else{
+			$userId = $this->getCurrentUserId();
+			$favoriteList = D('FavoriteItem', 'Logic')->getFavoriteList($userId);
+		}
+		$this->assign('favoriteList', $favoriteList);
+		$this->assign('favoriteListCount', count($favoriteList));
 	}
 	
 	protected function commonProcess(){
@@ -265,6 +323,7 @@ class BaseController extends Controller {
 		$this->prepareUserMenu();
 		$this->prepareBoutiqueMenu();
 		$this->prepareShoppingList();
+		$this->prepareFavoriteList();
 	}
 	
 	//abstract protected function pageDisplay();	
@@ -281,7 +340,7 @@ class BaseController extends Controller {
 		session('starballkids_userName', I('userName'));
 		session('starballkids_email', I('email'));
 		//注册成功后把当前session的购物车加到用户下面
-		$this->appendSessionShoppingListToUser();
+		$this->appendSessionToUser();
 		//从哪里跳到登录页面，跳回去
 		if(session('fromAction') != ''){
 			$actionArray = C('FROM_ACTION');
@@ -321,7 +380,7 @@ class BaseController extends Controller {
 			$this->updateUserShoppingListByCurrency();
 			
 			//并且把当前session的购物车加到用户下面
-			$this->appendSessionShoppingListToUser();
+			$this->appendSessionToUser();
 			//$this->assign('userName', $result['userName']);
 		} else{
 			$this->error("用户名密码不正确");
@@ -513,7 +572,7 @@ class BaseController extends Controller {
 		$this->updateUserShoppingListByCurrency();
 		
 		//并且把当前session的购物车加到用户下面
-		$this->appendSessionShoppingListToUser();
+		$this->appendSessionToUser();
 		
 		if($user == '' || $user['userName'] == ''){
 			//如果用户还没有绑定现有帐号
