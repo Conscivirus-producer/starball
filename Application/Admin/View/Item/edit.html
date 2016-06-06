@@ -533,6 +533,9 @@
             if (productType == "2" && ($(".shoeSize").val().trim() == "")) {
                 return false;
             }
+            if (productType == "2" && validateShoeSizeValue($(".shoeSize").val()) == false) {
+                return false;
+            }
         }
         return true;
     }
@@ -705,8 +708,24 @@
 	    	}
 	    },'json');
     }
-    function checkUsers(){
-    	
+    function validateShoeSizeValue(sizeValue) {
+        if (sizeValue.indexOf("-") != -1) {
+            var valueArray = sizeValue.split("-");
+            if (valueArray[0].indexOf(" ") != -1 || valueArray[1].indexOf(" ") != -1) {
+                return false;
+            }
+            if ($.isNumeric(valueArray[0]) == false || $.isNumeric(valueArray[1]) == false) {
+                return false;
+            }
+        } else {
+            if (sizeValue.indexOf(" ") != -1) {
+                return false;
+            }
+            if ($.isNumeric(sizeValue) == false) {
+                return false;
+            }
+        }
+        return true;
     }
 </script>
 </body>

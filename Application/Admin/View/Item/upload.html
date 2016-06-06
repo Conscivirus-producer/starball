@@ -494,6 +494,7 @@
         count = 1;
         $(".am-divider.am-divider-default.inventory-line").remove();
         $(".am-form-group.inventory-setting-group").remove();
+        $("#item-images").val("");
     }
 
 
@@ -650,6 +651,12 @@
             if (productType == "2" && ($(".shoeSize").val().trim() == "")) {
                 return false;
             }
+            if (productType == "2" && validateShoeSizeValue($(".shoeSize").val()) == false) {
+                return false;
+            }
+
+            // shoe size must be number 17 or 17-18 17—
+
         }
         return true;
     }
@@ -658,6 +665,26 @@
 	    $.post('{:U("Item/changeCategory")}',{'categoryId':categoryId},function(data){
     		$('#item-weight').val(data.itemWeight);
 	    },'json');
+    }
+
+    function validateShoeSizeValue(sizeValue) {
+        if (sizeValue.indexOf("-") != -1) {
+            var valueArray = sizeValue.split("-");
+            if (valueArray[0].indexOf(" ") != -1 || valueArray[1].indexOf(" ") != -1) {
+                return false;
+            }
+            if ($.isNumeric(valueArray[0]) == false || $.isNumeric(valueArray[1]) == false) {
+                return false;
+            }
+        } else {
+            if (sizeValue.indexOf(" ") != -1) {
+                return false;
+            }
+            if ($.isNumeric(sizeValue) == false) {
+                return false;
+            }
+        }
+        return true;
     }
 
 </script>
