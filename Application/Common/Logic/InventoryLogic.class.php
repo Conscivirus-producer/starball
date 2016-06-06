@@ -84,14 +84,14 @@
 			return true;
 		}
 		
-		public function getFootSizeListForShoes($ageFilter = '', $itemId = ''){
+		public function getFootSizeListForShoes($ageFilter = '', $itemIdArray = array()){
 			if($ageFilter != ''){
 				$map['footSize'] = array('like', '%'.$ageFilter.'%');
 			}else{
 				$map['footSize'] = array('neq', '');
 			}
-			if($itemId != ''){
-				$map['itemId'] = $itemId;
+			if(!empty($itemIdArray)){
+				$map['itemId'] = array('in', $itemIdArray);
 			}
 			$result = $this->field('distinct footSize')->where($map)->select();
 			$sizeArray = array();

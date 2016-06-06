@@ -136,9 +136,6 @@ class ListController extends BaseController {
 			$ageMap["t_inventory.itemId"] = array('EQ', $itemList[$i]["itemId"]); 
 			$itemList[$i]["ageList"] = D('Inventory')->field('distinct t_inventory.age')->where($ageMap)->select();
 			$itemList[$i]["ageList"] = expodeAndDistinctAgeArray($itemList[$i]["ageList"]);
-			/*for ($j=0; $j < count($itemList[$i]["ageList"]); $j++) { 
-				$itemList[$i]["ageList"][$j]["age"] = getSizeDescriptionByAge($itemList[$i]["ageList"][$j]["age"]);
-			}*/
 		}
 		
 		
@@ -387,7 +384,7 @@ class ListController extends BaseController {
 
 		//age list for each item
 		for ($i=0; $i < count($itemList); $i++) {
-			$itemList[$i]["ageList"] = D('Inventory', 'Logic')->getFootSizeListForShoes('', $itemList[$i]["itemId"]);
+			$itemList[$i]["ageList"] = D('Inventory', 'Logic')->getFootSizeListForShoes('', array($itemList[$i]["itemId"]));
 		}
 		
 		$Page = new \Think\Page($count,18);
@@ -432,10 +429,14 @@ class ListController extends BaseController {
 		}else{
 			$color = D('Item')->field('distinct t_item.color')->where($map)->join('t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type = 2')->select();
 		}
+		$itemIds = array();
+		foreach($itemList as $item){
+			array_push($itemIds, $item['itemId']);
+		}
 		if(in_array("ages", $filterArray)){
-			$age = D('Inventory', 'Logic')->getFootSizeListForShoes($ageFilter);
+			$age = D('Inventory', 'Logic')->getFootSizeListForShoes('', $itemIds);
 		}else{
-			$age = D('Inventory', 'Logic')->getFootSizeListForShoes();
+			$age = D('Inventory', 'Logic')->getFootSizeListForShoes('', $itemIds);
 		}
 		if(in_array("seasons", $filterArray)){
 			$season = D('Item')->field('distinct t_item.season')->where($map)->join('t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type = 2')->select();
