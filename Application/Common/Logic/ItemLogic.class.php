@@ -62,16 +62,6 @@
 			return $category;
 		}
 		
-		public function getAgeListForShoes(){
-			$itemSize = C('ITEMSIZE');
-			$ageDescriptionArray = array();
-			foreach($itemSize as $key=>$value){
-				$tmpArray = array('code'=>$key, 'name'=>$value[0]);
-				array_push($ageDescriptionArray, $tmpArray);
-			}
-			return $ageDescriptionArray;
-		}
-		
 		public function getBrandNameListByGrade($grade, $gender){
 			$map['grade'] = array('in', $grade);
 			if($gender != ''){

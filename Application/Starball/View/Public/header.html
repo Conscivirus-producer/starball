@@ -522,7 +522,7 @@
                                 <ul class="am-menu-sub am-collapse  am-avg-sm-2 am-text-xs" style="display: block">
                                     <volist name="shoesMenuAge" id="vo">
                                         <li class="">
-                                            <a href="{:U('Starball/List/shoes',array('by'=>'shoes', 'byValue'=>'shoes', 'ages'=>$vo['code']))}" class="" >{$vo.name}</a>
+                                            <a href="{:U('Starball/List/shoes',array('by'=>'shoes', 'byValue'=>'shoes', 'ages'=>$vo))}" class="" >{$vo}{$Think.lang.footsizeunit}</a>
                                         </li>
                                     </volist>
                                 </ul>

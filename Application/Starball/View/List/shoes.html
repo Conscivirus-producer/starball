@@ -30,7 +30,7 @@
                                 <div class="am-accordion-content">
                                     <volist name="brand" id="data">
                                         <label class="am-radio am-secondary">
-                                            <input class="brand {$data.brandId} filter" type="checkbox" value="{$data.brandId}" data-yu-val="{$data.brandName}" data-am-ucheck />
+                                            <input class="brand {$data.brandId} filter" type="radio" name="radio1" value="{$data.brandId}" data-yu-val="{$data.brandName}" data-am-ucheck />
                                             {$data.brandName}
                                         </label>
                                     </volist>
@@ -47,7 +47,7 @@
                                 <div class="am-accordion-content">
                                     <volist name="gender" id="gdata">
                                         <label class="am-radio am-secondary">
-                                            <input class="gender {$gdata.gender} filter" type="checkbox"  value="{$gdata.gender}" data-yu-val="{$gdata.genderName}" data-am-ucheck>
+                                            <input class="gender {$gdata.gender} filter" type="radio" name="radio1"  value="{$gdata.gender}" data-yu-val="{$gdata.genderName}" data-am-ucheck>
                                             {$gdata.genderName}
                                         </label>
                                     </volist>
@@ -64,8 +64,8 @@
                                 <div class="am-accordion-content">
                                     <volist name="age" id="adata">
                                         <label class="am-radio am-secondary">
-                                            <input class="age {$adata.age} filter" type="checkbox" value="{$adata.age}" data-yu-val="{$adata.ageName}" data-am-ucheck />
-                                            {$adata.ageName}
+                                            <input class="age {$adata} filter" type="radio" name="radio1" value="{$adata}" data-yu-val="{$adata}" data-am-ucheck />
+                                            {$adata}{$Think.lang.footsizeunit}
                                         </label>
                                     </volist>
                                 </div>
@@ -80,7 +80,7 @@
                             <div class="am-accordion-content">
                                 <volist name="color" id="cdata">
                                     <label class="am-radio am-secondary">
-                                        <input class="color {$cdata.color} filter" type="checkbox" value="{$cdata.color}" data-yu-val="{$cdata.color}" data-am-ucheck />
+                                        <input class="color {$cdata.color} filter" type="radio" name="radio1" value="{$cdata.color}" data-yu-val="{$cdata.color}" data-am-ucheck />
                                         {$cdata.color}
                                     </label>
                                 </volist>
@@ -95,7 +95,7 @@
                             <div class="am-accordion-content">
                                 <volist name="season" id="sdata">
                                     <label class="am-radio am-secondary">
-                                        <input class="season {$sdata.season} filter" type="checkbox" value="{$sdata.season}" data-yu-val="{$sdata.season}" data-am-ucheck />
+                                        <input class="season {$sdata.season} filter" type="radio" name="radio1" value="{$sdata.season}" data-yu-val="{$sdata.season}" data-am-ucheck />
                                         {$sdata.season}
                                     </label>
                                 </volist>
@@ -110,7 +110,7 @@
                             <div class="am-accordion-content">
                                 <volist name="category" id="data">
                                     <label class="am-radio am-secondary">
-                                        <input class="category {$data.categoryId} filter" type="checkbox" value="{$data.categoryId}" data-yu-val="{$data.categoryName}" data-am-ucheck />
+                                        <input class="category {$data.categoryId} filter" type="radio" name="radio1" value="{$data.categoryId}" data-yu-val="{$data.categoryName}" data-am-ucheck />
                                         {$data.categoryName}({$data.count})
                                         <!-- <if condition="count($data['subCategories'])!=0">
                                             <ul>
@@ -145,9 +145,9 @@
 						</a>
 						
 						<a href="{:U('Starball/Item/index','itemId='.$vo['itemId'])}">
-							<span  class="yu-age-list"   style="position: absolute;top: 30%; left: 50%; background-color: rgb(248, 248, 248); font-size: 14px; min-width: 150px;display: none">
-								<volist name="vo['ageList']" id="ageList">
-									<span style="display: inline-block; padding: 5px; border-bottom: 1px solid #CECECE; color: black">{$ageList.footSize}码</span>
+							<span  class="yu-age-list"   style="position: absolute;top: 30%; left: 50%; background-color: rgb(248, 248, 248); font-size: 14px; min-width: 50px;display: none">
+								<volist name="vo['ageList']" id="age">
+									<span style="display: inline-block; padding: 5px; border-bottom: 1px solid #CECECE; color: black">{$age}码</span>
 								</volist>
 							</span>
 						</a>

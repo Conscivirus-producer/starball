@@ -143,7 +143,7 @@ class BaseController extends Controller {
 		}
 		$this->assign('shoesMenuBrand', $itemLogic->getBrandForShoes());
 		$this->assign('shoesMenuCategory', $itemLogic->getCategoryForShoes());
-		$this->assign('shoesMenuAge', $itemLogic->getAgeListForShoes());
+		$this->assign('shoesMenuAge', D('Inventory', 'Logic')->getFootSizeListForShoes());
 	}
 	
 	protected function prepareBoutiqueMenu(){

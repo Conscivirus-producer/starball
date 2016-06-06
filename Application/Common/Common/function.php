@@ -153,7 +153,8 @@ function expodeAndDistinctAgeArray($ages){
 	$ageArray = array();
 	foreach($ages as $ageSection){
 		//age是有区间的,拆分age,然后把值distinct出来
-		$ageSectionArray = array_splice(explode(',', $ageSection['age']),0,-1);
+		$tmpArray = explode(',', $ageSection['age']);
+		$ageSectionArray = array_splice($tmpArray,0,-1);
 		foreach($ageSectionArray as $age){
 			if($age != '' && !in_array($age, $ageArray)){
 				array_push($ageArray, $age);

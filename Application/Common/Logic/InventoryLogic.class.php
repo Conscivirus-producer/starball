@@ -83,6 +83,29 @@
 			}
 			return true;
 		}
+		
+		public function getFootSizeListForShoes($ageFilter = '', $itemId = ''){
+			if($ageFilter != ''){
+				$map['footSize'] = array('like', '%'.$ageFilter.'%');
+			}else{
+				$map['footSize'] = array('neq', '');
+			}
+			if($itemId != ''){
+				$map['itemId'] = $itemId;
+			}
+			$result = $this->field('distinct footSize')->where($map)->select();
+			$sizeArray = array();
+			foreach($result as $footSize){
+				$tmpArray = explode('-',$footSize['footSize']);
+				foreach($tmpArray as $number){
+					if(!in_array($number, $sizeArray)){
+						array_push($sizeArray, $number);
+					}
+				} 
+			}
+			sort($sizeArray);
+			return $sizeArray;
+		}
 
 		public function deleteInventoriesByItemId($itemId){
 			$map["itemId"] = $itemId;

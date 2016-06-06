@@ -27,6 +27,7 @@
 		public function removeFavorite($userId, $itemId){
 			$map['userId'] = $userId;
 			$map['itemId'] = $itemId;
+			$map['status'] = '1';
 			
 			$data['status'] = '0';
 			$data['updatedDate'] = date('y-m-d h:i:s',time());

@@ -224,7 +224,6 @@ class ListController extends BaseController {
 		$this->assign('age', $age);
 		$this->assign('season', $season);
 		//age list
-		$this->assign('ageList', $ageList);
 		//show item list page
 		$this->display('index');
 	}
@@ -268,8 +267,6 @@ class ListController extends BaseController {
 		//pageing
 		$this->assign('page', $show);
 		$this->assign('itemList',$itemList);
-		//age list
-		$this->assign('ageList', $ageList);
 		//show item list page
 		$this->display('accessory');
 	}
@@ -354,7 +351,7 @@ class ListController extends BaseController {
 							 ->where($map)
 							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
-							 ->join("t_inventory inv ON inv.itemId = t_item.itemId and inv.footSize ='".$ageFilter."'")
+							 ->join("t_inventory inv ON inv.itemId = t_item.itemId and inv.footSize like '%".$ageFilter."%'")
 							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type ='2'")
 							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
 							 ->page($p.',18')
@@ -363,7 +360,7 @@ class ListController extends BaseController {
 							 ->where($map)
 							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
-							 ->join("t_inventory inv ON inv.itemId = t_item.itemId and inv.footSize ='".$ageFilter."'")
+							 ->join("t_inventory inv ON inv.itemId = t_item.itemId and inv.footSize like '%".$ageFilter."%'")
 							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type ='2'")
 							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
 							 ->count('distinct t_item.itemId');
@@ -390,8 +387,7 @@ class ListController extends BaseController {
 
 		//age list for each item
 		for ($i=0; $i < count($itemList); $i++) {
-			$ageMap["t_inventory.itemId"] = array('EQ', $itemList[$i]["itemId"]); 
-			$itemList[$i]["ageList"] = D('Inventory')->field('distinct t_inventory.footSize')->where($ageMap)->select();
+			$itemList[$i]["ageList"] = D('Inventory', 'Logic')->getFootSizeListForShoes('', $itemList[$i]["itemId"]);
 		}
 		
 		$Page = new \Think\Page($count,18);
@@ -437,25 +433,9 @@ class ListController extends BaseController {
 			$color = D('Item')->field('distinct t_item.color')->where($map)->join('t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type = 2')->select();
 		}
 		if(in_array("ages", $filterArray)){
-			$age = D('Item')->field('distinct inv.footSize')
-							->where($map)
-							->join("t_inventory inv ON inv.itemId = t_item.itemId and inv.footSize ='".$ageFilter."'")
-							->join('t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type = 2')
-							->select();
-			for ($i=0; $i < count($age); $i++) {
-				$age[$i]["ageName"] = $age[$i]["footSize"]."码";
-				$age[$i]["age"] = $age[$i]["footSize"];
-			}
+			$age = D('Inventory', 'Logic')->getFootSizeListForShoes($ageFilter);
 		}else{
-			$age = D('Item')->field('distinct inv.footSize')
-							->where($map)
-							->join('t_inventory inv ON inv.itemId = t_item.itemId')
-							->join('t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type = 2')
-							->select();
-			for ($i=0; $i < count($age); $i++) {
-				$age[$i]["ageName"] = $age[$i]["footSize"]."码";
-				$age[$i]["age"] = $age[$i]["footSize"];
-			}
+			$age = D('Inventory', 'Logic')->getFootSizeListForShoes();
 		}
 		if(in_array("seasons", $filterArray)){
 			$season = D('Item')->field('distinct t_item.season')->where($map)->join('t_category ctg ON ctg.categoryId = t_item.categoryId and ctg.type = 2')->select();
@@ -480,8 +460,6 @@ class ListController extends BaseController {
 		$this->assign('color', $color);
 		$this->assign('age', $age);
 		$this->assign('season', $season);
-		//age list
-		$this->assign('ageList', $ageList);
 		//show item list page
 		$this->display('shoes');
 	}
