@@ -307,16 +307,12 @@ li.yu-text-alicen{
 	text-align: center;
 	}
 p.yu-thumbnail-subtitle{
+	font-size: 16px;
 	margin-top:0;line-height:1.0;
 	}
-p.yu-thumbnail-subtitle-font{
-	font-size:1.9vw;
-	}
 p.yu-thumbnail-title{
+	font-size: 24px;
 	margin-bottom:0;
-	}
-p.yu-thumbnail-title-font{
-	font-size:1.3vw;
 	}
 header{
 	margin-bottom: 0.5rem !important;
