@@ -35,6 +35,11 @@ class PaymentController extends BaseController {
 		$this->assign('codeUrl', $result->code_url);
 		$this->display();
 	}
+	
+	public function wxjsapi(){
+		$this->commonProcess();
+		$this->display();
+	}
 
 	private function payCommonProcess(){
 		$orderNumber = I('orderNumber');
