@@ -67,6 +67,7 @@ class CartController extends BaseController {
 			$data['userId'] = $this->getCurrentUserId();
 			$orderUpdate['shippingAddress'] = $shipppingAddress->add($data);
 			$orderUpdate['shippingFee'] = $this->calculateShippingFee($order['totalAmount']);
+			$orderUpdate['totalFee'] = $order['totalAmount'] + $order['giftPackageFee'] + $orderUpdate['shippingFee'];
 			$orderLogic->updateOrder($orderUpdate, $order['orderId']);
 			$this->redirect('Cart/delivery');
 		}
