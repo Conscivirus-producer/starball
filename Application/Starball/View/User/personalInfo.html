@@ -6,7 +6,11 @@
                                     {$Think.lang.personalinfo}
                                 </p>
                                 <p class="am-text-xs">
-                                    {$Think.lang.personalinfoChange}
+                                	<if condition="$userData['userName'] neq ''">
+                                    	{$Think.lang.personalinfoChange}
+                                	<else/>
+                                		{$Think.lang.socialMediaLoginUsrMsg1}<a href="{:U('Starball/Home/index')}">{$Think.lang.socialMediaLoginUsrMsg2}</a>{$Think.lang.socialMediaLoginUsrMsg3}
+                                	</if>
                                 </p>
                                 <form class="am-form" role="form" method="post" style="margin-bottom: 63px;">
                                 	<if condition="$userData['userName'] eq ''">
@@ -123,7 +127,11 @@
                                     {$Think.lang.personalinfo}
                                 </p>
                                 <p class="am-text-xs">
-                                    {$Think.lang.personalinfoChange}
+                                	<if condition="$userData['userName'] neq ''">
+                                    	{$Think.lang.personalinfoChange}
+                                	<else/>
+                                		{$Think.lang.socialMediaLoginUsrMsg1}<a href="{:U('Starball/Home/index')}">{$Think.lang.socialMediaLoginUsrMsg2}</a>{$Think.lang.socialMediaLoginUsrMsg3}
+                                	</if>
                                 </p>
                                <form class="am-form" role="form" method="post" style="margin-bottom: 63px;">
                                 	<if condition="$userData['userName'] eq ''">

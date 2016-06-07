@@ -501,7 +501,7 @@ class BaseController extends Controller {
 	
 	public function loginFromSocialMedia($type = null){
     	if(C('IS_DEV') == 'true'){
-			$weiboId = "123451113";
+			$weiboId = "123451114";
 			$user_info['type'] = 'SINA';
 			$user_info['name'] = 'super002';
 			$user_info['nick'] = '老王';
