@@ -230,6 +230,7 @@ return array(
     'passwordChanged'=>'密码修改成功',
     'setupNewPwd'=>'设置新密码',
     'changePwd'=>'更改密码',
+    'existingPwdEmpty'=>'当前密码为空',
     'newPwdFormatError'=>'新密码格式不正确,必须为6位到22位数字和字母的组合,支持@*#,请重新输入',
     'userNameEmpty'=>'用户名不能为空',
     'emailEmpty'=>'邮箱不能为空',
@@ -241,4 +242,7 @@ return array(
     'personalinfo'=>'我的个人信息',
     'personalinfoChange'=>'如果您的个人信息发生改变，请随时进行更新。',
     'pickitem'=>'选货',
+    'emailNotExist'=>'邮箱不存在',
+    'newUserSetupSuccess'=>'新用户设置成功',
+    'bindUserSuccess'=>'用户绑定成功'
 );

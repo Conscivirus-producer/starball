@@ -264,4 +264,7 @@ return array(
     'personalinfo'=>'我的個人信息',
     'personalinfoChange'=>'如果您的個人信息發生改變，請隨時進行更新。',
     'pickitem'=>'選貨',
+    'emailNotExist'=>'郵箱不存在',
+    'newUserSetupSuccess'=>'新用戶設置成功',
+    'bindUserSuccess'=>'用戶綁定成功'
 );

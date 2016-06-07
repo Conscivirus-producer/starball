@@ -38,6 +38,7 @@
 <block name="customizedJavascript">
 	<script>
 		$("#"+$("#tab").val()).click();
+		var userType = $("input[name='userType']").val();
 		if($('#message').val() != ''){
 			alert($('#message').val());
 		}

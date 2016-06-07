@@ -13,6 +13,10 @@ class UserSocialMediaLogic extends UserSocialMediaModel{
 		return $this->where($map)->find();
 	}
 	
+	public function updateByOpenId($data, $openid){
+		$map['openid'] = $openid;
+		$this->where($map)->save($data);
+	}
 }
 ?>
 	

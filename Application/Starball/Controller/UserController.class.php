@@ -10,7 +10,9 @@ class UserController extends BaseController {
 		}
 		if(IS_POST){
 			if(I('method') == 'changeUserInfo'){
-				$this->changePersonalInformation();
+				$this->changeUserInformation();
+			}else if(I('method') == 'setUpUserInfo'){
+				$this->setUpUserInfo();
 			}else if(I('method') == 'changePassword'){
 				$this->changePassword();
 			}
@@ -22,10 +24,63 @@ class UserController extends BaseController {
 		$this->display();
 	}
 	
-	private function changePersonalInformation(){
+	private function changeUserInformation(){
+		$mobile = I('mobile');
+		if(!preg_match('/^\d+$/i',$mobile)){
+			$this->assign('message', L('mobileShouldbeNumber'));
+		}else{
+			$data['mobile'] = $mobile;
+			$data['userId'] = $this->getCurrentUserId();
+			D('User', 'Logic')->updateUserInformation($data, $this->getCurrentUserId());
+			$this->assign('message', L('personalInfoChanged'));
+		}
+	}
+	
+	private function setUpUserInfo(){
+		$userType = I('userType');
+		if($userType == 'N'){
+			$this->setUpNewUser();
+		}else if($userType == 'E'){
+			$this->bindExsitingUser();
+		}
+	}
+	
+	private function bindExsitingUser(){
+		$email = I('email');
+		$password = md5(I('newPwd'));
+		$map['email'] = $email;
+		$existingUser = D('User', 'Logic')->getUserInformationByMap($map);
+		if($existingUser == false){
+			$this->assign('message', L('emailNotExist'));
+			return;
+		}else{
+			if($password != $existingUser['password']){
+				$this->assign('message', L('existingPwdIncorrect'));
+				return;
+			}
+			
+			//删除掉临时用户id
+			$tmpUserId = $this->getCurrentUserId();
+			$newMap['userId'] = $tmpUserId;
+			D('User', 'Logic')->where($newMap)->delete();
+			
+			//绑定现有用户id
+			session("starballkids_userId", $existingUser['userId']);
+			$data['userId'] = $existingUser['userId'];
+			D('UserSocialMedia', 'Logic')->updateByOpenId($data, session('starballkids_social_openid'));
+			$this->assign('message', L('bindUserSuccess'));
+		}
+	}
+
+	private function setUpNewUser(){
 		$userName = I('userName');
 		$email = I('email');
 		$mobile = I('mobile');
+		$this->assign('userName', $userName);
+		$this->assign('email', $email);
+		$this->assign('mobile', $mobile);
+		$newPwd = md5(I('newPwd'));
+		$newPwdRepeat = md5(I('newPwdRepeat'));
 		$emailRegex = '/^[a-z0-9!#$%&\'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+\/=?^_`{|}~-]+)*@(?:[-_a-z0-9][-_a-z0-9]*\.)*(?:[a-z0-9][-a-z0-9]{0,62})\.(?:(?:[a-z]{2}\.)?[a-z]{2,})$/i';
 		if($userName == ''){
 			$this->assign('message', L('userNameEmpty'));
@@ -35,19 +90,28 @@ class UserController extends BaseController {
 			$this->assign('message', L('emailFormatError'));
 		}else if(!preg_match('/^\d+$/i',$mobile)){
 			$this->assign('message', L('mobileShouldbeNumber'));
+		}else if(!preg_match('/^([a-zA-Z0-9@*#]{6,22})$/',I('newPwd'))){
+			$this->assign('message', L('newPwdFormatError'));
+		}else if($newPwd != $newPwdRepeat){
+			$this->assign('message', L('newPwdDifferentWithRepeat'));
 		}else{
 			$data['userName'] = $userName;
 			$data['email'] = $email;
 			$data['mobile'] = $mobile;
+			$data['password'] = $newPwd;
 			$data['userId'] = $this->getCurrentUserId();
 			//D('User')->save($data);
 			D('User', 'Logic')->updateUserInformation($data, $this->getCurrentUserId());
 			session('starballkids_userName', $userName);
-			$this->assign('message', L('personalInfoChanged'));
+			$this->assign('message', L('newUserSetupSuccess'));
 		}
 	}
 
 	private function changePassword(){
+		if(I('currentPwd') == ''){
+			$this->assign('message', L('existingPwdEmpty'));
+			return;
+		}
 		if(!preg_match('/^([a-zA-Z0-9@*#]{6,22})$/',I('newPwd'))){
 			$this->assign('message', L('newPwdFormatError'));
 		}else{
@@ -60,8 +124,6 @@ class UserController extends BaseController {
 				$this->assign('message', L('existingPwdIncorrect'));
 			}else if($user['password'] != '' && $currentPwd == $newPwd){
 				$this->assign('message', L('newPwdSameWithExisting'));
-			}else if($newPwd == md5('')){
-				$this->assign('message', L('newPwdShouldNotBeEmpty'));
 			}else if($newPwd != $newPwdRepeat){
 				$this->assign('message', L('newPwdDifferentWithRepeat'));
 			}else{

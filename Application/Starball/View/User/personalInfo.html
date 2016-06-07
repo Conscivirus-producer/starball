@@ -9,21 +9,72 @@
                                     {$Think.lang.personalinfoChange}
                                 </p>
                                 <form class="am-form" role="form" method="post" style="margin-bottom: 63px;">
-                                	<input type="hidden" name="method" value="changeUserInfo">
-                                    <input type="text" name="userName" class="am-form-field am-text-xs yu-account-input" placeholder="昵称*" value="{$userData.userName}">
+                                	<if condition="$userData['userName'] eq ''">
+										<div class="am-form-group">
+										  <label class="am-radio-inline">
+										    <input type="radio" name="userType" value="N" checked onchange="$('.newAccount').show()"> 设置新帐号
+										  </label>
+										  <label class="am-radio-inline">
+										    <input type="radio" name="userType" value="E" onchange="$('.newAccount').hide()"> 绑定现有帐号
+										  </label>
+										</div>
+                                	</if>
+                                    <input type="text" name="userName" <if condition="$userData['userName'] neq ''">disabled="disabled"</if> 
+                                    class="am-form-field am-text-xs yu-account-input newAccount" placeholder="{$Think.lang.nickname}*" 
+                                    value=<if condition="$userData['userName'] neq ''">"{$userData.userName}"<else/>{$userName}</if>>
+                                    
                                     <input type="text" name="email" <if condition="$userData['email'] neq ''">disabled="disabled"</if> 
-                                    class="am-form-field am-text-xs yu-account-input" placeholder="电子邮箱*" value="{$userData.email}">
-                                    <input type="tel" name="mobile" class="am-form-field am-text-xs yu-account-input" placeholder="联络号码" value="{$userData.mobile}">
+                                    class="am-form-field am-text-xs yu-account-input" placeholder="{$Think.lang.email}*" 
+                                    value=<if condition="$userData['email'] neq ''">"{$userData.email}"<else/>{$email}</if>>
+                                    
+                                    <input type="tel" name="mobile" class="am-form-field am-text-xs yu-account-input newAccount" placeholder="{$Think.lang.contactnumber}" 
+                                    value=<if condition="$userData['mobile'] neq ''">"{$userData.mobile}"<else/>{$mobile}</if>>
+                                    
+                                    <if condition="$userData['password'] eq ''">
+	                                    <input type="password" name="newPwd" class="am-form-field am-text-xs yu-account-input" placeholder="输入密码* （至少5个字符）">
+	                                    <input type="password" name="newPwdRepeat" class="am-form-field am-text-xs yu-account-input newAccount" placeholder="确认您的密码*">
+                                    </if>
                                     <p>
-                                        <button type="submit" class="am-btn am-btn-default yu-black-button">
-                                            {$Think.lang.submit}
-                                        </button>
+                                    	<if condition="$userData['userName'] eq ''">
+                                    		<input type="hidden" name="method" value="setUpUserInfo">
+	                                        <button type="submit" class="am-btn am-btn-default yu-black-button">
+	                                            {$Think.lang.submit}
+	                                        </button>
+                                      	</if>
+                                    	<if condition="$userData['userName'] neq ''">
+                                    		<input type="hidden" name="method" value="changeUserInfo">
+	                                        <button type="submit" class="am-btn am-btn-default yu-black-button">
+	                                            {$Think.lang.submit}
+	                                        </button>
+                                      	</if>                                      
                                     </p>
                                 </form>
                             </div>
+                        	<!-- Password changing -->
+	                        <if condition="$userData['password'] neq ''">
+	                            <div class="yu-account-block">
+	                                <p class="yu-account-title">
+	                                    {$Think.lang.changePwd}
+	                                </p>
+	                                <form class="am-form" role="form" method="post">
+	                                	<input type="hidden" name="method" value="changePassword">
+	                                    <input type="password" name="currentPwd" class="am-form-field am-text-xs yu-account-input" placeholder="当前密码*">
+	                                    <input type="password" name="newPwd" class="am-form-field am-text-xs yu-account-input" placeholder="输入密码* （至少5个字符）">
+	                                    <input type="password" name="newPwdRepeat" class="am-form-field am-text-xs yu-account-input" placeholder="确认您的密码*">
+	                                <p>
+	                                    <button type="submit" class="am-btn am-btn-default yu-black-button">
+	                                        {$Think.lang.submit}
+	                                    </button>
+	                                </p>
+	                                </form>
+	                            </div>
+	                        </if>
+                        </div>
+                        <div class="am-u-md-6 yu-account-rightside am-kai">
+                           <!-- My address -->
                             <div class="yu-account-block">
                                 <p class="yu-account-title">
-                                    {$myaddress}
+                                    {$Think.lang.myaddress}
                                 </p>
                                 <p class="am-text-xs">
                                     {$Think.lang.addressmsg1}
@@ -53,48 +104,11 @@
 	                                </section>
                                 </volist>
                             </div>
-                        </div>
-                        <!-- Password changing -->
-                        <div class="am-u-md-6 yu-account-rightside am-kai">
-	                        <if condition="$userData['password'] eq ''">
-	                            <div class="yu-account-block">
-	                                <p class="yu-account-title">
-	                                    {$Think.lang.setupNewPwd}
-	                                </p>
-	                                <form class="am-form" role="form" method="post">
-	                                	<input type="hidden" name="method" value="changePassword">
-	                                    <input type="password" name="newPwd" class="am-form-field am-text-xs yu-account-input" placeholder="输入密码* （至少5个字符）">
-	                                    <input type="password" name="newPwdRepeat" class="am-form-field am-text-xs yu-account-input" placeholder="确认您的密码*">
-	                                <p>
-	                                    <button type="submit" class="am-btn am-btn-default yu-black-button">
-	                                        {$Think.lang.submit}
-	                                    </button>
-	                                </p>
-	                                </form>
-	                            </div>
-	                    	<else/>
-	                            <div class="yu-account-block">
-	                                <p class="yu-account-title">
-	                                    {$Think.lang.changePwd}
-	                                </p>
-	                                <form class="am-form" role="form" method="post">
-	                                	<input type="hidden" name="method" value="changePassword">
-	                                    <input type="password" name="currentPwd" class="am-form-field am-text-xs yu-account-input" placeholder="当前密码*">
-	                                    <input type="password" name="newPwd" class="am-form-field am-text-xs yu-account-input" placeholder="输入密码* （至少5个字符）">
-	                                    <input type="password" name="newPwdRepeat" class="am-form-field am-text-xs yu-account-input" placeholder="确认您的密码*">
-	                                <p>
-	                                    <button type="submit" class="am-btn am-btn-default yu-black-button">
-	                                        {$Think.lang.submit}
-	                                    </button>
-	                                </p>
-	                                </form>
-	                            </div>
-	                        </if>
                             <div class="yu-account-block">
                                 <p class="yu-account-title">
                                     {$Think.lang.myfavorite}
                                 </p>
-                                <button type="button" class="am-btn am-btn-default yu-black-button">
+                                <button type="button" class="am-btn am-btn-default yu-black-button" onclick="window.location.href='{:U('Starball/Favorite/index')}'">
                                     {$Think.lang.Cmyfavorites}
                                 </button>
                             </div>
@@ -111,18 +125,69 @@
                                 <p class="am-text-xs">
                                     {$Think.lang.personalinfoChange}
                                 </p>
-                                <form class="am-form" role="form" style="margin-bottom: 63px;">
-                                    <input type="text" class="am-form-field am-text-xs yu-account-input" placeholder="昵称">
-                                    <input type="email" class="am-form-field am-text-xs yu-account-input" placeholder="电子邮箱*">
-                                    <input type="text" class="am-form-field am-text-xs yu-account-input" placeholder="国家">
-                                    <input type="tel" class="am-form-field am-text-xs yu-account-input" placeholder="联络号码">
+                               <form class="am-form" role="form" method="post" style="margin-bottom: 63px;">
+                                	<if condition="$userData['userName'] eq ''">
+										<div class="am-form-group">
+										  <label class="am-radio-inline">
+										    <input type="radio" name="userType" value="N" checked onchange="$('.newAccount').show()"> 设置新帐号
+										  </label>
+										  <label class="am-radio-inline">
+										    <input type="radio" name="userType" value="E" onchange="$('.newAccount').hide()"> 绑定现有帐号
+										  </label>
+										</div>
+                                	</if>
+                                    <input type="text" name="userName" <if condition="$userData['userName'] neq ''">disabled="disabled"</if> 
+                                    class="am-form-field am-text-xs yu-account-input newAccount" placeholder="{$Think.lang.nickname}*" 
+                                    value=<if condition="$userData['userName'] neq ''">"{$userData.userName}"<else/>{$userName}</if>>
+                                    
+                                    <input type="text" name="email" <if condition="$userData['email'] neq ''">disabled="disabled"</if> 
+                                    class="am-form-field am-text-xs yu-account-input" placeholder="{$Think.lang.email}*" 
+                                    value=<if condition="$userData['email'] neq ''">"{$userData.email}"<else/>{$email}</if>>
+                                    
+                                    <input type="tel" name="mobile" class="am-form-field am-text-xs yu-account-input newAccount" placeholder="{$Think.lang.contactnumber}" 
+                                    value=<if condition="$userData['mobile'] neq ''">"{$userData.mobile}"<else/>{$mobile}</if>>
+                                    
+                                    <if condition="$userData['password'] eq ''">
+	                                    <input type="password" name="newPwd" class="am-form-field am-text-xs yu-account-input" placeholder="输入密码* （至少5个字符）">
+	                                    <input type="password" name="newPwdRepeat" class="am-form-field am-text-xs yu-account-input newAccount" placeholder="确认您的密码*">
+                                    </if>
                                     <p>
-                                        <button type="submit" class="am-btn am-btn-default yu-black-button">
-                                            {$Think.lang.submit}
-                                        </button>
+                                    	<if condition="$userData['userName'] eq ''">
+                                    		<input type="hidden" name="method" value="setUpUserInfo">
+	                                        <button type="submit" class="am-btn am-btn-default yu-black-button">
+	                                            {$Think.lang.submit}
+	                                        </button>
+                                      	</if>
+                                    	<if condition="$userData['userName'] neq ''">
+                                    		<input type="hidden" name="method" value="changeUserInfo">
+	                                        <button type="submit" class="am-btn am-btn-default yu-black-button">
+	                                            {$Think.lang.submit}
+	                                        </button>
+                                      	</if>                                      
                                     </p>
                                 </form>
                             </div>
+                        </div>
+                    	<!-- Password changing -->
+                        <div class="am-u-sm-12 am-kai">
+                        	<if condition="$userData['password'] neq ''">
+	                            <div class="yu-account-block-sm">
+	                                <p class="yu-account-title">
+	                                    {$Think.lang.changePwd}
+	                                </p>
+	                                <form class="am-form" role="form" method="post">
+	                                	<input type="hidden" name="method" value="changePassword">
+	                                    <input type="password" name="currentPwd" class="am-form-field am-text-xs yu-account-input" placeholder="当前密码*">
+	                                    <input type="password" name="newPwd" class="am-form-field am-text-xs yu-account-input" placeholder="输入密码* （至少5个字符）">
+	                                    <input type="password" name="newPwdRepeat" class="am-form-field am-text-xs yu-account-input" placeholder="确认您的密码*">
+	                                <p style="margin-bottom: 30px">
+	                                    <button type="submit" class="am-btn am-btn-default yu-black-button">
+	                                        {$Think.lang.submit}
+	                                    </button>
+	                                </p>
+	                                </form>
+	                            </div>
+                           </if>
                         </div>
                         <!-- my address -->
                         <div class="am-u-sm-12 am-kai">
@@ -160,35 +225,13 @@
                                 </volist>
                             </div>
                         </div>
-                        <!-- Password changing -->
-                        <div class="am-u-sm-12 am-kai">
-                            <div class="yu-account-block-sm">
-                                <p class="yu-account-title">
-                                    {$Think.lang.changePwd}
-                                </p>
-                                <form class="am-form" role="form">
-                                    <input type="password" class="am-form-field am-text-xs yu-account-input" placeholder="当前密码*">
-                                </form>
-                                <form class="am-form" role="form">
-                                    <input type="password" class="am-form-field am-text-xs yu-account-input" placeholder="输入密码* （至少5个字符）">
-                                </form>
-                                <form class="am-form" role="form">
-                                    <input type="password" class="am-form-field am-text-xs yu-account-input" placeholder="确认您的密码*">
-                                </form>
-                                <p style="margin-top:10px;">
-                                    <button type="submit" class="am-btn am-btn-default yu-black-button">
-                                        {$Think.lang.submit}
-                                    </button>
-                                </p>
-                            </div>
-                        </div>
                         <!-- my favorite -->
                         <div class="am-u-sm-12 am-kai">
                             <div class="yu-account-block-sm" style="padding-bottom: 45px;">
                                 <p class="yu-account-title">
                                     {$Think.lang.myfavorite}
                                 </p>
-                                <button type="button" class="am-btn am-btn-default yu-black-button">
+                                <button type="button" class="am-btn am-btn-default yu-black-button" onclick="window.location.href='{:U('Starball/Favorite/index')}'">
                                     {$Think.lang.Cmyfavorites}
                                 </button>
                             </div>

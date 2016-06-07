@@ -501,9 +501,9 @@ class BaseController extends Controller {
 	
 	public function loginFromSocialMedia($type = null){
     	if(C('IS_DEV') == 'true'){
-			$weiboId = "123456";
+			$weiboId = "123451113";
 			$user_info['type'] = 'SINA';
-			$user_info['name'] = 'super001';
+			$user_info['name'] = 'super002';
 			$user_info['nick'] = '老王';
 			$user_info['head'] = 'http://tva2.sinaimg.cn/crop.0.0.180.180.180/68302600jw1e8qgp5bmzyj2050050aa8.jpg';
 			$this->checkExistingUserInformation($weiboId, $user_info);
@@ -567,7 +567,7 @@ class BaseController extends Controller {
 			session('starballkids_userName', $userName);
 			session('starballkids_email', $user['email']);
 		}
-		
+		session('starballkids_social_openid', $openid);
 		//登录之后自动根据当前汇率重新计算用户订单的总额
 		$this->updateUserShoppingListByCurrency();
 		
