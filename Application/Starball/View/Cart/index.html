@@ -104,7 +104,6 @@
 			alert("商品库存不足");
 		}
 		$(".cart-step1").addClass("step-on");
-		$("#cartlnk1").attr('href', "{:U('Starball/Cart/index')}");
 		$(".submit").click(function(){
 			window.location.href="{:U('Starball/Cart/delivery')}?isGiftPackage="+$('#gift-card')[0].checked+"&addtionalGreetings="+$('#addtionalGreetings').val();
 		});

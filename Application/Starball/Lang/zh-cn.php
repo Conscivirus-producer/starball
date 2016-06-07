@@ -239,5 +239,6 @@ return array(
     'addressmsg1'=>'您可以在提交订单时添加多个送货地址（家庭住址和工作地址等）。请标注不同的名称，以便在您下订单时快速查找。',
     'addressmsg2'=>'您可以在下面删除您所添加的地址。',
     'personalinfo'=>'我的个人信息',
-    'personalinfoChange'=>'如果您的个人信息发生改变，请随时进行更新。'
+    'personalinfoChange'=>'如果您的个人信息发生改变，请随时进行更新。',
+    'pickitem'=>'选货',
 );

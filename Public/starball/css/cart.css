@@ -122,3 +122,98 @@ div.favorite{
 div.favorite:hover{
 	cursor: pointer;	
 }
+div.cart-step1{
+	border-bottom: 1px solid #CECECE;
+	border-right: 1px solid #CECECE;
+}
+div.cart-step2{
+	border-bottom: 1px solid #CECECE;
+	border-right: 1px solid #CECECE;
+}
+div.cart-step3{
+	border-bottom: 1px solid #CECECE;
+	border-right: 1px solid #CECECE;
+}
+div.cart-step4{
+	border-bottom: 1px solid #CECECE;
+}
+
+span.step-basic{
+	display: inline-block;
+	margin-right: 10px;
+    width: 32px;
+    height: 32px;
+    line-height: 27px;
+    font-size: 16px;
+    -ms-border-radius: 500px;
+    -o-border-radius: 500px;
+    -moz-border-radius: 500px;
+    -webkit-border-radius: 500px;
+    border-radius: 500px;
+    text-align: center;
+}
+span.step-basic-sm{
+	display: inline-block;
+	margin-right: 10px;
+    width: 20px;
+    height: 20px;
+    line-height: 18px;
+    font-size: 10px;
+    -ms-border-radius: 500px;
+    -o-border-radius: 500px;
+    -moz-border-radius: 500px;
+    -webkit-border-radius: 500px;
+    border-radius: 500px;
+    text-align: center;
+}
+span.step-num{
+    color: #cecece;
+    border: 1px solid;
+}
+span.step-num-done{
+    background: url('http://7xr7p7.com1.z0.glb.clouddn.com/step-check.png') no-repeat center center;
+    background-size: 32px;
+    margin-bottom: -11px;
+}
+span.step-num-done-sm{
+    background: url('http://7xr7p7.com1.z0.glb.clouddn.com/step-check.png') no-repeat center center;
+    background-size: 20px;
+    margin-bottom: -7px;
+}
+span.step-name{
+	font-size: 14px;
+}
+span.step-name{
+	color: #CECECE;
+}
+div.cart-items{
+	margin-top: 10px;
+}
+div.step-on a span{
+	color: black;
+}
+
+a.cart-item-panier{
+	height:140px;
+	width:100%!important;
+	padding-left:10px!important;
+	padding-right:0!important;
+	padding-top:10px!important;
+	padding-bottom:10px!important;
+}
+img.cart-item-photo-adjustor{
+	height:120px;
+	width:120px;
+	display:block;
+	float:left;
+}
+span.cart-sub-item-panier{
+	display:block;
+    overflow: hidden;
+	text-overflow: ellipsis;    
+	white-space: nowrap;
+	padding-right: 0px;
+    margin-top: 4px;
+    font-size:12px;
+    color: black;
+}

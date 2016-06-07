@@ -73,8 +73,14 @@
 <block name="customizedJavascript">
 	<script type="text/javascript">
 		$(".cart-step2").addClass("step-on");
-		$("#cartlnk1").attr('href', "{:U('Starball/Cart/index')}");
-		$("#cartlnk2").attr('href', "{:U('Starball/Cart/delivery')}");
+		$(".a-cart-step1").attr('href', "{:U('Starball/Cart/index')}");
+		$(".step-name-1").attr("style","color:#54db8a;");
+		$('.step-num-1').addClass('step-num-done');
+		$('.step-num-1').removeClass('step-num');
+		$('.step-num-1').html('');		
+		$('.step-num-sm-1').addClass('step-num-done-sm');
+		$('.step-num-sm-1').removeClass('step-num');
+		$('.step-num-sm-1').html('');
 		function changeAddress(addressId){
 			$.post('__URL__/changeAddress',{'addressId':addressId},function(data){
 		    	if(data.status == 1){

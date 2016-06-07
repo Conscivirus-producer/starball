@@ -262,5 +262,6 @@ return array(
     'addressmsg1'=>'您可以在提交訂單時添加多個送貨地址（家庭住址和工作地址等）。請標注不同的名稱，以便在您下訂單時快速查找。',
     'addressmsg2'=>'您可以在下面刪除您所添加的地址。',
     'personalinfo'=>'我的個人信息',
-    'personalinfoChange'=>'如果您的個人信息發生改變，請隨時進行更新。'
+    'personalinfoChange'=>'如果您的個人信息發生改變，請隨時進行更新。',
+    'pickitem'=>'選貨',
 );
