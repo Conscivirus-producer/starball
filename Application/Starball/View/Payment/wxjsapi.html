@@ -8,6 +8,12 @@
             'getBrandWCPayRequest',
             {$jsApiParam},
             function(res){
+            	//get_brand_wcpay_request:ok=>支付成功
+            	if(res.err_msg == 'get_brand_wcpay_request:ok'){
+					window.open("{:U('Payment/paysuccess', array('orderNumber'=>$orderNumber))}");
+            	}else{
+	                window.open("{:U('Payment/index', array('orderNumber'=>$orderNumber))}");
+            	}
                 WeixinJSBridge.log(res.err_msg);
 //                alert(res.err_code+res.err_desc+res.err_msg);
             }

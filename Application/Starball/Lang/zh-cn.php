@@ -247,5 +247,6 @@ return array(
     'pickitem'=>'选货',
     'emailNotExist'=>'邮箱不存在',
     'newUserSetupSuccess'=>'新用户设置成功',
-    'bindUserSuccess'=>'用户绑定成功'
+    'bindUserSuccess'=>'用户绑定成功',
+    'orderNotExist'=>'该订单不存在或已支付',
 );

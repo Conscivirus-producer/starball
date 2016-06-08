@@ -269,5 +269,6 @@ return array(
     'pickitem'=>'選貨',
     'emailNotExist'=>'郵箱不存在',
     'newUserSetupSuccess'=>'新用戶設置成功',
-    'bindUserSuccess'=>'用戶綁定成功'
+    'bindUserSuccess'=>'用戶綁定成功',
+    'orderNotExist'=>'該訂單不存在或已支付',
 );

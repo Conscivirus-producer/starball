@@ -56,6 +56,7 @@ class PaymentController extends BaseController {
 		logInfo('wechat pay end.');
 		logInfo('json_encode($jsApiParam):'.json_encode($jsApiParam));
 		$this->assign('jsApiParam', json_encode($jsApiParam));
+		$this->assign('orderNumber', I('orderNumber'));
 		$this->display();
 	}
 	
@@ -63,7 +64,7 @@ class PaymentController extends BaseController {
 		logInfo('wechat pay start.');
 		if (!isset($_GET['code'])){
 		    //触发微信返回code码
-		    $url = createOauthUrlForCode('http://'.$_SERVER['HTTP_HOST'].U('Payment/wxjsapiApi', 'orderNumber='.I('orderNumber')));
+		    $url = createOauthUrlForCode('http://'.$_SERVER['HTTP_HOST'].U('Payment/wxjsapi', 'orderNumber='.I('orderNumber')));
 		    //$jsApiParam = file_get_contents($url);
 			logInfo('wechat pay url result:'.$url);
 			$vo['status'] = 1;
@@ -84,7 +85,8 @@ class PaymentController extends BaseController {
 		$map['status'] = 'N';
 		$result = $orderLogic->queryOrder($map);
 		if(count($result) == 0){
-			echo "该订单不存在或已支付";
+			header("Content-type:text/html;charset=utf-8");
+			echo L('orderNotExist');
 			exit();
 		}
 		$order = $result[0];
