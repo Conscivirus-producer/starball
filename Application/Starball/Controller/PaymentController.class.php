@@ -28,7 +28,7 @@ class PaymentController extends BaseController {
 		$this->display();
 	}
 	
-	public function wxjsapiApi(){
+	public function wxjsapi(){
 		$vo = array();
 		$openid = "";
 		logInfo('wechat pay action from url.');
@@ -54,11 +54,12 @@ class PaymentController extends BaseController {
 		}
 		
 		logInfo('wechat pay end.');
-		$this->assign('jsApiParam', $jsApiParam);
+		logInfo('json_encode($jsApiParam):'.json_encode($jsApiParam));
+		$this->assign('jsApiParam', json_encode($jsApiParam));
 		$this->display();
 	}
 	
-	public function wxjsapi(){
+	public function wxMobile(){
 		logInfo('wechat pay start.');
 		if (!isset($_GET['code'])){
 		    //触发微信返回code码

@@ -145,9 +145,9 @@
 		function wxjsapi(){
 			$('#lightsm').show();
 			$('#fade').show();
-			$.post('{:U("Payment/wxjsapi")}', {'orderNumber':$('#orderNumber').val()}, function(data){
+			$.post('{:U("Payment/wxMobile")}', {'orderNumber':$('#orderNumber').val()}, function(data){
 				if(data.status == 1){
-					window.open(data.url);
+					window.location.href = data.url;
 				}else if(data.status == 0){
 					alert('0');
 				}	
