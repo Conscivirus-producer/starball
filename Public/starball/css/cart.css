@@ -235,3 +235,10 @@ span.cart-sub-item-panier{
     font-size:12px;
     color: black;
 }
+span.cart-item-panier{
+	display: block;
+	float: left;
+	width: 55%;
+	margin-left: 15px;
+	position: relative;
+}
