@@ -4,6 +4,16 @@ use Think\Controller;
 class BaseController extends Controller {
 	
 	protected function prepareUserSetting(){
+		//检查cookie，如果用户选择了记住我，那么自动加载用户信息
+		if(cookie('starballkids_is_login')){
+			if(cookie('starballkids_userId') != ''){
+				session('starballkids_userId', cookie('starballkids_userId'));
+			}
+			if(cookie('starballkids_userName') != ''){
+				session('starballkids_userName', cookie('starballkids_userName'));
+			}
+		}
+		
 		//如果当前用户的默认语言不在支持的语言列表里,那么设为默认语言
 		$langList = C('LANG_LIST');
 		$currencyLang = strtolower(cookie('think_language'));
@@ -351,6 +361,7 @@ class BaseController extends Controller {
 	
 	public function logout(){
 		session(null);
+		cookie('starballkids_is_login', false, C('COOKIE_DURATION'));
 		$this->redirect('Home/index');
 	}
 	
@@ -376,6 +387,16 @@ class BaseController extends Controller {
 			session('starballkids_lastLoginDate', $result['lastUpdatedDate']);
 			session('starballkids_lastLoginIp', $result['lastIp']);
 			
+			//如果选择了记住我,把用户信息存入cookie
+			if(I('rememberMe') == 'on'){
+				cookie('starballkids_is_login', true, C('COOKIE_DURATION'));
+				cookie('starballkids_userId', session('starballkids_userId'), C('COOKIE_DURATION'));
+				cookie('starballkids_userName', session('starballkids_userName'), C('COOKIE_DURATION'));
+			}else{
+				cookie('starballkids_is_login', '');
+				cookie('starballkids_userId', '');
+				cookie('starballkids_userName', '');				
+			}
 			//登录之后自动根据当前汇率重新计算用户订单的总额
 			$this->updateUserShoppingListByCurrency();
 			
@@ -602,6 +623,13 @@ class BaseController extends Controller {
 			session('starballkids_email', $user['email']);
 		}
 		session('starballkids_social_openid', $openid);
+		
+		//如果选择了记住我,把用户信息存入cookie
+		if(I('rememberMe') == 'on'){
+			cookie('starballkids_is_login', true, C('COOKIE_DURATION'));
+			cookie('starballkids_userId', session('starballkids_userId'), C('COOKIE_DURATION'));
+			cookie('starballkids_userName', session('starballkids_userName'), C('COOKIE_DURATION'));
+		}
 		//登录之后自动根据当前汇率重新计算用户订单的总额
 		$this->updateUserShoppingListByCurrency();
 		

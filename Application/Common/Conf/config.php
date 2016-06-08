@@ -5,5 +5,6 @@ return array(
 	'DEFAULT_MODULE'        =>  'Starball',  // 默认模块
 	'DISABLE_MOBILE' => 'false',
 	'WECHAT_APP_ID' => 'wx72682692b3fabfe1',
-	'WECHAT_APP_SECRET' => 'a7132811758ae8310bd81112d88750a3'
+	'WECHAT_APP_SECRET' => 'a7132811758ae8310bd81112d88750a3',
+	'COOKIE_DURATION' => 604800,//如果记住用户名,保存一周的时间
 );

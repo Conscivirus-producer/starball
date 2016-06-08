@@ -17,15 +17,18 @@ $("#registerLnk").click(function(){
 $("#myAccountLnk").click(function(){
 	restoreMyAccountEvents();
 });
-
-   $("body").click(function(e){
-     if (e.target.nodeName == 'A' || e.target.nodeName == 'BUTTON' || e.target.offsetParent.id == 'loginWindow' || e.target.offsetParent.id == 'registerWindow')
-             return;
-         else{
-             restoreMyAccountEvents();
-         }
-         
-   });
+//控制点击body的其它部分,登录框应该被隐藏
+$("body").click(function(e){
+	 if (e.target.nodeName == 'A' 
+	 || e.target.nodeName == 'BUTTON' 
+	 || e.target.offsetParent.id == 'loginWindow' 
+	 || e.target.offsetParent.id == 'registerWindow'
+	 || e.target.id == 'rememberMe'){
+	     return;
+	 }else{
+	    restoreMyAccountEvents();
+	 }
+});
 
 function restoreMyAccountEvents(){
 	$("#myAccountWindow").show();

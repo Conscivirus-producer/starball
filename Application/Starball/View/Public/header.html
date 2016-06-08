@@ -90,7 +90,7 @@
                             <form class="am-form am-form-horizontal" role="form" method="post">
                                 <input type="hidden" name="method" value="login">
                                 <div class="am-form-group yu-margin-0612" >
-                                    <input name="userName" class="yu-font-12 am-form-field yu-input-sm" placeholder="{$Think.lang.useremail}">
+                                    <input name="userName" value="<?php echo cookie('starballkids_userName');?>" class="yu-font-12 am-form-field yu-input-sm" placeholder="{$Think.lang.useremail}">
                                 </div>
 
                                 <div class="am-form-group yu-margin-0612">
@@ -100,7 +100,8 @@
                                 <a class="am-btn am-btn-link yu-forget-pwd">{$Think.lang.forgetpwd}？</a>
                                 <div class="am-checkbox yu-rm-me">
                                     <label class="yu-font-12">
-                                        <input type="checkbox"  style="margin-top:4.2px;">
+                                        <input type="checkbox" name="rememberMe" id="rememberMe" 
+                                        <if condition="cookie('starballkids_userName') != ''">checked="checked"</if> style="margin-top:4.2px;">
                                         {$Think.lang.rmbme} </label>
                                 </div>
 
@@ -139,11 +140,11 @@
                                 <div class="am-form-group yu-margin-0612">
                                     <input type="text" name="mobile" class="am-form-field yu-input-sm" placeholder="{$Think.lang.contactnumber}">
                                 </div>
-                                <div class="am-checkbox yu-checkbox-adjustor">
+                                <!--<div class="am-checkbox yu-checkbox-adjustor">
                                     <label style="font-size:12px;">
                                         <input type="checkbox" style="margin-top:4.2px;">
                                         {$Think.lang.subscribe} </label>
-                                </div>
+                                </div>-->
 
                                 <button type="submit" class="am-btn am-btn-default yu-login-button-adjustor">
                                     {$Think.lang.signupnow}
