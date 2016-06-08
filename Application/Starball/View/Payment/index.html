@@ -28,11 +28,11 @@
   					<if condition="$preferred_currency eq 'CNY'">
   						<div class="am-show-md-up">
 							<button type="button" class="am-btn am-btn-default" 
-							onclick="window.location.href='{:U('Payment/wx', array('orderNumber'=>$orderNumber,'channel'=>'WX', 'subChannel'=>'WX_NATIVE'))}'">
+							onclick="window.location.href='{:U('Payment/wx', array('orderNumber'=>$orderNumber))}'">
 								{$Think.lang.wechat}
 							</button>
 							<button type="button" class="am-btn am-btn-default"
-							onclick="$('#light2').show();$('#fade').show();window.open('{:U('Payment/aliPay', array('orderNumber'=>$orderNumber,'channel'=>'ALI', 'subChannel'=>'ALI_WEB'))}')">
+							onclick="$('#light2').show();$('#fade').show();window.open('{:U('Payment/aliPay', array('orderNumber'=>$orderNumber))}')">
 								{$Think.lang.alipay}
 							</button>
   						</div>
@@ -42,7 +42,7 @@
 								{$Think.lang.wechat}
 							</button>
 							<button type="button" class="am-btn am-btn-default"
-							onclick="$('#lightsm').show();$('#fade').show();window.open('{:U('Payment/aliPay', array('orderNumber'=>$orderNumber,'channel'=>'ALI', 'subChannel'=>'ALI_WEB'))}')">
+							onclick="$('#lightsm').show();$('#fade').show();window.open('{:U('Payment/aliPay', array('orderNumber'=>$orderNumber))}')">
 								{$Think.lang.alipay}
 							</button>
   						</div>
@@ -139,6 +139,21 @@
 			$.post('{:U("Payment/checkPayresult")}', {'orderNumber':$('#orderNumber').val()}, function(data){
 				if(data.status == 1){
 					window.location.href="{:U('Payment/paysuccess', array('orderNumber'=>$orderNumber))}";
+				}			
+			}, 'json');
+		}
+		
+		function wxjsapi(){
+			$.post('{:U("Payment/wxjsapi")}', {'orderNumber':$('#orderNumber').val()}, function(data){
+				if(data.status == 1){
+			        WeixinJSBridge.invoke(
+			            'getBrandWCPayRequest',
+			            <?php echo json_encode($jsApiParam);?>,
+			            function(res){
+			                WeixinJSBridge.log(res.err_msg);
+			//                alert(res.err_code+res.err_desc+res.err_msg);
+			            }
+			        );
 				}			
 			}, 'json');
 		}

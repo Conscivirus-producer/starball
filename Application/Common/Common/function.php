@@ -16,7 +16,7 @@ function sendMailNewVersion($mailContent, $type, $userInfo){
 	$mail->Password = 'test123456';                           // SMTP password
 	$mail->Port = 25;                                     // TCP port to connect to
 
-	$mail->setFrom('test@starballkids.com', 'StarballKids');
+	$mail->setFrom(C('EMAIL_FROM'), 'StarballKids');
 	$mail->addAddress($userInfo["email"], $userInfo["userName"]);     // Add a recipient
 	//$mail->addAddress('ellen@example.com');               // Name is optional
 	//$mail->addReplyTo('info@example.com', 'Information');
@@ -28,7 +28,9 @@ function sendMailNewVersion($mailContent, $type, $userInfo){
 	$mail->isHTML(true);                                  // Set email format to HTML
 
 	if($type == "payment"){
-		$mail->addBCC(C('SELLER_EMAIL_ADDRESS'));//发给卖家的邮件通知
+		foreach(explode(';', C('SELLER_EMAIL_ADDRESS')) as $bccEmail){
+			$mail->addBCC($bccEmail);//发给卖家的邮件通知
+		}
 		$address = D('ShippingAddress', 'Logic')->getDefaultAddress($mailContent['userId']);
 		$address = parseAddressCode($address);
 		$template = "";
@@ -50,7 +52,10 @@ function sendMailNewVersion($mailContent, $type, $userInfo){
 		$tableContent = $tableContent."</tbody></table>";
 		$template = $template.$tableContent;
 		$template = $template."<p>您提供的收货地址：</p>";
-		$template = $template."<p>".$address['address'];
+		$template = $template."<p>".$address['address']."<p>";
+		if($address['postCode'] != ''){
+			$template = $template." ".$address['postCode'];
+		}
 		if($address['city'] != ''){
 			$template = $template." ".$address['city'];
 		}
@@ -58,6 +63,7 @@ function sendMailNewVersion($mailContent, $type, $userInfo){
 			$template = $template.' '.$address['province'];
 		}
 		$template = $template.' '.$address['country'].'<br></p>';
+		$template = $template."收货人姓名:".$address['contactName'].' 电话:'.$address['phone'];
 		$template = $template."<p><img src='http://7xr7p7.com2.z0.glb.qiniucdn.com/1660857294.jpg' width='80' height='51'></p>";
 		$template = $template."<p>StarBall.Kids是一家来自香港的婴幼儿品牌集合店，主营进口婴幼儿童服装，这里有世界各地的大牌潮牌衣服供您选择。</p>";
 		$template = $template."<p>联系我们：邮件(starballkidshk@gmail.com)</p>";

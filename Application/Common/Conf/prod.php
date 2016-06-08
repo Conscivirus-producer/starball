@@ -18,5 +18,6 @@ return array(
     'DEFAULT_CONTROLLER'    =>  'Home', // 默认控制器名称
     'DEFAULT_ACTION'        =>  'index', // 默认操作名称
     
-    "SELLER_EMAIL_ADDRESS"  =>   'zhaominqiu@gmail.com',
+    "SELLER_EMAIL_ADDRESS"  =>   'zhaominqiu@gmail.com;435959185@qq.com',
+    "EMAIL_FROM"			=>	 'test@starballkids.com'
 );

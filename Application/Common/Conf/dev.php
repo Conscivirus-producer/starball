@@ -15,5 +15,7 @@ return array(
 	'DB_PORT'=>3306,// 端口
 	'DB_PREFIX'=>'',// 数据库表前缀
 	'DB_CHARSET'=>'utf8',// 数据库字符集
-	'DB_PARAMS' => array(\PDO::ATTR_CASE => \PDO::CASE_NATURAL)
+	'DB_PARAMS' => array(\PDO::ATTR_CASE => \PDO::CASE_NATURAL),
+	"SELLER_EMAIL_ADDRESS"  =>   '435959185@qq.com;2221469589@qq.com',
+	"EMAIL_FROM"			=>	 'test@starballkids.com'
 );

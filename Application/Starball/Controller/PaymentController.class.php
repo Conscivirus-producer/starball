@@ -15,7 +15,7 @@ class PaymentController extends BaseController {
 	
 	public function aliPay(){
 		header("Content-type:text/html;charset=utf-8");
-		$result = $this->payCommonProcess();
+		$result = $this->payCommonProcess('ALI', 'ALI_WEB');
 	    if ($result->result_code != 0) {
 	        echo json_encode($result);
 	        exit();
@@ -27,7 +27,7 @@ class PaymentController extends BaseController {
 	
 	public function wx(){
 		$this->commonProcess();
-		$result = $this->payCommonProcess();
+		$result = $this->payCommonProcess('WX', 'WX_NATIVE');
 	    if ($result->result_code != 0) {
 	        echo json_encode($result);
 	        exit();
@@ -37,11 +37,51 @@ class PaymentController extends BaseController {
 	}
 	
 	public function wxjsapi(){
-		$this->commonProcess();
-		$this->display();
+		$openid = "";
+		if (isset($_GET['code'])){
+		    $code = $_GET['code'];
+		    $access_token_get_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".C("WECHAT_APP_ID")."&secret=".C("WECHAT_APP_SECRET")."&code=".$code."&grant_type=authorization_code";
+		    $access_token_json = file_get_contents($access_token_get_url); 
+		    $json_obj = json_decode($access_token_json,true);
+		    $openid = $json_obj["openid"];
+			session('openid', $openid);
+		}else{
+			//need to be modified to show hint and qrcode image
+		    //echo "NO CODE";
+		    $openid = "obS35vk9Hqwl4WZXsosjxm_hckKQ";
+			
+		}
+		
+		$data = array();
+		$appSecret = "d1be74ba-c85f-4f4e-83e9-67216fcb3d69";
+		$data["app_id"] = "99962629-fa3e-4dd9-b562-99134bb77927";
+		$data["timestamp"] = time() * 1000;
+		$data["app_sign"] = md5($data["app_id"] . $data["timestamp"] . $appSecret);
+		$data["channel"] = "WX_JSAPI";
+		$data["total_fee"] = 1;
+		$data["bill_no"] = "bcdemo" . $data["timestamp"];
+		$data["title"] = "白开水";
+		
+		$data["openid"] = $openid;
+		//选填 optional
+		$data["optional"] = json_decode(json_encode(array("tag"=>"msgtoreturn")));
+		
+		Vendor("beecloud.autoload");
+	    $result = \beecloud\rest\api::bill($data);
+	    if ($result->result_code != 0) {
+	        echo json_encode($result);
+	        exit();
+	    }
+	
+	    $jsApiParam = array("appId" => $result->app_id,
+	        "timeStamp" => $result->timestamp,
+	        "nonceStr" => $result->nonce_str,
+	        "package" => $result->package,
+	        "signType" => $result->sign_type,
+	        "paySign" => $result->pay_sign);
 	}
 
-	private function payCommonProcess(){
+	private function payCommonProcess($channel, $subChannel){
 		$orderNumber = I('orderNumber');
 		$orderLogic = D('Order', 'Logic');
 		$map['orderNumber'] = $orderNumber;
@@ -64,7 +104,7 @@ class PaymentController extends BaseController {
 		$data["app_id"] = C('PAYMENT_APP_ID');
 		$data["timestamp"] = time() * 1000;
 		$data["app_sign"] = md5($data["app_id"] . $data["timestamp"] . $appSecret);
-		$data["channel"] = I('subChannel');
+		$data["channel"] = $subChannel;
 		//当channel参数为 ALI_WEB 或 ALI_QRCODE 或 UN_WEB时 return_url为必填
 		if($data["channel"] == 'ALI_WEB'){
 			$data["return_url"] = C('PAYMENT_RETURN_URL');
@@ -85,7 +125,7 @@ class PaymentController extends BaseController {
 		$this->assign('bill_no', $data["bill_no"]);
 		$this->assign('is_dev', C('IS_DEV'));
 		
-		$this->createOrderBill($data, $orderNumber, 'PAY', I('channel'), I('subChannel'));
+		$this->createOrderBill($data, $orderNumber, 'PAY', $channel, $subChannel);
 	    $result = \beecloud\rest\api::bill($data);
 		return $result;
 	}
