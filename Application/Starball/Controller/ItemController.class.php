@@ -121,7 +121,7 @@ class ItemController extends BaseController {
 		}
 		//append total account
 		$tab = $tab."<div class='yu-side-total-price'>"."<span class='title-total-price'>".L('totalamt')."： </span>
-		<span class='value-total-price'>".$this->get('priceSymbol')."&nbsp;".$shoppingList['totalAmount']."</span></div>";
+		<span class='value-total-price-sm'>".$this->get('priceSymbol')."&nbsp;".$shoppingList['totalAmount']."</span></div>";
 		
 		//append buttons
 		$cartListUrl =  U('Starball/Cart/index');
