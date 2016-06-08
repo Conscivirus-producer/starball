@@ -284,3 +284,41 @@ function isMobile()
     } 
     return false;
 } 
+
+/**
+ * 	微信支付使用,作用：生成可以获得code的url
+ */
+function createOauthUrlForCode($redirectUrl)
+{
+	$urlObj["appid"] = C('WECHAT_APP_ID');
+	$urlObj["redirect_uri"] = "$redirectUrl";
+	$urlObj["response_type"] = "code";
+	$urlObj["scope"] = "snsapi_base";
+	$urlObj["state"] = "STATE"."#wechat_redirect";
+	$bizString = formatBizQueryParaMap($urlObj, false);
+	return "https://open.weixin.qq.com/connect/oauth2/authorize?".$bizString;
+}
+
+/**
+ * 	作用：格式化参数，签名过程需要使用
+ */
+function formatBizQueryParaMap($paraMap, $urlencode)
+{
+	$buff = "";
+	ksort($paraMap);
+	foreach ($paraMap as $k => $v)
+	{
+	    if($urlencode)
+	    {
+		   $v = urlencode($v);
+		}
+		//$buff .= strtolower($k) . "=" . $v . "&";
+		$buff .= $k . "=" . $v . "&";
+	}
+	$reqPar;
+	if (strlen($buff) > 0) 
+	{
+		$reqPar = substr($buff, 0, strlen($buff)-1);
+	}
+	return $reqPar;
+}
