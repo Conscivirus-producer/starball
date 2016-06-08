@@ -37,8 +37,7 @@
 							</button>
   						</div>
   						<div class="am-show-sm-only">
-							<button type="button" class="am-btn am-btn-default" 
-							onclick="window.location.href='{:U('Payment/wxjsapi', array('orderNumber'=>$orderNumber))}'">
+							<button type="button" class="am-btn am-btn-default" onclick="wxjsapi()">
 								{$Think.lang.wechat}
 							</button>
 							<button type="button" class="am-btn am-btn-default"
@@ -144,11 +143,13 @@
 		}
 		
 		function wxjsapi(){
+			$('#lightsm').show();
+			$('#fade').show();
 			$.post('{:U("Payment/wxjsapi")}', {'orderNumber':$('#orderNumber').val()}, function(data){
 				if(data.status == 1){
 			        WeixinJSBridge.invoke(
 			            'getBrandWCPayRequest',
-			            <?php echo json_encode($jsApiParam);?>,
+			            data.jsApiParam,
 			            function(res){
 			                WeixinJSBridge.log(res.err_msg);
 			//                alert(res.err_code+res.err_desc+res.err_msg);

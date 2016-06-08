@@ -16,10 +16,6 @@ class PaymentController extends BaseController {
 	public function aliPay(){
 		header("Content-type:text/html;charset=utf-8");
 		$result = $this->payCommonProcess('ALI', 'ALI_WEB');
-	    if ($result->result_code != 0) {
-	        echo json_encode($result);
-	        exit();
-	    }
 	    $htmlContent = $result->html;
 	    $url = $result->url;
 	    echo $htmlContent;
@@ -28,57 +24,41 @@ class PaymentController extends BaseController {
 	public function wx(){
 		$this->commonProcess();
 		$result = $this->payCommonProcess('WX', 'WX_NATIVE');
-	    if ($result->result_code != 0) {
-	        echo json_encode($result);
-	        exit();
-	    }
 		$this->assign('codeUrl', $result->code_url);
 		$this->display();
 	}
 	
 	public function wxjsapi(){
+		$vo = array();
 		$openid = "";
+		logInfo('wechat pay start.');
 		if (isset($_GET['code'])){
 		    $code = $_GET['code'];
 		    $access_token_get_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".C("WECHAT_APP_ID")."&secret=".C("WECHAT_APP_SECRET")."&code=".$code."&grant_type=authorization_code";
 		    $access_token_json = file_get_contents($access_token_get_url); 
 		    $json_obj = json_decode($access_token_json,true);
 		    $openid = $json_obj["openid"];
+			logInfo('wechat pay get openid:'.$openid);
 			session('openid', $openid);
 		}else{
 			//need to be modified to show hint and qrcode image
-		    //echo "NO CODE";
-		    $openid = "obS35vk9Hqwl4WZXsosjxm_hckKQ";
-			
+		    //$openid = "obS35vk9Hqwl4WZXsosjxm_hckKQ";
+		    exit('Openid is empty');
 		}
 		
-		$data = array();
-		$appSecret = "d1be74ba-c85f-4f4e-83e9-67216fcb3d69";
-		$data["app_id"] = "99962629-fa3e-4dd9-b562-99134bb77927";
-		$data["timestamp"] = time() * 1000;
-		$data["app_sign"] = md5($data["app_id"] . $data["timestamp"] . $appSecret);
-		$data["channel"] = "WX_JSAPI";
-		$data["total_fee"] = 1;
-		$data["bill_no"] = "bcdemo" . $data["timestamp"];
-		$data["title"] = "白开水";
-		
-		$data["openid"] = $openid;
-		//选填 optional
-		$data["optional"] = json_decode(json_encode(array("tag"=>"msgtoreturn")));
-		
-		Vendor("beecloud.autoload");
-	    $result = \beecloud\rest\api::bill($data);
-	    if ($result->result_code != 0) {
-	        echo json_encode($result);
-	        exit();
-	    }
-	
+		$result = $this->payCommonProcess('WX', 'WX_JSAPI');
+		logInfo('wechat pay finish api call.');
 	    $jsApiParam = array("appId" => $result->app_id,
 	        "timeStamp" => $result->timestamp,
 	        "nonceStr" => $result->nonce_str,
 	        "package" => $result->package,
 	        "signType" => $result->sign_type,
 	        "paySign" => $result->pay_sign);
+		
+		$vo['status'] = 1;
+		$vo['jsApiParam'] = json_encode($jsApiParam);
+		logInfo('wechat pay end.');
+		$this->ajaxReturn($vo, "json");
 	}
 
 	private function payCommonProcess($channel, $subChannel){
@@ -105,6 +85,9 @@ class PaymentController extends BaseController {
 		$data["timestamp"] = time() * 1000;
 		$data["app_sign"] = md5($data["app_id"] . $data["timestamp"] . $appSecret);
 		$data["channel"] = $subChannel;
+		if($data["channel"] == 'WX_JSAPI'){
+			$data["openid"] = session('openid');
+		}
 		//当channel参数为 ALI_WEB 或 ALI_QRCODE 或 UN_WEB时 return_url为必填
 		if($data["channel"] == 'ALI_WEB'){
 			$data["return_url"] = C('PAYMENT_RETURN_URL');
@@ -127,6 +110,10 @@ class PaymentController extends BaseController {
 		
 		$this->createOrderBill($data, $orderNumber, 'PAY', $channel, $subChannel);
 	    $result = \beecloud\rest\api::bill($data);
+	    if ($result->result_code != 0) {
+	        logInfo('PaymentError:'.json_encode($result));
+	        exit();
+	    }
 		return $result;
 	}
 
