@@ -523,7 +523,7 @@ class BaseController extends Controller {
             $userInfo['type'] = 'WEIXIN';
             $userInfo['name'] = $nickname;
 			$userInfo['nick'] = $nickname;
-			$userInfo['headimgurl'] = $json_obj["headimgurl"];
+			$userInfo['head'] = $json_obj["headimgurl"];
 			
 			$this->checkExistingUserInformation($openid, $userInfo);
 		}
@@ -540,7 +540,6 @@ class BaseController extends Controller {
     	} else if(is_weixin_browser() && $type == 'weixin'){// 
     		//如果是在微信浏览器点击通过微信登录
     		$url = createOauthUrlForCode('http://'.$_SERVER['HTTP_HOST'].U('Home/loginByWechatinMobile'));
-    		logInfo('url:'.$url);
     		header('Location: '.$url);
     	}else{
 			empty($type) && $this->error('参数错误');

@@ -37,7 +37,7 @@
 							</button>
   						</div>
   						<div class="am-show-sm-only">
-							<button type="button" class="am-btn am-btn-default" onclick="wxjsapi()">
+							<button type="button" class="am-btn am-btn-default" onclick="window.location.href='{:U('Payment/wxMobile', array('orderNumber'=>$orderNumber))}'">
 								{$Think.lang.wechat}
 							</button>
 							<button type="button" class="am-btn am-btn-default"
@@ -142,16 +142,5 @@
 			}, 'json');
 		}
 		
-		function wxjsapi(){
-			$('#lightsm').show();
-			$('#fade').show();
-			$.post('{:U("Payment/wxMobile")}', {'orderNumber':$('#orderNumber').val()}, function(data){
-				if(data.status == 1){
-					window.location.href = data.url;
-				}else if(data.status == 0){
-					alert('0');
-				}	
-			}, 'json');
-		}
 	</script>
 </block>

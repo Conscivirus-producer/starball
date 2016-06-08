@@ -56,14 +56,8 @@ class PaymentController extends BaseController {
 	}
 	
 	public function wxMobile(){
-		if (!isset($_GET['code'])){
-		    //触发微信返回code码
-		    $url = createOauthUrlForCode('http://'.$_SERVER['HTTP_HOST'].U('Payment/wxjsapi', 'orderNumber='.I('orderNumber')));
-		    //$jsApiParam = file_get_contents($url);
-			$vo['status'] = 1;
-			$vo['url'] = $url;
-			$this->ajaxReturn($vo, "json");
-		}
+	    $url = createOauthUrlForCode('http://'.$_SERVER['HTTP_HOST'].U('Payment/wxjsapi', 'orderNumber='.I('orderNumber')));
+	    header('Location: '.$url);
 	}
 	
 	private function payCommonProcess($channel, $subChannel){
