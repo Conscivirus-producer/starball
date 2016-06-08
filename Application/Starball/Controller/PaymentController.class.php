@@ -28,19 +28,11 @@ class PaymentController extends BaseController {
 		$this->display();
 	}
 	
-	public function wxjsapi(){
-		logInfo('wechat pay start.');
-		if (!isset($_GET['code'])){
-		    //触发微信返回code码
-		    logInfo('wechat pay construct url');
-		    $url = createOauthUrlForCode('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
-			logInfo('wechat pay url result:'.$url);
-		    Header("Location: $url");
-		}else{
-			$vo = array();
-			$openid = "";
-			logInfo('wechat pay action from url.');
-			
+	public function wxjsapiApi(){
+		$vo = array();
+		$openid = "";
+		logInfo('wechat pay action from url.');
+		if (isset($_GET['code'])){
 		    $code = $_GET['code'];
 		    $access_token_get_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".C("WECHAT_APP_ID")."&secret=".C("WECHAT_APP_SECRET")."&code=".$code."&grant_type=authorization_code";
 		    $access_token_json = file_get_contents($access_token_get_url); 
@@ -48,7 +40,6 @@ class PaymentController extends BaseController {
 		    $openid = $json_obj["openid"];
 			logInfo('wechat pay get openid:'.$openid);
 			session('openid', $openid);
-			
 			$result = $this->payCommonProcess('WX', 'WX_JSAPI');
 			logInfo('wechat pay finish api call.');
 		    $jsApiParam = array("appId" => $result->app_id,
@@ -57,12 +48,35 @@ class PaymentController extends BaseController {
 		        "package" => $result->package,
 		        "signType" => $result->sign_type,
 		        "paySign" => $result->pay_sign);
-			
-			$vo['status'] = 1;
-			$vo['jsApiParam'] = json_encode($jsApiParam);
-			logInfo('wechat pay end.');
+			echo $jsApiParam;
+		}else{
+			echo '';
+		}
+		
+		logInfo('wechat pay end.');
+	}
+	
+	public function wxjsapi(){
+		logInfo('wechat pay start.');
+		if (!isset($_GET['code'])){
+		    //触发微信返回code码
+		    logInfo('wechat pay construct url, source url:'.'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+		    $url = createOauthUrlForCode('http://'.$_SERVER['HTTP_HOST'].U('Payment/wxjsapiApi', 'orderNumber='.I('orderNumber')));
+		    $jsApiParam = file_get_contents($url);
+			logInfo('wechat pay url result:'.$url);
+			logInfo('$jsApiParam:'.$jsApiParam);
+			if($jsApiParam != ''){
+				$vo['status'] = 1;
+			}else{
+				$vo['status'] = 0;
+			}
 			$this->ajaxReturn($vo, "json");
 		}
+	}
+	
+	public function test(){
+		echo I('orderNumber');
+		logInfo('wechat pay end.');
 	}
 
 	private function payCommonProcess($channel, $subChannel){
