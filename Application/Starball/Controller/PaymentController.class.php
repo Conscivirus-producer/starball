@@ -31,17 +31,14 @@ class PaymentController extends BaseController {
 	public function wxjsapi(){
 		$vo = array();
 		$openid = "";
-		logInfo('wechat pay action from url.');
 		if (isset($_GET['code'])){
 		    $code = $_GET['code'];
 		    $access_token_get_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".C("WECHAT_APP_ID")."&secret=".C("WECHAT_APP_SECRET")."&code=".$code."&grant_type=authorization_code";
 		    $access_token_json = file_get_contents($access_token_get_url); 
 		    $json_obj = json_decode($access_token_json,true);
 		    $openid = $json_obj["openid"];
-			logInfo('wechat pay get openid:'.$openid);
 			session('openid', $openid);
 			$result = $this->payCommonProcess('WX', 'WX_JSAPI');
-			logInfo('wechat pay finish api call.');
 		    $jsApiParam = array("appId" => $result->app_id,
 		        "timeStamp" => $result->timestamp,
 		        "nonceStr" => $result->nonce_str,
@@ -53,31 +50,22 @@ class PaymentController extends BaseController {
 			$jsApiParam = array();
 		}
 		
-		logInfo('wechat pay end.');
-		logInfo('json_encode($jsApiParam):'.json_encode($jsApiParam));
 		$this->assign('jsApiParam', json_encode($jsApiParam));
 		$this->assign('orderNumber', I('orderNumber'));
 		$this->display();
 	}
 	
 	public function wxMobile(){
-		logInfo('wechat pay start.');
 		if (!isset($_GET['code'])){
 		    //触发微信返回code码
 		    $url = createOauthUrlForCode('http://'.$_SERVER['HTTP_HOST'].U('Payment/wxjsapi', 'orderNumber='.I('orderNumber')));
 		    //$jsApiParam = file_get_contents($url);
-			logInfo('wechat pay url result:'.$url);
 			$vo['status'] = 1;
 			$vo['url'] = $url;
 			$this->ajaxReturn($vo, "json");
 		}
 	}
 	
-	public function test(){
-		echo I('orderNumber');
-		logInfo('wechat pay end.');
-	}
-
 	private function payCommonProcess($channel, $subChannel){
 		$orderNumber = I('orderNumber');
 		$orderLogic = D('Order', 'Logic');

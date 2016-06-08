@@ -499,6 +499,20 @@ class BaseController extends Controller {
 		return $inadequateInventoryItems;
 	}
 	
+	public function loginByWechatinMobile(){
+		$openid = "";
+		if (isset($_GET['code'])){
+		    $code = $_GET['code'];
+		    $access_token_get_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".C("APP_ID")."&secret=".C("APP_SECRET")."&code=".$code."&grant_type=authorization_code";
+		    $access_token_json = file_get_contents($access_token_get_url); 
+		    $json_obj = json_decode($access_token_json,true);
+		    $openid = $json_obj["openid"];
+            $userInfo['type'] = 'WEIXIN';
+            $userInfo['name'] = $json_obj['nickname'];
+			$this->checkExistingUserInformation($openid, $userInfo);
+		}
+	}
+	
 	public function loginFromSocialMedia($type = null){
     	if(C('IS_DEV') == 'true'){
 			$weiboId = "123451114";
@@ -507,7 +521,12 @@ class BaseController extends Controller {
 			$user_info['nick'] = '老王';
 			$user_info['head'] = 'http://tva2.sinaimg.cn/crop.0.0.180.180.180/68302600jw1e8qgp5bmzyj2050050aa8.jpg';
 			$this->checkExistingUserInformation($weiboId, $user_info);
-    	} else{
+    	} else if(is_weixin_browser() && $type == 'weixin'){// 
+    		//如果是在微信浏览器点击通过微信登录
+    		$url = createOauthUrlForCode('http://'.$_SERVER['HTTP_HOST'].U('Home/loginByWechatinMobile'));
+    		logInfo('url:'.$url);
+    		header('Location: '.$url);
+    	}else{
 			empty($type) && $this->error('参数错误');
 	
 			//加载ThinkOauth类并实例化一个对象
