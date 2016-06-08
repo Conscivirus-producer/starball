@@ -48,28 +48,25 @@ class PaymentController extends BaseController {
 		        "package" => $result->package,
 		        "signType" => $result->sign_type,
 		        "paySign" => $result->pay_sign);
-			echo $jsApiParam;
+			//echo $jsApiParam;
 		}else{
-			echo '';
+			$jsApiParam = array();
 		}
 		
 		logInfo('wechat pay end.');
+		$this->assign('jsApiParam', $jsApiParam);
+		$this->display();
 	}
 	
 	public function wxjsapi(){
 		logInfo('wechat pay start.');
 		if (!isset($_GET['code'])){
 		    //触发微信返回code码
-		    logInfo('wechat pay construct url, source url:'.'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
 		    $url = createOauthUrlForCode('http://'.$_SERVER['HTTP_HOST'].U('Payment/wxjsapiApi', 'orderNumber='.I('orderNumber')));
-		    $jsApiParam = file_get_contents($url);
+		    //$jsApiParam = file_get_contents($url);
 			logInfo('wechat pay url result:'.$url);
-			logInfo('$jsApiParam:'.$jsApiParam);
-			if($jsApiParam != ''){
-				$vo['status'] = 1;
-			}else{
-				$vo['status'] = 0;
-			}
+			$vo['status'] = 1;
+			$vo['url'] = $url;
 			$this->ajaxReturn($vo, "json");
 		}
 	}

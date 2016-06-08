@@ -147,15 +147,7 @@
 			$('#fade').show();
 			$.post('{:U("Payment/wxjsapi")}', {'orderNumber':$('#orderNumber').val()}, function(data){
 				if(data.status == 1){
-					alert('1');
-			        WeixinJSBridge.invoke(
-			            'getBrandWCPayRequest',
-			            data.jsApiParam,
-			            function(res){
-			                WeixinJSBridge.log(res.err_msg);
-			//                alert(res.err_code+res.err_desc+res.err_msg);
-			            }
-			        );
+					window.open(data.url);
 				}else if(data.status == 0){
 					alert('0');
 				}	

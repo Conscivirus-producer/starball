@@ -1,0 +1,20 @@
+<html>
+<head>
+	<script>
+		alert(1);
+		alert($jsApiParam);
+        WeixinJSBridge.invoke(
+            'getBrandWCPayRequest',
+            {$jsApiParam},
+            function(res){
+                WeixinJSBridge.log(res.err_msg);
+//                alert(res.err_code+res.err_desc+res.err_msg);
+            }
+        );
+	</script>
+</head>
+<body>
+	
+</body>
+	
+</html>
