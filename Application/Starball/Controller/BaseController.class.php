@@ -502,13 +502,29 @@ class BaseController extends Controller {
 	public function loginByWechatinMobile(){
 		$openid = "";
 		if (isset($_GET['code'])){
+			//1.获取用户openid
 		    $code = $_GET['code'];
-		    $access_token_get_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".C("APP_ID")."&secret=".C("APP_SECRET")."&code=".$code."&grant_type=authorization_code";
+		    $access_token_get_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=".C("WECHAT_APP_ID")."&secret=".C("WECHAT_APP_SECRET")."&code=".$code."&grant_type=authorization_code";
 		    $access_token_json = file_get_contents($access_token_get_url); 
 		    $json_obj = json_decode($access_token_json,true);
-		    $openid = $json_obj["openid"];
+			$openid = $json_obj["openid"];
+		    
+			//2,获取access_token
+			$access_token_get_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".C("WECHAT_APP_ID")."&secret=".C("WECHAT_APP_SECRET");
+			$access_token_json = file_get_contents($access_token_get_url); 
+			$json_obj = json_decode($access_token_json,true);
+			$access_token = $json_obj["access_token"];
+			//3,再获取基本信息
+			$basic_information_url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$access_token."&openid=".$openid."&lang=zh_CN";
+			$basic_information_json = file_get_contents($basic_information_url);
+			$json_obj = json_decode($basic_information_json,true); 
+			$nickname = $json_obj["nickname"];
+			
             $userInfo['type'] = 'WEIXIN';
-            $userInfo['name'] = $json_obj['nickname'];
+            $userInfo['name'] = $nickname;
+			$userInfo['nick'] = $nickname;
+			$userInfo['headimgurl'] = $json_obj["headimgurl"];
+			
 			$this->checkExistingUserInformation($openid, $userInfo);
 		}
 	}
