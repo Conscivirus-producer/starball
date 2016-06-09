@@ -167,8 +167,7 @@ class ItemController extends BaseController {
 			}
 			$data['totalItemCount'] = 1; 
 			$data['totalAmount'] = I('currentPrice');
-			$data['shippingFee'] = $this->calculateShippingFee($data['totalAmount']);
-			$data['totalFee'] = $data['totalAmount'] + $data['shippingFee'];
+			$data['totalFee'] = $data['totalAmount'];
 			$data['userId'] = $userId; 
 			$data['status'] = 'N';
 			$data['currency'] = $this->getCurrency();
@@ -176,6 +175,10 @@ class ItemController extends BaseController {
 			$orderId = $orderLogic->add();
 			
 			$this->updateOrderItem($orderId);
+			
+			//费用的计算需要等待order item存入数据库之后才能进行
+			$shippingFeeData['shippingFee'] = $this->calculateShippingFee($data['totalAmount']);
+			$orderLogic->updateOrder($shippingFeeData, $orderId);
 		} else{
 			$order = $backlogOrder[0];
 			if(!$this->updateOrderItem($order['orderId'])){
