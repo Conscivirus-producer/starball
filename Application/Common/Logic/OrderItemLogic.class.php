@@ -21,7 +21,8 @@
 		}
 		
 		public function updateOrderItem($data, $id){
-			$this->where('id='.$id)->save($data);
+			$map['id'] = $id;
+			$this->where($map)->save($data);
 		}
 		
 		public function getExistingOrderItem($itemId, $itemSize, $orderId){

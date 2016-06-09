@@ -268,6 +268,37 @@ class BaseController extends Controller {
 		$orderLogic->updateOrder($orderData, $order['orderId']);
 	}
 
+	private function checkShoppingListPrice(){
+		//process shopping list
+		$orderLogic = D('Order', 'Logic');
+		$order = $orderLogic->getCurrentOutstandingOrder($this->getCurrentUserId(),'N');
+		$itemPriceChanged = false;
+		$orderTotalAmount = 0;
+		if($order != ''){
+			$orderId = $order['orderId'];
+			$orderItemLogic = D('OrderItem', 'Logic');
+			$orderItemList = $orderItemLogic->getOrderItemsByOrdeId($orderId);
+			foreach($orderItemList as $orderItem){
+				$priceMap = D('ItemPrice', 'Logic')->getPriceMap($orderItem['itemId'], $order['currency']);
+				$itemPrice = $priceMap[$orderItem['itemSize']];
+				$totalPrice = $itemPrice * $orderItem['quantity'];
+				//如果价格有变动
+				if($totalPrice != $orderItem['price']){
+					$orderItemData['price'] = $totalPrice;
+					$orderItemLogic->updateOrderItem($orderItemData, $orderItem['id']);
+					$itemPriceChanged = true;
+				}
+				$orderTotalAmount += $totalPrice;
+			}
+		}
+		//只要有一个商品的价格改动,订单的总价就要变动
+		if($itemPriceChanged){
+			$data['totalAmount'] = $orderTotalAmount;
+			$data['totalFee'] = $data['totalAmount'] + $order['shippingFee'] + $order['giftPackageFee'];
+			$orderLogic->updateOrder($data, $orderId);
+		}
+	}
+
 	protected function prepareShoppingList(){
 		if(!$this->isLogin()){
 			$shoppingList = session('shoppingList');
@@ -387,7 +418,7 @@ class BaseController extends Controller {
 			session('starballkids_lastLoginDate', $result['lastUpdatedDate']);
 			session('starballkids_lastLoginIp', $result['lastIp']);
 			
-			//如果选择了记住我,把用户信息存入cookie
+			//如果选择了记住我,把用户信息存入cookie,否则清除掉cookie
 			if(I('rememberMe') == 'on'){
 				cookie('starballkids_is_login', true, C('COOKIE_DURATION'));
 				cookie('starballkids_userId', session('starballkids_userId'), C('COOKIE_DURATION'));
@@ -400,8 +431,11 @@ class BaseController extends Controller {
 			//登录之后自动根据当前汇率重新计算用户订单的总额
 			$this->updateUserShoppingListByCurrency();
 			
-			//并且把当前session的购物车加到用户下面
+			//并且把当前session的购物车和收藏夹加到用户下面
 			$this->appendSessionToUser();
+			
+			//检查购物车里商品的价格,和最新的比较,如果有变动,更新过来
+			$this->checkShoppingListPrice();
 			//$this->assign('userName', $result['userName']);
 		} else{
 			$this->error("用户名密码不正确");
@@ -633,8 +667,11 @@ class BaseController extends Controller {
 		//登录之后自动根据当前汇率重新计算用户订单的总额
 		$this->updateUserShoppingListByCurrency();
 		
-		//并且把当前session的购物车加到用户下面
+		//并且把当前session的购物车和购物车加到用户下面
 		$this->appendSessionToUser();
+		
+		//检查购物车里商品的价格,和最新的比较,如果有变动,更新过来
+		$this->checkShoppingListPrice();
 		
 		if($user == '' || $user['userName'] == ''){
 			//如果用户还没有绑定现有帐号

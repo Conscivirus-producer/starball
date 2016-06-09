@@ -324,9 +324,7 @@ function formatBizQueryParaMap($paraMap, $urlencode)
 }
 function is_weixin_browser(){
     if(strpos($_SERVER['HTTP_USER_AGENT'],'MicroMessenger')){
-        echo 'The browser is weixin';
         return true;
     }
-    echo 'The browser is not weixin';
     return false;
 }
