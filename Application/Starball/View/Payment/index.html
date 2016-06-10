@@ -9,7 +9,13 @@
 	<div class="yu-cart-content am-kai">
 		<div class="cart-items am-u-md-8  am-padding-0">
 			<div class="am-panel am-panel-default">
-				<div class="am-panel-hd">{$Think.lang.shippayinfo}</div>
+				<div class="am-panel-hd paysection">
+					<span>{$Think.lang.shippayinfo}</span>
+					<button type="button" class="am-btn am-btn-default change-address" 
+					onclick="window.location.href='{:U('Cart/delivery')}'">
+						{$Think.lang.modify}
+					</button>
+				</div>
 				<div class="am-panel-bd">
 						<div class="address">
 							<h3>{$Think.lang.shippingaddress}</h3>

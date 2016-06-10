@@ -108,7 +108,7 @@ return array(
 	'discount'=>'折扣',
 	'all'=>'全部',
 	'paymode'=>'支付方式',
-	'shippayinfo'=>'配送和支付信息',
+	'shippayinfo'=>'配送信息',
 	'wechat'=>'微信',
 	'alipay'=>'支付宝',
 	'payok'=>'支付成功',
@@ -249,4 +249,12 @@ return array(
     'newUserSetupSuccess'=>'新用户设置成功',
     'bindUserSuccess'=>'用户绑定成功',
     'orderNotExist'=>'该订单不存在或已支付',
+    'shippingMethod'=>'物流方式',
+    'date'=>'日期',
+    'status'=>'状态',
+    'continuepay'=>'继续支付',
+    'cancelOrder'=>'取消订单',
+    'confirmCancelOrder'=>'确定取消这个订单?',
+    'confirmReceipt'=>'确认收到商品?',
+    'modify'=>'修改'
 );

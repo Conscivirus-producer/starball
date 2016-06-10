@@ -242,3 +242,9 @@ span.cart-item-panier{
 	margin-left: 15px;
 	position: relative;
 }
+div.paysection{
+	height:55px;
+}
+button.change-address{
+	float: right;
+}

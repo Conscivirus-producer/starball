@@ -8,7 +8,7 @@
                                 <thead>
                                     <tr>
                                         <th>订单号</th>
-                                        <th>订单日期</th>
+                                        <th>订单时间</th>
                                         <th>金额</th>
                                         <th>状态</th>
                                         <th></th>
@@ -22,7 +22,7 @@
 	                                        <td>{$vo.totalFee}</td>
 	                                        <td>{$vo.statusDescription}</td>
 	                                        <td class="am-text-right am-text-xs">
-	                                        	<eq name="vo['status']" value="N"><a href="{:U('Payment/index', array('orderNumber'=>$vo['orderNumber']))}">继续支付 〉</a></eq>
+	                                        	<eq name="vo['status']" value="N"><a href="{:U('Cart/submitOrder')}">继续支付 〉</a></eq>
 	                                        	<eq name="vo['status']" value="P"><a href="{:U('User/orderinfo', array('orderId'=>$vo['orderId']))}">申请退款 〉</a></eq>
 	                                        	<eq name="vo['status']" value="D"><a href="{:U('User/orderinfo', array('orderId'=>$vo['orderId']))}">确认收货 〉</a></eq>
                                         	</td>

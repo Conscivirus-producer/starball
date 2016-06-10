@@ -7,43 +7,43 @@
         <a class="yu-backto-order am-kai am-margin-bottom-3" href="{:U('Starball/User/index', array('tab'=>'order'))}">返回我的订单 〉</a>
         <table class="am-table am-table-bordered am-table-centered am-kai">
             <tr class="yu-thead-bg">
-                <th class="am-text-middle yu-thead-taller" colspan="4">订单号{$order.orderNumber}</th>
+                <th class="am-text-middle yu-thead-taller" colspan="4">{$Think.lang.ordernum}{$order.orderNumber}</th>
             </tr>
             <tr>
-                <td class="am-text-left am-text-sm">物流方式<br>{$order.shippingMethod} {$order.shippingOrderNumber}</td>
-                <td class="am-text-left am-text-sm">支付方式
+                <td class="am-text-left am-text-sm">{$Think.lang.shippingMethod}<br>{$order.shippingMethod} {$order.shippingOrderNumber}</td>
+                <td class="am-text-left am-text-sm">{$Think.lang.paymode}
                 <br>
                 {$orderBill.channel}</td>
-                <td class="am-text-left am-text-sm">日期
+                <td class="am-text-left am-text-sm">{$Think.lang.date}
                 <br>
                 {$order.orderDate}</td>
-                <td class="am-text-left am-text-sm">金额
+                <td class="am-text-left am-text-sm">{$Think.lang.totalAmount}
                 <br>
                 {$priceSymbol} {$order.totalFee}</td>
             </tr>
             <tr>
-                <td class="am-text-left am-text-sm" colspan="2">收件地址：
+                <td class="am-text-left am-text-sm" colspan="2">{$Think.lang.shippingaddress}：
                 <br>
                 {$address.contactName}<br>{$address.address}<br>{$address.postCode} {$address.city} {$address.province}<br>{$address.country}</td>
-                <td class="am-text-left am-text-sm" colspan="2">状态：
+                <td class="am-text-left am-text-sm" colspan="2">{$Think.lang.status}：
                 <br>
                 	<strong>{$order.statusDescription}</strong>
                 	<switch name="order.status">
                 		<case value="N">
 		                	<button class="am-btn am-btn-default yu-black-button"
-		                		onclick="window.location.href='{:U('Payment/index', array('orderNumber'=>$order['orderNumber']))}'">
-		                		继续支付
+		                		onclick="window.location.href='{:U('Cart/submitOrder')}'">
+		                		{$Think.lang.continuepay}
 	                		</button>
 	                	</case>
                 		<case value="P">
 		                	<button class="am-btn am-btn-default yu-black-button"
-		                		onclick="if(window.confirm('确定取消这个订单?')){window.location.href='{:U('Starball/User/cancelOrder', array('orderId'=>$order['orderId']))}';}">
-		                		取消订单
+		                		onclick="if(window.confirm('{$Think.lang.confirmCancelOrder}')){window.location.href='{:U('Starball/User/cancelOrder', array('orderId'=>$order['orderId']))}';}">
+		                		{$Think.lang.cancelOrder}
 	                		</button>
 	                	</case>
                 		<case value="D">
 		                	<button class="am-btn am-btn-default yu-black-button"
-		                		onclick="if(window.confirm('确认收到商品?')){window.location.href='{:U('Starball/User/confirmDelivery', array('orderId'=>$order['orderId']))}';}">
+		                		onclick="if(window.confirm('{$Think.lang.confirmReceipt}')){window.location.href='{:U('Starball/User/confirmDelivery', array('orderId'=>$order['orderId']))}';}">
 		                		确认收货
 	                		</button>
 	                	</case>

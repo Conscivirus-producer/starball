@@ -157,7 +157,7 @@ class UserController extends BaseController {
 		$i = 0;
 		foreach($result as $record){
 			$record['statusDescription'] = $orderStatus[$record['status']];
-			$record['orderDate'] = substr($record['orderDate'], 0,10);
+			//$record['orderDate'] = substr($record['orderDate'], 0,10);
 			$result[$i] = $record;
 			$i++;
 		}
