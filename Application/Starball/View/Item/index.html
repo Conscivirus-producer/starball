@@ -4,6 +4,7 @@
 	<link rel="stylesheet" type="text/css" href="__PUBLIC__/starball/css/item.css">
 </block>
 <block name="main">
+	<input type="hidden" id="brandId" value="{$data.brandId}"/>
 <div class="am-g yu-main-container am-kai">
 		<div class="am-u-sm-12">
 			<ol class="am-breadcrumb am-breadcrumb-slash am-text-xs am-margin-0">
@@ -223,6 +224,7 @@
 		    $.post('{:U("Item/addToShoppingList")}',{'itemId':$('#itemId').val(), 
 		    									'currentPrice':$('#currentPrice')[0].innerHTML,
 		    									'itemImage':$('#itemImage').val(), 
+		    									'brandId':$('#brandId').val(),
 		    									'brandName':$('#brandName')[0].innerText, 
 		    									'itemName':$('#itemName')[0].innerText,
 		    									'itemColor':$('#itemColor')[0].innerText,  

@@ -4,7 +4,7 @@
 	class ItemLogic extends ItemModel{
 		public function getItemWithBrandAndCategoryById($itemId){
 			$map['itemId'] = $itemId;
-			$data = $this->field('t_brand.brandName, t_brand.sizeDescription, t_category.categoryName,t_category.type, t_item.*')->where($map)->
+			$data = $this->field('t_brand.brandId, t_brand.brandName, t_brand.sizeDescription, t_category.categoryName,t_category.type, t_item.*')->where($map)->
 				join('t_brand on t_item.brandId = t_brand.brandId')->
 				join('t_category on t_item.categoryId = t_category.categoryId')->find();
 			return $data;

@@ -216,6 +216,7 @@ class ItemController extends BaseController {
 		$itemData['orderId'] = $orderId;
 		$itemData['itemId'] = I('itemId');
 		$itemData['itemName'] = I('itemName');
+		$itemData['brandId'] = I('brandId');
 		$itemData['brandName'] = I('brandName');
 		$itemData['itemImage'] = I('itemImage');
 		$itemData['itemColor'] = I('itemColor');
@@ -280,6 +281,7 @@ class ItemController extends BaseController {
 		return array('itemId'=>I('itemId'),
 					  'itemSize'=>I('itemSize'),
 					  'itemName'=>I('itemName'), 
+					  'brandId'=>I('brandId'),
 					  'brandName'=>I('brandName'), 
 					  'itemImage'=>I('itemImage'),
 					  'itemColor'=>I('itemColor'),

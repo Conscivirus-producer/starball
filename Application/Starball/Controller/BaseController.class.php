@@ -247,6 +247,7 @@ class BaseController extends Controller {
 				$itemData['orderId'] = $order['orderId'];
 				$itemData['itemId'] = current(explode('_', $key));
 				$itemData['itemName'] = $value['itemName'];
+				$itemData['brandId'] = $value['brandId'];
 				$itemData['brandName'] = $value['brandName'];
 				$itemData['itemImage'] = $value['itemImage'];
 				$itemData['itemColor'] = $value['itemColor'];
