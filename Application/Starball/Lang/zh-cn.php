@@ -256,5 +256,14 @@ return array(
     'cancelOrder'=>'取消订单',
     'confirmCancelOrder'=>'确定取消这个订单?',
     'confirmReceipt'=>'确认收到商品?',
-    'modify'=>'修改'
+    'modify'=>'修改',
+    'couponNotExist'=>'优惠券不存在',
+    'coupon'=>'优惠券',
+    'expired'=>'已过期',
+    'addedItemsNoEnoughInventory'=>'商品库存不足',
+    'addQuantityFailed'=>'该尺码库存不足',
+    'couponEmpty'=>'请输入优惠券',
+    'orderAlreadyHaveCoupon'=>'订单已经使用了优惠券',
+    'insufficientBuyingRecord'=>'您的购买记录不够使用此优惠券',
+    'cancelCoupon'=>'取消优惠券'
 );

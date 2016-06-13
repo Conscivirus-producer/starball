@@ -74,8 +74,7 @@ class PaymentController extends BaseController {
 		$order = $result[0];
 		$inadequateInventoryItems = $this->checkOrderItemsInventory($order['orderId']);
 		if(count($inadequateInventoryItems) > 0){
-			session('quantityCheckResult', 'addedItemsNoEnoughInventory');
-			$this->redirect('Cart/index');
+			$this->redirect('Cart/index',array('itemId'=>$inadequateInventoryItems['itemId'], 'itemSize'=>$inadequateInventoryItems['itemSize']));
 		}
 		Vendor("beecloud.autoload");
 		

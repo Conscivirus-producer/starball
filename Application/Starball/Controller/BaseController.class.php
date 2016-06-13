@@ -37,7 +37,7 @@ class BaseController extends Controller {
 			$giftPackageFee = $supportingData->getValueByKey('GIFT_PACKAGE_PRICE_'.$this->getCurrency());
 			session('giftPackageFee', $giftPackageFee);
 			$this->assign('giftPackageFee', $this->getGiftPackageFee());
-			$this->updateShoppingFavoriteListByCurrency();
+			$this->changeCurrency();
 		}
 		$this->assign('preferred_currency', cookie('preferred_currency'));
 		//把currency列表放在页面上
@@ -47,6 +47,18 @@ class BaseController extends Controller {
 		}
 		$this->assign('currencyArray', $currencyArray);		
 	}
+
+	protected function loginActions(){
+		//登录之后自动根据当前汇率重新计算用户订单的总额
+		$this->updateUserShoppingListByCurrency();
+		
+		//并且把当前session的购物车和收藏夹加到用户下面
+		$this->appendSessionToUser();
+		
+		//检查购物车里商品的价格,和最新的比较,如果有变动,更新过来
+		$this->checkShoppingListPrice();
+		
+	}
 	
 	protected function prepareSupportingData(){
 		$supportingData = D('SupportingData', 'Logic');
@@ -55,7 +67,7 @@ class BaseController extends Controller {
 		$this->assign('giftPackageFee', $this->getGiftPackageFee());
 	}
 	
-	private function updateShoppingFavoriteListByCurrency(){
+	private function changeCurrency(){
 		if(!$this->isLogin()){
 			$this->updateSessionShoppingListByCurrency();
 			$this->updateSessionFavoriteByCurrency();
@@ -138,6 +150,18 @@ class BaseController extends Controller {
 		$orderData['totalFee'] = $orderData['totalAmount'] + $orderData['giftPackageFee'] + $orderData['shippingFee'];
 		$orderData['currency'] = $this->getCurrency();
 		$orderLogic->updateOrder($orderData, $order['orderId']);
+		
+		//如果有coupon code,则看不同汇率下面相同的couponCode和sequence,计算discount
+		if($order['couponId'] != 0){
+			$couponLogic = D('Coupon', 'Logic');
+			$previousCurrencyCoupon = $couponLogic->getByCouponId($order['couponId']);
+			$newCurrencyCoupon = $couponLogic->getCorrelateCouponByCurrency($previousCurrencyCoupon, $this->getCurrency());
+			
+			$orderCouponData['couponId'] = $newCurrencyCoupon['couponId'];
+			$orderCouponData['totalAmount'] = $orderData['totalAmount'] - $newCurrencyCoupon['discount'];
+			$orderCouponData['totalFee'] = $orderData['totalFee'] - $newCurrencyCoupon['discount'];
+			$orderLogic->updateOrder($orderCouponData, $order['orderId']);
+		}
 	}
 	
 	protected function prepareBrandList(){
@@ -270,11 +294,11 @@ class BaseController extends Controller {
 	}
 
 	private function checkShoppingListPrice(){
-		//process shopping list
+		//检查商品价格是否有变化
 		$orderLogic = D('Order', 'Logic');
 		$order = $orderLogic->getCurrentOutstandingOrder($this->getCurrentUserId(),'N');
-		$itemPriceChanged = false;
-		$orderTotalAmount = 0;
+		$orderChangedAmount = 0;
+		//用来存放变化之后的价格变量
 		if($order != ''){
 			$orderId = $order['orderId'];
 			$orderItemLogic = D('OrderItem', 'Logic');
@@ -282,22 +306,41 @@ class BaseController extends Controller {
 			foreach($orderItemList as $orderItem){
 				$priceMap = D('ItemPrice', 'Logic')->getPriceMap($orderItem['itemId'], $order['currency']);
 				$itemPrice = $priceMap[$orderItem['itemSize']];
-				$totalPrice = $itemPrice * $orderItem['quantity'];
+				$latestPrice = $itemPrice * $orderItem['quantity'];
 				//如果价格有变动
-				if($totalPrice != $orderItem['price']){
-					$orderItemData['price'] = $totalPrice;
+				if($latestPrice != $orderItem['price']){
+					$orderItemData['price'] = $latestPrice;
 					$orderItemLogic->updateOrderItem($orderItemData, $orderItem['id']);
-					$itemPriceChanged = true;
+					$orderChangedAmount += $latestPrice - $orderItem['price'];
 				}
-				$orderTotalAmount += $totalPrice;
 			}
 		}
-		//只要有一个商品的价格改动,订单的总价就要变动
-		if($itemPriceChanged){
-			$data['totalAmount'] = $orderTotalAmount;
-			$data['totalFee'] = $data['totalAmount'] + $order['shippingFee'] + $order['giftPackageFee'];
+		//如果加起来的价格发生了改变
+		if($orderChangedAmount != 0){
+			$data['totalAmount'] = $order['totalAmount'] + $orderChangedAmount;
+			$data['totalFee'] = $order['totalFee'] + $orderChangedAmount;
 			$orderLogic->updateOrder($data, $orderId);
 		}
+		
+		//如果购物车有使用优惠券,检查优惠券是否过期了
+		if($order['couponId'] != 0){
+			$coupon = D('Coupon', 'Logic')->getByCouponId($order['couponId']);
+			if(strtotime($coupon['startDate']) > strtotime("now") || strtotime($coupon['endDate']) < strtotime("now")){
+				$this->cancelCouponCore();
+				$this->redirect('Cart/index?message='.L('coupon').$coupon['code'].L('expired'));
+			}
+		}
+	}
+	
+	protected function cancelCouponCore(){
+		$orderLogic = D('Order', 'Logic');
+		$order = $orderLogic->getCurrentOutstandingOrder($this->getCurrentUserId(),'N');
+		$coupon = D('Coupon', 'Logic')->getByCouponId($order['couponId']);
+		
+		$order['couponId'] = 0;
+		$order['totalAmount'] = $order['totalAmount'] + $coupon['discount'];
+		$order['totalFee'] = $order['totalFee'] + $coupon['discount'];
+		$orderLogic->updateOrder($order, $order['orderId']);
 	}
 
 	protected function prepareShoppingList(){
@@ -429,14 +472,10 @@ class BaseController extends Controller {
 				cookie('starballkids_userId', '');
 				cookie('starballkids_userName', '');				
 			}
-			//登录之后自动根据当前汇率重新计算用户订单的总额
-			$this->updateUserShoppingListByCurrency();
 			
-			//并且把当前session的购物车和收藏夹加到用户下面
-			$this->appendSessionToUser();
-			
-			//检查购物车里商品的价格,和最新的比较,如果有变动,更新过来
-			$this->checkShoppingListPrice();
+			//登录之后需要做的行为
+			$this->loginActions();
+
 			//$this->assign('userName', $result['userName']);
 		} else{
 			$this->error("用户名密码不正确");
@@ -549,7 +588,7 @@ class BaseController extends Controller {
 		$inadequateInventoryItems = array();
 		foreach($orderItems as $orderItem){
 			if(!D('Inventory', 'Logic')->isInventoryAvailable($orderItem['itemSize'], $orderItem['quantity'])){
-				array_push($inadequateInventoryItems, $orderItem['itemName']);
+				$inadequateInventoryItems = array('itemId' => $orderItem['itemId'], 'itemSize'=>$orderItem['itemSize']);
 			}
 		}
 		return $inadequateInventoryItems;
@@ -665,14 +704,9 @@ class BaseController extends Controller {
 			cookie('starballkids_userId', session('starballkids_userId'), C('COOKIE_DURATION'));
 			cookie('starballkids_userName', session('starballkids_userName'), C('COOKIE_DURATION'));
 		}
-		//登录之后自动根据当前汇率重新计算用户订单的总额
-		$this->updateUserShoppingListByCurrency();
 		
-		//并且把当前session的购物车和购物车加到用户下面
-		$this->appendSessionToUser();
-		
-		//检查购物车里商品的价格,和最新的比较,如果有变动,更新过来
-		$this->checkShoppingListPrice();
+		//登录之后需要做的行为
+		$this->loginActions();
 		
 		if($user == '' || $user['userName'] == ''){
 			//如果用户还没有绑定现有帐号

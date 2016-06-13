@@ -58,7 +58,7 @@
 					</div>
 					<div class="am-g">
 						<div class="am-u-sm-3 am-padding-left-0 <gt name='defaultPrice' value='$discountDefaultPrice'>disable-price</gt>">
-							{$priceSymbol}  <span id="<eq name='defaultPrice' value='$discountDefaultPrice'>currentPrice</eq>">{$defaultPrice}</span>
+							{$priceSymbol}  <span id="<eq name='defaultPrice' value='$discountDefaultPrice'>currentPrice<else/>originalPrice</eq>">{$defaultPrice}</span>
 						</div>
 						<gt name="defaultPrice" value="$discountDefaultPrice">(-{$discount}%)</gt>
 						<div class="am-u-sm-3 am-padding-right-0">
@@ -200,6 +200,7 @@
 			for(var i=0;i<invJson.length;i++){
 				if(inventoryId == invJson[i]['inventoryId']){
 					$('#currentPrice').html(invJson[i]['price']);
+					$('#originalPrice').html(invJson[i]['originalPrice']);
 				}
 			}
 		}

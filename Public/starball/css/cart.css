@@ -248,3 +248,24 @@ div.paysection{
 button.change-address{
 	float: right;
 }
+button.coupon{
+	float: right;
+	background-color: #CECECE;
+	border:0;
+	color:white;
+}
+input.coupon{
+	height: 27px;
+}
+div.totalPay{
+	width:100%; 
+	border-top: 1px solid #CECECE; 
+	border-bottom: 1px solid #CECECE;
+	padding: 15px;
+}
+span.discount-item{
+	text-decoration:line-through;
+}
+span.after-discount-amount{
+ color:#cc4c4b	
+}

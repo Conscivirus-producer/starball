@@ -32,13 +32,13 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `t_coupon` (
   `couponId` int(32) NOT NULL AUTO_INCREMENT,
   `code` varchar(100) NOT NULL COMMENT '代码,可以有相同的代码,不同的记录.',
-  `type` varchar(10) NOT NULL COMMENT '1-打折卡;2-满减金额CNY;3-满减金额HKD;',
-  `condition` varchar(100) NOT NULL COMMENT '优惠的条件值,如果为打折卡,必须为brandId等于这个值;如果为满減金额,必须为购买商品totalAmount大于等于这个值',
+  `currency` varchar(10) NOT NULL,
+  `amountBenchMark` varchar(100) NOT NULL COMMENT '优惠的条件值,如果为打折卡,必须为brandId等于这个值;如果为满減金额,必须为购买商品totalAmount大于等于这个值',
   `discount` varchar(50) NOT NULL COMMENT '如果为打折卡,为打折百分数,比如70代表打7折;如果为满减金额,',
   `startDate` datetime NOT NULL,
   `endDate` datetime NOT NULL,
   PRIMARY KEY (`couponId`),
-  KEY `code` (`code`,`type`)
+  KEY `code` (`code`,`currency`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='优惠码信息表' AUTO_INCREMENT=1 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
@@ -46,4 +46,6 @@ CREATE TABLE IF NOT EXISTS `t_coupon` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
 
-ALTER TABLE  `t_order` ADD  `couponCode` VARCHAR( 100 ) NOT NULL COMMENT  '优惠码,参考数据表t_coupon->code,没使用则为空' AFTER  `orderNumber`;
+ALTER TABLE  `t_order` ADD  `couponId` int( 32 ) NOT NULL COMMENT  '优惠码,参考数据表t_coupon->couponId,没使用则为空' AFTER  `orderNumber`;
+ALTER TABLE  `t_order` CHANGE  `couponCode`  `couponId` int( 32 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT  '优惠码,参考数据表t_coupon->couponId,没使用则为空';
+ALTER TABLE  `t_coupon` ADD  `couponSequence` VARCHAR( 10 ) NOT NULL COMMENT  '因为有多个汇率,相同sequence,相同couponCode,代表同一等级' AFTER  `code`;

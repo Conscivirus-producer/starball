@@ -4,8 +4,21 @@ use Think\Controller;
 class CartController extends BaseController {
 	public function index(){
 		$this->commonProcess();
-		$this->assign('quantityCheckResult', session('quantityCheckResult'));
-		session('quantityCheckResult', 'empty');
+		if(I('message') != ''){
+			$this->assign('message', I('message'));
+		}
+		if(I('itemId') != ''){
+			$item = D('Item', 'Logic')->findById(I('itemId'));
+			$itemName = $item['name'];
+			$sizeDescription = D('Inventory', 'Logic')->getSizeDescriptionById(I('itemSize'));
+			$this->assign('message', $itemName.' 的尺码:'.$sizeDescription.' 库存不足');
+		}
+		$order = $this->get('shoppingList');
+		if($order['couponId'] != 0){
+			$coupon = D('Coupon', 'Logic')->getByCouponId($order['couponId']);
+			$this->assign('couponCode', $coupon['code']);
+			$this->assign('totalAmountOrigin', $order['totalAmount'] + $coupon['discount']);
+		}
 		$this->display();
 	}
 	
@@ -19,8 +32,7 @@ class CartController extends BaseController {
 		//检查库存
 		$inadequateInventoryItems = $this->checkOrderItemsInventory($order['orderId']);
 		if(count($inadequateInventoryItems) > 0){
-			session('quantityCheckResult', 'addedItemsNoEnoughInventory');
-			$this->redirect('Cart/index');
+			$this->redirect('Cart/index',array('itemId'=>$inadequateInventoryItems['itemId'], 'itemSize'=>$inadequateInventoryItems['itemSize']));
 		}
 		
 		$data = array();
@@ -109,8 +121,7 @@ class CartController extends BaseController {
 			//检查库存
 			$inadequateInventoryItems = $this->checkOrderItemsInventory($order['orderId']);
 			if(count($inadequateInventoryItems) > 0){
-				session('quantityCheckResult', 'addedItemsNoEnoughInventory');
-				$this->redirect('Cart/index');
+				$this->redirect('Cart/index',array('itemId'=>$inadequateInventoryItems['itemId'], 'itemSize'=>$inadequateInventoryItems['itemSize']));
 			}
 
 			if($order['orderNumber'] == ''){
@@ -165,8 +176,11 @@ class CartController extends BaseController {
 		}else{
 			$result = $this->changeItemQuantityToUser();
 		}
-		session('quantityCheckResult', $result?'':'addQuantityFailed');
-		$this->redirect('Cart/index');
+		if($result){
+			$this->redirect('Cart/index');
+		}else{
+			$this->redirect('Cart/index?message='.L('addQuantityFailed'));
+		}
 	}
 	
 	private function changeItemQuantityToSession(){
@@ -219,5 +233,53 @@ class CartController extends BaseController {
 		$data['totalFee'] = $data['totalAmount'] + $data['shippingFee'] + $order['giftPackageFee'];
 		$orderLogic->updateOrder($data, $order['orderId']);
 		return true;
+	}
+
+	public function userCoupon(){
+		if(!$this->isLogin()){
+			$this->redirect('Home/register', array('fromAction' => 'shoppinglist'));
+		}
+		$this->commonProcess();
+		$couponCode = I('couponCode');
+		if($couponCode == ''){
+			$this->redirect('Cart/index?message='.L('couponEmpty'));
+		}
+		$couponList = D('Coupon', 'Logic')->getActiveCode($couponCode, $this->getCurrency());
+		if(empty($couponList)){
+			$this->redirect('Cart/index?message='.L('couponNotExist'));				
+		}
+		if(strtotime($couponList[0]['startDate']) > strtotime("now") || strtotime($couponList[0]['endDate']) < strtotime("now")){
+			$this->redirect('Cart/index?message='.L('coupon').$couponCode.L('expired'));
+		}
+		$orderLogic = D('Order', 'Logic');
+		$order = $this->get('shoppingList');
+		if($order['couponCode'] != 0){
+			$this->redirect('Cart/index?message='.L('orderAlreadyHaveCoupon'));
+		}
+		$hasMatchRecord = false;
+		$totalAmount = $order['totalAmount'];
+		foreach($couponList as $coupon){
+			if(($order['totalAmount'] - $coupon['amountBenchMark']) >= 0){
+				//满足条件，使用优惠券
+				$order['couponId'] = $coupon['couponId'];
+				$order['totalAmount'] = $order['totalAmount'] - $coupon['discount'];
+				$order['totalFee'] = $order['totalFee'] - $coupon['discount'];
+				$hasMatchRecord = true;
+				break;
+			}
+		}
+		
+		//如果所购买的金额不够任何满减条款
+		if(!$hasMatchRecord){
+			$this->redirect('Cart/index?message='.L('insufficientBuyingRecord'));
+		}
+		
+		$orderLogic->updateOrder($order, $order['orderId']);
+		$this->redirect('Cart/index');
+	}
+
+	public function cancelCoupon(){
+		$this->cancelCouponCore();
+		$this->redirect('Cart/index');
 	}
 }

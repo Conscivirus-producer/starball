@@ -23,6 +23,7 @@ class ItemController extends BaseController {
 		$currencyArray = C('CURRENCY');
 		foreach($inventoryResult as $inventory){
 			if($discount < 100){
+				$inventory['originalPrice'] = $inventory['price'];
 				$inventory['price'] = round($inventory['price'] * $discount/100, 1);
 			}
 			if($itemData['type'] == '2'){

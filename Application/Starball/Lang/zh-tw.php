@@ -278,5 +278,14 @@ return array(
     'cancelOrder'=>'取消訂單',
     'confirmCancelOrder'=>'確定取消這個訂單?',
     'confirmReceipt'=>'確認收到商品?',
-    'modify'=>'修改'
+    'modify'=>'修改',
+    'couponNotExist'=>'優惠券不存在',
+    'coupon'=>'優惠券',
+    'expired'=>'已過期',
+    'addedItemsNoEnoughInventory'=>'商品庫存不足',
+    'addQuantityFailed'=>'該尺碼庫存不足',
+    'couponEmpty'=>'请输入优惠券',
+    'orderAlreadyHaveCoupon'=>'訂單已經使用了優惠券',
+    'insufficientBuyingRecord'=>'您的購買記錄不夠使用此優惠券',
+    'cancelCoupon'=>'取消優惠券'
 );

@@ -5,7 +5,7 @@
 </block>
 <block name="main">
 <gt name="shoppingListCount" value="0"><include file="Public/cartcommon" /></gt>
-	<input type="hidden" id="quantityCheckResult" value="{$quantityCheckResult}"/>
+	<input type="hidden" id="message" value="{$message}"/>
 	<div class="yu-cart-content am-kai">
 		<eq name="shoppingListCount" value="0">
 			<div class="empty-cart">
@@ -63,19 +63,49 @@
 				<div class="am-panel-hd">{$Think.lang.shoppingcart}({$shoppingList.totalItemCount})</div>
 				<div class="am-panel-bd am-padding-0" style="font-size: 13px;">
 					<div style="background-color:#F8F8F8;">
-						<div style="width:100%; padding: 15px 15px 0px 15px"><span>{$Think.lang.buyrecord}</span><span style="float: right">{$priceSymbol} <span id="totalAmount">{$shoppingList.totalAmount}</span></span></div>
+						<div style="width:100%; padding: 15px 15px 0px 15px">
+							<span>{$Think.lang.buyrecord}</span>
+							<if condition="$couponCode neq ''">
+								<div style="font-size: 14px;color:#8d8d8d;float: right">
+									<span>&nbsp;&nbsp;</span>
+									<span class="discount-item">{$priceSymbol}</span>
+									<span id="totalPayOrigin" class="discount-item">{$totalAmountOrigin}</span>
+								</div>
+							</if>
+							<span style="float: right">{$priceSymbol} 
+								<span id="totalAmount" <if condition="$couponCode neq ''">class="after-discount-amount"</if> >{$shoppingList.totalAmount}</span>
+							</span>
+							
+
+						</div>
 						<div style="width:100%; padding: 5px 15px 5px 15px"><span>{$Think.lang.shippingfee}</span><span style="float: right"><gt name="shoppingList['shippingFee']" value="0">{$priceSymbol}</gt> <span id="shippingFee">{$shoppingList.shippingFee}</span></span></div>
 						<div style="width:100%; padding: 5px 15px 5px 15px"><span>{$Think.lang.packagefee}</span><span style="float: right"><span id="giftPackageFee">{$shoppingList.giftPackageFee}</span></span></div>
 						<div style="width:100%; padding: 0px 15px 15px 15px"><span>{$Think.lang.ordertotal}</span><span style="float: right">{$priceSymbol} <span id="totalFee">{$shoppingList.totalFee}</span></span></div>
 					</div>
-					<div style="width:100%; border-top: 1px solid #CECECE; border-bottom: 1px solid #CECECE;padding: 15px">
-							<span style="font-size: 14px">{$Think.lang.totalpay}</span><span style="font-size: 14px;float:right">{$priceSymbol}<span id="totalPay">{$shoppingList.totalFee}</span></span>
+					<div class="totalPay">
+							<span style="font-size: 14px">{$Think.lang.totalpay}</span>
+							<span style="font-size: 14px;float:right">{$priceSymbol}
+								<span id="totalPay">{$shoppingList.totalFee}</span>
+							</span>
 					</div>
 					<div style="width:100%;text-align: center;background-color:#F8F8F8"><button class="submit"  style="width: 90%; height: 40px;margin:10px; background-color:black; color: white;border: 0;">{$Think.lang.submitorder}</button></div>
 					<div style="clear: both"></div>
 				</div>
 			</div>
-			<div ><input style="height: 27px" placeholder="优惠券" /><button style="float: right;background-color: #CECECE;border:0;color:white;">{$Think.lang.confirm}</button></div>
+			<div >
+				<input class="coupon" id="couponCode" placeholder="优惠券" <if condition="$couponCode neq ''">disabled="disabled"</if> 
+					value="{$couponCode}"/>
+					<input type="hidden" id="couponId" value="{$shoppingList.couponId}"/>
+					<if condition="$couponCode eq ''">
+						<button class="coupon" onclick="userCoupon()">
+							{$Think.lang.confirm}
+						</button>
+					<else/>
+						<button class="coupon" onclick="cancelCoupon()">
+							{$Think.lang.cancelCoupon}
+						</button>						
+					</if>
+			</div>
 			<div class="am-panel am-panel-default" style="margin-top:15px">
 				<div class="am-panel-hd"><icon class="am-icon-info"></icon> {$Think.lang.tax}</div>
 				<div class="am-panel-bd" style="font-size: 13px">
@@ -96,12 +126,9 @@
 </block>
 <block name="customizedJavascript">
 	<script type="text/javascript">
-		var quantityCheckResult = $('#quantityCheckResult').val();
-		if(quantityCheckResult == 'addQuantityFailed'){
-			alert("该尺码库存不足");
-		}
-		if(quantityCheckResult == 'addedItemsNoEnoughInventory'){
-			alert("商品库存不足");
+		var message = $('#message').val();
+		if(message != ''){
+			alert(message);
 		}
 		$(".cart-step1").addClass("step-on");
 		$(".submit").click(function(){
@@ -119,6 +146,14 @@
 				$('#totalFee').html(parseFloat($('#totalAmount')[0].innerText) + parseFloat($('#shippingFee')[0].innerText));
 				$('#totalPay').html($('#totalFee')[0].innerText);
 			}
+		}
+		
+		function userCoupon(){
+			window.location.href="{:U('Cart/userCoupon')}?couponCode="+$('#couponCode').val();
+		}
+		
+		function cancelCoupon(){
+			window.location.href="{:U('Cart/cancelCoupon')}";
 		}
 	</script>
 </block>
