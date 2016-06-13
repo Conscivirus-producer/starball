@@ -19,4 +19,18 @@ class CouponLogic extends CouponModel{
 		$map['currency'] = $currentCurrency;
 		return $this->where($map)->find();
 	}
+	
+	public function getAllCoupons(){
+		return $this->order('endDate desc, code, couponSequence')->select();
+	}
+	
+	public function getNewSequenceByCouponCode($couponCode){
+		$map['code'] = $couponCode;
+		$data = $this->where($map)->order('couponSequence desc')->find();
+		if($data != ''){
+			return $data['couponSequence'] + 1;
+		}else{
+			return '1';
+		}
+	}
 }

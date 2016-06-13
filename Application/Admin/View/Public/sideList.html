@@ -24,5 +24,12 @@
             <li><a href="{:U('Admin/Data/create')}" target="_blank"><span class="am-icon-upload"></span> 添加支持数据</a></li>
         </ul>
     </li>
+    <li class="admin-parent">
+        <a class="am-cf" data-am-collapse="{target: '#data-nav'}"><span class="am-icon-file"></span> 代金券管理 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+        <ul class="am-list am-collapse admin-sidebar-sub am-in" id="data-nav">
+            <li><a href="{:U('Admin/Coupon/index')}" class="am-cf" target="_blank"><span class="am-icon-search"></span> 代金券列表</a></li>
+            <li><a href="{:U('Admin/Coupon/create')}" target="_blank"><span class="am-icon-upload"></span> 添加代金券</a></li>
+        </ul>
+    </li>
     <li><a href="{:U('Admin/Home/logOut')}"><span class="am-icon-sign-out"></span> 注销</a></li>
 </ul>
