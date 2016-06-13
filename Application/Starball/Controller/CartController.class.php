@@ -5,7 +5,7 @@ class CartController extends BaseController {
 	public function index(){
 		$this->commonProcess();
 		if(I('message') != ''){
-			$this->assign('message', I('message'));
+			$this->assign('message', urldecode(I('message')));
 		}
 		if(I('itemId') != ''){
 			$item = D('Item', 'Logic')->findById(I('itemId'));
