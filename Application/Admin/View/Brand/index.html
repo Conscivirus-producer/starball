@@ -20,6 +20,7 @@
 <p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
     以获得更好的体验！</p>
 <![endif]-->
+<input type="text" id="qiniuToken" name="qiniuToken" value="{$qiniuToken}" style="display: none">
 <header class="am-topbar admin-header">
     <div class="am-topbar-brand">
         <strong>StarBall</strong> <small>后台管理</small>
@@ -115,8 +116,11 @@
 				                        <button type="button" class="am-btn am-btn-success am-btn-sm">
 				                            <i class="am-icon-cloud-upload"></i> 选择要上传的品牌尺码
 				                        </button>
-				                        <input id="item-images" type="file" name="item-images" >
+				                        <input id="brand-sizedescription" type="file" name="brand-sizedescription" >
 				                    </div>
+			                        <ul class="am-avg-sm-4 am-thumbnails" id="images-gallery">
+			
+			                        </ul>
                                     <p><button type="button" id="upload-single-brand" class="am-btn am-btn-default">提交</button></p>
                                 </fieldset>
                             </form>
@@ -196,7 +200,20 @@
                     </div>
                 </div>
             </div>
-
+            
+	        <!-- 图片上传报错框 -->
+	        <div class="am-modal am-modal-alert" tabindex="-1" id="single-pic-alert">
+	            <div class="am-modal-dialog">
+	                <div class="am-modal-hd">图片上传错误</div>
+	                <div class="am-modal-bd">
+	                    请重新上传图片
+	                </div>
+	                <div class="am-modal-footer">
+	                    <span class="am-modal-btn">确定</span>
+	                </div>
+	            </div>
+	        </div>
+	        
             <!-- 种类添加失败报错框 -->
             <div class="am-modal am-modal-alert" tabindex="-1" id="single-category-add-fail">
                 <div class="am-modal-dialog">
@@ -265,6 +282,7 @@
 <script src="__PUBLIC__/starball/js/jquery.form.js"></script>
 <!-- 自己的JS代码-->
 <script>
+	var imageUrl = "";
     $(".brand-delete-button.am-btn.am-btn-secondary").click(function(){
         var brandId = $(this).attr("name").replace("brand", "");
         $.getJSON('{:U("Brand/deleteBrandById")}?brandId=' + brandId,function(data){
@@ -292,6 +310,7 @@
             var brandData = {};
             brandData["brandName"] = $("#brandName").val().trim();
             brandData["description"] = $("#description").val().trim();
+            brandData["sizeDescription"] = imageUrl;
             $.post('{:U("Brand/addBrand")}',brandData, function(result){
                 if ($.parseJSON(result).status == "1") {
                     $("#add-success").modal('open');
@@ -299,6 +318,61 @@
                     $("#single-brand-add-fail").modal('open');
                 }
             });
+        }
+    });
+    
+    // image uploading
+    var imageKey;
+    var qiniuToken = $("#qiniuToken").val().trim();
+    var Qiniu_UploadUrl = "http://up.qiniu.com";
+    var is_uploading_image = false;
+    // qiniu upload
+    $("#brand-sizedescription").change(function() {
+        // uploading starts
+        is_uploading_image = true;
+        var Qiniu_upload = function(f, token, key) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', Qiniu_UploadUrl, true);
+            var formData;
+            formData = new FormData();
+            if (key !== null && key !== undefined) formData.append('key', key);
+            formData.append('token', token);
+            formData.append('file', f);
+            xhr.onreadystatechange = function(response) {
+                if (xhr.readyState == 4 && xhr.status == 200 && xhr.responseText != "") {
+                    $('li:last-child', $("#images-gallery")).remove();
+                    var $li = $("<li></li>");
+                    $li.append('<img class="am-thumbnail" src="http://7xp6oq.com2.z0.glb.qiniucdn.com/' + key +'" />');
+                    imageUrl = "http://7xp6oq.com2.z0.glb.qiniucdn.com/" + key;
+                    var $button = $('<button type="button" name="' + key + '" class="am-close">&times;</button>');
+                    $button.click(function() {
+                        var currentKey = $(this).attr("name");
+                        $.getJSON("../Item/deleteImageByQiniuKey?qiniuKey=" + currentKey,function(result){
+                            if (result.status == "1") {
+                                $li.remove();
+                                imageUrl = "";
+                            }
+                        });
+                    });
+                    $li.append($button);
+                    $("#images-gallery").append($li);
+                    is_uploading_image = false;
+                } else if (xhr.status != 200 && xhr.responseText) {
+                    $('#single-pic-alert').modal('open');
+                    is_uploading_image = false;
+                }
+            };
+            xhr.send(formData);
+        };
+        if ($("#brand-sizedescription")[0].files.length > 0 && qiniuToken != "") {
+            var startDate = new Date().getTime();
+            imageKey = "key_value_image_" + startDate;
+            $("#images-gallery").append('<li><img class="am-thumbnail" src="http://7xoh2x.com1.z0.glb.clouddn.com/loading.gif" /></li>');
+            Qiniu_upload($("#brand-sizedescription")[0].files[0], qiniuToken, imageKey);
+        } else {
+            // uploading ends
+            is_uploading_image = false;
+            $('#single-pic-alert').modal('open');
         }
     });
 

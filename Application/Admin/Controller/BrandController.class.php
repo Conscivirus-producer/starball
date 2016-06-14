@@ -14,6 +14,13 @@ class BrandController extends Controller {
     public function index() {
         $brandLogic = D("Brand", "Logic");
         $categoryLogic = D("Category", "Logic");
+        vendor("qiniusdk.autoload");
+        $accessKey = 'k7HBysPt-HoUz4dwPT6SZpjyiuTdgmiWQE-7qkJ4';
+        $secretKey = 'BuaBzxTxNsNUBSy1ZvFUAfUbj8GommyWbfJ0eQ2R';
+        $auth = new Auth($accessKey, $secretKey);
+        $bucket = 'image';
+        $token = $auth->uploadToken($bucket,null,3600,null,true);
+        $this->assign('qiniuToken',$token);
         $this->assign("brandData", $brandLogic->getAllBrandInfo());
         $this->assign("categoryData", $categoryLogic->getAllCategoryInfo());
         $this->display();
@@ -80,7 +87,8 @@ class BrandController extends Controller {
         $brandLogic = D("Brand", "Logic");
         $fields = array(
             "brandName",
-            "description"
+            "description",
+            "sizeDescription"
         );
         $data = array();
         for($i = 0; $i < count($fields); $i++) {
