@@ -1,0 +1,1 @@
+ALTER TABLE  `t_brand` ADD  `discount` VARCHAR( 10 ) NOT NULL DEFAULT  '100' COMMENT  '品牌折扣,如果有设,其下面所有的商品统一和品牌的折扣一样' AFTER  `description`;

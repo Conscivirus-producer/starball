@@ -14,6 +14,12 @@
 			$map['itemId'] = $itemId;
 			return $this->where($map)->find();
 		}
+		
+		public function updateDiscountByBrandId($brandId, $discount){
+			$map['brandId'] = $brandId;
+			$data['discount'] = $discount;
+			$this->where($map)->save($data);
+		}
 
 		public function insertOneItem($data) {
 			// add the inventory

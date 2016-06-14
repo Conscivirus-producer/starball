@@ -18,6 +18,11 @@ class BrandLogic extends BrandModel{
         $data = $this->where($map)->select();
         return $data[0]["brandId"];
     }
+	
+	public function getByBrandId($brandId){
+		$map['brandId'] = $brandId;
+		return $this->where($map)->find();
+	}
 
     public function deleteBrandById($brandId) {
         $map["brandId"] = $brandId;
@@ -28,4 +33,8 @@ class BrandLogic extends BrandModel{
         return ($this->add($data) !== false);
     }
 
+	public function updateBrand($data, $brandId){
+		$map['brandId'] = $brandId;
+		$this->where($map)->save($data);
+	}
 }

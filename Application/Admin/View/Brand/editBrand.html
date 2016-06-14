@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>添加代金券</title>
-    <meta name="description" content="添加关键数据页面">
+    <title>编辑品牌</title>
+    <meta name="description" content="编辑品牌">
     <meta name="keywords" content="help">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
@@ -20,7 +20,6 @@
 <p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
     以获得更好的体验！</p>
 <![endif]-->
-<input type="text" id="qiniuToken" name="qiniuToken" value="{$qiniuToken}" style="display: none">
 <header class="am-topbar admin-header">
     <div class="am-topbar-brand">
         <strong>StarBall</strong> <small>后台管理</small>
@@ -61,37 +60,15 @@
         <div class="am-g">
             <form class="am-form" method="post" enctype="multipart/form-data">
                 <fieldset>
-                    <legend>添加代金券</legend>
+                    <legend>编辑品牌</legend>
+                    <input type="hidden" name="brandId" id="brandId" value="{$brand.brandId}">
                     <div class="am-form-group">
-                        <label for="coupon-code">代金券码</label>
-                        <input type="text" class="" name="coupon-code" id="coupon-code" placeholder="输入代金券码">
+                        <label for="brandName">品牌名字</label>
+                        <input type="text" class="" name="brandName" id="brandName" value="{$brand.brandName}" disabled="disabled">
                     </div>
-                   </br>
-                    <div class="am-form-group">
-                        <label for="cny-benchmark">人民币最小购买金额</label>
-                        <input type="text" class="" name="cny-benchmark" id="cny-benchmark" placeholder="设置人民币最小购买金额">
-                    </div>
-                    <div class="am-form-group">
-                        <label for="cny-discount">人民币满减金额</label>
-                        <input type="text" class="" name="cny-discount" id="cny-discount" placeholder="设置人民币满减金额">
-                    </div>
-                    </br>
-                    <div class="am-form-group">
-                        <label for="hkd-benchmark">港币最小购买金额</label>
-                        <input type="text" class="" name="hkd-benchmark" id="hkd-benchmark" placeholder="设置港币最小购买金额">
-                    </div>
-                    <div class="am-form-group">
-                        <label for="hkd-discount">港币满减金额</label>
-                        <input type="text" class="" name="hkd-discount" id="hkd-discount" placeholder="设置港币满减金额">
-                    </div>
-                    </br>
-                    <div class="am-form-group">
-                        <label for="discount-startdate">代金券开始时间</label>
-                        <input type="text" class="" name="discount-startdate" id="discount-startdate" placeholder="选择代金券开始时间" data-am-datepicker readonly>
-                    </div>
-                    <div class="am-form-group">
-                        <label for="discount-enddate">代金券结束时间</label>
-                        <input type="text" class="" name="discount-enddate" id="discount-enddate" placeholder="选择代金券结束时间" data-am-datepicker readonly>
+                    <div class="am-form-group" id="if-text-div">
+                        <label for="discount">品牌折扣</label>
+                        <input type="text" class="" name="discount" id="discount" value="{$brand.discount}" placeholder="输入品牌折扣">
                     </div>
                     <p><button type="button" id="upload" class="am-btn am-btn-default">提交</button></p>
                 </fieldset>
@@ -112,9 +89,9 @@
         <!-- 上传成功提醒框 -->
         <div class="am-modal am-modal-alert" tabindex="-1" id="create-success-alert">
             <div class="am-modal-dialog">
-                <div class="am-modal-hd">创建成功!</div>
+                <div class="am-modal-hd">更新成功!</div>
                 <div class="am-modal-bd">
-                    创建成功!
+                    更新成功!
                 </div>
                 <div class="am-modal-footer">
                     <span class="am-modal-btn">确定</span>
@@ -124,9 +101,9 @@
         <!-- 上传错误提醒框 -->
         <div class="am-modal am-modal-alert" tabindex="-1" id="create-fail-alert">
             <div class="am-modal-dialog">
-                <div class="am-modal-hd">创建失败!请重新创建</div>
+                <div class="am-modal-hd">更新失败!请更新创建</div>
                 <div class="am-modal-bd">
-                    创建失败!请重新创建
+                    更新失败!请更新创建
                 </div>
                 <div class="am-modal-footer">
                     <span class="am-modal-btn">确定</span>
@@ -159,41 +136,24 @@
 <script src="__PUBLIC__/starball/js/jquery.form.js"></script>
 <!-- 自己的JS代码-->
 <script>
-    $("#upload").click(function() {
-        var couponCode = $("#coupon-code").val().trim();
-        var cnyBenchmark = $("#cny-benchmark").val().trim();
-        var cnyDiscount = $("#cny-discount").val().trim();
-        var hkdBenchmark = $("#hkd-benchmark").val().trim();
-        var hkdDiscount = $("#hkd-discount").val().trim();
-        var startDate = $("#discount-startdate").val().trim();
-        var endDate = $("#discount-enddate").val();
-        if (couponCode == "" || cnyBenchmark == "" || cnyDiscount == "" || hkdBenchmark == "" || hkdDiscount == "" || startDate == "" || endDate == ""){
-            $('#fields-alert').modal('open');
-        } else {
-        	var postData = {};
-        	postData['couponCode'] = couponCode;
-        	postData['cnyBenchmark'] = cnyBenchmark;
-        	postData['cnyDiscount'] = cnyDiscount;
-        	postData['hkdBenchmark'] = hkdBenchmark;
-        	postData['hkdDiscount'] = hkdDiscount;
-        	postData['startDate'] = startDate;
-        	postData['endDate'] = endDate;
-            $.post('{:U("Coupon/insertCouponPair")}', postData, function(data) {
-                if ($.parseJSON(data).status == "1") {
+	$("#upload").click(function() {
+		var discount = $('#discount').val().trim();
+		var re = /^[0-9]+.?[0-9]*$/;
+		if(discount == '' || !re.test(discount)){
+			$('#fields-alert').modal('open');
+		}else{
+			var postData = {};
+			postData['discount'] = discount;
+			postData['brandId'] = $('#brandId').val();
+            $.post('{:U("Brand/doEditBrand")}', postData, function(data) {
+            	if ($.parseJSON(data).status == "1") {
                     $("#create-success-alert").modal("open");
-	                clearFields();
                 } else {
                     $("#create-fail-alert").modal("open");
                 }
             });
-        }
-    });
-
-    function clearFields() {
-        $("#coupon-code").val("");
-        $("#cny-benchmark").val("");
-        $("#hkd-benchmark").val("");
-    };
+		}
+	});
 </script>
 </body>
 </html>

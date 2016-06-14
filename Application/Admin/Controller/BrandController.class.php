@@ -18,6 +18,28 @@ class BrandController extends Controller {
         $this->assign("categoryData", $categoryLogic->getAllCategoryInfo());
         $this->display();
     }
+	
+	public function editBrand(){
+		$brand = D('Brand', 'Logic')->getByBrandId(I('brandId'));
+		$this->assign('brand', $brand);
+		$this->display();
+	}
+	
+	public function doEditBrand(){
+        $res = array(
+            "status" => "0"
+        );
+		$brandId = I('brandId');
+		$discount = I('discount');
+		$data['discount'] = $discount;
+		D('Brand', 'Logic')->updateBrand($data, $brandId);
+		
+		//更新这个brand下面所有item的折扣
+		D('Item', 'Logic')->updateDiscountByBrandId($brandId, $discount);
+		
+		$res['status'] = '1';
+		echo json_encode($res);
+	}
 
     public function deleteBrandById() {
         $res = array(

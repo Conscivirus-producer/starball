@@ -73,8 +73,10 @@
                                 <thead>
                                 <tr>
                                     <th>品牌名称</th>
+                                    <th>品牌折扣</th>
                                     <th>品牌描述</th>
                                     <th width="120px">品牌尺码</th>
+                                    <th>编辑</th>
                                     <th>删除</th>
                                 </tr>
                                 </thead>
@@ -82,9 +84,16 @@
                                 <volist name="brandData" id="vo">
                                     <tr id="brandTr{$vo.brandId}">
                                         <td>{$vo.brandName}</td>
+                                        <td width="5%">{$vo.discount}</td>
                                         <td>{$vo.description}</td>
                                         <td><a href="{$vo.sizeDescription}">点击查看</a></td>
-                                        <td><button type="button" name="brand{$vo.brandId}" class="brand-delete-button am-btn am-btn-secondary">删除</button></td>
+                                        <td>
+                                        	<button type="button" name="edit_brand{$vo.brandId}" 
+                                        	onclick="window.location.href='{:U('Brand/editBrand', array('brandId'=>$vo['brandId']))}'" class="brand-edit-button am-btn am-btn-secondary">编辑</button>
+                                        </td>
+                                        <td>
+                                        	<button type="button" name="brand{$vo.brandId}" class="brand-delete-button am-btn am-btn-secondary">删除</button>
+                                    	</td>
                                     </tr>
                                 </volist>
                                 </tbody>
@@ -144,7 +153,7 @@
                                     <legend>添加种类</legend>
                                     <div class="am-form-group">
                                         <label for="categoryName">种类名称</label>
-                                        <input type="text" class="" name="categoryName" id="categoryName" placeholder="输入品牌名称">
+                                        <input type="text" class="" name="categoryName" id="categoryName" placeholder="输入种类名称">
                                     </div>
                                     <div class="am-form-group">
                                         <label for="type">种类分类</label>
@@ -258,7 +267,7 @@
 <script>
     $(".brand-delete-button.am-btn.am-btn-secondary").click(function(){
         var brandId = $(this).attr("name").replace("brand", "");
-        $.getJSON("./Brand/deleteBrandById?brandId=" + brandId,function(data){
+        $.getJSON('{:U("Brand/deleteBrandById")}?brandId=' + brandId,function(data){
             if (data.status == "1") {
                 $("#brandTr" + brandId).remove();
             } else {
@@ -268,7 +277,7 @@
     });
     $(".category-delete-button.am-btn.am-btn-secondary").click(function(){
         var categoryId = $(this).attr("name").replace("category", "");
-        $.getJSON("./Brand/deleteCategoryById?categoryId=" + categoryId,function(data){
+        $.getJSON('{:U("Brand/deleteCategoryById")}?categoryId=' + categoryId,function(data){
             if (data.status == "1") {
                 $("#categoryTr" + categoryId).remove();
             } else {
@@ -283,7 +292,7 @@
             var brandData = {};
             brandData["brandName"] = $("#brandName").val().trim();
             brandData["description"] = $("#description").val().trim();
-            $.post("./Brand/addBrand", brandData, function(result){
+            $.post('{:U("Brand/addBrand")}',brandData, function(result){
                 if ($.parseJSON(result).status == "1") {
                     $("#add-success").modal('open');
                 } else {
@@ -300,7 +309,7 @@
             var categoryData = {};
             categoryData["categoryName"] = $("#categoryName").val().trim();
             categoryData["type"] = $("#type").val();
-            $.post("./Brand/addCategory", categoryData, function(result){
+            $.post('{:U("Brand/addCategory")}', categoryData, function(result){
                 if ($.parseJSON(result).status == "1") {
                     $("#add-success").modal('open');
                 } else {
