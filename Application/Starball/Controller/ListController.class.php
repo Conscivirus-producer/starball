@@ -79,7 +79,7 @@ class ListController extends BaseController {
 							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
 							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type !='2'")
-							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
+							 ->order('t_item.lastUpdatedDate desc')
 							 ->page($p.',18')
 							 ->select();
 				$count = D('Item')->field('t_item.*, img.image, price.price')
@@ -87,7 +87,7 @@ class ListController extends BaseController {
 							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
 							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type !='2'")
-							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
+							 ->order('t_item.lastUpdatedDate desc')
 							 ->count('distinct t_item.itemId');
 				 if($count == 0 && $by == "brand"){
 				 	$this->redirect('Starball/List/shoes/by/shoes/byValue/shoes/brands/'.$byValue);
@@ -99,7 +99,7 @@ class ListController extends BaseController {
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
 							 ->join("t_inventory inv ON inv.itemId = t_item.itemId and inv.age like '%".$ageFilter."%'")
 							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type !='2'")
-							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
+							 ->order('t_item.lastUpdatedDate desc')
 							 ->page($p.',18')
 							 ->select();
 				$count = D('Item')->distinct(true)->field('t_item.*, img.image, price.price')
@@ -108,7 +108,7 @@ class ListController extends BaseController {
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
 							 ->join("t_inventory inv ON inv.itemId = t_item.itemId and inv.age like '%".$ageFilter."%'")
 							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type !='2'")
-							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
+							 ->order('t_item.lastUpdatedDate desc')
 							 ->count('distinct t_item.itemId');
 			}
 		}else{
@@ -118,7 +118,7 @@ class ListController extends BaseController {
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.currency = '".$this->getCurrency()."'")
 							 ->join("t_tag tg ON tg.itemId = t_item.itemId AND tg.tagName ='".$tag."'")
 							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type !='2'")
-							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
+							 ->order('t_item.lastUpdatedDate desc')
 							 ->page($p.',18')
 							 ->select();
 			$count = D('Item')->field('distinct t_item.itemId, t_item.*, img.image, price.price')
@@ -127,7 +127,7 @@ class ListController extends BaseController {
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.currency = '".$this->getCurrency()."'")
 							 ->join("t_tag tg ON tg.itemId = t_item.itemId AND tg.tagName ='".$tag."'")
 							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type !='2'")
-							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
+							 ->order('t_item.lastUpdatedDate desc')
 							 ->count('distinct t_item.itemId');
 		}
 
@@ -238,7 +238,7 @@ class ListController extends BaseController {
 					 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
 					 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
 					 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type ='3'")
-					 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
+					 ->order('t_item.lastUpdatedDate desc')
 					 ->page($p.',18')
 					 ->select();
 		$count = D('Item')->field('t_item.*, img.image, price.price')
@@ -246,7 +246,7 @@ class ListController extends BaseController {
 					 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
 					 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
 					 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type ='3'")
-					 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
+					 ->order('t_item.lastUpdatedDate desc')
 					 ->count('distinct t_item.itemId');
 
 		//age list for each item
@@ -333,7 +333,7 @@ class ListController extends BaseController {
 							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
 							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type ='2'")
-							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
+							 ->order('t_item.lastUpdatedDate desc')
 							 ->page($p.',18')
 							 ->select();
 				$count = D('Item')->field('t_item.*, img.image, price.price')
@@ -341,7 +341,7 @@ class ListController extends BaseController {
 							 ->join('t_image img ON img.itemId = t_item.itemId AND img.sequence = (SELECT MIN(sequence) FROM t_image WHERE itemId = img.itemId )')
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
 							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type ='2'")
-							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
+							 ->order('t_item.lastUpdatedDate desc')
 							 ->count('distinct t_item.itemId');
 			}else{
 				$itemList = D('Item')->distinct(true)->field('t_item.*, img.image, price.price')
@@ -350,7 +350,7 @@ class ListController extends BaseController {
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
 							 ->join("t_inventory inv ON inv.itemId = t_item.itemId and inv.footSize like '%".$ageFilter."%'")
 							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type ='2'")
-							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
+							 ->order('t_item.lastUpdatedDate desc')
 							 ->page($p.',18')
 							 ->select();
 				$count = D('Item')->field('t_item.*, img.image, price.price')
@@ -359,7 +359,7 @@ class ListController extends BaseController {
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.price = (select min(price) from t_itemprice where currency = '".$this->getCurrency()."' and itemId = t_item.itemId)")
 							 ->join("t_inventory inv ON inv.itemId = t_item.itemId and inv.footSize like '%".$ageFilter."%'")
 							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type ='2'")
-							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
+							 ->order('t_item.lastUpdatedDate desc')
 							 ->count('distinct t_item.itemId');
 			}
 		}else{
@@ -369,7 +369,7 @@ class ListController extends BaseController {
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.currency = '".$this->getCurrency()."'")
 							 ->join("t_tag tg ON tg.itemId = t_item.itemId AND tg.tagName ='".$tag."'")
 							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type ='2'")
-							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
+							 ->order('t_item.lastUpdatedDate desc')
 							 ->page($p.',18')
 							 ->select();
 			$count = D('Item')->field('distinct t_item.itemId, t_item.*, img.image, price.price')
@@ -378,7 +378,7 @@ class ListController extends BaseController {
 							 ->join("t_itemprice price ON price.itemId = t_item.itemId and price.currency = '".$this->getCurrency()."'")
 							 ->join("t_tag tg ON tg.itemId = t_item.itemId AND tg.tagName ='".$tag."'")
 							 ->join("t_category cat ON cat.categoryId = t_item.categoryId and cat.type ='2'")
-							 ->order('brandId desc,t_item.categoryId desc, t_item.itemId desc')
+							 ->order('t_item.lastUpdatedDate desc')
 							 ->count('distinct t_item.itemId');
 		}
 
