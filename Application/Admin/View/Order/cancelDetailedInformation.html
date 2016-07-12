@@ -178,7 +178,7 @@
     $("#agree-cancel-order").click(function(){
         var data = {};
         data["cancelId"] = cancelId;
-        $.post("./agreeCancelOrder",data,function(result){
+        $.post('{:U("Order/agreeCancelOrder")}', data,function(result){
             if ($.parseJSON(result).status == "1") {
                 $("#success-prompt").modal("open");
             } else {
@@ -189,7 +189,7 @@
     $("#disagree-cancel-order").click(function(){
         var data = {};
         data["cancelId"] = cancelId;
-        $.post("./disagreeCancelOrder",data,function(result){
+        $.post('{:U("Order/disagreeCancelOrder")}',data,function(result){
             if ($.parseJSON(result).status == "1") {
                 $("#success-prompt").modal("open");
             } else {
@@ -200,7 +200,7 @@
     $("#verify-receive").click(function(){
         var data = {};
         data["cancelId"] = cancelId;
-        $.post("./cancelOrderVerifyReceive",data,function(result){
+        $.post('{:U("Order/cancelOrderVerifyReceive")}',data,function(result){
             if ($.parseJSON(result).status == "1") {
                 $("#success-prompt").modal("open");
             } else {
@@ -211,7 +211,7 @@
     $("#refund").click(function(){
         var data = {};
         data["cancelId"] = cancelId;
-        $.post("./cancelOrderRefund",data,function(result){
+        $.post('{:U("Order/cancelOrderRefund")}',data,function(result){
             if ($.parseJSON(result).status == "1") {
                 $("#success-prompt").modal("open");
             } else {

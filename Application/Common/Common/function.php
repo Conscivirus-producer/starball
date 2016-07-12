@@ -51,6 +51,9 @@ function sendMailNewVersion($mailContent, $type, $userInfo){
 		$tableContent = $tableContent."<tr><td>总金额</td><td>-</td><td>-</td><td>".$mailContent['totalFee']."</td></tr>";
 		$tableContent = $tableContent."</tbody></table>";
 		$template = $template.$tableContent;
+		if($mailContent['addtionalGreetings'] != ''){
+			$template = $template."<p>礼品包装祝福信息：".$mailContent['addtionalGreetings']."</p>";	
+		}
 		$template = $template."<p>您提供的收货地址：</p>";
 		$template = $template."<p>".$address['address']."<p>";
 		if($address['postCode'] != ''){

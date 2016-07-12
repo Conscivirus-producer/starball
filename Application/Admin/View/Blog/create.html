@@ -177,7 +177,7 @@
             data["title"] = $("#blog-title").val().trim();
             data["abstract"] = $("#blog-abstract").val().trim();
             data["content"] = UE.getEditor('editor').getContent();
-            $.post("./saveAsDraft",data,function(result){
+            $.post('{:U("Blog/saveAsDraft")}',data,function(result){
                 if (($.parseJSON(result)).status == "1") {
                     $("#save-success").modal("open");
                 } else {
@@ -195,7 +195,7 @@
             data["title"] = $("#blog-title").val().trim();
             data["abstract"] = $("#blog-abstract").val().trim();
             data["content"] = UE.getEditor('editor').getContent();
-            $.post("./saveAsPublish",data,function(result){
+            $.post('{:U("Blog/saveAsPublish")}',data,function(result){
                 if (($.parseJSON(result)).status == "1") {
                     $("#save-success").modal("open");
                 } else {

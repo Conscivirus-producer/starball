@@ -183,7 +183,7 @@
             data["abstract"] = $("#blog-abstract").val().trim();
             data["content"] = UE.getEditor('editor').getContent();
             data["blogId"] = blogId;
-            $.post("./update",data,function(result){
+            $.post('{:U("Blog/update")}',data,function(result){
                 if (($.parseJSON(result)).status == "1") {
                     $("#save-success").modal("open");
                 } else {
@@ -202,7 +202,7 @@
             data["abstract"] = $("#blog-abstract").val().trim();
             data["content"] = UE.getEditor('editor').getContent();
             data["blogId"] = blogId;
-            $.post("./update",data,function(result){
+            $.post('{:U("Blog/update")}',data,function(result){
                 if (($.parseJSON(result)).status == "1") {
                     $("#save-success").modal("open");
                 } else {

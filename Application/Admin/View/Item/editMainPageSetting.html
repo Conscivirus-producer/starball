@@ -278,7 +278,7 @@
             postData["active"] = ($("#active").is(':checked')) ? 1 : 0;
             postData["image"] = imageUrl;
             postData["imageChanged"] = imageChanged;
-            $.post("./updateMainPageSetting", postData, function(result){
+            $.post('{:U("Item/updateMainPageSetting")}', postData, function(result){
                 if ($.parseJSON(result).status == "1") {
                     // 需要提示
                     $("#main-setting-update-success").modal('open');

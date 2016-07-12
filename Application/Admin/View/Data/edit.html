@@ -281,7 +281,7 @@
                 postData["key"] = dataJSON.key;
                 postData["value"] = supportingDataValue;
                 postData["remark"] = supportingDataRemark;
-                $.post("./updateOneKeyAndValue", postData, function(data) {
+                $.post('{:U("Data/updateOneKeyAndValue")}', postData, function(data) {
                     if ($.parseJSON(data).status == "1") {
                         $("#update-success-alert").modal("open");
                     } else {
@@ -300,7 +300,7 @@
                 postData["key"] = dataJSON.key;
                 postData["value"] = imageUrl;
                 postData["remark"] = supportingDataRemark;
-                $.post("./updateOneKeyAndValue", postData, function(data) {
+                $.post('{:U("Data/updateOneKeyAndValue")}', postData, function(data) {
                     if ($.parseJSON(data).status == "1") {
                         $("#update-success-alert").modal("open");
                     } else {

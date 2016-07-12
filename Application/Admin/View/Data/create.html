@@ -221,7 +221,7 @@
                         postData["value"] = supportingDataValue;
                         postData["type"] = supportingDataType;
                         postData["remark"] = supportingDataRemark;
-                        $.post("./insertOneKeyAndValue", postData, function(data) {
+                        $.post('{:U("Data/insertOneKeyAndValue")}', postData, function(data) {
                             if ($.parseJSON(data).status == "1") {
                                 $("#create-success-alert").modal("open");
                             } else {

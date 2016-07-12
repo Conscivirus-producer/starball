@@ -74,6 +74,7 @@
                             <li>商品总价格: {$information.totalAmount}{$information.currency}</li>
                             <li>运费: {$information.shippingFee}{$information.currency}</li>
                             <li>礼品包装费用: {$information.giftPackageFee}{$information.currency}</li>
+                            <li>礼品包装祝福语: {$information.addtionalGreetings}</li>
                             <li>总价格: {$information.totalFee}{$information.currency}</li>
                             <li>下单时间: {$information.createdDate}</li>
                             <li>
@@ -330,7 +331,7 @@
                     data["email"] = emailAddress;
                     data["userName"] = userName;
                     data["orderId"] = orderId;
-                    $.post("./confirmDelivery",data,function(result){
+                    $.post('{:U("Order/confirmDelivery")}',data,function(result){
                         if ($.parseJSON(result).status == "1") {
                             $("#success-prompt").modal("open");
                         } else {
@@ -347,7 +348,7 @@
     $("#confirm-user-received").click(function() {
         var data = {};
         data["orderId"] = orderId;
-        $.post("./confirmReceive",data,function(result){
+        $.post('{:U("Order/confirmReceive")}',data,function(result){
             if ($.parseJSON(result).status == "1") {
                 $("#success-prompt").modal("open");
             } else {
