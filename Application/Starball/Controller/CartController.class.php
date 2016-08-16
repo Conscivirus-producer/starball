@@ -192,6 +192,10 @@ class CartController extends BaseController {
 		foreach($shoppingListItems as $record){
 			if($record['itemId'] == I('itemId') && $record['itemSize'] == I('itemSize')){
 				$record['quantity'] += $changedQuantity;
+				//huahua@20160816, 如果当前数量变成了负数,那么直接返回,多个窗口同时操作,有可能出现负数的情况
+				if($record['quantity'] < 0){
+					return true;
+				}
 				if((I('changedQuantity') > 0) && !D('Inventory', 'Logic')->isInventoryAvailable($record['itemSize'], $record['quantity'])){
 					//如果库存不足
 					return false;
@@ -223,6 +227,10 @@ class CartController extends BaseController {
 		if((I('changedQuantity') > 0) && !D('Inventory', 'Logic')->isInventoryAvailable(I('itemSize'), $orderItem[0]['quantity'] + I('changedQuantity'))){
 			//如果库存不足
 			return false;
+		}
+		//huahua@20160816, 如果当前数量变成了负数,那么直接返回,多个窗口同时操作,有可能出现负数的情况
+		if(($orderItem[0]['quantity'] + I('changedQuantity')) < 0){
+			return true;
 		}
 		$orderItemLogic->changeQuantity($orderItem[0], I('changedQuantity'), I('changedPrice'));
 		
