@@ -117,7 +117,7 @@
                 <table class="am-table am-table-bordered am-table-striped am-table-compact">
                     <thead>
                     <tr>
-                        <th>订单ID</th>
+                        <th>订单号</th>
                         <th>商品数量</th>
                         <th>商品总价格</th>
                         <th>运费</th>
@@ -125,14 +125,15 @@
                         <th>总价格</th>
                         <th>发货地址</th>
                         <th>用户</th>
-                        <th>下单时间</th>
+                        <th>创建时间</th>
+                        <th>更新时间</th>
                         <th>订单状态</th>
                     </tr>
                     </thead>
                     <tbody>
                     <volist name="orders" id="vo">
                         <tr>
-                            <td><a class="" href="{:U('Admin/Order/showDetailedInformation', array('orderId'=>$vo['orderId']))}" target="_blank">{$vo.orderId}</a></td>
+                            <td><a class="" href="{:U('Admin/Order/showDetailedInformation', array('orderId'=>$vo['orderId']))}" target="_blank">{$vo.orderNumber}</a></td>
                             <td>{$vo.totalItemCount}</td>
                             <td>{$vo.totalAmount}{$vo.currency}</td>
                             <td>{$vo.shippingFee}{$vo.currency}</td>
@@ -145,6 +146,7 @@
                                 {$vo.userInformation.email}
                             </td>
                             <td>{$vo.createdDate}</td>
+                            <td>{$vo.updatedDate}</td>
                             <td>
                                 <switch name="vo.status">
                                     <case value="B"><span class="am-badge am-badge-primary">购物车</span></case>
