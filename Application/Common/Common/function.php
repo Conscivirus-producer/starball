@@ -204,6 +204,16 @@ function getSizeDescriptionByAge($age){
 	}
 }
 
+function getSizeDescription($size){
+	if($size['age'] != ''){
+		//如果是非鞋类商品,按照年龄计算描述
+		return getSizeDescriptionByAge($size['age']);
+	}else{
+		//鞋类商品
+		return $size['footSize'].'码';
+	}
+}
+
 function array_customized_sort($arrays,$sort_key,$sort_order=SORT_ASC,$sort_type=SORT_NUMERIC ){
     if(is_array($arrays)){   
         foreach ($arrays as $array){   
