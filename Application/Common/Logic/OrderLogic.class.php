@@ -51,7 +51,7 @@
 				$newMap["status"] = $map["status"];
 			}
 			$userLogic = D("User", "Logic");
-			$data = $this->where($newMap)->order('createdDate desc')->select();
+			$data = $this->where($newMap)->order('updatedDate desc')->select();
 			$res = array();
 			$userMap["userName"] = array('like', "%".$map["userName"]."%");
 			$userMap["email"] = array('like', "%".$map["email"]."%");
