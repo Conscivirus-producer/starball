@@ -78,7 +78,8 @@
 						<select data-am-selected="{btnWidth: '100%', btnSize: 'sm'}" id="itemSize" onchange="changePrice($(this).val());">
 						  <option value="none" selected>{$Think.lang.size}</option>
 						  <volist name="inventory" id="vo">
-						  		<if condition="($vo['inventory'] lt 1) AND ($data['isAvailable'] eq '1')">
+						  		<!--sven@20160904,如果该商品手动更新成没货,那么下面的所有尺码都为售罄.或者某个尺码为售罄,那么该尺码显示成售罄.-->
+						  		<if condition="(($vo['inventory'] lt 1) AND ($data['isAvailable'] eq '1')) OR ($data['isAvailable'] eq '0')">
 								  	<option disabled="disabled" value="{$vo.inventoryId}">{$vo.description}  ({$Think.lang.soldout})</option>
 					  			<else />
 					  				<option value="{$vo.inventoryId}">{$vo.description}</option>

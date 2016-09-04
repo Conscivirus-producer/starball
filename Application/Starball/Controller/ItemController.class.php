@@ -26,6 +26,7 @@ class ItemController extends BaseController {
 				$inventory['originalPrice'] = $inventory['price'];
 				$inventory['price'] = round($inventory['price'] * $discount/100, 1);
 			}
+			//1-普通商品,2-鞋子,3-配饰
 			if($itemData['type'] == '2'){
 				$inventory['description'] = $this->getShoeSizeDescription($inventory['footSize'], $inventory['price'], $currencyArray[$this->getCurrency()]);
 			}else{
