@@ -83,7 +83,7 @@
 			if ($shippingAddressId == "0") {
 				$information["shippingAddress"] = "";
 			} else {
-				$information["shippingAddress"] = current($shippingAddressLogic->findExsitingAddress($shippingAddressId));
+				$information["shippingAddress"] = parseAddressCode($shippingAddressLogic->findExsitingAddress($shippingAddressId));
 			}
 			$orderNumber = $information["orderNumber"];
 			if ($orderNumber == "") {
